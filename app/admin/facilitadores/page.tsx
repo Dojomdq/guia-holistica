@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, Search, MapPin, X } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, MapPin, X, Crosshair } from "lucide-react";
 
 interface FacilitadorAdmin {
   id: string;
@@ -40,6 +40,7 @@ export default function FacilitadoresAdmin() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
+  const [buscandoDir, setBuscandoDir] = useState(false);
 
   async function load() {
     const [fRes, aRes] = await Promise.all([
@@ -131,6 +132,31 @@ export default function FacilitadoresAdmin() {
     if (res.ok) await load();
   }
 
+  async function buscarDireccion() {
+    if (!form.direccion.trim()) return;
+    setBuscandoDir(true);
+    try {
+      const query = encodeURIComponent(`${form.direccion}, ${form.ciudad}, Argentina`);
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`, {
+        headers: { "Accept-Language": "es" },
+      });
+      const data = await res.json();
+      if (data.length > 0) {
+        setForm((prev) => ({
+          ...prev,
+          latitud: parseFloat(data[0].lat).toFixed(6),
+          longitud: parseFloat(data[0].lon).toFixed(6),
+        }));
+        alert("Dirección ubicada correctamente");
+      } else {
+        alert("No se encontró la dirección. Probá de otra forma, ej: 'San Martín 3534, Mar del Plata'");
+      }
+    } catch {
+      alert("Error al buscar la dirección");
+    }
+    setBuscandoDir(false);
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
@@ -171,13 +197,19 @@ export default function FacilitadoresAdmin() {
               <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
               <input type="text" value={form.ciudad} onChange={(e) => setForm({ ...form, ciudad: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300" />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Latitud</label>
-              <input type="text" value={form.latitud} onChange={(e) => setForm({ ...form, latitud: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Longitud</label>
-              <input type="text" value={form.longitud} onChange={(e) => setForm({ ...form, longitud: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300" />
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-2 mb-1">
+                <label className="text-sm font-medium text-gray-700">Ubicación en mapa</label>
+                <button type="button" onClick={buscarDireccion} disabled={buscandoDir || !form.direccion.trim()}
+                  className="inline-flex items-center gap-1 text-xs font-medium text-gray-500 hover:text-gray-800 bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded-md transition-colors disabled:opacity-50">
+                  <Crosshair className="h-3 w-3" />
+                  {buscandoDir ? "Buscando..." : "Ubicar dirección"}
+                </button>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <input type="text" value={form.latitud} onChange={(e) => setForm({ ...form, latitud: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300" placeholder="Latitud" />
+                <input type="text" value={form.longitud} onChange={(e) => setForm({ ...form, longitud: e.target.value })} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300" placeholder="Longitud" />
+              </div>
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
