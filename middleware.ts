@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
   const pass = process.env.ADMIN_PASS;
 
   if (!user || !pass) {
-    return NextResponse.next();
+    return new NextResponse("Admin no configurado", { status: 500 });
   }
 
   const authHeader = request.headers.get("authorization");
