@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MapPin, Search } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon } from "@/lib/categories";
+import { useClickTracker } from "@/lib/useClickTracker";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 
 interface FacilitadorItem {
@@ -32,6 +33,7 @@ export default function FacilitadoresContent() {
   const [facilitadores, setFacilitadores] = useState<FacilitadorItem[]>([]);
   const [categorias, setCategorias] = useState<CategoriaItem[]>([]);
   const [cargando, setCargando] = useState(true);
+  const track = useClickTracker();
 
   useEffect(() => {
     async function load() {
@@ -173,7 +175,7 @@ export default function FacilitadoresContent() {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((f) => (
-              <Link key={f.id} href={`/facilitadores/${f.id}`} className="group">
+              <Link key={f.id} href={`/facilitadores/${f.id}`} className="group" onClick={() => track("facilitador", f.id)}>
                 <div className="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 hover:shadow-md hover:border-primary-200 transition-all duration-300">
                   <div className="flex items-start gap-4">
                     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-50 flex-shrink-0">

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon } from "@/lib/categories";
+import { useClickTracker } from "@/lib/useClickTracker";
 
 interface FacilitadorDestacado {
   id: string;
@@ -17,6 +18,7 @@ interface FacilitadorDestacado {
 
 export default function FacilitadoresDestacados() {
   const [destacados, setDestacados] = useState<FacilitadorDestacado[]>([]);
+  const track = useClickTracker();
 
   useEffect(() => {
     async function load() {
@@ -62,7 +64,7 @@ export default function FacilitadoresDestacados() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {destacados.map((f) => (
-            <Link key={f.id} href={`/facilitadores/${f.id}`} className="group">
+            <Link key={f.id} href={`/facilitadores/${f.id}`} className="group" onClick={() => track("facilitador", f.id)}>
               <div className="bg-white rounded-xl p-5 border border-gray-200 hover:border-gray-400 hover:shadow-sm transition-all">
                 <div className="flex items-start gap-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 flex-shrink-0">

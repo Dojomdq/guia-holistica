@@ -5,6 +5,7 @@ import Link from "next/link";
 import { MapPin, Users } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryColor, getCategoryIcon } from "@/lib/categories";
+import { useClickTracker } from "@/lib/useClickTracker";
 
 interface ActividadItem {
   slug: string;
@@ -15,6 +16,7 @@ interface ActividadItem {
 export default function ActividadesContent() {
   const [actividades, setActividades] = useState<ActividadItem[]>([]);
   const [cargando, setCargando] = useState(true);
+  const track = useClickTracker();
 
   useEffect(() => {
     async function load() {
@@ -90,6 +92,7 @@ export default function ActividadesContent() {
                 key={a.slug}
                 href={`/mapa?q=${a.slug}`}
                 className="group"
+                onClick={() => track("actividad", a.slug)}
               >
                 <div
                   className={`${colorClass} border rounded-2xl p-6 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5`}

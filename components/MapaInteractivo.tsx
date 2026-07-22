@@ -13,6 +13,7 @@ import L from "leaflet";
 import Link from "next/link";
 
 import { getMarkerColor } from "@/lib/categories";
+import { useClickTracker } from "@/lib/useClickTracker";
 
 interface Actividad {
   id: string;
@@ -74,6 +75,7 @@ export default function MapaInteractivo({
   onSeleccionar,
 }: Props) {
   const seleccionadoData = facilitadores.find((f) => f.id === seleccionado);
+  const track = useClickTracker();
 
   return (
     <MapContainer
@@ -121,6 +123,7 @@ export default function MapaInteractivo({
                   <Link
                     href={`/facilitadores/${f.id}`}
                     className="text-xs bg-gray-800 text-white px-3 py-1.5 rounded-lg hover:bg-gray-900 transition-colors font-medium"
+                    onClick={() => track("facilitador", f.id)}
                   >
                     Ver perfil
                   </Link>
