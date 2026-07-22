@@ -1,11 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import type { MetadataRoute } from "next";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = "https://www.agenciakoi.com";
 
@@ -16,18 +11,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/facilitadores`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
   ];
 
-  const { data: facilitadores } = await supabase
-    .from("facilitadores")
-    .select("id")
-    .eq("activo", true);
+  let dynamicPages: MetadataRoute.Sitemap = [];
 
-  const dynamicPages: MetadataRoute.Sitemap =
-    (facilitadores || []).map((f) => ({
-      url: `${base}/facilitadores/${f.id}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    }));
+  try {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (url && key) {
+      const supabase = createClient(url, key);
+      const { data: facilitadores } = await supabase
+        .from("facilitadores")
+        .select("id")
+        .eq("activo", true);
+      dynamicPages = (facilitadores || []).map((f) => ({
+        url: `${base}/facilitadores/${f.id}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+      }));
+    }
+  } catch {
+    // Fallback: return only static pages if Supabase is unreachable at build time
+  }
 
   return [...staticPages, ...dynamicPages];
 }
