@@ -13,6 +13,13 @@ interface FacilitadorItem {
   direccion: string | null;
   instagram: string | null;
   actividades: string[];
+  actividadSlugs: string[];
+  icono: string;
+}
+
+interface CategoriaItem {
+  slug: string;
+  nombre: string;
   icono: string;
 }
 
@@ -40,20 +47,28 @@ function getIcon(slug: string): string {
 
 export default function FacilitadoresPage() {
   const [busqueda, setBusqueda] = useState("");
+  const [filtroCategoria, setFiltroCategoria] = useState<string | null>(null);
   const [facilitadores, setFacilitadores] = useState<FacilitadorItem[]>([]);
+  const [categorias, setCategorias] = useState<CategoriaItem[]>([]);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from("facilitadores")
-        .select("id, nombre, bio, direccion, instagram, facilitador_actividades(actividades(nombre, slug))")
-        .eq("activo", true)
-        .order("nombre");
+      const [fRes, cRes] = await Promise.all([
+        supabase
+          .from("facilitadores")
+          .select("id, nombre, bio, direccion, instagram, facilitador_actividades(actividades(nombre, slug))")
+          .eq("activo", true)
+          .order("nombre"),
+        supabase
+          .from("categorias")
+          .select("slug, nombre, icono")
+          .order("nombre"),
+      ]);
 
-      if (data) {
+      if (fRes.data) {
         setFacilitadores(
-          data.map((f: any) => {
+          fRes.data.map((f: any) => {
             const acts = f.facilitador_actividades || [];
             const firstSlug = acts[0]?.actividades?.slug || "";
             return {
@@ -63,26 +78,49 @@ export default function FacilitadoresPage() {
               direccion: f.direccion,
               instagram: f.instagram,
               actividades: acts.map((a: any) => a.actividades?.nombre).filter(Boolean),
+              actividadSlugs: acts.map((a: any) => a.actividades?.slug).filter(Boolean),
               icono: getIcon(firstSlug),
             };
           })
         );
       }
+
+      if (cRes.data) {
+        setCategorias(
+          cRes.data.map((c: any) => ({
+            slug: c.slug,
+            nombre: c.nombre,
+            icono: c.icono || "🌿",
+          }))
+        );
+      }
+
       setCargando(false);
     }
     load();
   }, []);
 
   const filtered = useMemo(() => {
-    if (!busqueda.trim()) return facilitadores;
-    const q = normalizeText(busqueda);
-    return facilitadores.filter(
-      (f) =>
-        normalizeText(f.nombre).includes(q) ||
-        f.actividades.some((a) => normalizeText(a).includes(q)) ||
-        (f.bio && normalizeText(f.bio).includes(q))
-    );
-  }, [busqueda, facilitadores]);
+    let result = facilitadores;
+
+    if (filtroCategoria) {
+      result = result.filter((f) =>
+        f.actividadSlugs.some((slug) => slug.includes(filtroCategoria))
+      );
+    }
+
+    if (busqueda.trim()) {
+      const q = normalizeText(busqueda);
+      result = result.filter(
+        (f) =>
+          normalizeText(f.nombre).includes(q) ||
+          f.actividades.some((a) => normalizeText(a).includes(q)) ||
+          (f.bio && normalizeText(f.bio).includes(q))
+      );
+    }
+
+    return result;
+  }, [busqueda, filtroCategoria, facilitadores]);
 
   return (
     <div className="container-page py-12">
@@ -95,7 +133,7 @@ export default function FacilitadoresPage() {
         </p>
       </div>
 
-      <div className="relative max-w-md mb-8">
+      <div className="relative max-w-md mb-4">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
         <input
           type="text"
@@ -104,6 +142,34 @@ export default function FacilitadoresPage() {
           placeholder="Buscar por nombre o actividad..."
           className="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
         />
+      </div>
+
+      <div className="flex flex-wrap gap-2 mb-8">
+        <button
+          onClick={() => setFiltroCategoria(null)}
+          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+            filtroCategoria === null
+              ? "bg-gray-900 text-white"
+              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+          }`}
+        >
+          Todos
+        </button>
+        {categorias.map((cat) => (
+          <button
+            key={cat.slug}
+            onClick={() =>
+              setFiltroCategoria(filtroCategoria === cat.slug ? null : cat.slug)
+            }
+            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+              filtroCategoria === cat.slug
+                ? "bg-gray-900 text-white"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+            }`}
+          >
+            {cat.icono} {cat.nombre}
+          </button>
+        ))}
       </div>
 
       {cargando ? (
@@ -169,8 +235,16 @@ export default function FacilitadoresPage() {
           {filtered.length === 0 && (
             <div className="text-center py-12">
               <p className="text-stone-400">
-                No se encontraron facilitadores para &quot;{busqueda}&quot;
+                No se encontraron facilitadores
+                {filtroCategoria && ` para esta categoría`}
+                {busqueda && ` para "${busqueda}"`}
               </p>
+              <button
+                onClick={() => { setBusqueda(""); setFiltroCategoria(null); }}
+                className="mt-2 text-primary-600 text-sm font-medium hover:underline"
+              >
+                Limpiar filtros
+              </button>
             </div>
           )}
         </>
