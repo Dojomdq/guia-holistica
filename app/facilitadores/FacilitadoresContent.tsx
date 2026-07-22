@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { MapPin, Search } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
+import { getCategoryIcon } from "@/lib/categories";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 
 interface FacilitadorItem {
@@ -14,35 +15,15 @@ interface FacilitadorItem {
   instagram: string | null;
   actividades: string[];
   actividadSlugs: string[];
-  icono: string;
 }
 
 interface CategoriaItem {
   slug: string;
   nombre: string;
-  icono: string;
 }
-
-const CAT_ICOS: Record<string, string> = {
-  chamanismo: "🪶", yoga: "🧘", reiki: "✋", meditacion: "🕯️",
-  tarot: "🔮", astrologia: "⭐", "sanacion-energetica": "💫",
-  "terapias-holisticas": "🌿", "circulos-de-mujeres": "🌙",
-  "cacao-ceremonia": "🍫", "flores-de-bach": "🌸",
-  "sonidos-y-vibraciones": "🔔", aromaterapia: "🫧",
-  numerologia: "🔢", pranoterapia: "🌬️",
-  "limpieza-energetica": "✨", "plantas-medicinales": "🍃",
-  "masajes-terapeuticos": "💆",
-};
 
 function normalizeText(text: string): string {
   return text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
-
-function getIcon(slug: string): string {
-  for (const [key, icon] of Object.entries(CAT_ICOS)) {
-    if (slug.includes(key)) return icon;
-  }
-  return "🌿";
 }
 
 export default function FacilitadoresContent() {
@@ -70,7 +51,6 @@ export default function FacilitadoresContent() {
         setFacilitadores(
           fRes.data.map((f: any) => {
             const acts = f.facilitador_actividades || [];
-            const firstSlug = acts[0]?.actividades?.slug || "";
             return {
               id: f.id,
               nombre: f.nombre,
@@ -79,7 +59,6 @@ export default function FacilitadoresContent() {
               instagram: f.instagram,
               actividades: acts.map((a: any) => a.actividades?.nombre).filter(Boolean),
               actividadSlugs: acts.map((a: any) => a.actividades?.slug).filter(Boolean),
-              icono: getIcon(firstSlug),
             };
           })
         );
@@ -90,7 +69,6 @@ export default function FacilitadoresContent() {
           cRes.data.map((c: any) => ({
             slug: c.slug,
             nombre: c.nombre,
-            icono: c.icono || "🌿",
           }))
         );
       }
@@ -155,21 +133,25 @@ export default function FacilitadoresContent() {
         >
           Todos
         </button>
-        {categorias.map((cat) => (
-          <button
-            key={cat.slug}
-            onClick={() =>
-              setFiltroCategoria(filtroCategoria === cat.slug ? null : cat.slug)
-            }
-            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-              filtroCategoria === cat.slug
-                ? "bg-gray-900 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-            }`}
-          >
-            {cat.icono} {cat.nombre}
-          </button>
-        ))}
+            {categorias.map((cat) => {
+              const Icon = getCategoryIcon(cat.slug);
+              return (
+                <button
+                  key={cat.slug}
+                  onClick={() =>
+                    setFiltroCategoria(filtroCategoria === cat.slug ? null : cat.slug)
+                  }
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                    filtroCategoria === cat.slug
+                      ? "bg-gray-900 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  <Icon className="h-3 w-3" />
+                  {cat.nombre}
+                </button>
+              );
+            })}
       </div>
 
       {cargando ? (
@@ -194,8 +176,11 @@ export default function FacilitadoresContent() {
               <Link key={f.id} href={`/facilitadores/${f.id}`} className="group">
                 <div className="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 hover:shadow-md hover:border-primary-200 transition-all duration-300">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-50 text-2xl flex-shrink-0">
-                      {f.icono}
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-50 flex-shrink-0">
+                      {(() => {
+                        const Icon = getCategoryIcon(f.actividadSlugs[0] || "");
+                        return <Icon className="h-6 w-6 text-primary-600" />;
+                      })()}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-stone-800 group-hover:text-primary-600 transition-colors">

@@ -4,41 +4,12 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { MapPin, Users } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
+import { getCategoryColor, getCategoryIcon } from "@/lib/categories";
 
 interface ActividadItem {
   slug: string;
   nombre: string;
-  icono: string;
   count: number;
-  color: string;
-}
-
-const COLOR_MAP: Record<string, string> = {
-  chamanismo: "bg-amber-50 border-amber-200",
-  yoga: "bg-purple-50 border-purple-200",
-  reiki: "bg-sky-50 border-sky-200",
-  meditacion: "bg-indigo-50 border-indigo-200",
-  tarot: "bg-violet-50 border-violet-200",
-  astrologia: "bg-yellow-50 border-yellow-200",
-  "sanacion-energetica": "bg-pink-50 border-pink-200",
-  "flores-de-bach": "bg-rose-50 border-rose-200",
-  "terapias-holisticas": "bg-green-50 border-green-200",
-  "masajes-terapeuticos": "bg-teal-50 border-teal-200",
-  "circulos-de-mujeres": "bg-rose-50 border-rose-200",
-  "cacao-ceremonia": "bg-orange-50 border-orange-200",
-  "sonidos-y-vibraciones": "bg-cyan-50 border-cyan-200",
-  aromaterapia: "bg-emerald-50 border-emerald-200",
-  numerologia: "bg-amber-50 border-amber-200",
-  pranoterapia: "bg-sky-50 border-sky-200",
-  "limpieza-energetica": "bg-violet-50 border-violet-200",
-  "plantas-medicinales": "bg-lime-50 border-lime-200",
-};
-
-function getColor(slug: string): string {
-  for (const [key, color] of Object.entries(COLOR_MAP)) {
-    if (slug.includes(key)) return color;
-  }
-  return "bg-stone-50 border-stone-200";
 }
 
 export default function ActividadesContent() {
@@ -75,9 +46,7 @@ export default function ActividadesContent() {
       const result: ActividadItem[] = cats.map((cat) => ({
         slug: cat.slug,
         nombre: cat.nombre,
-        icono: cat.icono || "🌿",
         count: actCategoriaMap[cat.id] || 0,
-        color: getColor(cat.slug),
       }));
 
       setActividades(result);
@@ -113,32 +82,36 @@ export default function ActividadesContent() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {actividades.map((a) => (
-            <Link
-              key={a.slug}
-              href={`/mapa?q=${a.slug}`}
-              className="group"
-            >
-              <div
-                className={`${a.color} border rounded-2xl p-6 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5`}
+          {actividades.map((a) => {
+            const colorClass = getCategoryColor(a.slug);
+            const Icon = getCategoryIcon(a.slug);
+            return (
+              <Link
+                key={a.slug}
+                href={`/mapa?q=${a.slug}`}
+                className="group"
               >
-                <div className="flex items-start justify-between mb-3">
-                  <span className="text-3xl">{a.icono}</span>
-                  <div className="flex items-center gap-1 text-stone-400 text-sm">
-                    <Users className="h-4 w-4" />
-                    {a.count}
+                <div
+                  className={`${colorClass} border rounded-2xl p-6 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5`}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <Icon className="h-8 w-8" />
+                    <div className="flex items-center gap-1 text-stone-400 text-sm">
+                      <Users className="h-4 w-4" />
+                      {a.count}
+                    </div>
+                  </div>
+                  <h2 className="font-bold text-stone-800 group-hover:text-primary-600 transition-colors mb-1">
+                    {a.nombre}
+                  </h2>
+                  <div className="flex items-center gap-1 text-sm text-stone-500">
+                    <MapPin className="h-3.5 w-3.5" />
+                    Ver en el mapa
                   </div>
                 </div>
-                <h2 className="font-bold text-stone-800 group-hover:text-primary-600 transition-colors mb-1">
-                  {a.nombre}
-                </h2>
-                <div className="flex items-center gap-1 text-sm text-stone-500">
-                  <MapPin className="h-3.5 w-3.5" />
-                  Ver en el mapa
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>

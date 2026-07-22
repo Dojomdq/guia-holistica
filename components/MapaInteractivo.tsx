@@ -12,6 +12,8 @@ import {
 import L from "leaflet";
 import Link from "next/link";
 
+import { getMarkerColor } from "@/lib/categories";
+
 interface Actividad {
   id: string;
   nombre: string;
@@ -35,29 +37,6 @@ interface Props {
   facilitadores: Facilitador[];
   seleccionado: string | null;
   onSeleccionar: (id: string | null) => void;
-}
-
-const CATEGORY_COLORS: Record<string, string> = {
-  chamanismo: "#d97706",
-  yoga: "#6d28d9",
-  reiki: "#0369a1",
-  meditacion: "#4338ca",
-  tarot: "#6d28d9",
-  astrologia: "#a16207",
-  "sanacion-energetica": "#be185d",
-  "terapias-holisticas": "#15803d",
-  "circulos-de-mujeres": "#be123c",
-  "cacao-ceremonia": "#c2410c",
-};
-
-function getMarkerColor(f: Facilitador): string {
-  if (f.actividades.length > 0) {
-    const slug = f.actividades[0].slug;
-    for (const [key, color] of Object.entries(CATEGORY_COLORS)) {
-      if (slug.includes(key)) return color;
-    }
-  }
-  return "#15803d";
 }
 
 function createIcon(color: string, isSelected: boolean): L.DivIcon {
@@ -114,7 +93,9 @@ export default function MapaInteractivo({
 
       {facilitadores.map((f) => {
         const isSelected = seleccionado === f.id;
-        const color = getMarkerColor(f);
+        const color = getMarkerColor(
+          f.actividades.length > 0 ? f.actividades[0].slug : ""
+        );
         const icon = createIcon(color, isSelected);
 
         return (

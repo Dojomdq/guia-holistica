@@ -12,30 +12,13 @@ import {
 } from "lucide-react";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import { supabase } from "@/lib/supabase/client";
+import { getCategoryIcon } from "@/lib/categories";
 import type { FacilitadorConActividades } from "@/lib/types";
 
 const MiniMapDetail = dynamic(() => import("@/components/MiniMapDetail"), {
   ssr: false,
   loading: () => <div className="h-48 bg-stone-100 rounded-xl animate-pulse" />,
 });
-
-const CAT_ICOS: Record<string, string> = {
-  chamanismo: "🪶", yoga: "🧘", reiki: "✋", meditacion: "🕯️",
-  tarot: "🔮", astrologia: "⭐", "sanacion-energetica": "💫",
-  "terapias-holisticas": "🌿", "circulos-de-mujeres": "🌙",
-  "cacao-ceremonia": "🍫", "flores-de-bach": "🌸",
-  "sonidos-y-vibraciones": "🔔", aromaterapia: "🫧",
-  numerologia: "🔢", pranoterapia: "🌬️",
-  "limpieza-energetica": "✨", "plantas-medicinales": "🍃",
-  "masajes-terapeuticos": "💆",
-};
-
-function getIcon(slug: string): string {
-  for (const [key, icon] of Object.entries(CAT_ICOS)) {
-    if (slug.includes(key)) return icon;
-  }
-  return "🌿";
-}
 
 interface FacilitadorData {
   id: string;
@@ -127,7 +110,7 @@ export default function FacilitadorContent({
     );
   }
 
-  const icono = f.actividades[0] ? getIcon(f.actividades[0].slug) : "🌿";
+  const Icon = getCategoryIcon(f.actividades[0]?.slug || "");
 
   return (
     <div className="container-page py-8 max-w-4xl">
@@ -143,8 +126,8 @@ export default function FacilitadorContent({
         <div className="p-6 md:p-8">
           <div className="flex flex-col md:flex-row gap-6">
             <div className="flex-shrink-0">
-              <div className="h-24 w-24 rounded-2xl bg-primary-50 flex items-center justify-center text-4xl">
-                {icono}
+              <div className="h-24 w-24 rounded-2xl bg-primary-50 flex items-center justify-center">
+                <Icon className="h-10 w-10 text-primary-600" />
               </div>
             </div>
 

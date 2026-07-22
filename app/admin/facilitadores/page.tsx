@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, Search, MapPin, X, Crosshair } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, MapPin, X, Crosshair, AlertCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 
 interface FacilitadorAdmin {
@@ -343,7 +343,14 @@ export default function FacilitadoresAdmin() {
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-500 hidden md:table-cell">{f.email}</td>
                   <td className="px-6 py-4 text-sm text-gray-500 hidden lg:table-cell">
-                    <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{f.direccion || "—"}</span>
+                    <span className="flex items-center gap-1">
+                      <MapPin className="h-3 w-3" />
+                      {f.direccion || (
+                        <span className="flex items-center gap-1 text-orange-500">
+                          <AlertCircle className="h-3 w-3" /> Sin dirección
+                        </span>
+                      )}
+                    </span>
                   </td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${f.activo ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>

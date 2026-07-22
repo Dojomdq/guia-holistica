@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
+import { getCategoryIcon, getCategoryColor } from "@/lib/categories";
+import type { LucideIcon } from "lucide-react";
 
 interface CatCount {
   id: string;
   slug: string;
   nombre: string;
-  icono: string;
+  icono: string | null;
   count: number;
 }
 
@@ -31,7 +33,9 @@ export default function CategoriasPopulares() {
         .from("facilitador_actividades")
         .select("actividad_id");
 
-      const actIdsWithFacilitador = new Set((fas || []).map((f) => f.actividad_id));
+      const actIdsWithFacilitador = new Set(
+        (fas || []).map((f) => f.actividad_id)
+      );
 
       const countsByCategoria: Record<string, number> = {};
       for (const act of acts || []) {
@@ -42,16 +46,13 @@ export default function CategoriasPopulares() {
       }
 
       setCats(
-        dbCats
-          .filter((c) => countsByCategoria[c.id] > 0)
-          .slice(0, 10)
-          .map((c) => ({
-            id: c.id,
-            slug: c.slug,
-            nombre: c.nombre,
-            icono: c.icono || "🌿",
-            count: countsByCategoria[c.id] || 0,
-          }))
+        dbCats.map((c) => ({
+          id: c.id,
+          slug: c.slug,
+          nombre: c.nombre,
+          icono: c.icono,
+          count: countsByCategoria[c.id] || 0,
+        }))
       );
     }
     load();
@@ -70,19 +71,31 @@ export default function CategoriasPopulares() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-          {cats.map((cat) => (
-            <Link key={cat.slug} href={`/mapa?q=${cat.slug}`} className="group">
-              <div className="bg-white rounded-xl p-5 text-center border border-gray-200 hover:border-gray-400 hover:shadow-sm transition-all">
-                <div className="text-3xl mb-2">{cat.icono}</div>
-                <h3 className="font-semibold text-gray-800 text-sm group-hover:text-gray-900">
-                  {cat.nombre}
-                </h3>
-                <p className="text-xs text-gray-400 mt-1">
-                  {cat.count} facilitador{cat.count !== 1 ? "es" : ""}
-                </p>
-              </div>
-            </Link>
-          ))}
+          {cats.map((cat) => {
+            const Icon: LucideIcon = getCategoryIcon(cat.slug);
+            const colorClass = getCategoryColor(cat.slug);
+            return (
+              <Link
+                key={cat.slug}
+                href={`/mapa?q=${cat.slug}`}
+                className="group"
+              >
+                <div
+                  className={`${colorClass} border rounded-xl p-5 text-center transition-all hover:shadow-sm hover:-translate-y-0.5`}
+                >
+                  <Icon className="h-7 w-7 mx-auto mb-2" />
+                  <h3 className="font-semibold text-sm group-hover:opacity-80 transition-opacity">
+                    {cat.nombre}
+                  </h3>
+                  <p className="text-xs opacity-60 mt-1">
+                    {cat.count > 0
+                      ? `${cat.count} facilitador${cat.count !== 1 ? "es" : ""}`
+                      : "Próximamente"}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

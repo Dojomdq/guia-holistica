@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Search, X, MapPin, ChevronRight } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
+import { getCategoryIcon } from "@/lib/categories";
 import type { FacilitadorConActividades } from "@/lib/types";
 
 const MapaInteractivo = dynamic(() => import("@/components/MapaInteractivo"), {
@@ -73,7 +74,7 @@ export default function MapaPageInner() {
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
   const [panelAbierto, setPanelAbierto] = useState(true);
   const [todosFacilitadores, setTodosFacilitadores] = useState<Facilitador[]>([]);
-  const [categorias, setCategorias] = useState<{ slug: string; nombre: string; icono: string }[]>([]);
+  const [categorias, setCategorias] = useState<{ slug: string; nombre: string }[]>([]);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
@@ -97,7 +98,6 @@ export default function MapaPageInner() {
         setCategorias(cRes.data.map((c) => ({
           slug: c.slug,
           nombre: c.nombre,
-          icono: c.icono || "🌿",
         })));
       }
       setCargando(false);
@@ -145,17 +145,10 @@ export default function MapaPageInner() {
     router.replace("/mapa", { scroll: false });
   };
 
-  const getCategoryIcon = (f: Facilitador): string => {
-    if (f.actividades.length > 0) {
-      const slug = f.actividades[0].slug;
-      for (const cat of categorias) {
-        if (normalizeText(slug).includes(normalizeText(cat.slug))) {
-          return cat.icono;
-        }
-      }
-    }
-    return "🌿";
-  };
+  const facilitadoresEnMapa = useMemo(
+    () => facilitadoresFiltrados.filter((f) => f.direccion && f.direccion.trim()),
+    [facilitadoresFiltrados]
+  );
 
   return (
     <div className="h-[calc(100vh-64px)] flex">
@@ -193,21 +186,26 @@ export default function MapaPageInner() {
           </div>
 
           <div className="flex flex-wrap gap-1.5 mt-3">
-            {categorias.slice(0, 8).map((cat) => (
-              <button
-                key={cat.slug}
-                onClick={() =>
-                  handleBusqueda(busqueda === cat.nombre ? "" : cat.nombre)
-                }
-                className={`px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
-                  normalizeText(busqueda) === normalizeText(cat.nombre)
-                    ? "bg-gray-900 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                {cat.icono} {cat.nombre}
-              </button>
-            ))}
+            {categorias.map((cat) => {
+              const Icon = getCategoryIcon(cat.slug);
+              const isActive = normalizeText(busqueda) === normalizeText(cat.nombre);
+              return (
+                <button
+                  key={cat.slug}
+                  onClick={() =>
+                    handleBusqueda(busqueda === cat.nombre ? "" : cat.nombre)
+                  }
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-colors ${
+                    isActive
+                      ? "bg-gray-900 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  <Icon className="h-3 w-3" />
+                  {cat.nombre}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -253,8 +251,13 @@ export default function MapaPageInner() {
                   }`}
                 >
                   <div className="flex items-start gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-lg flex-shrink-0">
-                      {getCategoryIcon(f)}
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 flex-shrink-0">
+                      {(() => {
+                        const Icon = getCategoryIcon(
+                          f.actividades.length > 0 ? f.actividades[0].slug : ""
+                        );
+                        return <Icon className="h-5 w-5 text-gray-500" />;
+                      })()}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-gray-800 text-sm truncate">
@@ -300,7 +303,7 @@ export default function MapaPageInner() {
 
       <div className="flex-1 relative">
         <MapaInteractivo
-          facilitadores={facilitadoresFiltrados}
+          facilitadores={facilitadoresEnMapa}
           seleccionado={facilitadorSeleccionado}
           onSeleccionar={setFacilitadorSeleccionado}
         />
