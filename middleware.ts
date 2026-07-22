@@ -5,6 +5,15 @@ export const config = {
 };
 
 export function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname === "/admin/logout") {
+    return new NextResponse("Sesión cerrada", {
+      status: 401,
+      headers: {
+        "WWW-Authenticate": 'Basic realm="Admin", charset="UTF-8"',
+      },
+    });
+  }
+
   const user = process.env.ADMIN_USER || "admin";
   const pass = process.env.ADMIN_PASS || "guia2026";
 

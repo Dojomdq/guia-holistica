@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Activity, Tag, Leaf } from "lucide-react";
+import { LayoutDashboard, Users, Activity, Tag, Leaf, LogOut } from "lucide-react";
 
 const adminLinks = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -16,7 +16,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="flex min-h-[calc(100vh-56px)]">
-      <aside className="w-56 bg-gray-900 text-gray-400 flex-shrink-0">
+      <aside className="w-56 bg-gray-900 text-gray-400 flex-shrink-0 flex flex-col">
         <div className="p-5">
           <div className="flex items-center gap-2 mb-6">
             <Leaf className="h-4 w-4 text-white" />
@@ -41,6 +41,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               );
             })}
           </nav>
+        </div>
+
+        <div className="mt-auto p-5 border-t border-gray-800">
+          <a
+            href="/admin/logout"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-gray-800 transition-colors"
+          >
+            <LogOut className="h-4 w-4" />
+            Cerrar Sesión
+          </a>
+          <a
+            href="/"
+            target="_blank"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-gray-800 transition-colors mt-1"
+          >
+            Ver sitio público
+          </a>
         </div>
       </aside>
 
