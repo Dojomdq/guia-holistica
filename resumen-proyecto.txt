@@ -1,0 +1,53 @@
+RESUMEN DEL PROYECTO: GUÍA HOLÍSTICA
+=====================================
+
+Qué es:
+Directorio interactivo de terapeutas/coaches en Mar del Plata, Argentina.
+Los usuarios buscan por tipo de actividad y los profesionales aparecen en un mapa.
+
+Stack:
+- Next.js 14 + React 18 + TypeScript
+- Tailwind CSS
+- React-Leaflet (mapa interactivo)
+- Supabase (base de datos y auth)
+
+Mapa:
+- Leaflet con CartoDB Positron tiles
+- Centro: Mar del Plata (-38.0055, -57.5426)
+
+Diseño:
+- Mínimo, neutro, grises, sin colores pesados
+
+Despliegue:
+- Vercel: guia-holistica-dzkzi0xzq-dojomdqs-projects.vercel.app
+- Dominio: www.agenciakoi.com (DonWeb)
+
+Credenciales admin:
+- Usuario: admin
+- Contraseña: guia2026
+
+Supabase:
+- Proyecto: gzqqahtevsljpidpnrbi
+- URL: https://gzqqahtevsljpidpnrbi.supabase.co
+- Credenciales en .env.local
+
+GitHub:
+- Repo: Dojomdq/guia-holistica
+
+Estado:
+- COMPLETADO y desplegado
+- 12 facilitadores en Mar del Plata
+- CRUD funcional en /admin
+- Auth básica con Basic Auth (middleware.ts)
+
+Archivos importantes:
+- .env.local → credenciales Supabase + ADMIN_USER/ADMIN_PASS
+- middleware.ts → Basic Auth para /admin
+- next.config.js → webpack alias "@", ignoreBuildErrors
+- lib/supabase/admin.ts → cliente admin con service_role
+
+Carpetas:
+- app/ → páginas y rutas
+- components/ → componentes React
+- lib/ → utilidades y conexión Supabase
+- public/ → assets estáticos
