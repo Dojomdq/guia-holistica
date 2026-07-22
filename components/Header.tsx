@@ -22,14 +22,14 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200/80">
       <div className="container-page">
         <div className="flex h-14 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-900 text-white">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-700 text-white">
               <Leaf className="h-4 w-4" />
             </div>
-            <span className="text-base font-bold text-gray-900">
+            <span className="text-base font-bold text-stone-800">
               Guía Holística
             </span>
           </Link>
@@ -42,8 +42,8 @@ export default function Header() {
                 aria-current={isActive(link.href, pathname) ? "page" : undefined}
                 className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
                   isActive(link.href, pathname)
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                    ? "bg-emerald-700 text-white"
+                    : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                 }`}
               >
                 {link.label}
@@ -53,7 +53,7 @@ export default function Header() {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+            className="md:hidden p-2 text-stone-600 hover:bg-stone-100 rounded-lg"
             aria-expanded={mobileOpen}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
           >
@@ -71,8 +71,8 @@ export default function Header() {
                 aria-current={isActive(link.href, pathname) ? "page" : undefined}
                 className={`block px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                   isActive(link.href, pathname)
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                    ? "bg-emerald-700 text-white"
+                    : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                 }`}
               >
                 {link.label}
