@@ -5,54 +5,59 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 
 interface CatCount {
+  id: string;
   slug: string;
   nombre: string;
   icono: string;
   count: number;
 }
 
-const BASE_CATS = [
-  { slug: "chamanismo", nombre: "Chamanismo", icono: "🪶" },
-  { slug: "yoga", nombre: "Yoga", icono: "🧘" },
-  { slug: "reiki", nombre: "Reiki", icono: "✋" },
-  { slug: "meditacion", nombre: "Meditación", icono: "🕯️" },
-  { slug: "tarot", nombre: "Tarot", icono: "🔮" },
-  { slug: "astrologia", nombre: "Astrología", icono: "⭐" },
-  { slug: "sanacion-energetica", nombre: "Sanación Energética", icono: "💫" },
-  { slug: "terapias-holisticas", nombre: "Terapias Holísticas", icono: "🌿" },
-  { slug: "circulos-de-mujeres", nombre: "Círculos de Mujeres", icono: "🌙" },
-  { slug: "cacao-ceremonia", nombre: "Cacao Ceremonia", icono: "🍫" },
-];
-
 export default function CategoriasPopulares() {
-  const [cats, setCats] = useState(BASE_CATS.map(c => ({ ...c, count: 0 })));
+  const [cats, setCats] = useState<CatCount[]>([]);
 
   useEffect(() => {
     async function load() {
+      const { data: dbCats } = await supabase
+        .from("categorias")
+        .select("id, slug, nombre, icono")
+        .order("nombre");
+
+      if (!dbCats) return;
+
       const { data: acts } = await supabase
         .from("actividades")
-        .select("slug, categoria_id");
+        .select("id, categoria_id");
       const { data: fas } = await supabase
         .from("facilitador_actividades")
         .select("actividad_id");
 
-      if (acts && fas) {
-        const actIds = new Set(fas.map(f => f.actividad_id));
-        const counts: Record<string, number> = {};
-        for (const act of acts) {
-          if (actIds.has(act.id)) {
-            const key = act.slug.split("-")[0];
-            counts[key] = (counts[key] || 0) + 1;
-          }
+      const actIdsWithFacilitador = new Set((fas || []).map((f) => f.actividad_id));
+
+      const countsByCategoria: Record<string, number> = {};
+      for (const act of acts || []) {
+        if (actIdsWithFacilitador.has(act.id) && act.categoria_id) {
+          countsByCategoria[act.categoria_id] =
+            (countsByCategoria[act.categoria_id] || 0) + 1;
         }
-        setCats(BASE_CATS.map((c) => ({
-          ...c,
-          count: counts[c.slug.split("-")[0]] || 0,
-        })));
       }
+
+      setCats(
+        dbCats
+          .filter((c) => countsByCategoria[c.id] > 0)
+          .slice(0, 10)
+          .map((c) => ({
+            id: c.id,
+            slug: c.slug,
+            nombre: c.nombre,
+            icono: c.icono || "🌿",
+            count: countsByCategoria[c.id] || 0,
+          }))
+      );
     }
     load();
   }, []);
+
+  if (cats.length === 0) return null;
 
   return (
     <section className="py-16">
@@ -72,11 +77,9 @@ export default function CategoriasPopulares() {
                 <h3 className="font-semibold text-gray-800 text-sm group-hover:text-gray-900">
                   {cat.nombre}
                 </h3>
-                {cat.count > 0 && (
-                  <p className="text-xs text-gray-400 mt-1">
-                    {cat.count} facilitador{cat.count !== 1 ? "es" : ""}
-                  </p>
-                )}
+                <p className="text-xs text-gray-400 mt-1">
+                  {cat.count} facilitador{cat.count !== 1 ? "es" : ""}
+                </p>
               </div>
             </Link>
           ))}

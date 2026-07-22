@@ -8,6 +8,7 @@ import {
   ExternalLink,
   ArrowLeft,
   MessageCircle,
+  Mail,
 } from "lucide-react";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import { supabase } from "@/lib/supabase/client";
@@ -162,6 +163,15 @@ export default function FacilitadorContent({
               {f.bio && <p className="text-stone-600 leading-relaxed mb-4">{f.bio}</p>}
 
               <div className="flex flex-col sm:flex-row gap-3">
+                {f.email && (
+                  <a
+                    href={`mailto:${f.email}`}
+                    className="inline-flex items-center gap-2 bg-stone-800 text-white px-5 py-2.5 rounded-xl hover:bg-stone-900 transition-colors font-medium text-sm"
+                  >
+                    <Mail className="h-4 w-4" />
+                    Email
+                  </a>
+                )}
                 {f.whatsapp && (
                   <a
                     href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}`}

@@ -139,6 +139,7 @@ export default function ActividadesAdmin() {
 
   async function handleDelete(id: string, nombre: string) {
     if (!confirm(`¿Eliminar la actividad "${nombre}"?`)) return;
+    await supabase.from("facilitador_actividades").delete().eq("actividad_id", id);
     const { error } = await supabase.from("actividades").delete().eq("id", id);
     if (!error) await load();
   }

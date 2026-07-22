@@ -38,27 +38,6 @@ interface Facilitador {
   actividades: Actividad[];
 }
 
-const CATEGORIAS = [
-  { slug: "chamanismo", nombre: "Chamanismo", icono: "🪶" },
-  { slug: "yoga", nombre: "Yoga", icono: "🧘" },
-  { slug: "reiki", nombre: "Reiki", icono: "✋" },
-  { slug: "meditacion", nombre: "Meditación", icono: "🕯️" },
-  { slug: "tarot", nombre: "Tarot", icono: "🔮" },
-  { slug: "astrologia", nombre: "Astrología", icono: "⭐" },
-  { slug: "sanacion-energetica", nombre: "Sanación Energética", icono: "💫" },
-  { slug: "terapias-holisticas", nombre: "Terapias Holísticas", icono: "🌿" },
-  { slug: "circulos-de-mujeres", nombre: "Círculos de Mujeres", icono: "🌙" },
-  { slug: "cacao-ceremonia", nombre: "Cacao Ceremonia", icono: "🍫" },
-  { slug: "flores-de-bach", nombre: "Flores de Bach", icono: "🌸" },
-  { slug: "sonidos-y-vibraciones", nombre: "Sonidos", icono: "🔔" },
-  { slug: "aromaterapia", nombre: "Aromaterapia", icono: "🫧" },
-  { slug: "numerologia", nombre: "Numerología", icono: "🔢" },
-  { slug: "pranoterapia", nombre: "Pranoterapia", icono: "🌬️" },
-  { slug: "limpieza-energetica", nombre: "Limpieza Energética", icono: "✨" },
-  { slug: "plantas-medicinales", nombre: "Plantas Medicinales", icono: "🍃" },
-  { slug: "masajes-terapeuticos", nombre: "Masajes", icono: "💆" },
-];
-
 function normalizeText(text: string): string {
   return text
     .toLowerCase()
@@ -94,18 +73,32 @@ export default function MapaPageInner() {
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
   const [panelAbierto, setPanelAbierto] = useState(true);
   const [todosFacilitadores, setTodosFacilitadores] = useState<Facilitador[]>([]);
+  const [categorias, setCategorias] = useState<{ slug: string; nombre: string; icono: string }[]>([]);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
     async function cargar() {
-      const { data } = await supabase
-        .from("facilitadores")
-        .select("*, facilitador_actividades(actividades(id, nombre, slug))")
-        .eq("activo", true)
-        .order("nombre");
+      const [fRes, cRes] = await Promise.all([
+        supabase
+          .from("facilitadores")
+          .select("*, facilitador_actividades(actividades(id, nombre, slug))")
+          .eq("activo", true)
+          .order("nombre"),
+        supabase
+          .from("categorias")
+          .select("slug, nombre, icono")
+          .order("nombre"),
+      ]);
 
-      if (data) {
-        setTodosFacilitadores(data.map(mapToFacilitador));
+      if (fRes.data) {
+        setTodosFacilitadores(fRes.data.map(mapToFacilitador));
+      }
+      if (cRes.data) {
+        setCategorias(cRes.data.map((c) => ({
+          slug: c.slug,
+          nombre: c.nombre,
+          icono: c.icono || "🌿",
+        })));
       }
       setCargando(false);
     }
@@ -122,7 +115,7 @@ export default function MapaPageInner() {
           normalizeText(a.nombre).includes(q) ||
           normalizeText(a.slug).includes(q)
       );
-      const matchCategoria = CATEGORIAS.some(
+      const matchCategoria = categorias.some(
         (c) =>
           normalizeText(c.nombre).includes(q) &&
           f.actividades.some((a) => {
@@ -135,7 +128,7 @@ export default function MapaPageInner() {
 
       return matchActividad || matchCategoria || matchNombre || matchBio;
     });
-  }, [busqueda, todosFacilitadores]);
+  }, [busqueda, todosFacilitadores, categorias]);
 
   const handleBusqueda = useCallback(
     (value: string) => {
@@ -155,7 +148,7 @@ export default function MapaPageInner() {
   const getCategoryIcon = (f: Facilitador): string => {
     if (f.actividades.length > 0) {
       const slug = f.actividades[0].slug;
-      for (const cat of CATEGORIAS) {
+      for (const cat of categorias) {
         if (normalizeText(slug).includes(normalizeText(cat.slug))) {
           return cat.icono;
         }
@@ -200,7 +193,7 @@ export default function MapaPageInner() {
           </div>
 
           <div className="flex flex-wrap gap-1.5 mt-3">
-            {CATEGORIAS.slice(0, 8).map((cat) => (
+            {categorias.slice(0, 8).map((cat) => (
               <button
                 key={cat.slug}
                 onClick={() =>
