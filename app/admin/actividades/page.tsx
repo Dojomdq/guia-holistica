@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Search, X } from "lucide-react";
+import { supabase } from "@/lib/supabase/client";
 
 interface ActividadAdmin {
   id: string;
@@ -19,6 +20,15 @@ interface CategoriaOption {
 
 const EMPTY_FORM = { nombre: "", slug: "", descripcion: "", categoria_id: "" };
 
+function makeSlug(nombre: string): string {
+  return nombre
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
+
 export default function ActividadesAdmin() {
   const [busqueda, setBusqueda] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -28,23 +38,37 @@ export default function ActividadesAdmin() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function load() {
+    setError(null);
     const [aRes, cRes] = await Promise.all([
-      fetch("/api/actividades"),
-      fetch("/api/categorias"),
+      supabase
+        .from("actividades")
+        .select("*, categorias(nombre)")
+        .order("nombre"),
+      supabase
+        .from("categorias")
+        .select("id, nombre")
+        .order("nombre"),
     ]);
-    const aData = await aRes.json();
-    const cData = await cRes.json();
 
-    setActividades(
-      (aData || []).map((a: any) => ({
-        id: a.id, nombre: a.nombre, slug: a.slug,
-        descripcion: a.descripcion, categoria_id: a.categoria_id,
-        categoria_nombre: a.categorias?.nombre || "Sin categoría",
-      }))
-    );
-    setCategorias((cData || []).map((c: any) => ({ id: c.id, nombre: c.nombre })));
+    if (aRes.error) {
+      setError("Error cargando actividades: " + aRes.error.message);
+    } else {
+      setActividades(
+        (aRes.data || []).map((a: any) => ({
+          id: a.id, nombre: a.nombre, slug: a.slug,
+          descripcion: a.descripcion, categoria_id: a.categoria_id,
+          categoria_nombre: a.categorias?.nombre || "Sin categoría",
+        }))
+      );
+    }
+
+    if (cRes.data) {
+      setCategorias((cRes.data || []).map((c: any) => ({ id: c.id, nombre: c.nombre })));
+    }
+
     setCargando(false);
   }
 
@@ -74,31 +98,49 @@ export default function ActividadesAdmin() {
 
   async function handleSave() {
     setGuardando(true);
-    const url = editando ? `/api/actividades/${editando}` : "/api/actividades";
-    const method = editando ? "PUT" : "POST";
+    setError(null);
+    const slug = form.slug || makeSlug(form.nombre);
+    const payload = {
+      nombre: form.nombre,
+      slug,
+      descripcion: form.descripcion || null,
+      categoria_id: form.categoria_id || null,
+    };
 
-    const res = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    if (editando) {
+      const { error: updErr } = await supabase
+        .from("actividades")
+        .update(payload)
+        .eq("id", editando);
 
-    if (res.ok) {
-      setShowForm(false);
-      setEditando(null);
-      setForm(EMPTY_FORM);
-      await load();
+      if (updErr) {
+        setError("Error al guardar: " + updErr.message);
+        setGuardando(false);
+        return;
+      }
     } else {
-      const err = await res.json();
-      alert("Error: " + err.error);
+      const { error: insErr } = await supabase
+        .from("actividades")
+        .insert(payload);
+
+      if (insErr) {
+        setError("Error al crear: " + insErr.message);
+        setGuardando(false);
+        return;
+      }
     }
+
+    setShowForm(false);
+    setEditando(null);
+    setForm(EMPTY_FORM);
+    await load();
     setGuardando(false);
   }
 
   async function handleDelete(id: string, nombre: string) {
     if (!confirm(`¿Eliminar la actividad "${nombre}"?`)) return;
-    const res = await fetch(`/api/actividades/${id}`, { method: "DELETE" });
-    if (res.ok) await load();
+    const { error } = await supabase.from("actividades").delete().eq("id", id);
+    if (!error) await load();
   }
 
   return (
@@ -109,6 +151,13 @@ export default function ActividadesAdmin() {
           <Plus className="h-4 w-4" /> Nueva Actividad
         </button>
       </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+          {error}
+          <button onClick={() => setError(null)} className="float-right font-bold">×</button>
+        </div>
+      )}
 
       {showForm && (
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">

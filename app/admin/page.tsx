@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Users, Activity, Tag, ExternalLink } from "lucide-react";
+import { Users, Activity, Tag, ExternalLink, Database } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 
@@ -56,11 +56,14 @@ export default function AdminDashboard() {
         <h2 className="font-bold text-gray-900 mb-4">Estado del proyecto</h2>
         <div className="space-y-3 text-sm text-gray-600">
           <p>✅ Base de datos conectada y funcionando</p>
-          <p>✅ Frontend conectado con Supabase</p>
+          <p>✅ Frontend conectado con Supabase (client-side)</p>
           <p>✅ Autenticación para el admin (Basic Auth)</p>
-          <p>✅ Formularios de creación/edición funcionales</p>
+          <p>✅ CRUD de facilitadores, actividades y categorías</p>
+          <p>✅ Actividades dinámicas desde la DB</p>
+          <p>✅ Filtro por categoría en facilitadores</p>
           <p>✅ Deploy en Vercel</p>
-          <p>⬜ Vincular dominio agenciakoi.com</p>
+          <p className="pl-1">⬜ Vincular dominio agenciakoi.com</p>
+          <p className="pl-1">⬜ Completar datos de facilitadores (direcciones, coords, bios)</p>
         </div>
       </div>
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Search, MapPin, X, Crosshair } from "lucide-react";
+import { supabase } from "@/lib/supabase/client";
 
 interface FacilitadorAdmin {
   id: string;
@@ -41,22 +42,36 @@ export default function FacilitadoresAdmin() {
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
   const [buscandoDir, setBuscandoDir] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function load() {
+    setError(null);
     const [fRes, aRes] = await Promise.all([
-      fetch("/api/facilitadores"),
-      fetch("/api/actividades"),
+      supabase
+        .from("facilitadores")
+        .select("*, facilitador_actividades(actividades(id))")
+        .order("nombre"),
+      supabase
+        .from("actividades")
+        .select("id, nombre")
+        .order("nombre"),
     ]);
-    const fData = await fRes.json();
-    const aData = await aRes.json();
 
-    setFacilitadores(
-      (fData || []).map((f: any) => ({
-        ...f,
-        actividad_ids: (f.facilitador_actividades || []).map((fa: any) => fa.actividades?.id).filter(Boolean),
-      }))
-    );
-    setActividades((aData || []).map((a: any) => ({ id: a.id, nombre: a.nombre })));
+    if (fRes.error) {
+      setError("Error cargando facilitadores: " + fRes.error.message);
+    } else {
+      setFacilitadores(
+        (fRes.data || []).map((f: any) => ({
+          ...f,
+          actividad_ids: (f.facilitador_actividades || []).map((fa: any) => fa.actividades?.id).filter(Boolean),
+        }))
+      );
+    }
+
+    if (aRes.data) {
+      setActividades((aRes.data || []).map((a: any) => ({ id: a.id, nombre: a.nombre })));
+    }
+
     setCargando(false);
   }
 
@@ -99,37 +114,72 @@ export default function FacilitadoresAdmin() {
 
   async function handleSave() {
     setGuardando(true);
+    setError(null);
     const payload = {
-      ...form,
+      nombre: form.nombre,
+      email: form.email,
+      telefono: form.telefono || null,
+      whatsapp: form.whatsapp || null,
+      bio: form.bio || null,
+      ciudad: form.ciudad || "Mar del Plata",
       latitud: parseFloat(form.latitud) || -38.0055,
       longitud: parseFloat(form.longitud) || -57.5426,
+      direccion: form.direccion || null,
+      instagram: form.instagram || null,
+      sitio_web: form.sitio_web || null,
+      activo: form.activo,
     };
 
-    const url = editando ? `/api/facilitadores/${editando}` : "/api/facilitadores";
-    const method = editando ? "PUT" : "POST";
+    if (editando) {
+      const { error: updErr } = await supabase
+        .from("facilitadores")
+        .update(payload)
+        .eq("id", editando);
 
-    const res = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+      if (updErr) {
+        setError("Error al guardar: " + updErr.message);
+        setGuardando(false);
+        return;
+      }
 
-    if (res.ok) {
-      setShowForm(false);
-      setEditando(null);
-      setForm(EMPTY_FORM);
-      await load();
+      await supabase.from("facilitador_actividades").delete().eq("facilitador_id", editando);
+      if (form.actividad_ids.length) {
+        await supabase.from("facilitador_actividades").insert(
+          form.actividad_ids.map((aid) => ({ facilitador_id: editando, actividad_id: aid }))
+        );
+      }
     } else {
-      const err = await res.json();
-      alert("Error: " + err.error);
+      const { data: newFac, error: insErr } = await supabase
+        .from("facilitadores")
+        .insert(payload)
+        .select()
+        .single();
+
+      if (insErr) {
+        setError("Error al crear: " + insErr.message);
+        setGuardando(false);
+        return;
+      }
+
+      if (form.actividad_ids.length && newFac) {
+        await supabase.from("facilitador_actividades").insert(
+          form.actividad_ids.map((aid) => ({ facilitador_id: newFac.id, actividad_id: aid }))
+        );
+      }
     }
+
+    setShowForm(false);
+    setEditando(null);
+    setForm(EMPTY_FORM);
+    await load();
     setGuardando(false);
   }
 
   async function handleDelete(id: string, nombre: string) {
     if (!confirm(`¿Eliminar a "${nombre}"?`)) return;
-    const res = await fetch(`/api/facilitadores/${id}`, { method: "DELETE" });
-    if (res.ok) await load();
+    await supabase.from("facilitador_actividades").delete().eq("facilitador_id", id);
+    const { error } = await supabase.from("facilitadores").delete().eq("id", id);
+    if (!error) await load();
   }
 
   async function buscarDireccion() {
@@ -165,6 +215,13 @@ export default function FacilitadoresAdmin() {
           <Plus className="h-4 w-4" /> Nuevo Facilitador
         </button>
       </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+          {error}
+          <button onClick={() => setError(null)} className="float-right font-bold">×</button>
+        </div>
+      )}
 
       {showForm && (
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">

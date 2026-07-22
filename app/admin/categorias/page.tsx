@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, X } from "lucide-react";
+import { supabase } from "@/lib/supabase/client";
 
 interface CategoriaAdmin {
   id: string;
@@ -12,6 +13,15 @@ interface CategoriaAdmin {
 
 const EMPTY_FORM = { nombre: "", slug: "", icono: "" };
 
+function makeSlug(nombre: string): string {
+  return nombre
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
+
 export default function CategoriasAdmin() {
   const [showForm, setShowForm] = useState(false);
   const [editando, setEditando] = useState<string | null>(null);
@@ -19,11 +29,20 @@ export default function CategoriasAdmin() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function load() {
-    const res = await fetch("/api/categorias");
-    const data = await res.json();
-    setCategorias(data || []);
+    setError(null);
+    const { data, error: err } = await supabase
+      .from("categorias")
+      .select("*")
+      .order("nombre");
+
+    if (err) {
+      setError("Error cargando categorías: " + err.message);
+    } else {
+      setCategorias(data || []);
+    }
     setCargando(false);
   }
 
@@ -43,31 +62,48 @@ export default function CategoriasAdmin() {
 
   async function handleSave() {
     setGuardando(true);
-    const url = editando ? `/api/categorias/${editando}` : "/api/categorias";
-    const method = editando ? "PUT" : "POST";
+    setError(null);
+    const slug = form.slug || makeSlug(form.nombre);
+    const payload = {
+      nombre: form.nombre,
+      slug,
+      icono: form.icono || null,
+    };
 
-    const res = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    if (editando) {
+      const { error: updErr } = await supabase
+        .from("categorias")
+        .update(payload)
+        .eq("id", editando);
 
-    if (res.ok) {
-      setShowForm(false);
-      setEditando(null);
-      setForm(EMPTY_FORM);
-      await load();
+      if (updErr) {
+        setError("Error al guardar: " + updErr.message);
+        setGuardando(false);
+        return;
+      }
     } else {
-      const err = await res.json();
-      alert("Error: " + err.error);
+      const { error: insErr } = await supabase
+        .from("categorias")
+        .insert(payload);
+
+      if (insErr) {
+        setError("Error al crear: " + insErr.message);
+        setGuardando(false);
+        return;
+      }
     }
+
+    setShowForm(false);
+    setEditando(null);
+    setForm(EMPTY_FORM);
+    await load();
     setGuardando(false);
   }
 
   async function handleDelete(id: string, nombre: string) {
     if (!confirm(`¿Eliminar la categoría "${nombre}"? Se eliminarán también sus actividades asociadas.`)) return;
-    const res = await fetch(`/api/categorias/${id}`, { method: "DELETE" });
-    if (res.ok) await load();
+    const { error } = await supabase.from("categorias").delete().eq("id", id);
+    if (!error) await load();
   }
 
   return (
@@ -78,6 +114,13 @@ export default function CategoriasAdmin() {
           <Plus className="h-4 w-4" /> Nueva Categoría
         </button>
       </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+          {error}
+          <button onClick={() => setError(null)} className="float-right font-bold">×</button>
+        </div>
+      )}
 
       {showForm && (
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-6">
