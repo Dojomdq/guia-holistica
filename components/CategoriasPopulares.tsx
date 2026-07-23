@@ -62,7 +62,7 @@ export default function CategoriasPopulares() {
   if (cats.length === 0) return null;
 
   return (
-    <section ref={ref} className="section-pad-tight">
+    <section ref={ref} className="py-6 sm:py-8">
       <div className="container-wide">
         {/* Header */}
         <div
