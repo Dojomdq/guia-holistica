@@ -18,7 +18,7 @@ export default function MapaPreview() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-8 sm:py-12 lg:py-16 bg-sand-50/60">
+    <section ref={ref} className="py-5 sm:py-7 lg:py-9 bg-sand-50/60">
       <div className="container-wide">
         <div
           className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-end transition-all duration-700 ${
