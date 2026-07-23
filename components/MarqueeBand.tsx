@@ -3,7 +3,6 @@
 import { useScrollReveal } from "@/lib/useScrollReveal";
 
 const items = [
-  "Sanación Holística",
   "Bienestar Integral",
   "Transformación Personal",
   "Conexión Espiritual",

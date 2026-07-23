@@ -41,7 +41,7 @@ export default function MapaPreview() {
               El mapa
             </h2>
             <p className="text-[15px] text-warmblack/45 leading-relaxed mb-6">
-              Descubrí quién está cerca tuyo. 22 facilitadores distribuidos por Mar del Plata.
+              Descubrí quién está cerca tuyo. Facilitadores distribuidos por Mar del Plata.
             </p>
             <Link
               href="/mapa"

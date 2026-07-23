@@ -73,7 +73,7 @@ export default function CategoriasPopulares() {
           <div>
             <span className="label">Explorá</span>
             <h2 className="heading-lg mt-3">
-              18 caminos
+              Caminos
             </h2>
           </div>
           <Link
@@ -107,7 +107,7 @@ export default function CategoriasPopulares() {
                   }`}
                   style={{ transitionDelay: `${i * 30}ms` }}
                 >
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="mb-4">
                     <div
                       className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
                       style={{ backgroundColor: `${markerColor}12` }}
@@ -118,11 +118,6 @@ export default function CategoriasPopulares() {
                         strokeWidth={1.5}
                       />
                     </div>
-                    {hasFacilitadores && (
-                      <span className="text-[11px] text-warmblack/25 font-mono">
-                        {cat.count}
-                      </span>
-                    )}
                   </div>
                   <h3 className="text-sm font-medium text-warmblack group-hover:text-sage-700 transition-colors duration-200">
                     {cat.nombre}

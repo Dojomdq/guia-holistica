@@ -47,17 +47,19 @@ export default function Hero() {
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
         />
-        {/* Warm overlay for text readability + mood */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1510]/90 via-[#1a1510]/50 to-[#1a1510]/20" />
+        {/* Top fade — softens header area */}
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#1a1510]/60 to-transparent" />
+        {/* Main gradient — image clear at top, dark at bottom for text */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1510]/95 via-[#1a1510]/50 to-transparent" />
         {/* Subtle warm tint */}
         <div className="absolute inset-0 bg-gradient-to-br from-sand-900/10 via-transparent to-clay-800/10" />
       </div>
 
       {/* Content */}
-      <div className="relative container-page pb-14 md:pb-20 lg:pb-24 pt-36 md:pt-44 w-full">
+      <div className="relative container-page pb-20 md:pb-28 lg:pb-36 pt-36 md:pt-44 w-full">
         {/* Overline */}
         <div
-          className={`mb-8 md:mb-12 transition-all duration-700 ${
+          className={`mb-8 md:mb-10 transition-all duration-700 ${
             loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
@@ -69,42 +71,31 @@ export default function Hero() {
         {/* Main heading */}
         <div className="max-w-[900px]">
           <h1
-            className={`font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[1.02] tracking-[-0.03em] text-white mb-8 md:mb-12 transition-all duration-[1200ms] ${
+            className={`font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[1.02] tracking-[-0.03em] text-white mb-8 md:mb-10 transition-all duration-[1200ms] ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
             Encontrá tu
             <br />
             <span className="relative inline-block min-h-[1.1em]">
-              {/* Placeholder to reserve space */}
-              <span className="invisible block" aria-hidden="true">
-                Transformación
-              </span>
-              {/* Rotating word — positioned on top, opacity-only fade, NO translate */}
-              <span
-                className="absolute inset-0 flex items-end"
-                aria-live="polite"
-              >
-                {rotatingWords.map((word, i) => (
-                  <span
-                    key={word}
-                    className={`transition-opacity duration-700 ease-in-out ${
-                      i === currentWordIndex
-                        ? "opacity-100"
-                        : "opacity-0 absolute inset-0"
-                    }`}
-                  >
-                    {word}
-                  </span>
-                ))}
-              </span>
+              {rotatingWords.map((word, i) => (
+                <span
+                  key={word}
+                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                    i === currentWordIndex ? "opacity-100" : "opacity-0"
+                  }`}
+                  aria-hidden={i !== currentWordIndex}
+                >
+                  {word}
+                </span>
+              ))}
               {/* Accent underline */}
               <span className="absolute bottom-[0.04em] left-0 w-full h-[3px] bg-sand-400/50 rounded-full" />
             </span>
           </h1>
 
           <p
-            className={`text-white/55 text-base sm:text-lg max-w-md leading-relaxed mb-10 md:mb-14 transition-all duration-700 delay-200 ${
+            className={`text-white/55 text-base sm:text-lg max-w-md leading-relaxed mb-10 md:mb-12 transition-all duration-700 delay-200 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
@@ -140,7 +131,7 @@ export default function Hero() {
 
           {/* Quick links */}
           <div
-            className={`flex flex-wrap items-center gap-x-6 gap-y-2 mt-6 transition-all duration-700 delay-[500ms] ${
+            className={`flex flex-wrap items-center gap-x-6 gap-y-2 mt-5 transition-all duration-700 delay-[500ms] ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >

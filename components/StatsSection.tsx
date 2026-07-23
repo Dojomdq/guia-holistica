@@ -9,41 +9,15 @@ export default function StatsSection() {
     <section ref={ref} className="section-pad-tight">
       <div className="container-page">
         <div
-          className={`grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6 items-start transition-all duration-700 ${
+          className={`flex items-center justify-center transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
-          <div className="md:col-span-4">
-            <span className="font-serif text-[clamp(3rem,8vw,5.5rem)] font-medium text-warmblack leading-none tracking-[-0.04em]">
-              22
-            </span>
-            <span className="block text-[13px] text-warmblack/35 font-medium mt-2">
-              facilitadores activos
-            </span>
-          </div>
-
-          <div className="hidden md:block md:col-span-1">
-            <div className="w-px h-16 bg-cream-300/70 mx-auto" />
-          </div>
-
-          <div className="md:col-span-4">
-            <span className="font-serif text-[clamp(3rem,8vw,5.5rem)] font-medium text-warmblack leading-none tracking-[-0.04em]">
-              18
-            </span>
-            <span className="block text-[13px] text-warmblack/35 font-medium mt-2">
-              caminos de sanación
-            </span>
-          </div>
-
-          <div className="hidden md:block md:col-span-1">
-            <div className="w-px h-16 bg-cream-300/70 mx-auto" />
-          </div>
-
-          <div className="md:col-span-2 flex items-start md:justify-end">
-            <p className="text-[13px] text-warmblack/35 leading-relaxed max-w-[180px]">
-              Sanación holística en Mar del Plata.
-            </p>
-          </div>
+          <span className="w-12 h-px bg-cream-300/70" />
+          <p className="text-[13px] text-warmblack/35 font-medium tracking-wide px-6">
+            Sanación holística en Mar del Plata
+          </p>
+          <span className="w-12 h-px bg-cream-300/70" />
         </div>
       </div>
     </section>
