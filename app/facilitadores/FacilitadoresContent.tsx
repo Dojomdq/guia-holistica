@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { MapPin, Search } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
-import { getCategoryIcon } from "@/lib/categories";
+import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 import { useClickTracker } from "@/lib/useClickTracker";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 
@@ -105,7 +105,10 @@ export default function FacilitadoresContent() {
   return (
     <div className="container-page py-12">
       <div className="max-w-3xl mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-stone-800 mb-3">
+        <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full mb-3 uppercase tracking-wider">
+          Comunidad
+        </span>
+        <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">
           Facilitadores
         </h1>
         <p className="text-stone-500 text-lg">
@@ -114,23 +117,23 @@ export default function FacilitadoresContent() {
       </div>
 
       <div className="relative max-w-md mb-4">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
         <input
           type="text"
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
           placeholder="Buscar por nombre o actividad..."
-          className="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="w-full pl-11 pr-4 py-3 rounded-xl bg-white border border-stone-200/80 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 shadow-sm"
         />
       </div>
 
       <div className="flex flex-wrap gap-2 mb-8">
         <button
           onClick={() => setFiltroCategoria(null)}
-          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+          className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
             filtroCategoria === null
-              ? "bg-gray-900 text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              ? "bg-stone-900 text-white shadow-sm"
+              : "bg-white text-stone-500 hover:bg-stone-100 border border-stone-200/80"
           }`}
         >
           Todos
@@ -143,10 +146,10 @@ export default function FacilitadoresContent() {
                   onClick={() =>
                     setFiltroCategoria(filtroCategoria === cat.slug ? null : cat.slug)
                   }
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                  className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
                     filtroCategoria === cat.slug
-                      ? "bg-gray-900 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      ? "bg-stone-900 text-white shadow-sm"
+                      : "bg-white text-stone-500 hover:bg-stone-100 border border-stone-200/80"
                   }`}
                 >
                   <Icon className="h-3 w-3" />
@@ -173,50 +176,61 @@ export default function FacilitadoresContent() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((f) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {filtered.map((f) => {
+              const Icon = getCategoryIcon(f.actividadSlugs[0] || "");
+              const slug0 = f.actividadSlugs[0] || "";
+              let markerColor = "#15803d";
+              for (const [key, c] of Object.entries(CATEGORY_MARKER_COLORS)) {
+                if (slug0.includes(key)) { markerColor = c; break; }
+              }
+              return (
               <Link key={f.id} href={`/facilitadores/${f.id}`} className="group" onClick={() => track("facilitador", f.id)}>
-                <div className="bg-white rounded-2xl p-5 shadow-sm border border-stone-100 hover:shadow-md hover:border-primary-200 transition-all duration-300">
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-50 flex-shrink-0">
-                      {(() => {
-                        const Icon = getCategoryIcon(f.actividadSlugs[0] || "");
-                        return <Icon className="h-6 w-6 text-primary-600" />;
-                      })()}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-stone-800 group-hover:text-primary-600 transition-colors">
-                        {f.nombre}
-                      </h3>
-                      <p className="text-sm text-stone-500 mt-0.5 line-clamp-2">
-                        {f.bio}
-                      </p>
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {f.actividades.map((a) => (
-                          <span key={a} className="px-2 py-0.5 bg-primary-50 text-primary-700 text-xs rounded-full">
-                            {a}
-                          </span>
-                        ))}
+                <div className="bg-white rounded-2xl border border-stone-200/80 overflow-hidden card-hover">
+                  <div className="h-1.5 bg-emerald-600" />
+                  <div className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div
+                        className="flex h-14 w-14 items-center justify-center rounded-xl flex-shrink-0"
+                        style={{ backgroundColor: `${markerColor}12` }}
+                      >
+                        <Icon className="h-7 w-7" style={{ color: markerColor }} />
                       </div>
-                      <div className="flex items-center gap-3 mt-2 text-xs text-stone-400">
-                        {f.direccion && (
-                          <span className="flex items-center gap-1">
-                            <MapPin className="h-3 w-3" />
-                            {f.direccion}
-                          </span>
-                        )}
-                        {f.instagram && (
-                          <span className="flex items-center gap-1">
-                            <InstagramIcon className="h-3 w-3" />
-                            {f.instagram}
-                          </span>
-                        )}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-lg text-stone-800 group-hover:text-emerald-700 transition-colors">
+                          {f.nombre}
+                        </h3>
+                        <p className="text-sm text-stone-500 mt-0.5 line-clamp-2 leading-relaxed">
+                          {f.bio}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 mt-3">
+                          {f.actividades.map((a) => (
+                            <span key={a} className="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-lg">
+                              {a}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="flex items-center gap-3 mt-3 text-xs text-stone-400">
+                          {f.direccion && (
+                            <span className="flex items-center gap-1">
+                              <MapPin className="h-3.5 w-3.5" />
+                              {f.direccion}
+                            </span>
+                          )}
+                          {f.instagram && (
+                            <span className="flex items-center gap-1">
+                              <InstagramIcon className="h-3 w-3" />
+                              {f.instagram}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
 
           {filtered.length === 0 && (

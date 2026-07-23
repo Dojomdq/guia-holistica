@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { MapPin, Users } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
-import { getCategoryColor, getCategoryIcon } from "@/lib/categories";
+import { getCategoryColor, getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 import { useClickTracker } from "@/lib/useClickTracker";
 
 interface ActividadItem {
@@ -60,7 +60,10 @@ export default function ActividadesContent() {
   return (
     <div className="container-page py-12">
       <div className="max-w-3xl mb-10">
-        <h1 className="text-3xl md:text-4xl font-bold text-stone-800 mb-3">
+        <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full mb-3 uppercase tracking-wider">
+          Explorá
+        </span>
+        <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">
           Actividades Holísticas
         </h1>
         <p className="text-stone-500 text-lg">
@@ -83,10 +86,11 @@ export default function ActividadesContent() {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {actividades.map((a) => {
             const colorClass = getCategoryColor(a.slug);
             const Icon = getCategoryIcon(a.slug);
+            const markerColor = CATEGORY_MARKER_COLORS[a.slug] || "#15803d";
             return (
               <Link
                 key={a.slug}
@@ -94,22 +98,31 @@ export default function ActividadesContent() {
                 className="group"
                 onClick={() => track("actividad", a.slug)}
               >
-                <div
-                  className={`${colorClass} border rounded-2xl p-6 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5`}
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <Icon className="h-8 w-8" />
-                    <div className="flex items-center gap-1 text-stone-400 text-sm">
-                      <Users className="h-4 w-4" />
-                      {a.count}
+                <div className="bg-white rounded-2xl border border-stone-200/80 overflow-hidden card-hover">
+                  <div
+                    className="h-1.5"
+                    style={{ background: `linear-gradient(90deg, ${markerColor}, ${markerColor}66)` }}
+                  />
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div
+                        className="inline-flex h-12 w-12 items-center justify-center rounded-xl"
+                        style={{ backgroundColor: `${markerColor}12` }}
+                      >
+                        <Icon className="h-6 w-6" style={{ color: markerColor }} />
+                      </div>
+                      <div className="flex items-center gap-1.5 text-stone-400 text-sm bg-stone-50 px-2.5 py-1 rounded-lg">
+                        <Users className="h-3.5 w-3.5" />
+                        {a.count}
+                      </div>
                     </div>
-                  </div>
-                  <h2 className="font-bold text-stone-800 group-hover:text-primary-600 transition-colors mb-1">
-                    {a.nombre}
-                  </h2>
-                  <div className="flex items-center gap-1 text-sm text-stone-500">
-                    <MapPin className="h-3.5 w-3.5" />
-                    Ver en el mapa
+                    <h2 className="font-bold text-lg text-stone-800 group-hover:text-emerald-700 transition-colors mb-2">
+                      {a.nombre}
+                    </h2>
+                    <div className="flex items-center gap-1.5 text-sm text-stone-400">
+                      <MapPin className="h-3.5 w-3.5" />
+                      Ver en el mapa
+                    </div>
                   </div>
                 </div>
               </Link>

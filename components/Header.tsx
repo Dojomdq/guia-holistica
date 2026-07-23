@@ -22,14 +22,14 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-stone-200/80">
+    <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-stone-200/60">
       <div className="container-page">
-        <div className="flex h-14 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-700 text-white">
-              <Leaf className="h-4 w-4" />
+        <div className="flex h-16 items-center justify-between">
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 text-white shadow-sm shadow-emerald-600/20">
+              <Leaf className="h-4.5 w-4.5" />
             </div>
-            <span className="text-base font-bold text-stone-800">
+            <span className="text-lg font-bold text-stone-900 tracking-tight">
               Guía Holística
             </span>
           </Link>
@@ -40,10 +40,10 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 aria-current={isActive(link.href, pathname) ? "page" : undefined}
-                className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                className={`px-3.5 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
                   isActive(link.href, pathname)
-                    ? "bg-emerald-700 text-white"
-                    : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                    ? "bg-stone-900 text-white shadow-sm"
+                    : "text-stone-500 hover:text-stone-900 hover:bg-stone-100"
                 }`}
               >
                 {link.label}
@@ -53,7 +53,7 @@ export default function Header() {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-stone-600 hover:bg-stone-100 rounded-lg"
+            className="md:hidden p-2 text-stone-500 hover:bg-stone-100 rounded-xl"
             aria-expanded={mobileOpen}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
           >
@@ -62,17 +62,17 @@ export default function Header() {
         </div>
 
         {mobileOpen && (
-          <nav className="md:hidden pb-3 space-y-1" aria-label="Navegación principal">
+          <nav className="md:hidden pb-4 space-y-1" aria-label="Navegación principal">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 aria-current={isActive(link.href, pathname) ? "page" : undefined}
-                className={`block px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`block px-4 py-2.5 text-sm font-medium rounded-xl transition-all ${
                   isActive(link.href, pathname)
-                    ? "bg-emerald-700 text-white"
-                    : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                    ? "bg-stone-900 text-white"
+                    : "text-stone-500 hover:text-stone-900 hover:bg-stone-100"
                 }`}
               >
                 {link.label}
