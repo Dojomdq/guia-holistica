@@ -18,17 +18,17 @@ export default function MapaPreview() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-5 sm:py-7 lg:py-9 bg-sand-50/60">
+    <section ref={ref} className="py-3 sm:py-5 lg:py-6 bg-sand-50/60">
       <div className="container-wide">
         <div
-          className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-end transition-all duration-700 ${
+          className={`grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-5 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
           {/* Map */}
           <div className="lg:col-span-8">
             <div className="rounded-2xl overflow-hidden border border-cream-300/50 shadow-medium">
-              <div className="h-[300px] sm:h-[380px] lg:h-[420px]">
+              <div className="h-[260px] sm:h-[320px] lg:h-[360px]">
                 <MiniMap />
               </div>
             </div>
