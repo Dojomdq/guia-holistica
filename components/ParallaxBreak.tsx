@@ -8,7 +8,7 @@ export default function ParallaxBreak() {
   return (
     <section
       ref={ref}
-      className="relative py-10 sm:py-14 lg:py-20 overflow-hidden"
+      className="relative py-5 sm:py-7 lg:py-9 overflow-hidden"
     >
       {/* Background — warm gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-sage-800 via-sage-900 to-warmblack" />

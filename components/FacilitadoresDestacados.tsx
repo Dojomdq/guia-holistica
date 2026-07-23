@@ -54,13 +54,14 @@ export default function FacilitadoresDestacados() {
   if (destacados.length === 0) return null;
 
   const [first, ...rest] = destacados;
+  const side = rest.slice(0, 2);
 
   return (
-    <section ref={ref} className="py-5 sm:py-7 lg:py-9">
+    <section ref={ref} className="py-4 sm:py-6 lg:py-8">
       <div className="container-page">
         {/* Header */}
         <div
-          className={`flex items-end justify-between mb-6 transition-all duration-700 ${
+          className={`flex items-end justify-between mb-4 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
@@ -138,7 +139,7 @@ export default function FacilitadoresDestacados() {
 
           {/* Stacked cards */}
           <div className="md:col-span-2 flex flex-col gap-3">
-            {rest.map((f) => {
+            {side.map((f) => {
               const color = CATEGORY_MARKER_COLORS[f.slug] || "#5d8a6e";
               const Icon = getCategoryIcon(f.slug);
               return (
