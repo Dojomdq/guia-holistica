@@ -60,7 +60,7 @@ export default function FacilitadoresDestacados() {
       <div className="container-page">
         {/* Header */}
         <div
-          className={`flex items-end justify-between mb-10 transition-all duration-700 ${
+          className={`flex items-end justify-between mb-6 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >

@@ -34,11 +34,11 @@
   }
 
   .section-pad {
-    @apply py-14 sm:py-20 lg:py-28;
+    @apply py-12 sm:py-16 lg:py-24;
   }
 
   .section-pad-tight {
-    @apply py-10 sm:py-16 lg:py-20;
+    @apply py-8 sm:py-12 lg:py-16;
   }
 
   .label {

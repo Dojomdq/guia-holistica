@@ -56,10 +56,10 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative container-page pb-20 md:pb-28 lg:pb-36 pt-36 md:pt-44 w-full">
+      <div className="relative container-page pb-10 md:pb-14 lg:pb-16 pt-36 md:pt-44 w-full">
         {/* Overline */}
         <div
-          className={`mb-8 md:mb-10 transition-all duration-700 ${
+          className={`mb-4 md:mb-6 transition-all duration-700 ${
             loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
@@ -71,31 +71,37 @@ export default function Hero() {
         {/* Main heading */}
         <div className="max-w-[900px]">
           <h1
-            className={`font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[1.02] tracking-[-0.03em] text-white mb-8 md:mb-10 transition-all duration-[1200ms] ${
+            className={`font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[1.02] tracking-[-0.03em] text-white mb-5 md:mb-7 transition-all duration-[1200ms] ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
             Encontrá tu
             <br />
-            <span className="relative inline-block min-h-[1.1em]">
-              {rotatingWords.map((word, i) => (
-                <span
-                  key={word}
-                  className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                    i === currentWordIndex ? "opacity-100" : "opacity-0"
-                  }`}
-                  aria-hidden={i !== currentWordIndex}
-                >
-                  {word}
-                </span>
-              ))}
+            <span className="relative inline-block">
+              {/* Invisible placeholder — sets container width to longest word */}
+              <span className="invisible block" aria-hidden="true">
+                Transformación
+              </span>
+              {/* Rotating words — all absolute, stacked, opacity fade only */}
+              <span className="absolute inset-0 flex items-end" aria-live="polite">
+                {rotatingWords.map((word, i) => (
+                  <span
+                    key={word}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      i === currentWordIndex ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    {word}
+                  </span>
+                ))}
+              </span>
               {/* Accent underline */}
               <span className="absolute bottom-[0.04em] left-0 w-full h-[3px] bg-sand-400/50 rounded-full" />
             </span>
           </h1>
 
           <p
-            className={`text-white/55 text-base sm:text-lg max-w-md leading-relaxed mb-10 md:mb-12 transition-all duration-700 delay-200 ${
+            className={`text-white/55 text-base sm:text-lg max-w-md leading-relaxed mb-6 md:mb-8 transition-all duration-700 delay-200 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
