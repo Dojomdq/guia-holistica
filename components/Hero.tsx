@@ -15,16 +15,21 @@ const rotatingWords = [
 export default function Hero() {
   const [search, setSearch] = useState("");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [visible, setVisible] = useState(true);
   const [loaded, setLoaded] = useState(false);
   const router = useRouter();
 
   const changeWord = useCallback(() => {
-    setCurrentWordIndex((prev) => (prev + 1) % rotatingWords.length);
+    setVisible(false);
+    setTimeout(() => {
+      setCurrentWordIndex((prev) => (prev + 1) % rotatingWords.length);
+      setVisible(true);
+    }, 400);
   }, []);
 
   useEffect(() => {
     setLoaded(true);
-    const interval = setInterval(changeWord, 3200);
+    const interval = setInterval(changeWord, 3000);
     return () => clearInterval(interval);
   }, [changeWord]);
 
@@ -47,16 +52,19 @@ export default function Hero() {
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
         />
-        {/* Top fade — softens header area */}
-        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#1a1510]/60 to-transparent" />
-        {/* Main gradient — image clear at top, dark at bottom for text */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1510]/95 via-[#1a1510]/50 to-transparent" />
-        {/* Subtle warm tint */}
-        <div className="absolute inset-0 bg-gradient-to-br from-sand-900/10 via-transparent to-clay-800/10" />
+        {/* Single smooth gradient — clear at top, progressively darker toward bottom */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(to bottom, rgba(26,21,16,0.08) 0%, rgba(26,21,16,0.20) 30%, rgba(26,21,16,0.50) 60%, rgba(26,21,16,0.82) 80%, rgba(26,21,16,0.95) 100%)",
+          }}
+        />
+        {/* Warm tint */}
+        <div className="absolute inset-0 bg-gradient-to-br from-sand-900/8 via-transparent to-clay-800/8" />
       </div>
 
       {/* Content */}
-      <div className="relative container-page pb-10 md:pb-14 lg:pb-16 pt-36 md:pt-44 w-full">
+      <div className="relative container-page pb-8 md:pb-10 lg:pb-12 pt-20 md:pt-24 w-full">
         {/* Overline */}
         <div
           className={`mb-4 md:mb-6 transition-all duration-700 ${
@@ -82,18 +90,14 @@ export default function Hero() {
               <span className="invisible block" aria-hidden="true">
                 Transformación
               </span>
-              {/* Rotating words — all absolute, stacked, opacity fade only */}
-              <span className="absolute inset-0 flex items-end" aria-live="polite">
-                {rotatingWords.map((word, i) => (
-                  <span
-                    key={word}
-                    className={`absolute inset-0 flex items-end overflow-hidden whitespace-nowrap transition-opacity duration-700 ease-in-out ${
-                      i === currentWordIndex ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    {word}
-                  </span>
-                ))}
+              {/* Single rotating word — positioned over placeholder */}
+              <span
+                className={`absolute inset-0 flex items-end overflow-hidden whitespace-nowrap transition-opacity duration-400 ease-in-out ${
+                  visible ? "opacity-100" : "opacity-0"
+                }`}
+                aria-live="polite"
+              >
+                {rotatingWords[currentWordIndex]}
               </span>
               {/* Accent underline */}
               <span className="absolute bottom-[0.04em] left-0 w-full h-[3px] bg-sand-400/50 rounded-full" />
