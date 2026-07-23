@@ -41,7 +41,7 @@
   }
 
   .section-padding {
-    @apply py-24 sm:py-32 lg:py-40;
+    @apply py-14 sm:py-20 lg:py-28;
   }
 
   .section-label {
@@ -137,6 +137,88 @@
 
   .glass-dark {
     @apply bg-warmblack/60 backdrop-blur-xl border border-white/10;
+  }
+
+  /* Premium hover effects */
+  .magnetic-hover {
+    @apply transition-transform duration-300 ease-out;
+  }
+
+  .magnetic-hover:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  /* Image zoom on hover */
+  .image-zoom {
+    @apply overflow-hidden;
+  }
+
+  .image-zoom img {
+    @apply transition-transform duration-700 ease-out;
+  }
+
+  .image-zoom:hover img {
+    transform: scale(1.05);
+  }
+
+  /* Text reveal animation */
+  .text-reveal {
+    @apply overflow-hidden;
+  }
+
+  .text-reveal span {
+    @apply inline-block transition-transform duration-700 ease-out;
+  }
+
+  /* Magnetic button effect */
+  .magnetic-btn {
+    @apply relative overflow-hidden;
+  }
+
+  .magnetic-btn::before {
+    content: "";
+    @apply absolute inset-0 bg-white/10 scale-0 rounded-full transition-transform duration-500 ease-out;
+  }
+
+  .magnetic-btn:hover::before {
+    transform: scale(1);
+  }
+
+  /* Card shine effect */
+  .card-shine {
+    @apply relative overflow-hidden;
+  }
+
+  .card-shine::before {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-700 ease-out;
+  }
+
+  .card-shine:hover::before {
+    transform: translateX(100%);
+  }
+
+  /* Smooth scroll container */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Custom scrollbar for horizontal scroll */
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-cream-200 rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-cream-400 rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-sage-400;
   }
 }
 

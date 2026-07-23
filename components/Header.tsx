@@ -81,7 +81,7 @@ export default function Header() {
               </div>
               <span
                 className={`text-lg font-serif font-semibold tracking-tight transition-colors duration-300 ${
-                  scrolled ? "text-warmblack" : "text-warmblack"
+                  scrolled ? "text-warmblack" : "text-white"
                 }`}
               >
                 Guía Holística

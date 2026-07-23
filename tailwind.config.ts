@@ -76,6 +76,10 @@ const config: Config = {
         float: "float 6s ease-in-out infinite",
         "pulse-soft": "pulseSoft 4s ease-in-out infinite",
         "word-rotate": "wordRotate 18s ease-in-out infinite",
+        "shimmer": "shimmer 2s linear infinite",
+        "marquee": "marquee 25s linear infinite",
+        "text-reveal": "textReveal 1s ease-out forwards",
+        "magnetic": "magnetic 0.3s ease-out forwards",
       },
       keyframes: {
         fadeIn: {
@@ -120,6 +124,23 @@ const config: Config = {
           "50%, 70%": { transform: "translateY(-200%)" },
           "75%, 95%": { transform: "translateY(-300%)" },
           "100%": { transform: "translateY(0)" },
+        },
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        textReveal: {
+          "0%": { transform: "translateY(100%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        magnetic: {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.05)" },
+          "100%": { transform: "scale(1)" },
         },
       },
       boxShadow: {

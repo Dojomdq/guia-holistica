@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
+import MarqueeBand from "@/components/MarqueeBand";
 import CategoriasPopulares from "@/components/CategoriasPopulares";
 import MapaPreview from "@/components/MapaPreview";
 import FacilitadoresDestacados from "@/components/FacilitadoresDestacados";
 import StatsSection from "@/components/StatsSection";
-import TestimoniosSection from "@/components/TestimoniosSection";
-import FAQSection from "@/components/FAQSection";
+import ParallaxBreak from "@/components/ParallaxBreak";
 import CTASection from "@/components/CTASection";
 
 export const metadata: Metadata = {
@@ -26,12 +26,12 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <MarqueeBand />
       <CategoriasPopulares />
       <StatsSection />
       <MapaPreview />
       <FacilitadoresDestacados />
-      <TestimoniosSection />
-      <FAQSection />
+      <ParallaxBreak />
       <CTASection />
     </>
   );

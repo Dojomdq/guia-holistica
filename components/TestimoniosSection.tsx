@@ -1,7 +1,6 @@
 "use client";
 
 import { useScrollReveal } from "@/lib/useScrollReveal";
-import { Star } from "lucide-react";
 
 const testimonios = [
   {
@@ -28,44 +27,57 @@ export default function TestimoniosSection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="section-padding bg-cream-200/40">
+    <section ref={ref} className="py-14 sm:py-20">
       <div className="container-page">
+        {/* Header — minimal */}
         <div
-          className={`text-center mb-16 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          className={`mb-8 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="section-label justify-center">Testimonios</span>
-          <h2 className="heading-section mt-4">Lo que dicen</h2>
+          <span className="section-label">Testimonios</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {testimonios.map((t, i) => (
-            <div
-              key={t.nombre}
-              className={`card-base ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${i * 100 + 200}ms` }}
-            >
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, j) => (
-                  <Star
-                    key={j}
-                    className="h-4 w-4 fill-sand-400 text-sand-400"
-                  />
-                ))}
-              </div>
-              <p className="text-body text-sm italic leading-relaxed">
+        {/* Large editorial quote — first testimonio */}
+        <div
+          className={`transition-all duration-700 delay-100 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+        >
+          <div className="max-w-3xl">
+            <span className="font-serif text-6xl sm:text-7xl text-sage-300/40 leading-none select-none">
+              &ldquo;
+            </span>
+            <p className="font-serif text-2xl sm:text-3xl lg:text-4xl text-warmblack/80 leading-snug -mt-8 sm:-mt-10 ml-2">
+              {testimonios[0].texto}
+            </p>
+            <div className="mt-8 ml-2">
+              <p className="font-medium text-warmblack text-sm">
+                {testimonios[0].nombre}
+              </p>
+              <p className="text-xs text-warmblack/35 mt-0.5">
+                {testimonios[0].actividad}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Two smaller quotes — side by side */}
+        <div
+          className={`grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12 pt-10 border-t border-cream-300/40 transition-all duration-700 delay-200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+        >
+          {testimonios.slice(1).map((t) => (
+            <div key={t.nombre}>
+              <p className="text-warmblack/50 text-sm leading-relaxed italic">
                 &ldquo;{t.texto}&rdquo;
               </p>
-              <div className="mt-6 pt-5 divider-subtle">
-                <p className="font-serif text-base font-medium text-warmblack">
+              <div className="mt-4">
+                <p className="font-medium text-warmblack text-sm">
                   {t.nombre}
                 </p>
-                <p className="text-xs text-warmblack/40 mt-0.5">
+                <p className="text-xs text-warmblack/35 mt-0.5">
                   {t.actividad}
                 </p>
               </div>

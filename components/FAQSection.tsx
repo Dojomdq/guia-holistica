@@ -40,7 +40,7 @@ export default function FAQSection() {
     <section ref={ref} className="section-padding">
       <div className="container-page">
         <div
-          className={`text-center mb-16 transition-all duration-700 ${
+          className={`text-center mb-10 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
@@ -61,15 +61,21 @@ export default function FAQSection() {
             >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className="w-full flex items-center justify-between text-left px-6 py-5 bg-white/60 backdrop-blur-sm rounded-2xl border border-cream-300/50 hover:border-cream-400/60 hover:bg-white/80 transition-all duration-300 group"
+                className={`w-full flex items-center justify-between text-left px-6 py-5 rounded-2xl border transition-all duration-300 group ${
+                  openIndex === i
+                    ? "bg-white/80 backdrop-blur-sm border-sage-300/50 shadow-medium"
+                    : "bg-white/60 backdrop-blur-sm border-cream-300/50 hover:border-cream-400/60 hover:bg-white/80"
+                }`}
                 aria-expanded={openIndex === i}
               >
                 <span className="font-serif text-lg text-warmblack pr-4">
                   {faq.pregunta}
                 </span>
                 <ChevronDown
-                  className={`h-5 w-5 text-warmblack/30 flex-shrink-0 transition-transform duration-300 ${
-                    openIndex === i ? "rotate-180" : ""
+                  className={`h-5 w-5 flex-shrink-0 transition-all duration-300 ${
+                    openIndex === i
+                      ? "rotate-180 text-sage-600"
+                      : "text-warmblack/30 group-hover:text-warmblack/50"
                   }`}
                 />
               </button>

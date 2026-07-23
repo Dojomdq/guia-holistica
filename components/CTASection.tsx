@@ -40,13 +40,13 @@ export default function CTASection() {
         <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-white mt-6 mb-6 tracking-tight">
           ¿Sos facilitador?
         </h2>
-        <p className="text-sage-200/60 text-lg sm:text-xl mb-12 max-w-lg mx-auto leading-relaxed font-light">
+        <p className="text-sage-200/70 text-lg sm:text-xl mb-12 max-w-lg mx-auto leading-relaxed font-light">
           Que miles de personas te encuentren. Unite a la comunidad de
           facilitadores más grande de Mar del Plata.
         </p>
         <a
           href="mailto:contacto@guiaholistica.com.ar"
-          className="inline-flex items-center gap-3 bg-white text-sage-900 px-8 py-4 rounded-full font-medium hover:bg-cream-100 transition-all duration-300 hover:shadow-glow hover:-translate-y-0.5 text-sm group"
+          className="inline-flex items-center gap-3 bg-white text-sage-900 px-8 py-4 rounded-full font-medium hover:bg-cream-100 transition-all duration-300 hover:shadow-glow hover:-translate-y-0.5 text-sm group magnetic-btn"
         >
           Escribinos
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
