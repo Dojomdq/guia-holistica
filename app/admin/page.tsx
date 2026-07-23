@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Users, Activity, Tag, ExternalLink, MousePointerClick, TrendingUp } from "lucide-react";
+import {
+  Users,
+  Activity,
+  Tag,
+  ExternalLink,
+  MousePointerClick,
+  TrendingUp,
+} from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 
@@ -83,57 +90,65 @@ export default function AdminDashboard() {
   const stats = [
     { label: "Facilitadores", value: totalFacilitadores, icon: Users, href: "/admin/facilitadores" },
     { label: "Actividades", value: totalActividades, icon: Activity, href: "/admin/actividades" },
-    { label: "Categorías", value: totalCategorias, icon: Tag, href: "/admin/categorias" },
-    { label: "Total Clicks", value: totalClicks, icon: MousePointerClick, href: null },
+    { label: "Categorias", value: totalCategorias, icon: Tag, href: "/admin/categorias" },
+    { label: "Total Clicks", value: totalClicks, icon: MousePointerClick, href: null as string | null },
   ];
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-8">Dashboard</h1>
+      <div className="mb-8">
+        <h1 className="font-serif text-2xl sm:text-3xl font-medium text-warmblack">Dashboard</h1>
+        <p className="text-small mt-1">Resumen de tu guia holistica</p>
+      </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {stats.map((stat) => {
           const Icon = stat.icon;
-          const Wrapper = stat.href ? Link : "div";
           return (
-            <Wrapper key={stat.label} href={stat.href || ""} className="bg-white rounded-xl p-5 shadow-sm border border-gray-200 hover:border-gray-400 hover:shadow-md transition-all">
+            <Link
+              key={stat.label}
+              href={stat.href || "#"}
+              className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-cream-300/60 hover:border-cream-400/60 hover:shadow-medium transition-all duration-300"
+            >
               <div className="flex items-center gap-3">
-                <div className="bg-gray-900 h-10 w-10 rounded-xl flex items-center justify-center text-white flex-shrink-0">
-                  <Icon className="h-5 w-5" />
+                <div className="bg-warmblack h-10 w-10 rounded-xl flex items-center justify-center text-white flex-shrink-0">
+                  <Icon className="h-5 w-5" strokeWidth={1.5} />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                  <p className="text-xs text-gray-500">{stat.label}</p>
+                  <p className="text-2xl font-serif font-medium text-warmblack">{stat.value}</p>
+                  <p className="text-xs text-warmblack/40">{stat.label}</p>
                 </div>
               </div>
-            </Wrapper>
+            </Link>
           );
         })}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="h-5 w-5 text-gray-400" />
-            <h2 className="font-bold text-gray-900">Actividades más clickeadas</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60">
+          <div className="flex items-center gap-2 mb-5">
+            <TrendingUp className="h-5 w-5 text-warmblack/30" />
+            <h2 className="font-serif font-medium text-warmblack text-lg">Actividades mas clickeadas</h2>
           </div>
           {topActividades.length === 0 ? (
-            <p className="text-sm text-gray-400">Sin datos aún</p>
+            <p className="text-sm text-warmblack/30">Sin datos aun</p>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-3">
               {topActividades.map((item, i) => {
                 const maxCount = topActividades[0]?.count || 1;
                 const pct = Math.round((item.count / maxCount) * 100);
                 return (
                   <div key={item.referencia_id} className="flex items-center gap-3">
-                    <span className="text-xs text-gray-400 w-4 text-right">{i + 1}</span>
+                    <span className="text-xs text-warmblack/20 w-4 text-right">{i + 1}</span>
                     <div className="flex-1">
-                      <div className="flex items-center justify-between mb-0.5">
-                        <span className="text-sm text-gray-700 truncate">{actividadNames[item.referencia_id] || item.referencia_id}</span>
-                        <span className="text-xs font-medium text-gray-500">{item.count}</span>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm text-warmblack/70 truncate">
+                          {actividadNames[item.referencia_id] || item.referencia_id}
+                        </span>
+                        <span className="text-xs font-medium text-warmblack/40">{item.count}</span>
                       </div>
-                      <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${pct}%` }} />
+                      <div className="h-1.5 bg-cream-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-sage-500 rounded-full" style={{ width: `${pct}%` }} />
                       </div>
                     </div>
                   </div>
@@ -143,28 +158,30 @@ export default function AdminDashboard() {
           )}
         </div>
 
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="h-5 w-5 text-gray-400" />
-            <h2 className="font-bold text-gray-900">Facilitadores más clickeados</h2>
+        <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60">
+          <div className="flex items-center gap-2 mb-5">
+            <TrendingUp className="h-5 w-5 text-warmblack/30" />
+            <h2 className="font-serif font-medium text-warmblack text-lg">Facilitadores mas clickeados</h2>
           </div>
           {topFacilitadores.length === 0 ? (
-            <p className="text-sm text-gray-400">Sin datos aún</p>
+            <p className="text-sm text-warmblack/30">Sin datos aun</p>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-3">
               {topFacilitadores.map((item, i) => {
                 const maxCount = topFacilitadores[0]?.count || 1;
                 const pct = Math.round((item.count / maxCount) * 100);
                 return (
                   <div key={item.referencia_id} className="flex items-center gap-3">
-                    <span className="text-xs text-gray-400 w-4 text-right">{i + 1}</span>
+                    <span className="text-xs text-warmblack/20 w-4 text-right">{i + 1}</span>
                     <div className="flex-1">
-                      <div className="flex items-center justify-between mb-0.5">
-                        <span className="text-sm text-gray-700 truncate">{facilitadorNames[item.referencia_id] || item.referencia_id}</span>
-                        <span className="text-xs font-medium text-gray-500">{item.count}</span>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm text-warmblack/70 truncate">
+                          {facilitadorNames[item.referencia_id] || item.referencia_id}
+                        </span>
+                        <span className="text-xs font-medium text-warmblack/40">{item.count}</span>
                       </div>
-                      <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${pct}%` }} />
+                      <div className="h-1.5 bg-cream-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-sage-500 rounded-full" style={{ width: `${pct}%` }} />
                       </div>
                     </div>
                   </div>
@@ -175,8 +192,8 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <a href="/" target="_blank" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 font-medium">
-        <ExternalLink className="h-4 w-4" /> Ver sitio público
+      <a href="/" target="_blank" className="inline-flex items-center gap-2 text-sm text-warmblack/40 hover:text-warmblack/60 font-medium transition-colors">
+        <ExternalLink className="h-4 w-4" /> Ver sitio publico
       </a>
     </div>
   );

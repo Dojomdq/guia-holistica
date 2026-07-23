@@ -4,10 +4,10 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 
 const markerIcon = new L.DivIcon({
-  html: `<div style="background:#15803d;width:32px;height:32px;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3)"></div>`,
+  html: `<div style="background:#5d8a6e;width:28px;height:28px;border-radius:50%;border:3px solid white;box-shadow:0 2px 10px rgba(0,0,0,0.15)"></div>`,
   className: "",
-  iconSize: [32, 32],
-  iconAnchor: [16, 16],
+  iconSize: [28, 28],
+  iconAnchor: [14, 14],
 });
 
 interface Props {
@@ -22,7 +22,7 @@ export default function MiniMapDetail({ lat, lng, nombre }: Props) {
       center={[lat, lng]}
       zoom={15}
       scrollWheelZoom={false}
-      style={{ height: "200px", width: "100%" }}
+      style={{ height: "220px", width: "100%" }}
       dragging={false}
     >
       <TileLayer
@@ -30,7 +30,11 @@ export default function MiniMapDetail({ lat, lng, nombre }: Props) {
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
       />
       <Marker position={[lat, lng]} icon={markerIcon}>
-        <Popup><p className="font-semibold text-sm">{nombre}</p></Popup>
+        <Popup>
+          <p className="font-serif font-medium text-warmblack text-sm">
+            {nombre}
+          </p>
+        </Popup>
       </Marker>
     </MapContainer>
   );

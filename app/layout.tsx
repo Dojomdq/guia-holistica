@@ -4,8 +4,17 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-serif" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
+});
 
 const SITE_URL = "https://www.agenciakoi.com";
 
@@ -40,6 +49,14 @@ export const metadata: Metadata = {
     description:
       "Encontrá facilitadores, terapeutas y guías holísticos en Mar del Plata. Mapa interactivo con chamanismo, yoga, reiki, meditación y más.",
     url: SITE_URL,
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop",
+        width: 1200,
+        height: 630,
+        alt: "Guía Holística Mar del Plata",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -80,7 +97,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans">
         <Header />
-        <main className="min-h-screen">{children}</main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

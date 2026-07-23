@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Leaf } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const footerLinks = {
   explorar: [
@@ -18,45 +18,87 @@ const footerLinks = {
 
 export default function Footer() {
   return (
-    <footer className="bg-stone-900 text-stone-500">
-      <div className="container-page py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          <div>
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <Leaf className="h-5 w-5 text-emerald-500" />
-              <span className="text-lg font-serif font-bold text-white">Guía Holística</span>
+    <footer className="bg-warmblack text-cream-400">
+      <div className="container-wide py-20 sm:py-24">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8">
+          <div className="md:col-span-5">
+            <Link href="/" className="inline-flex items-center gap-2.5 mb-6 group">
+              <div className="w-8 h-8 rounded-full bg-sage-600 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 1 8-1 3.5-3.5 5.5-6 7" />
+                  <path d="M11.7 10.9c.9-1 1.8-1.7 3.3-2.4" />
+                  <path d="M11 20v-8" />
+                </svg>
+              </div>
+              <span className="text-lg font-serif font-semibold text-cream-100 tracking-tight">
+                Guía Holística
+              </span>
             </Link>
-            <p className="text-sm leading-relaxed text-stone-500 max-w-xs">
-              Sanación holística en Mar del Plata.
+            <p className="text-sm text-cream-500/50 max-w-xs leading-relaxed">
+              Sanación holística en Mar del Plata. Conectá con facilitadores,
+              terapeutas y guías de sanación.
             </p>
+
+            <a
+              href="mailto:contacto@guiaholistica.com.ar"
+              className="inline-flex items-center gap-2 mt-8 text-sm text-cream-300 hover:text-white transition-colors duration-300 group"
+            >
+              Escribinos
+              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
           </div>
 
-          <div>
-            <h3 className="text-xs font-semibold text-stone-300 uppercase tracking-widest mb-4">Explorar</h3>
-            <ul className="space-y-2.5">
+          <div className="md:col-span-3">
+            <h3 className="text-xs font-medium text-cream-500/40 uppercase tracking-[0.2em] mb-5">
+              Explorar
+            </h3>
+            <ul className="space-y-3">
               {footerLinks.explorar.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm hover:text-white transition-colors">{link.label}</Link>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-cream-500/60 hover:text-cream-200 transition-colors duration-300"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div>
-            <h3 className="text-xs font-semibold text-stone-300 uppercase tracking-widest mb-4">Actividades</h3>
-            <ul className="space-y-2.5">
+          <div className="md:col-span-3">
+            <h3 className="text-xs font-medium text-cream-500/40 uppercase tracking-[0.2em] mb-5">
+              Actividades
+            </h3>
+            <ul className="space-y-3">
               {footerLinks.actividades.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm hover:text-white transition-colors">{link.label}</Link>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-cream-500/60 hover:text-cream-200 transition-colors duration-300"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
+
+          <div className="md:col-span-1" />
         </div>
 
-        <div className="mt-12 pt-8 border-t border-stone-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-600">
-          <span>© {new Date().getFullYear()} Guía Holística</span>
-          <span>Mar del Plata</span>
+        <div className="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-cream-500/30">
+          <span>&copy; {new Date().getFullYear()} Guía Holística</span>
+          <span>Mar del Plata, Argentina</span>
         </div>
       </div>
     </footer>

@@ -12,12 +12,14 @@ import {
 } from "lucide-react";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import { supabase } from "@/lib/supabase/client";
-import { getCategoryIcon } from "@/lib/categories";
+import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 import type { FacilitadorConActividades } from "@/lib/types";
 
 const MiniMapDetail = dynamic(() => import("@/components/MiniMapDetail"), {
   ssr: false,
-  loading: () => <div className="h-48 bg-stone-100 rounded-xl animate-pulse" />,
+  loading: () => (
+    <div className="h-56 bg-cream-200 rounded-2xl animate-pulse" />
+  ),
 });
 
 interface FacilitadorData {
@@ -84,14 +86,14 @@ export default function FacilitadorContent({
   if (cargando) {
     return (
       <div className="container-page py-8 max-w-4xl">
-        <div className="bg-white rounded-2xl shadow-sm border border-stone-100 p-8 animate-pulse">
+        <div className="bg-white/70 rounded-3xl border border-cream-300/60 p-8 animate-pulse">
           <div className="flex gap-6">
-            <div className="h-24 w-24 rounded-2xl bg-stone-100" />
+            <div className="h-24 w-24 rounded-2xl bg-cream-200" />
             <div className="flex-1 space-y-3">
-              <div className="h-6 bg-stone-100 rounded w-1/3" />
-              <div className="h-4 bg-stone-100 rounded w-1/4" />
-              <div className="h-4 bg-stone-100 rounded w-2/3" />
-              <div className="h-4 bg-stone-100 rounded w-1/2" />
+              <div className="h-6 bg-cream-200 rounded w-1/3" />
+              <div className="h-4 bg-cream-200 rounded w-1/4" />
+              <div className="h-4 bg-cream-200 rounded w-2/3" />
+              <div className="h-4 bg-cream-200 rounded w-1/2" />
             </div>
           </div>
         </div>
@@ -102,54 +104,67 @@ export default function FacilitadorContent({
   if (noExiste || !f) {
     return (
       <div className="container-page py-20 text-center">
-        <p className="text-stone-500 text-lg mb-4">Facilitador no encontrado</p>
-        <Link href="/facilitadores" className="text-primary-600 hover:underline font-medium">
-          ← Volver al listado
+        <p className="text-warmblack/40 text-lg mb-4">
+          Facilitador no encontrado
+        </p>
+        <Link
+          href="/facilitadores"
+          className="btn-ghost"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Volver al listado
         </Link>
       </div>
     );
   }
 
   const Icon = getCategoryIcon(f.actividades[0]?.slug || "");
+  const color =
+    CATEGORY_MARKER_COLORS[f.actividades[0]?.slug || ""] || "#5d8a6e";
 
   return (
     <div className="container-page py-8 max-w-4xl">
       <Link
         href="/facilitadores"
-        className="inline-flex items-center gap-1 text-stone-500 hover:text-stone-700 text-sm mb-6 transition-colors"
+        className="inline-flex items-center gap-1.5 text-warmblack/40 hover:text-warmblack/70 text-sm mb-8 transition-colors group"
       >
-        <ArrowLeft className="h-4 w-4" />
+        <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
         Volver
       </Link>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-stone-100 overflow-hidden">
-        <div className="p-6 md:p-8">
-          <div className="flex flex-col md:flex-row gap-6">
+      <div className="bg-white/70 backdrop-blur-sm rounded-3xl border border-cream-300/60 overflow-hidden shadow-soft">
+        <div className="p-8 md:p-10">
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8">
             <div className="flex-shrink-0">
-              <div className="h-24 w-24 rounded-2xl bg-primary-50 flex items-center justify-center">
-                <Icon className="h-10 w-10 text-primary-600" />
+              <div
+                className="h-24 w-24 rounded-3xl flex items-center justify-center transition-transform duration-300 hover:scale-105"
+                style={{ backgroundColor: `${color}08` }}
+              >
+                <Icon className="h-10 w-10" style={{ color }} strokeWidth={1.5} />
               </div>
             </div>
 
             <div className="flex-1">
-              <h1 className="text-2xl md:text-3xl font-bold text-stone-800 mb-2">
+              <h1 className="font-serif text-3xl md:text-4xl font-medium text-warmblack mb-3">
                 {f.nombre}
               </h1>
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap gap-2 mb-5">
                 {f.actividades.map((a) => (
-                  <span key={a.id} className="px-3 py-1 bg-primary-50 text-primary-700 text-sm rounded-full font-medium">
+                  <span key={a.id} className="badge-premium">
                     {a.nombre}
                   </span>
                 ))}
               </div>
 
-              {f.bio && <p className="text-stone-600 leading-relaxed mb-4">{f.bio}</p>}
+              {f.bio && (
+                <p className="text-body mb-6">{f.bio}</p>
+              )}
 
               <div className="flex flex-col sm:flex-row gap-3">
                 {f.email && (
                   <a
                     href={`mailto:${f.email}`}
-                    className="inline-flex items-center gap-2 bg-stone-800 text-white px-5 py-2.5 rounded-xl hover:bg-stone-900 transition-colors font-medium text-sm"
+                    className="btn-primary group/btn"
                   >
                     <Mail className="h-4 w-4" />
                     Email
@@ -160,7 +175,7 @@ export default function FacilitadorContent({
                     href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-green-500 text-white px-5 py-2.5 rounded-xl hover:bg-green-600 transition-colors font-medium text-sm"
+                    className="inline-flex items-center gap-2 px-7 py-3.5 bg-sage-500 text-white font-medium text-sm rounded-full hover:bg-sage-600 transition-all duration-300 hover:shadow-glow hover:-translate-y-0.5"
                   >
                     <MessageCircle className="h-4 w-4" />
                     WhatsApp
@@ -171,7 +186,7 @@ export default function FacilitadorContent({
                     href={`https://instagram.com/${f.instagram.replace("@", "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-5 py-2.5 rounded-xl hover:opacity-90 transition-opacity font-medium text-sm"
+                    className="btn-secondary group/ig"
                   >
                     <InstagramIcon className="h-4 w-4" />
                     Instagram
@@ -182,7 +197,7 @@ export default function FacilitadorContent({
                     href={f.sitio_web}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-stone-100 text-stone-700 px-5 py-2.5 rounded-xl hover:bg-stone-200 transition-colors font-medium text-sm"
+                    className="btn-secondary"
                   >
                     <ExternalLink className="h-4 w-4" />
                     Sitio Web
@@ -193,13 +208,19 @@ export default function FacilitadorContent({
           </div>
 
           {f.direccion && (
-            <div className="mt-8 pt-6 border-t border-stone-100">
-              <div className="flex items-center gap-2 mb-3">
-                <MapPin className="h-5 w-5 text-stone-400" />
-                <h2 className="font-semibold text-stone-700">{f.direccion}</h2>
+            <div className="mt-10 pt-8 divider-subtle">
+              <div className="flex items-center gap-2 mb-4">
+                <MapPin className="h-5 w-5 text-warmblack/30" />
+                <h2 className="font-medium text-warmblack/70">
+                  {f.direccion}
+                </h2>
               </div>
-              <div className="rounded-xl overflow-hidden border border-stone-200">
-                <MiniMapDetail lat={f.latitud} lng={f.longitud} nombre={f.nombre} />
+              <div className="rounded-2xl overflow-hidden border border-cream-300/60">
+                <MiniMapDetail
+                  lat={f.latitud}
+                  lng={f.longitud}
+                  nombre={f.nombre}
+                />
               </div>
             </div>
           )}

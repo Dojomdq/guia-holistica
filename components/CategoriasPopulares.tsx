@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
+import { useScrollReveal } from "@/lib/useScrollReveal";
 import type { LucideIcon } from "lucide-react";
 
 interface CatCount {
@@ -15,6 +16,7 @@ interface CatCount {
 
 export default function CategoriasPopulares() {
   const [cats, setCats] = useState<CatCount[]>([]);
+  const { ref, isVisible } = useScrollReveal();
 
   useEffect(() => {
     async function load() {
@@ -59,21 +61,28 @@ export default function CategoriasPopulares() {
   if (cats.length === 0) return null;
 
   return (
-    <section className="py-24">
+    <section ref={ref} className="section-padding">
       <div className="container-page">
-        <div className="mb-12">
-          <p className="text-emerald-600 text-sm font-medium tracking-wide uppercase mb-2">
-            Explorá
-          </p>
-          <h2 className="text-4xl md:text-5xl font-serif text-stone-900">
+        <div
+          className={`mb-16 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <span className="section-label">Explorá</span>
+          <h2 className="heading-section mt-4">
             ¿Qué buscás?
           </h2>
+          <p className="text-body mt-4 max-w-md">
+            18 caminos de sanación, cada uno con facilitadores verificados en
+            Mar del Plata.
+          </p>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-          {cats.map((cat) => {
+          {cats.map((cat, i) => {
             const Icon: LucideIcon = getCategoryIcon(cat.slug);
-            const markerColor = CATEGORY_MARKER_COLORS[cat.slug] || "#15803d";
+            const markerColor =
+              CATEGORY_MARKER_COLORS[cat.slug] || "#5d8a6e";
             const hasFacilitadores = cat.count > 0;
             return (
               <Link
@@ -81,23 +90,34 @@ export default function CategoriasPopulares() {
                 href={`/mapa?q=${cat.slug}`}
                 className="group relative"
               >
-                <div className="relative bg-white rounded-xl border border-stone-200/60 p-4 text-center transition-all duration-300 hover:shadow-lg hover:shadow-stone-200/40 hover:-translate-y-0.5 hover:border-stone-300/60">
+                <div
+                  className={`relative bg-white/60 backdrop-blur-sm rounded-2xl border border-cream-300/50 p-5 text-center transition-all duration-500 ease-out hover:shadow-medium hover:-translate-y-1 hover:border-cream-400/60 hover:bg-white/80 ${
+                    isVisible
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-6"
+                  }`}
+                  style={{ transitionDelay: `${i * 40}ms` }}
+                >
                   <div
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-lg mb-2.5 transition-transform duration-300 group-hover:scale-110"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-xl mb-3 transition-all duration-300 group-hover:scale-110 group-hover:shadow-soft"
                     style={{ backgroundColor: `${markerColor}10` }}
                   >
-                    <Icon className="h-5 w-5" style={{ color: markerColor }} />
+                    <Icon
+                      className="h-5 w-5"
+                      style={{ color: markerColor }}
+                      strokeWidth={1.5}
+                    />
                   </div>
-                  <h3 className="font-medium text-xs text-stone-700 leading-tight">
+                  <h3 className="font-medium text-xs text-warmblack/70 leading-tight">
                     {cat.nombre}
                   </h3>
                   {hasFacilitadores ? (
-                    <p className="text-[11px] text-stone-400 mt-1">
-                      {cat.count}
+                    <p className="text-[11px] text-sage-500 mt-1.5 font-medium">
+                      {cat.count} {cat.count === 1 ? "guía" : "guías"}
                     </p>
                   ) : (
-                    <p className="text-[11px] text-stone-300 mt-1 italic">
-                      pronto
+                    <p className="text-[11px] text-warmblack/25 mt-1.5 italic">
+                      próximamente
                     </p>
                   )}
                 </div>
