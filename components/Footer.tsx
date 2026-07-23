@@ -10,7 +10,7 @@ export default function Footer() {
             <h2 className="font-serif text-[clamp(2.25rem,5vw,4rem)] text-white/90 leading-[1.05] tracking-[-0.03em] group-hover:text-white transition-colors duration-300">
               Guía
               <br />
-              <span className="text-sage-400/70">Holística</span>
+              <span className="text-sand-400/60">Holística</span>
             </h2>
           </Link>
         </div>

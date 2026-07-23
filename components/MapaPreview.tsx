@@ -18,7 +18,7 @@ export default function MapaPreview() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="section-pad bg-cream-200/30">
+    <section ref={ref} className="section-pad bg-sand-50/60">
       <div className="container-wide">
         <div
           className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-end transition-all duration-700 ${
@@ -40,7 +40,7 @@ export default function MapaPreview() {
             <h2 className="heading-md mt-3 mb-3">
               El mapa
             </h2>
-            <p className="text-[15px] text-warmblack/50 leading-relaxed mb-6">
+            <p className="text-[15px] text-warmblack/45 leading-relaxed mb-6">
               Descubrí quién está cerca tuyo. 22 facilitadores distribuidos por Mar del Plata.
             </p>
             <Link

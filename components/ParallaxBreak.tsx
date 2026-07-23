@@ -8,9 +8,10 @@ export default function ParallaxBreak() {
   return (
     <section
       ref={ref}
-      className="relative py-24 sm:py-32 lg:py-40 overflow-hidden bg-warmblack"
+      className="relative py-24 sm:py-32 lg:py-40 overflow-hidden"
     >
-      {/* Grain */}
+      {/* Background — warm gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-sage-800 via-sage-900 to-warmblack" />
       <div
         className="absolute inset-0 opacity-[0.04] pointer-events-none"
         style={{
@@ -18,6 +19,8 @@ export default function ParallaxBreak() {
           backgroundSize: "256px 256px",
         }}
       />
+      {/* Warm orb */}
+      <div className="absolute top-1/2 right-[20%] -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-sand-500/[0.06] blur-3xl pointer-events-none" />
 
       {/* Content */}
       <div className="relative container-page">
@@ -30,13 +33,13 @@ export default function ParallaxBreak() {
         >
           Sanación holística
           <br />
-          <span className="text-sage-400/70">en Mar del Plata.</span>
+          <span className="text-sand-300/70">en Mar del Plata.</span>
         </p>
       </div>
 
       {/* Bottom line */}
       <div
-        className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent transition-all duration-1000 delay-300 ${
+        className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-sand-400/15 to-transparent transition-all duration-1000 delay-300 ${
           isVisible ? "opacity-100" : "opacity-0"
         }`}
       />

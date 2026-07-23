@@ -46,7 +46,7 @@ export default function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-cream-100/85 backdrop-blur-xl border-b border-cream-200/60"
+            ? "bg-cream-50/90 backdrop-blur-xl border-b border-cream-200/50"
             : "bg-transparent"
         }`}
       >
@@ -90,7 +90,7 @@ export default function Header() {
                     {active && (
                       <span
                         className={`absolute inset-x-2 -inset-y-0.5 rounded-full -z-10 transition-colors duration-300 ${
-                          scrolled ? "bg-cream-200/70" : "bg-white/10"
+                          scrolled ? "bg-sage-100/60" : "bg-white/10"
                         }`}
                       />
                     )}
@@ -143,11 +143,11 @@ export default function Header() {
         }`}
       >
         <div
-          className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
+          className="absolute inset-0 bg-warmblack/30 backdrop-blur-sm"
           onClick={() => setMobileOpen(false)}
         />
         <nav
-          className={`absolute top-0 left-0 right-0 bg-cream-100 border-b border-cream-200 transition-all duration-500 ease-out-expo ${
+          className={`absolute top-0 left-0 right-0 bg-cream-50 border-b border-cream-200 transition-all duration-500 ease-out-expo ${
             mobileOpen ? "translate-y-0" : "-translate-y-full"
           }`}
           aria-label="Navegación principal"
@@ -165,7 +165,7 @@ export default function Header() {
                     className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-[15px] font-medium transition-all duration-300 ${
                       active
                         ? "bg-warmblack text-white"
-                        : "text-warmblack/60 hover:text-warmblack hover:bg-cream-200/50"
+                        : "text-warmblack/55 hover:text-warmblack hover:bg-cream-200/40"
                     }`}
                     style={{
                       transitionDelay: mobileOpen ? `${i * 40}ms` : "0ms",

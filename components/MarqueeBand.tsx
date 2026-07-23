@@ -19,7 +19,7 @@ export default function MarqueeBand() {
   return (
     <section
       ref={ref}
-      className={`py-6 sm:py-8 bg-warmblack overflow-hidden transition-opacity duration-1000 ${
+      className={`py-6 sm:py-8 bg-sand-100/80 overflow-hidden transition-opacity duration-1000 ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
@@ -28,10 +28,10 @@ export default function MarqueeBand() {
           {[...items, ...items].map((item, i) => (
             <span
               key={i}
-              className="text-white/20 text-sm font-sans font-medium tracking-wide uppercase"
+              className="text-warmblack/25 text-sm font-sans font-medium tracking-wide uppercase"
             >
               {item}
-              <span className="inline-block ml-12 text-sage-500/20">·</span>
+              <span className="inline-block ml-12 text-sage-400/30">·</span>
             </span>
           ))}
         </div>
@@ -39,10 +39,10 @@ export default function MarqueeBand() {
           {[...items, ...items].map((item, i) => (
             <span
               key={`dup-${i}`}
-              className="text-white/20 text-sm font-sans font-medium tracking-wide uppercase"
+              className="text-warmblack/25 text-sm font-sans font-medium tracking-wide uppercase"
             >
               {item}
-              <span className="inline-block ml-12 text-sage-500/20">·</span>
+              <span className="inline-block ml-12 text-sage-400/30">·</span>
             </span>
           ))}
         </div>

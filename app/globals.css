@@ -11,7 +11,7 @@
   }
 
   body {
-    @apply bg-cream-100 text-warmblack;
+    @apply bg-cream-50 text-warmblack;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "cv01" 1, "cv02" 1;
   }
 
@@ -33,10 +33,6 @@
     @apply mx-auto max-w-7xl px-6 sm:px-8 lg:px-12;
   }
 
-  .container-bleed {
-    @apply w-full px-6 sm:px-8 lg:px-12;
-  }
-
   .section-pad {
     @apply py-16 sm:py-24 lg:py-32;
   }
@@ -46,11 +42,11 @@
   }
 
   .label {
-    @apply font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-warmblack/40;
+    @apply font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-sage-600;
   }
 
   .label-light {
-    @apply font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-white/40;
+    @apply font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-white/60;
   }
 
   .heading-xl {
@@ -66,19 +62,19 @@
   }
 
   .body-lg {
-    @apply text-body-lg text-warmblack/65;
+    @apply text-body-lg text-warmblack/60;
   }
 
   .body-text {
-    @apply text-body text-warmblack/65;
+    @apply text-body text-warmblack/60;
   }
 
   .body-sm {
-    @apply text-body-sm text-warmblack/50;
+    @apply text-body-sm text-warmblack/45;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium text-sm rounded-full transition-all duration-300 ease-out-expo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage-400 focus-visible:ring-offset-2 focus-visible:ring-offset-cream-100;
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium text-sm rounded-full transition-all duration-300 ease-out-expo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage-400 focus-visible:ring-offset-2;
   }
 
   .btn-dark {
@@ -94,7 +90,7 @@
   }
 
   .btn-ghost {
-    @apply btn text-warmblack/60 hover:text-warmblack hover:bg-cream-200/60;
+    @apply btn text-warmblack/55 hover:text-warmblack hover:bg-cream-200/60;
   }
 
   .btn-white {
@@ -106,11 +102,11 @@
   }
 
   .card {
-    @apply bg-white rounded-2xl border border-cream-200 p-6 transition-all duration-300 hover:shadow-medium hover:border-cream-300;
+    @apply bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-300 hover:shadow-medium hover:border-cream-300;
   }
 
   .card-elevated {
-    @apply bg-white rounded-2xl border border-cream-200 p-6 shadow-soft transition-all duration-300 hover:shadow-large hover:-translate-y-0.5;
+    @apply bg-white rounded-2xl border border-cream-200/80 p-6 shadow-soft transition-all duration-300 hover:shadow-large hover:-translate-y-0.5;
   }
 
   .badge {
@@ -127,8 +123,6 @@
   .stagger-2 { animation-delay: 0.1s; }
   .stagger-3 { animation-delay: 0.15s; }
   .stagger-4 { animation-delay: 0.2s; }
-  .stagger-5 { animation-delay: 0.25s; }
-  .stagger-6 { animation-delay: 0.3s; }
 
   .text-balance {
     text-wrap: balance;
@@ -175,12 +169,10 @@
   @apply bg-warmblack/20;
 }
 
-/* Focus visible global */
 :focus-visible {
-  @apply outline-none ring-2 ring-sage-400/50 ring-offset-2 ring-offset-cream-100;
+  @apply outline-none ring-2 ring-sage-400/50 ring-offset-2 ring-offset-cream-50;
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
