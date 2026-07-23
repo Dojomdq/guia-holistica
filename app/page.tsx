@@ -4,7 +4,6 @@ import MarqueeBand from "@/components/MarqueeBand";
 import CategoriasPopulares from "@/components/CategoriasPopulares";
 import MapaPreview from "@/components/MapaPreview";
 import FacilitadoresDestacados from "@/components/FacilitadoresDestacados";
-import StatsSection from "@/components/StatsSection";
 import ParallaxBreak from "@/components/ParallaxBreak";
 import CTASection from "@/components/CTASection";
 
@@ -28,7 +27,6 @@ export default function Home() {
       <Hero />
       <MarqueeBand />
       <CategoriasPopulares />
-      <StatsSection />
       <MapaPreview />
       <FacilitadoresDestacados />
       <ParallaxBreak />
