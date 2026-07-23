@@ -105,10 +105,10 @@ export default function FacilitadoresContent() {
   return (
     <div className="container-page py-12">
       <div className="max-w-3xl mb-8">
-        <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full mb-3 uppercase tracking-wider">
+        <p className="text-emerald-600 text-sm font-medium tracking-wide uppercase mb-2">
           Comunidad
-        </span>
-        <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">
+        </p>
+        <h1 className="text-4xl md:text-5xl font-serif text-stone-900 mb-3">
           Facilitadores
         </h1>
         <p className="text-stone-500 text-lg">
@@ -176,7 +176,7 @@ export default function FacilitadoresContent() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((f) => {
               const Icon = getCategoryIcon(f.actividadSlugs[0] || "");
               const slug0 = f.actividadSlugs[0] || "";
@@ -186,44 +186,41 @@ export default function FacilitadoresContent() {
               }
               return (
               <Link key={f.id} href={`/facilitadores/${f.id}`} className="group" onClick={() => track("facilitador", f.id)}>
-                <div className="bg-white rounded-2xl border border-stone-200/80 overflow-hidden card-hover">
-                  <div className="h-1.5 bg-emerald-600" />
-                  <div className="p-6">
-                    <div className="flex items-start gap-4">
-                      <div
-                        className="flex h-14 w-14 items-center justify-center rounded-xl flex-shrink-0"
-                        style={{ backgroundColor: `${markerColor}12` }}
-                      >
-                        <Icon className="h-7 w-7" style={{ color: markerColor }} />
+                <div className="bg-white rounded-xl border border-stone-200/60 p-5 transition-all duration-300 hover:shadow-lg hover:shadow-stone-200/30 hover:-translate-y-0.5 hover:border-stone-300/60">
+                  <div className="flex items-start gap-4">
+                    <div
+                      className="flex h-12 w-12 items-center justify-center rounded-xl flex-shrink-0"
+                      style={{ backgroundColor: `${markerColor}10` }}
+                    >
+                      <Icon className="h-6 w-6" style={{ color: markerColor }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-serif text-lg text-stone-800 group-hover:text-emerald-700 transition-colors">
+                        {f.nombre}
+                      </h3>
+                      <p className="text-sm text-stone-400 mt-0.5 line-clamp-2">
+                        {f.bio}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 mt-2.5">
+                        {f.actividades.map((a) => (
+                          <span key={a} className="px-2 py-0.5 bg-stone-100 text-stone-600 text-xs rounded-md">
+                            {a}
+                          </span>
+                        ))}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-lg text-stone-800 group-hover:text-emerald-700 transition-colors">
-                          {f.nombre}
-                        </h3>
-                        <p className="text-sm text-stone-500 mt-0.5 line-clamp-2 leading-relaxed">
-                          {f.bio}
-                        </p>
-                        <div className="flex flex-wrap gap-1.5 mt-3">
-                          {f.actividades.map((a) => (
-                            <span key={a} className="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-lg">
-                              {a}
-                            </span>
-                          ))}
-                        </div>
-                        <div className="flex items-center gap-3 mt-3 text-xs text-stone-400">
-                          {f.direccion && (
-                            <span className="flex items-center gap-1">
-                              <MapPin className="h-3.5 w-3.5" />
-                              {f.direccion}
-                            </span>
-                          )}
-                          {f.instagram && (
-                            <span className="flex items-center gap-1">
-                              <InstagramIcon className="h-3 w-3" />
-                              {f.instagram}
-                            </span>
-                          )}
-                        </div>
+                      <div className="flex items-center gap-3 mt-2.5 text-xs text-stone-400">
+                        {f.direccion && (
+                          <span className="flex items-center gap-1">
+                            <MapPin className="h-3 w-3" />
+                            {f.direccion}
+                          </span>
+                        )}
+                        {f.instagram && (
+                          <span className="flex items-center gap-1">
+                            <InstagramIcon className="h-3 w-3" />
+                            {f.instagram}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>

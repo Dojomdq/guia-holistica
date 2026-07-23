@@ -59,53 +59,47 @@ export default function CategoriasPopulares() {
   if (cats.length === 0) return null;
 
   return (
-    <section className="py-20">
+    <section className="py-24">
       <div className="container-page">
-        <div className="text-center mb-12">
-          <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full mb-3 uppercase tracking-wider">
+        <div className="mb-12">
+          <p className="text-emerald-600 text-sm font-medium tracking-wide uppercase mb-2">
             Explorá
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">
-            Por Categoría
-          </h2>
-          <p className="text-stone-500 text-lg max-w-md mx-auto">
-            Encontrá exactamente lo que buscás
           </p>
+          <h2 className="text-4xl md:text-5xl font-serif text-stone-900">
+            ¿Qué buscás?
+          </h2>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
           {cats.map((cat) => {
             const Icon: LucideIcon = getCategoryIcon(cat.slug);
             const markerColor = CATEGORY_MARKER_COLORS[cat.slug] || "#15803d";
+            const hasFacilitadores = cat.count > 0;
             return (
               <Link
                 key={cat.slug}
                 href={`/mapa?q=${cat.slug}`}
-                className="group"
+                className="group relative"
               >
-                <div className="relative bg-white rounded-2xl p-6 text-center border border-stone-200/80 card-hover overflow-hidden">
+                <div className="relative bg-white rounded-xl border border-stone-200/60 p-4 text-center transition-all duration-300 hover:shadow-lg hover:shadow-stone-200/40 hover:-translate-y-0.5 hover:border-stone-300/60">
                   <div
-                    className="absolute inset-0 opacity-[0.04] group-hover:opacity-[0.08] transition-opacity duration-300"
-                    style={{
-                      background: `radial-gradient(circle at 50% 0%, ${markerColor}, transparent 70%)`,
-                    }}
-                  />
-                  <div className="relative">
-                    <div
-                      className="inline-flex h-12 w-12 items-center justify-center rounded-xl mb-3 transition-transform duration-300 group-hover:scale-110"
-                      style={{ backgroundColor: `${markerColor}15` }}
-                    >
-                      <Icon className="h-6 w-6" style={{ color: markerColor }} />
-                    </div>
-                    <h3 className="font-semibold text-sm text-stone-800 mb-1">
-                      {cat.nombre}
-                    </h3>
-                    <p className="text-xs text-stone-400">
-                      {cat.count > 0
-                        ? `${cat.count} facilitador${cat.count !== 1 ? "es" : ""}`
-                        : "Próximamente"}
-                    </p>
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-lg mb-2.5 transition-transform duration-300 group-hover:scale-110"
+                    style={{ backgroundColor: `${markerColor}10` }}
+                  >
+                    <Icon className="h-5 w-5" style={{ color: markerColor }} />
                   </div>
+                  <h3 className="font-medium text-xs text-stone-700 leading-tight">
+                    {cat.nombre}
+                  </h3>
+                  {hasFacilitadores ? (
+                    <p className="text-[11px] text-stone-400 mt-1">
+                      {cat.count}
+                    </p>
+                  ) : (
+                    <p className="text-[11px] text-stone-300 mt-1 italic">
+                      pronto
+                    </p>
+                  )}
                 </div>
               </Link>
             );

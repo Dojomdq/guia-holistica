@@ -7,7 +7,7 @@ import { MapPin, ArrowRight } from "lucide-react";
 const MiniMap = dynamic(() => import("@/components/MiniMap"), {
   ssr: false,
   loading: () => (
-    <div className="h-72 bg-stone-100 rounded-2xl flex items-center justify-center">
+    <div className="h-80 bg-stone-100 rounded-2xl flex items-center justify-center">
       <MapPin className="h-8 w-8 text-stone-300 animate-pulse" />
     </div>
   ),
@@ -15,32 +15,30 @@ const MiniMap = dynamic(() => import("@/components/MiniMap"), {
 
 export default function MapaPreview() {
   return (
-    <section className="py-20 bg-stone-100/50">
+    <section className="py-24 bg-stone-100/40">
       <div className="container-page">
-        <div className="flex flex-col md:flex-row items-center gap-10">
-          <div className="flex-1">
-            <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full mb-3 uppercase tracking-wider">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div>
+            <p className="text-emerald-600 text-sm font-medium tracking-wide uppercase mb-2">
               Explorá
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">
-              Mapa Interactivo
+            </p>
+            <h2 className="text-4xl md:text-5xl font-serif text-stone-900 mb-4">
+              El mapa
             </h2>
-            <p className="text-stone-500 text-lg mb-8 leading-relaxed">
-              Descubrí facilitadores cerca tuyo en Mar del Plata.
+            <p className="text-stone-500 text-lg mb-8 leading-relaxed max-w-md">
+              Descubrí quién está cerca tuyo. Cada punto es un facilitador verificado.
             </p>
             <Link
               href="/mapa"
-              className="inline-flex items-center gap-2 bg-stone-900 text-white px-6 py-3 rounded-xl font-semibold hover:bg-stone-800 transition-all shadow-sm text-sm"
+              className="inline-flex items-center gap-2 bg-stone-900 text-white px-6 py-3.5 rounded-2xl font-semibold hover:bg-stone-800 transition-all text-sm"
             >
               <MapPin className="h-4 w-4" />
-              Abrir Mapa
+              Abrir mapa
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="flex-1 w-full">
-            <div className="rounded-2xl overflow-hidden shadow-lg shadow-stone-200/50 border border-stone-200/50">
-              <MiniMap />
-            </div>
+          <div className="rounded-2xl overflow-hidden shadow-2xl shadow-stone-300/30 border border-stone-200/40">
+            <MiniMap />
           </div>
         </div>
       </div>

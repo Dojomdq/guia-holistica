@@ -26,23 +26,26 @@ export default function Home() {
       <MapaPreview />
       <FacilitadoresDestacados />
 
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-900 via-stone-900 to-stone-900" />
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+      <section className="py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-stone-900" />
+        <div className="absolute inset-0 opacity-[0.015]" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")`,
         }} />
         <div className="relative container-page text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-5">
-            ¿Sos Facilitador?
+          <p className="text-emerald-400 text-sm font-medium tracking-wide uppercase mb-4">
+            Sumate
+          </p>
+          <h2 className="text-4xl md:text-6xl font-serif text-white mb-6">
+            ¿Sos facilitador?
           </h2>
-          <p className="text-stone-300 text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed">
-            Sumá tu espacio y que miles de personas te encuentren en Mar del Plata.
+          <p className="text-stone-400 text-lg md:text-xl mb-10 max-w-lg mx-auto leading-relaxed">
+            Que miles de personas te encuentren.
           </p>
           <a
             href="mailto:contacto@guiaholistica.com.ar"
-            className="inline-flex items-center gap-2 bg-white text-stone-900 px-8 py-4 rounded-xl font-bold hover:bg-stone-100 transition-all shadow-lg shadow-black/20 text-sm"
+            className="inline-flex items-center gap-2 bg-white text-stone-900 px-8 py-4 rounded-2xl font-semibold hover:bg-stone-100 transition-all text-sm"
           >
-            Contactanos
+            Escribinos
           </a>
         </div>
       </section>

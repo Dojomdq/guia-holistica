@@ -22,14 +22,12 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-stone-200/60">
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-stone-100">
       <div className="container-page">
         <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-600 to-emerald-700 text-white shadow-sm shadow-emerald-600/20">
-              <Leaf className="h-4.5 w-4.5" />
-            </div>
-            <span className="text-lg font-bold text-stone-900 tracking-tight">
+          <Link href="/" className="flex items-center gap-2 group">
+            <Leaf className="h-5 w-5 text-emerald-600" />
+            <span className="text-lg font-serif font-bold text-stone-900 tracking-tight">
               Guía Holística
             </span>
           </Link>
@@ -40,10 +38,10 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 aria-current={isActive(link.href, pathname) ? "page" : undefined}
-                className={`px-3.5 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
+                className={`px-3 py-1.5 text-sm transition-colors ${
                   isActive(link.href, pathname)
-                    ? "bg-stone-900 text-white shadow-sm"
-                    : "text-stone-500 hover:text-stone-900 hover:bg-stone-100"
+                    ? "text-stone-900 font-semibold"
+                    : "text-stone-400 hover:text-stone-700"
                 }`}
               >
                 {link.label}
@@ -53,7 +51,7 @@ export default function Header() {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-stone-500 hover:bg-stone-100 rounded-xl"
+            className="md:hidden p-2 text-stone-400 hover:text-stone-700"
             aria-expanded={mobileOpen}
             aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
           >
@@ -69,10 +67,10 @@ export default function Header() {
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 aria-current={isActive(link.href, pathname) ? "page" : undefined}
-                className={`block px-4 py-2.5 text-sm font-medium rounded-xl transition-all ${
+                className={`block px-4 py-2.5 text-sm transition-colors ${
                   isActive(link.href, pathname)
-                    ? "bg-stone-900 text-white"
-                    : "text-stone-500 hover:text-stone-900 hover:bg-stone-100"
+                    ? "text-stone-900 font-semibold"
+                    : "text-stone-400 hover:text-stone-700"
                 }`}
               >
                 {link.label}

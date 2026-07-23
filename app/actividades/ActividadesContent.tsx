@@ -59,16 +59,15 @@ export default function ActividadesContent() {
 
   return (
     <div className="container-page py-12">
-      <div className="max-w-3xl mb-10">
-        <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-full mb-3 uppercase tracking-wider">
+      <div className="max-w-3xl mb-12">
+        <p className="text-emerald-600 text-sm font-medium tracking-wide uppercase mb-2">
           Explorá
-        </span>
-        <h1 className="text-3xl md:text-4xl font-bold text-stone-900 mb-3">
-          Actividades Holísticas
+        </p>
+        <h1 className="text-4xl md:text-5xl font-serif text-stone-900 mb-3">
+          Actividades
         </h1>
         <p className="text-stone-500 text-lg">
-          Explorá todas las actividades disponibles y encontrá la que
-          necesitás. Cada una tiene facilitadores verificados en el mapa.
+          Encontrá la que necesitás. Cada una tiene facilitadores verificados.
         </p>
       </div>
 
@@ -86,9 +85,8 @@ export default function ActividadesContent() {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {actividades.map((a) => {
-            const colorClass = getCategoryColor(a.slug);
             const Icon = getCategoryIcon(a.slug);
             const markerColor = CATEGORY_MARKER_COLORS[a.slug] || "#15803d";
             return (
@@ -98,32 +96,22 @@ export default function ActividadesContent() {
                 className="group"
                 onClick={() => track("actividad", a.slug)}
               >
-                <div className="bg-white rounded-2xl border border-stone-200/80 overflow-hidden card-hover">
-                  <div
-                    className="h-1.5"
-                    style={{ background: `linear-gradient(90deg, ${markerColor}, ${markerColor}66)` }}
-                  />
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div
-                        className="inline-flex h-12 w-12 items-center justify-center rounded-xl"
-                        style={{ backgroundColor: `${markerColor}12` }}
-                      >
-                        <Icon className="h-6 w-6" style={{ color: markerColor }} />
-                      </div>
-                      <div className="flex items-center gap-1.5 text-stone-400 text-sm bg-stone-50 px-2.5 py-1 rounded-lg">
-                        <Users className="h-3.5 w-3.5" />
-                        {a.count}
-                      </div>
+                <div className="bg-white rounded-xl border border-stone-200/60 p-5 transition-all duration-300 hover:shadow-lg hover:shadow-stone-200/30 hover:-translate-y-0.5 hover:border-stone-300/60">
+                  <div className="flex items-center justify-between mb-4">
+                    <div
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-lg"
+                      style={{ backgroundColor: `${markerColor}10` }}
+                    >
+                      <Icon className="h-5 w-5" style={{ color: markerColor }} />
                     </div>
-                    <h2 className="font-bold text-lg text-stone-800 group-hover:text-emerald-700 transition-colors mb-2">
-                      {a.nombre}
-                    </h2>
-                    <div className="flex items-center gap-1.5 text-sm text-stone-400">
-                      <MapPin className="h-3.5 w-3.5" />
-                      Ver en el mapa
-                    </div>
+                    <span className="text-xs text-stone-400 flex items-center gap-1">
+                      <Users className="h-3 w-3" />
+                      {a.count}
+                    </span>
                   </div>
+                  <h2 className="font-serif text-lg text-stone-800 group-hover:text-emerald-700 transition-colors">
+                    {a.nombre}
+                  </h2>
                 </div>
               </Link>
             );
