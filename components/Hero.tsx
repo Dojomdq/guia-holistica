@@ -87,7 +87,7 @@ export default function Hero() {
                 {rotatingWords.map((word, i) => (
                   <span
                     key={word}
-                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                    className={`absolute inset-0 flex items-end overflow-hidden whitespace-nowrap transition-opacity duration-700 ease-in-out ${
                       i === currentWordIndex ? "opacity-100" : "opacity-0"
                     }`}
                   >
