@@ -25,7 +25,7 @@ export default function CTASection() {
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-clay-400/8 rounded-full blur-3xl pointer-events-none" />
 
       <div
-        className={`relative section-pad transition-all duration-700 ${
+        className={`relative py-10 sm:py-14 lg:py-20 transition-all duration-700 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
         }`}
       >

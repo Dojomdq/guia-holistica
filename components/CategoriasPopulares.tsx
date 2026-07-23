@@ -66,7 +66,7 @@ export default function CategoriasPopulares() {
       <div className="container-wide">
         {/* Header */}
         <div
-          className={`flex items-end justify-between mb-6 transition-all duration-700 ${
+          className={`flex items-end justify-between mb-4 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
