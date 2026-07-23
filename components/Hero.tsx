@@ -42,7 +42,7 @@ export default function Hero() {
       {/* Background image — Mar del Plata */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1568702846914-96b305d2ead1?w=1920&h=1080&fit=crop&crop=center"
+          src="https://images.unsplash.com/photo-1693218960371-fe6fcad32838?w=1920&h=1080&fit=crop&crop=center"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
