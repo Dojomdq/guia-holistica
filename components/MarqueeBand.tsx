@@ -15,23 +15,30 @@ const items = [
 export default function MarqueeBand() {
   const { ref, isVisible } = useScrollReveal();
 
+  const marqueeContent = (
+    <>
+      {items.map((item, i) => (
+        <span
+          key={i}
+          className="text-warmblack/25 text-sm font-sans font-medium tracking-wide uppercase shrink-0"
+        >
+          {item}
+          <span className="inline-block mx-10 text-sage-400/30">·</span>
+        </span>
+      ))}
+    </>
+  );
+
   return (
     <section
       ref={ref}
-      className={`py-5 sm:py-6 bg-sand-100/80 overflow-hidden transition-opacity duration-1000 ${
+      className={`py-4 bg-sand-100/80 overflow-hidden transition-opacity duration-1000 ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
-      <div className="flex animate-marquee whitespace-nowrap">
-        {[...items, ...items, ...items].map((item, i) => (
-          <span
-            key={i}
-            className="text-warmblack/25 text-sm font-sans font-medium tracking-wide uppercase shrink-0"
-          >
-            {item}
-            <span className="inline-block mx-10 text-sage-400/30">·</span>
-          </span>
-        ))}
+      <div className="flex animate-marquee w-max">
+        <div className="flex shrink-0">{marqueeContent}</div>
+        <div className="flex shrink-0" aria-hidden="true">{marqueeContent}</div>
       </div>
     </section>
   );

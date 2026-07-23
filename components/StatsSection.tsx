@@ -6,7 +6,7 @@ export default function StatsSection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="section-pad-tight">
+    <section ref={ref} className="py-5 sm:py-6">
       <div className="container-page">
         <div
           className={`flex items-center justify-center transition-all duration-700 ${

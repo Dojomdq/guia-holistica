@@ -56,7 +56,7 @@ export default function FacilitadoresDestacados() {
   const [first, ...rest] = destacados;
 
   return (
-    <section ref={ref} className="section-pad">
+    <section ref={ref} className="py-10 sm:py-14 lg:py-20">
       <div className="container-page">
         {/* Header */}
         <div

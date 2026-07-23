@@ -18,7 +18,7 @@ export default function MapaPreview() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="section-pad bg-sand-50/60">
+    <section ref={ref} className="py-8 sm:py-12 lg:py-16 bg-sand-50/60">
       <div className="container-wide">
         <div
           className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-end transition-all duration-700 ${
@@ -41,7 +41,7 @@ export default function MapaPreview() {
               El mapa
             </h2>
             <p className="text-[15px] text-warmblack/45 leading-relaxed mb-6">
-              Descubrí quién está cerca tuyo. Facilitadores distribuidos por Mar del Plata.
+              Explorá experiencias para tu bienestar.
             </p>
             <Link
               href="/mapa"
