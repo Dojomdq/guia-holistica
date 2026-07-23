@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import MarqueeBand from "@/components/MarqueeBand";
-import CategoriasPopulares from "@/components/CategoriasPopulares";
 import MapaPreview from "@/components/MapaPreview";
 import FacilitadoresDestacados from "@/components/FacilitadoresDestacados";
 import ParallaxBreak from "@/components/ParallaxBreak";
@@ -26,7 +25,6 @@ export default function Home() {
     <>
       <Hero />
       <MarqueeBand />
-      <CategoriasPopulares />
       <MapaPreview />
       <FacilitadoresDestacados />
       <ParallaxBreak />
