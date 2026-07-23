@@ -17,6 +17,7 @@ import {
   Heart,
   Sprout,
   CircleDashed,
+  PersonStanding,
   type LucideIcon,
 } from "lucide-react";
 
@@ -39,6 +40,7 @@ export const CATEGORY_ICONS: Record<string, LucideIcon> = {
   "limpieza-energetica": CircleDashed,
   "plantas-medicinales": Trees,
   "masajes-terapeuticos": Heart,
+  biodanza: PersonStanding,
 };
 
 export const CATEGORY_COLORS: Record<string, string> = {
@@ -60,6 +62,7 @@ export const CATEGORY_COLORS: Record<string, string> = {
   "limpieza-energetica": "bg-violet-50 border-violet-200 text-violet-700",
   "plantas-medicinales": "bg-lime-50 border-lime-200 text-lime-700",
   "masajes-terapeuticos": "bg-teal-50 border-teal-200 text-teal-700",
+  biodanza: "bg-rose-50 border-rose-200 text-rose-700",
 };
 
 export const CATEGORY_MARKER_COLORS: Record<string, string> = {
@@ -81,6 +84,7 @@ export const CATEGORY_MARKER_COLORS: Record<string, string> = {
   "limpieza-energetica": "#6d28d9",
   "plantas-medicinales": "#65a30d",
   "masajes-terapeuticos": "#0d9488",
+  biodanza: "#e11d48",
 };
 
 export function getCategoryIcon(slug: string): LucideIcon {

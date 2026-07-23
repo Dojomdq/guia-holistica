@@ -99,7 +99,8 @@ INSERT INTO categorias (nombre, slug, icono) VALUES
   ('Pranoterapia', 'pranoterapia', '🌬️'),
   ('Cacao Ceremonia', 'cacao-ceremonia', '🍫'),
   ('Sonidos y Vibraciones', 'sonidos-y-vibraciones', '🔔'),
-  ('Aromaterapia', 'aromaterapia', '🫧');
+  ('Aromaterapia', 'aromaterapia', '🫧'),
+  ('Biodanza', 'biodanza', '💃');
 
 -- ============================================
 -- SEED DATA: Actividades iniciales
