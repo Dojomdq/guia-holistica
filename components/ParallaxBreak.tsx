@@ -31,7 +31,7 @@ export default function ParallaxBreak() {
               : "opacity-0 translate-y-6"
           }`}
         >
-          Sanación holística
+          Bienestar corporal
           <br />
           <span className="text-sand-300/70">en Mar del Plata.</span>
         </p>
