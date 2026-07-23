@@ -19,30 +19,30 @@ export default function MarqueeBand() {
   return (
     <section
       ref={ref}
-      className={`py-8 sm:py-10 bg-warmblack overflow-hidden transition-all duration-1000 ${
+      className={`py-6 sm:py-8 bg-warmblack overflow-hidden transition-opacity duration-1000 ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
       <div className="relative flex">
-        <div className="animate-marquee flex items-center gap-8 whitespace-nowrap">
+        <div className="animate-marquee flex items-center gap-12 whitespace-nowrap">
           {[...items, ...items].map((item, i) => (
             <span
               key={i}
-              className="text-cream-400/70 text-sm sm:text-base font-serif italic tracking-wide"
+              className="text-white/20 text-sm font-sans font-medium tracking-wide uppercase"
             >
               {item}
-              <span className="inline-block mx-8 text-sage-500/50">•</span>
+              <span className="inline-block ml-12 text-sage-500/20">·</span>
             </span>
           ))}
         </div>
-        <div className="animate-marquee flex items-center gap-8 whitespace-nowrap absolute top-0 left-full">
+        <div className="animate-marquee flex items-center gap-12 whitespace-nowrap absolute top-0 left-full">
           {[...items, ...items].map((item, i) => (
             <span
               key={`dup-${i}`}
-              className="text-cream-400/70 text-sm sm:text-base font-serif italic tracking-wide"
+              className="text-white/20 text-sm font-sans font-medium tracking-wide uppercase"
             >
               {item}
-              <span className="inline-block mx-8 text-sage-500/50">•</span>
+              <span className="inline-block ml-12 text-sage-500/20">·</span>
             </span>
           ))}
         </div>

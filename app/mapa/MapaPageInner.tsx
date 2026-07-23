@@ -13,8 +13,8 @@ const MapaInteractivo = dynamic(() => import("@/components/MapaInteractivo"), {
   loading: () => (
     <div className="h-full bg-cream-100 flex items-center justify-center">
       <div className="text-center">
-        <MapPin className="h-12 w-12 text-cream-300 mx-auto animate-pulse" />
-        <p className="text-warmblack/30 mt-3 text-sm">Cargando mapa...</p>
+        <MapPin className="h-10 w-10 text-cream-300 mx-auto animate-pulse-subtle" />
+        <p className="text-warmblack/25 mt-3 text-[13px]">Cargando mapa...</p>
       </div>
     </div>
   ),
@@ -165,45 +165,45 @@ export default function MapaPageInner() {
   return (
     <div
       className="flex"
-      style={{ height: "calc(100vh - 72px)" }}
+      style={{ height: "calc(100vh - 64px)" }}
     >
+      {/* Sidebar */}
       <div
         className={`${
-          panelAbierto ? "w-[380px]" : "w-0"
-        } flex-shrink-0 bg-cream-100 border-r border-cream-300/60 flex flex-col transition-all duration-500 ease-out overflow-hidden`}
+          panelAbierto ? "w-[360px]" : "w-0"
+        } flex-shrink-0 bg-cream-100 border-r border-cream-200 flex flex-col transition-all duration-500 ease-out-expo overflow-hidden`}
       >
-        <div className="p-5 border-b border-cream-300/40">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="font-serif text-lg font-medium text-warmblack">
+        <div className="p-4 border-b border-cream-200/60">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="font-serif text-base font-medium text-warmblack tracking-tight">
               Facilitadores
             </h2>
-            <span className="text-xs text-warmblack/30">
-              {cargando
-                ? "..."
-                : `${facilitadoresFiltrados.length} resultados`}
+            <span className="text-[11px] text-warmblack/25 font-mono">
+              {cargando ? "..." : `${facilitadoresFiltrados.length}`}
             </span>
           </div>
 
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-warmblack/20" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-warmblack/20" />
             <input
               type="text"
               value={busqueda}
               onChange={(e) => handleBusqueda(e.target.value)}
               placeholder="chamanismo, yoga, reiki..."
-              className="input-premium pl-11 pr-10 py-3 text-sm"
+              className="input-field pl-10 pr-10 py-2.5 text-[13px]"
             />
             {busqueda && (
               <button
                 onClick={limpiarBusqueda}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-cream-200 transition-colors"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200 transition-colors"
               >
-                <X className="h-4 w-4 text-warmblack/30" />
+                <X className="h-3.5 w-3.5 text-warmblack/25" />
               </button>
             )}
           </div>
 
-          <div className="flex flex-wrap gap-1.5 mt-4">
+          {/* Category pills */}
+          <div className="flex flex-wrap gap-1 mt-3">
             {categorias.map((cat) => {
               const Icon = getCategoryIcon(cat.slug);
               const isActive =
@@ -214,13 +214,13 @@ export default function MapaPageInner() {
                   onClick={() =>
                     handleBusqueda(busqueda === cat.nombre ? "" : cat.nombre)
                   }
-                  className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-200 ${
                     isActive
                       ? "bg-warmblack text-white"
-                      : "bg-white/60 text-warmblack/50 hover:text-warmblack/70 border border-cream-300/50 hover:border-cream-400/60"
+                      : "bg-cream-200/50 text-warmblack/45 hover:text-warmblack/70 border border-cream-200 hover:border-cream-300"
                   }`}
                 >
-                  <Icon className="h-3 w-3" strokeWidth={1.5} />
+                  <Icon className="h-2.5 w-2.5" strokeWidth={1.5} />
                   {cat.nombre}
                 </button>
               );
@@ -228,38 +228,34 @@ export default function MapaPageInner() {
           </div>
         </div>
 
+        {/* List */}
         <div className="flex-1 overflow-y-auto">
           {cargando ? (
-            <div className="p-6 text-center">
-              <div className="animate-pulse space-y-3">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-3 p-3"
-                  >
-                    <div className="h-10 w-10 rounded-xl bg-cream-200" />
-                    <div className="flex-1 space-y-2">
-                      <div className="h-3 bg-cream-200 rounded w-2/3" />
-                      <div className="h-2 bg-cream-200 rounded w-1/2" />
-                    </div>
+            <div className="p-4 animate-pulse space-y-2">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="flex items-center gap-3 p-3 rounded-xl">
+                  <div className="h-9 w-9 rounded-lg bg-cream-200 shrink-0" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-3 bg-cream-200 rounded w-2/3" />
+                    <div className="h-2 bg-cream-200 rounded w-1/2" />
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           ) : facilitadoresFiltrados.length === 0 ? (
             <div className="p-8 text-center">
-              <p className="text-warmblack/30 text-sm">
-                No se encontraron facilitadores para &quot;{busqueda}&quot;
+              <p className="text-warmblack/25 text-[13px]">
+                No se encontraron facilitadores
               </p>
               <button
                 onClick={limpiarBusqueda}
-                className="mt-3 text-sage-600 text-sm font-medium hover:text-sage-700 transition-colors"
+                className="mt-2 text-sage-600 text-[13px] font-medium hover:text-sage-700 transition-colors"
               >
                 Limpiar búsqueda
               </button>
             </div>
           ) : (
-            <div className="divide-y divide-cream-300/40">
+            <div className="divide-y divide-cream-200/50">
               {facilitadoresFiltrados.map((f) => {
                 const Icon = getCategoryIcon(
                   f.actividades.length > 0 ? f.actividades[0].slug : ""
@@ -276,45 +272,45 @@ export default function MapaPageInner() {
                         facilitadorSeleccionado === f.id ? null : f.id
                       )
                     }
-                    className={`w-full p-4 text-left hover:bg-cream-200/50 transition-all duration-300 ${
+                    className={`w-full p-3.5 text-left hover:bg-cream-200/40 transition-all duration-200 ${
                       facilitadorSeleccionado === f.id
-                        ? "bg-cream-200/50"
+                        ? "bg-cream-200/40"
                         : ""
                     }`}
                   >
                     <div className="flex items-start gap-3">
                       <div
-                        className="flex h-10 w-10 items-center justify-center rounded-xl flex-shrink-0"
+                        className="flex h-9 w-9 items-center justify-center rounded-lg shrink-0"
                         style={{ backgroundColor: `${color}08` }}
                       >
                         <Icon
-                          className="h-5 w-5"
+                          className="h-4 w-4"
                           style={{ color }}
                           strokeWidth={1.5}
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-medium text-warmblack text-sm truncate">
+                        <h3 className="font-medium text-warmblack text-[13px] truncate">
                           {f.nombre}
                         </h3>
-                        <div className="flex flex-wrap gap-1 mt-1.5">
+                        <div className="flex flex-wrap gap-1 mt-1">
                           {f.actividades.map((a) => (
                             <span
                               key={a.id}
-                              className="px-2 py-0.5 bg-cream-200/60 text-warmblack/50 text-[11px] rounded-full"
+                              className="px-1.5 py-0.5 bg-cream-200/60 text-warmblack/40 text-[10px] rounded"
                             >
                               {a.nombre}
                             </span>
                           ))}
                         </div>
                         {f.direccion && (
-                          <p className="text-[11px] text-warmblack/30 mt-1.5 flex items-center gap-1">
-                            <MapPin className="h-3 w-3" />
+                          <p className="text-[11px] text-warmblack/25 mt-1 flex items-center gap-1">
+                            <MapPin className="h-2.5 w-2.5" />
                             {f.direccion}
                           </p>
                         )}
                       </div>
-                      <ChevronRight className="h-4 w-4 text-warmblack/15 flex-shrink-0 mt-1" />
+                      <ChevronRight className="h-3.5 w-3.5 text-warmblack/10 shrink-0 mt-1" />
                     </div>
                   </button>
                 );
@@ -324,19 +320,21 @@ export default function MapaPageInner() {
         </div>
       </div>
 
+      {/* Toggle */}
       <button
         onClick={() => setPanelAbierto(!panelAbierto)}
-        className="absolute top-24 z-[1000] bg-cream-100 border border-cream-300/60 rounded-r-xl p-2 shadow-soft hover:bg-cream-200 transition-all duration-300"
-        style={{ left: panelAbierto ? "380px" : "0px" }}
+        className="absolute top-[88px] z-[1000] bg-cream-100 border border-cream-200 rounded-r-lg p-1.5 shadow-soft hover:bg-cream-200 transition-all duration-300"
+        style={{ left: panelAbierto ? "360px" : "0px" }}
         aria-label={panelAbierto ? "Cerrar panel" : "Abrir panel"}
       >
         <ChevronRight
-          className={`h-4 w-4 text-warmblack/30 transition-transform duration-300 ${
+          className={`h-3.5 w-3.5 text-warmblack/25 transition-transform duration-300 ${
             panelAbierto ? "rotate-180" : ""
           }`}
         />
       </button>
 
+      {/* Map */}
       <div className="flex-1 relative">
         <MapaInteractivo
           facilitadores={facilitadoresEnMapa}

@@ -11,11 +11,11 @@ const config: Config = {
       colors: {
         cream: {
           50: "#fdfcfa",
-          100: "#faf9f7",
-          200: "#f5f3ef",
-          300: "#ede9e3",
-          400: "#e2dcd3",
-          500: "#d4cbc0",
+          100: "#f9f7f4",
+          200: "#f2efe9",
+          300: "#e8e3da",
+          400: "#d9d1c4",
+          500: "#c9bdae",
         },
         sage: {
           50: "#f4f7f5",
@@ -42,6 +42,7 @@ const config: Config = {
           800: "#745744",
           900: "#5f483a",
         },
+        ink: "#0f0e0c",
         warmblack: {
           DEFAULT: "#1a1714",
           50: "#f7f6f5",
@@ -58,98 +59,78 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        serif: ["var(--font-serif)", "Georgia", "serif"],
+        sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
+        serif: ["var(--font-playfair)", "Georgia", "serif"],
+        mono: ["var(--font-dm-mono)", "Menlo", "monospace"],
+      },
+      fontSize: {
+        "display-xl": ["clamp(2.5rem, 6vw, 5rem)", { lineHeight: "1.05", letterSpacing: "-0.03em", fontWeight: "500" }],
+        "display-lg": ["clamp(2rem, 4vw, 3.5rem)", { lineHeight: "1.1", letterSpacing: "-0.025em", fontWeight: "500" }],
+        "display-md": ["clamp(1.5rem, 3vw, 2.25rem)", { lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "500" }],
+        "body-lg": ["1.125rem", { lineHeight: "1.65" }],
+        "body": ["1rem", { lineHeight: "1.65" }],
+        "body-sm": ["0.875rem", { lineHeight: "1.6" }],
+        "caption": ["0.75rem", { lineHeight: "1.5" }],
+        "overline": ["0.6875rem", { lineHeight: "1.4", letterSpacing: "0.12em" }],
+      },
+      spacing: {
+        "18": "4.5rem",
+        "22": "5.5rem",
+        "26": "6.5rem",
+        "30": "7.5rem",
       },
       borderRadius: {
         "4xl": "2rem",
         "5xl": "2.5rem",
       },
       animation: {
-        "fade-in": "fadeIn 0.8s ease-out forwards",
-        "fade-in-up": "fadeInUp 0.8s ease-out forwards",
-        "fade-in-down": "fadeInDown 0.6s ease-out forwards",
-        "fade-in-left": "fadeInLeft 0.8s ease-out forwards",
-        "fade-in-right": "fadeInRight 0.8s ease-out forwards",
-        "scale-in": "scaleIn 0.6s ease-out forwards",
-        "slide-up": "slideUp 0.6s ease-out forwards",
-        float: "float 6s ease-in-out infinite",
-        "pulse-soft": "pulseSoft 4s ease-in-out infinite",
-        "word-rotate": "wordRotate 18s ease-in-out infinite",
-        "shimmer": "shimmer 2s linear infinite",
-        "marquee": "marquee 25s linear infinite",
-        "text-reveal": "textReveal 1s ease-out forwards",
-        "magnetic": "magnetic 0.3s ease-out forwards",
+        "fade-in": "fadeIn 0.6s ease-out forwards",
+        "fade-up": "fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "scale-in": "scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "slide-in-left": "slideInLeft 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+        "marquee": "marquee 30s linear infinite",
+        "pulse-subtle": "pulseSubtle 4s ease-in-out infinite",
+        "float": "float 6s ease-in-out infinite",
       },
       keyframes: {
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
-        fadeInUp: {
-          "0%": { opacity: "0", transform: "translateY(30px)" },
+        fadeUp: {
+          "0%": { opacity: "0", transform: "translateY(24px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        fadeInDown: {
-          "0%": { opacity: "0", transform: "translateY(-20px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        fadeInLeft: {
-          "0%": { opacity: "0", transform: "translateX(-30px)" },
-          "100%": { opacity: "1", transform: "translateX(0)" },
-        },
-        fadeInRight: {
-          "0%": { opacity: "0", transform: "translateX(30px)" },
-          "100%": { opacity: "1", transform: "translateX(0)" },
         },
         scaleIn: {
-          "0%": { opacity: "0", transform: "scale(0.95)" },
+          "0%": { opacity: "0", transform: "scale(0.96)" },
           "100%": { opacity: "1", transform: "scale(1)" },
         },
-        slideUp: {
-          "0%": { transform: "translateY(100%)" },
-          "100%": { transform: "translateY(0)" },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-12px)" },
-        },
-        pulseSoft: {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.7" },
-        },
-        wordRotate: {
-          "0%, 20%": { transform: "translateY(0)" },
-          "25%, 45%": { transform: "translateY(-100%)" },
-          "50%, 70%": { transform: "translateY(-200%)" },
-          "75%, 95%": { transform: "translateY(-300%)" },
-          "100%": { transform: "translateY(0)" },
-        },
-        shimmer: {
-          "0%": { transform: "translateX(-100%)" },
-          "100%": { transform: "translateX(100%)" },
+        slideInLeft: {
+          "0%": { opacity: "0", transform: "translateX(-24px)" },
+          "100%": { opacity: "1", transform: "translateX(0)" },
         },
         marquee: {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
         },
-        textReveal: {
-          "0%": { transform: "translateY(100%)", opacity: "0" },
-          "100%": { transform: "translateY(0)", opacity: "1" },
+        pulseSubtle: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.6" },
         },
-        magnetic: {
-          "0%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.05)" },
-          "100%": { transform: "scale(1)" },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-8px)" },
         },
       },
       boxShadow: {
-        soft: "0 2px 15px -3px rgba(0, 0, 0, 0.04), 0 10px 20px -2px rgba(0, 0, 0, 0.02)",
-        medium:
-          "0 4px 25px -5px rgba(0, 0, 0, 0.06), 0 10px 30px -5px rgba(0, 0, 0, 0.03)",
-        large:
-          "0 10px 50px -12px rgba(0, 0, 0, 0.08), 0 20px 40px -10px rgba(0, 0, 0, 0.04)",
-        glow: "0 0 40px -10px rgba(93, 138, 110, 0.3)",
+        "soft": "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03)",
+        "medium": "0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04)",
+        "large": "0 4px 16px rgba(0,0,0,0.08), 0 16px 48px rgba(0,0,0,0.06)",
+        "glow": "0 0 48px -12px rgba(93, 138, 110, 0.25)",
+        "glow-lg": "0 0 80px -16px rgba(93, 138, 110, 0.35)",
+      },
+      transitionTimingFunction: {
+        "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
       },
     },
   },

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Inicio" },
@@ -23,7 +23,7 @@ export default function Header() {
   const pathname = usePathname();
 
   const handleScroll = useCallback(() => {
-    setScrolled(window.scrollY > 40);
+    setScrolled(window.scrollY > 60);
   }, []);
 
   useEffect(() => {
@@ -37,50 +37,28 @@ export default function Header() {
   }, [pathname]);
 
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-cream-100/80 backdrop-blur-2xl border-b border-cream-300/40 shadow-soft"
+            ? "bg-cream-100/85 backdrop-blur-xl border-b border-cream-200/60"
             : "bg-transparent"
         }`}
       >
         <div className="container-wide">
-          <div className="flex h-18 lg:h-20 items-center justify-between">
+          <div className="flex h-16 lg:h-[72px] items-center justify-between">
             <Link
               href="/"
-              className="flex items-center gap-2.5 group"
+              className="flex items-center gap-2 group"
               aria-label="Guía Holística - Inicio"
             >
-              <div className="w-8 h-8 rounded-full bg-sage-600 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="white"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M11 20A7 7 0 0 1 9.8 6.9C15.5 4.9 17 3.5 19 2c1 2 2 4.5 1 8-1 3.5-3.5 5.5-6 7" />
-                  <path d="M11.7 10.9c.9-1 1.8-1.7 3.3-2.4" />
-                  <path d="M11 20v-8" />
-                </svg>
-              </div>
               <span
-                className={`text-lg font-serif font-semibold tracking-tight transition-colors duration-300 ${
+                className={`font-serif text-lg tracking-tight transition-colors duration-500 ${
                   scrolled ? "text-warmblack" : "text-white"
                 }`}
               >
@@ -99,14 +77,22 @@ export default function Header() {
                     key={link.href}
                     href={link.href}
                     aria-current={active ? "page" : undefined}
-                    className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full ${
+                    className={`relative px-4 py-2 text-[13px] font-medium transition-all duration-300 ${
                       active
-                        ? "text-sage-700"
-                        : "text-warmblack/50 hover:text-warmblack/80"
+                        ? scrolled
+                          ? "text-warmblack"
+                          : "text-white"
+                        : scrolled
+                          ? "text-warmblack/45 hover:text-warmblack/75"
+                          : "text-white/50 hover:text-white/85"
                     }`}
                   >
                     {active && (
-                      <span className="absolute inset-0 bg-sage-50 rounded-full -z-10" />
+                      <span
+                        className={`absolute inset-x-2 -inset-y-0.5 rounded-full -z-10 transition-colors duration-300 ${
+                          scrolled ? "bg-cream-200/70" : "bg-white/10"
+                        }`}
+                      />
                     )}
                     {link.label}
                   </Link>
@@ -114,70 +100,101 @@ export default function Header() {
               })}
             </nav>
 
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className={`lg:hidden p-2.5 rounded-full transition-all duration-300 ${
-                mobileOpen
-                  ? "bg-warmblack text-white"
-                  : "bg-cream-200/80 text-warmblack hover:bg-cream-300"
-              }`}
-              aria-expanded={mobileOpen}
-              aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
-            >
-              {mobileOpen ? (
-                <X className="h-5 w-5" strokeWidth={1.5} />
-              ) : (
-                <Menu className="h-5 w-5" strokeWidth={1.5} />
-              )}
-            </button>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/mapa"
+                className={`hidden sm:inline-flex btn text-[13px] px-5 py-2 ${
+                  scrolled
+                    ? "bg-warmblack text-white hover:bg-warmblack/85"
+                    : "bg-white/15 text-white backdrop-blur-sm border border-white/15 hover:bg-white/25"
+                }`}
+              >
+                Explorar mapa
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </Link>
+
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className={`lg:hidden p-2 rounded-lg transition-colors duration-300 ${
+                  mobileOpen
+                    ? "bg-warmblack text-white"
+                    : scrolled
+                      ? "text-warmblack hover:bg-cream-200/60"
+                      : "text-white hover:bg-white/10"
+                }`}
+                aria-expanded={mobileOpen}
+                aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+              >
+                {mobileOpen ? (
+                  <X className="h-5 w-5" strokeWidth={1.5} />
+                ) : (
+                  <Menu className="h-5 w-5" strokeWidth={1.5} />
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
+      {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 z-40 lg:hidden transition-all duration-500 ${
-          mobileOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${
+          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
         <div
-          className="absolute inset-0 bg-warmblack/20 backdrop-blur-sm"
+          className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
           onClick={() => setMobileOpen(false)}
         />
         <nav
-          className={`absolute top-0 left-0 right-0 bg-cream-100/95 backdrop-blur-2xl border-b border-cream-300/40 transition-all duration-500 ease-out ${
+          className={`absolute top-0 left-0 right-0 bg-cream-100 border-b border-cream-200 transition-all duration-500 ease-out-expo ${
             mobileOpen ? "translate-y-0" : "-translate-y-full"
           }`}
           aria-label="Navegación principal"
         >
-          <div className="container-wide pt-24 pb-8 space-y-1">
-            {navLinks.map((link, i) => {
-              const active = isActive(link.href, pathname);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  aria-current={active ? "page" : undefined}
-                  className={`block px-4 py-3.5 text-lg font-medium rounded-2xl transition-all duration-300 ${
-                    active
-                      ? "bg-sage-50 text-sage-700"
-                      : "text-warmblack/50 hover:text-warmblack hover:bg-cream-200"
-                  }`}
-                  style={{
-                    transitionDelay: mobileOpen ? `${i * 60}ms` : "0ms",
-                  }}
-                >
-                  {link.label}
-                </Link>
-              );
-            })}
+          <div className="container-wide pt-20 pb-6">
+            <div className="space-y-0.5">
+              {navLinks.map((link, i) => {
+                const active = isActive(link.href, pathname);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    aria-current={active ? "page" : undefined}
+                    className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-[15px] font-medium transition-all duration-300 ${
+                      active
+                        ? "bg-warmblack text-white"
+                        : "text-warmblack/60 hover:text-warmblack hover:bg-cream-200/50"
+                    }`}
+                    style={{
+                      transitionDelay: mobileOpen ? `${i * 40}ms` : "0ms",
+                      opacity: mobileOpen ? 1 : 0,
+                      transform: mobileOpen ? "translateY(0)" : "translateY(8px)",
+                    }}
+                  >
+                    {link.label}
+                    <ArrowUpRight className="h-4 w-4 opacity-30" />
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div className="mt-4 px-4">
+              <Link
+                href="/mapa"
+                onClick={() => setMobileOpen(false)}
+                className="btn-sage w-full text-center"
+              >
+                Explorar mapa
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
         </nav>
       </div>
 
-      <div className="h-18 lg:h-20" />
+      <div className="h-16 lg:h-[72px]" />
     </>
   );
 }

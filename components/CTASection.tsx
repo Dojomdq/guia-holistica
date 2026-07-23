@@ -1,56 +1,55 @@
 "use client";
 
 import { useScrollReveal } from "@/lib/useScrollReveal";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function CTASection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="section-padding relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-sage-900 via-sage-800 to-warmblack" />
-      <div className="absolute inset-0 opacity-[0.03]">
+    <section ref={ref} className="relative overflow-hidden bg-sage-900">
+      {/* Subtle pattern */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
         <svg width="100%" height="100%">
           <defs>
-            <pattern
-              id="dots"
-              x="0"
-              y="0"
-              width="24"
-              height="24"
-              patternUnits="userSpaceOnUse"
-            >
+            <pattern id="cta-dots" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
               <circle cx="1" cy="1" r="1" fill="white" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#dots)" />
+          <rect width="100%" height="100%" fill="url(#cta-dots)" />
         </svg>
       </div>
-      <div className="absolute top-0 right-0 w-96 h-96 bg-sage-400/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-sand-400/10 rounded-full blur-3xl" />
+
+      {/* Gradient orbs */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-sage-400/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-sand-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div
-        className={`relative container-page text-center transition-all duration-700 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        className={`relative section-pad transition-all duration-700 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
         }`}
       >
-        <span className="section-label justify-center text-sage-300 before:bg-sage-300">
-          Sumate
-        </span>
-        <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-white mt-6 mb-6 tracking-tight">
-          ¿Sos facilitador?
-        </h2>
-        <p className="text-sage-200/70 text-lg sm:text-xl mb-12 max-w-lg mx-auto leading-relaxed font-light">
-          Que miles de personas te encuentren. Unite a la comunidad de
-          facilitadores más grande de Mar del Plata.
-        </p>
-        <a
-          href="mailto:contacto@guiaholistica.com.ar"
-          className="inline-flex items-center gap-3 bg-white text-sage-900 px-8 py-4 rounded-full font-medium hover:bg-cream-100 transition-all duration-300 hover:shadow-glow hover:-translate-y-0.5 text-sm group magnetic-btn"
-        >
-          Escribinos
-          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-        </a>
+        <div className="container-page text-center">
+          <span className="label-light justify-center inline-flex items-center gap-2 mb-6">
+            <span className="w-6 h-px bg-sage-400/40" />
+            Sumate
+            <span className="w-6 h-px bg-sage-400/40" />
+          </span>
+          <h2 className="font-serif text-[clamp(2rem,5vw,3.5rem)] leading-[1.1] tracking-[-0.025em] text-white mb-6">
+            ¿Sos facilitador?
+          </h2>
+          <p className="text-sage-200/60 text-body-lg mb-10 max-w-md mx-auto leading-relaxed">
+            Que miles de personas te encuentren. Unite a la comunidad de
+            facilitadores más grande de Mar del Plata.
+          </p>
+          <a
+            href="mailto:contacto@guiaholistica.com.ar"
+            className="btn-white group"
+          >
+            Escribinos
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+        </div>
       </div>
     </section>
   );
