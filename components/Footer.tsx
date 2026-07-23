@@ -1,6 +1,27 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase/client";
+
+interface Categoria {
+  nombre: string;
+  slug: string;
+}
 
 export default function Footer() {
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("categorias")
+      .select("nombre, slug")
+      .order("nombre")
+      .then(({ data }) => {
+        if (data) setCategorias(data);
+      });
+  }, []);
+
   return (
     <footer className="bg-warmblack">
       <div className="container-wide py-16 sm:py-20">
@@ -45,18 +66,13 @@ export default function Footer() {
               Actividades
             </h3>
             <ul className="space-y-3">
-              {[
-                { href: "/mapa?q=yoga", label: "Yoga" },
-                { href: "/mapa?q=reiki", label: "Reiki" },
-                { href: "/mapa?q=meditacion", label: "Meditación" },
-                { href: "/mapa?q=chamanismo", label: "Chamanismo" },
-              ].map((link) => (
-                <li key={link.href}>
+              {categorias.map((cat) => (
+                <li key={cat.slug}>
                   <Link
-                    href={link.href}
+                    href={`/mapa?q=${cat.slug}`}
                     className="text-[13px] text-white/45 hover:text-white/80 transition-colors duration-300"
                   >
-                    {link.label}
+                    {cat.nombre}
                   </Link>
                 </li>
               ))}
@@ -85,7 +101,7 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Guía Holística
           </span>
           <span className="text-[11px] text-white/20 font-mono">
-            Sanación holística en Mar del Plata
+            Bienestar corporal en Mar del Plata
           </span>
         </div>
       </div>
