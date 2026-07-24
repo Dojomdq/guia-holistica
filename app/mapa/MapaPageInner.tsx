@@ -71,6 +71,7 @@ export default function MapaPageInner() {
   const initialQuery = searchParams.get("q") || "";
 
   const [busqueda, setBusqueda] = useState(initialQuery);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<string | null>(null);
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<
     string | null
   >(null);
@@ -114,32 +115,47 @@ export default function MapaPageInner() {
   }, []);
 
   const facilitadoresFiltrados = useMemo(() => {
-    if (!busqueda.trim()) return todosFacilitadores;
+    let results = todosFacilitadores;
 
-    const q = normalizeText(busqueda.trim());
-    return todosFacilitadores.filter((f) => {
-      const matchActividad = f.actividades.some(
-        (a) =>
-          normalizeText(a.nombre).includes(q) ||
-          normalizeText(a.slug).includes(q)
-      );
-      const matchCategoria = categorias.some(
-        (c) =>
-          normalizeText(c.nombre).includes(q) &&
-          f.actividades.some((a) => {
-            const catSlug = c.slug;
-            return (
-              normalizeText(a.slug).includes(catSlug) ||
-              normalizeText(a.nombre).includes(q)
-            );
-          })
-      );
-      const matchNombre = normalizeText(f.nombre).includes(q);
-      const matchBio = f.bio ? normalizeText(f.bio).includes(q) : false;
+    if (busqueda.trim()) {
+      const q = normalizeText(busqueda.trim());
+      results = results.filter((f) => {
+        const matchActividad = f.actividades.some(
+          (a) =>
+            normalizeText(a.nombre).includes(q) ||
+            normalizeText(a.slug).includes(q)
+        );
+        const matchCategoria = categorias.some(
+          (c) =>
+            normalizeText(c.nombre).includes(q) &&
+            f.actividades.some((a) => {
+              const catSlug = c.slug;
+              return (
+                normalizeText(a.slug).includes(catSlug) ||
+                normalizeText(a.nombre).includes(q)
+              );
+            })
+        );
+        const matchNombre = normalizeText(f.nombre).includes(q);
+        const matchBio = f.bio ? normalizeText(f.bio).includes(q) : false;
 
-      return matchActividad || matchCategoria || matchNombre || matchBio;
-    });
-  }, [busqueda, todosFacilitadores, categorias]);
+        return matchActividad || matchCategoria || matchNombre || matchBio;
+      });
+    }
+
+    if (categoriaSeleccionada) {
+      const catSlug = normalizeText(categoriaSeleccionada);
+      results = results.filter((f) =>
+        f.actividades.some(
+          (a) =>
+            normalizeText(a.slug).includes(catSlug) ||
+            normalizeText(a.nombre).includes(catSlug)
+        )
+      );
+    }
+
+    return results;
+  }, [busqueda, categoriaSeleccionada, todosFacilitadores, categorias]);
 
   const handleBusqueda = useCallback(
     (value: string) => {
@@ -336,6 +352,37 @@ export default function MapaPageInner() {
 
       {/* Map */}
       <div className="flex-1 relative">
+        {/* Category filter bar */}
+        <div className="absolute top-3 left-3 right-3 z-[1000] flex flex-wrap gap-2 justify-center">
+          <button
+            onClick={() => setCategoriaSeleccionada(null)}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow-soft ${
+              !categoriaSeleccionada
+                ? "bg-warmblack text-white"
+                : "bg-white/90 text-warmblack/60 hover:bg-white hover:text-warmblack border border-cream-200"
+            }`}
+          >
+            Todas
+          </button>
+          {categorias.map((cat) => {
+            const isActive = normalizeText(categoriaSeleccionada || "") === normalizeText(cat.nombre);
+            return (
+              <button
+                key={cat.slug}
+                onClick={() =>
+                  setCategoriaSeleccionada(isActive ? null : cat.nombre)
+                }
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow-soft ${
+                  isActive
+                    ? "bg-warmblack text-white"
+                    : "bg-white/90 text-warmblack/60 hover:bg-white hover:text-warmblack border border-cream-200"
+                }`}
+              >
+                {cat.nombre}
+              </button>
+            );
+          })}
+        </div>
         <MapaInteractivo
           facilitadores={facilitadoresEnMapa}
           seleccionado={facilitadorSeleccionado}
