@@ -14,8 +14,8 @@ export default function PopupFacilitadores() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4 animate-in fade-in duration-300">
-      <div className="bg-gradient-to-br from-cream to-sage/20 rounded-2xl max-w-md w-full p-8 shadow-2xl relative border border-sage/30">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
+      <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-sage/30 relative">
         <button
           onClick={() => setIsOpen(false)}
           className="absolute top-3 right-3 text-warmblack/40 hover:text-warmblack transition"
