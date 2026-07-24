@@ -14,8 +14,8 @@ export default function PopupFacilitadores() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-      <div className="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl border border-sage/30 relative">
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
+      <div className="bg-gradient-to-br from-cream to-sage/20 rounded-2xl max-w-md w-full p-8 shadow-2xl border border-sage/30 relative">
         <button
           onClick={() => setIsOpen(false)}
           className="absolute top-3 right-3 text-warmblack/40 hover:text-warmblack transition"
@@ -32,7 +32,7 @@ export default function PopupFacilitadores() {
           </span>
         </div>
 
-        <h3 className="text-2xl font-display text-warmblack mb-3 leading-tight">
+        <h3 className="text-3xl font-display text-clay mb-3 leading-tight">
           ¿Te gustaría que los usuarios te encuentren en este mapa?
         </h3>
 
@@ -44,8 +44,9 @@ export default function PopupFacilitadores() {
           href="https://wa.me/5492235742540?text=Hola%20quiero%20sumar%20mi%20perfil%20a%20la%20Guía%20de%20Bienestar"
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full text-center bg-clay text-white py-3.5 rounded-xl hover:bg-clay/80 transition font-medium shadow-md hover:shadow-lg"
+          className="flex items-center justify-center gap-2 w-full text-center bg-clay text-white py-3.5 rounded-xl hover:bg-clay/90 transition font-medium shadow-md hover:shadow-lg border-t-2 border-clay/30"
         >
+          <MapPin className="h-5 w-5" />
           Sumarme ahora
         </a>
 
