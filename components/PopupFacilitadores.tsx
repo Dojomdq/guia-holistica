@@ -18,26 +18,26 @@ export default function PopupFacilitadores() {
       <div className="bg-[#F5F0E8] rounded-2xl max-w-md w-full p-8 shadow-2xl border border-sage/30 relative">
         <button
           onClick={() => setIsOpen(false)}
-          className="absolute top-3 right-3 text-warmblack/40 hover:text-warmblack transition"
+          className="absolute top-3 right-3 text-warmblack/50 hover:text-warmblack transition"
         >
           <X className="h-6 w-6" />
         </button>
 
         <div className="flex items-center gap-3 mb-4">
-          <div className="bg-clay/10 p-3 rounded-full">
+          <div className="bg-clay/15 p-3 rounded-full">
             <MapPin className="h-6 w-6 text-clay" />
           </div>
-          <span className="text-xs font-medium text-clay/80 uppercase tracking-wider">
+          <span className="text-xs font-semibold text-clay uppercase tracking-wider">
             Visibilidad
           </span>
         </div>
 
-        <h3 className="text-3xl font-display text-clay mb-3 leading-tight">
+        <h3 className="text-3xl font-display text-warmblack mb-3 leading-tight font-bold">
           ¿Te gustaría que los usuarios te encuentren en este mapa?
         </h3>
 
-        <p className="text-warmblack/80 text-sm mb-6 leading-relaxed">
-          Sumá tu perfil gratis y aparecé en el directorio de bienestar de Mar del Plata. Miles de personas buscan tu ayuda.
+        <p className="text-warmblack/80 text-base mb-6 leading-relaxed">
+          Sumá tu perfil y aparecé en el directorio de bienestar de Mar del Plata. Miles de personas buscan tu ayuda.
         </p>
 
         <a
@@ -50,7 +50,7 @@ export default function PopupFacilitadores() {
         </a>
 
         <p className="text-center text-xs text-warmblack/40 mt-4">
-          ⚡ Sin costo • 1 minuto
+          ⚡ 1 minuto
         </p>
       </div>
     </div>
