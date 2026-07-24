@@ -44,7 +44,7 @@ export default function PopupFacilitadores() {
           href="https://wa.me/5492235742540?text=Hola%20quiero%20sumar%20mi%20perfil%20a%20la%20Guía%20de%20Bienestar"
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full text-center bg-clay text-white py-4 rounded-xl hover:bg-clay/90 transition font-semibold shadow-lg hover:shadow-xl text-lg tracking-wide"
+          className="block w-full text-center bg-clay text-warmblack py-4 rounded-xl hover:bg-clay/90 transition font-semibold shadow-lg hover:shadow-xl text-lg tracking-wide"
         >
           Sumarme ahora <Sparkles className="inline h-5 w-5 ml-2" />
         </a>
