@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { Search, X, MapPin, ChevronRight, SlidersHorizontal } from "lucide-react";
+import { Search, X, MapPin, ChevronRight, Filter } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 import type { FacilitadorConActividades } from "@/lib/types";
