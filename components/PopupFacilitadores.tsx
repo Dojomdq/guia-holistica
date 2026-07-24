@@ -32,7 +32,7 @@ export default function PopupFacilitadores() {
           </span>
         </div>
 
-        <h3 className="text-3xl font-display text-warmblack mb-3 leading-tight font-bold">
+        <h3 className="text-3xl font-display text-clay mb-3 leading-tight font-bold">
           ¿Te gustaría que los usuarios te encuentren en este mapa?
         </h3>
 
@@ -44,9 +44,9 @@ export default function PopupFacilitadores() {
           href="https://wa.me/5492235742540?text=Hola%20quiero%20sumar%20mi%20perfil%20a%20la%20Guía%20de%20Bienestar"
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full text-center bg-clay text-white py-4 rounded-xl hover:bg-clay/90 transition font-medium shadow-md hover:shadow-lg text-base"
+          className="block w-full text-center bg-clay text-white py-4 rounded-xl hover:bg-clay/90 transition font-semibold shadow-lg hover:shadow-xl text-lg tracking-wide"
         >
-          Sumarme ahora <Sparkles className="inline h-4 w-4 ml-2" />
+          Sumarme ahora <Sparkles className="inline h-5 w-5 ml-2" />
         </a>
 
         <p className="text-center text-xs text-warmblack/40 mt-4">
