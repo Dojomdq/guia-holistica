@@ -197,7 +197,7 @@ export default function MapaPageInner() {
 
           {/* Filter buttons */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
-            <SlidersHorizontal className="h-3.5 w-3.5 text-warmblack/20 shrink-0" />
+            <Filter className="h-3.5 w-3.5 text-warmblack/20 shrink-0" />
             {FILTROS.map((f) => {
               const isActive =
                 f.slug === null
