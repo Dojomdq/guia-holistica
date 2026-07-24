@@ -6,7 +6,7 @@ import ParallaxBreak from "@/components/ParallaxBreak";
 import CTASection from "@/components/CTASection";
 
 export const metadata: Metadata = {
-  title: "Guía Holística Mar del Plata | Encontrá tu Camino Holístico",
+  title: "Directorio de Bienestar en Mar del Plata | Encontrá Terapeutas, Yoga y Reiki",
   description:
     "Encontrá facilitadores, terapeutas y guías holísticos en Mar del Plata. Mapa interactivo con chamanismo, yoga, reiki, meditación, tarot y más. Conectá con tu sanación.",
   openGraph: {

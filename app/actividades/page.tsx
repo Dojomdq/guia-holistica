@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ActividadesContent from "./ActividadesContent";
 
 export const metadata: Metadata = {
-  title: "Actividades Holísticas",
+  title: "Yoga, Reiki, Meditación y más | Actividades de Bienestar en Mar del Plata",
   description:
     "Explorá todas las actividades holísticas disponibles en Mar del Plata: chamanismo, yoga, reiki, meditación, tarot, astrología, sanación energética y más. Encontrá la que necesitás.",
   openGraph: {

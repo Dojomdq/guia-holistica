@@ -41,14 +41,14 @@ export default function MapaPreview() {
               El mapa
             </h2>
             <p className="text-[15px] text-warmblack/45 leading-relaxed mb-6">
-              Explorá experiencias para tu bienestar.
+              Mirá en el mapa dónde están los facilitadores y encontrá el más cercano a vos.
             </p>
             <Link
               href="/mapa"
               className="btn-dark group"
             >
               <MapPin className="h-4 w-4" />
-              Abrir mapa
+              Explorá el mapa completo
               <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>

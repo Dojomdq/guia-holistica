@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import FacilitadoresContent from "./FacilitadoresContent";
 
 export const metadata: Metadata = {
-  title: "Facilitadores Holísticos",
+  title: "Terapeutas y Facilitadores Holísticos en Mar del Plata | Directorio con Mapa",
   description:
     "Conocé a los facilitadores, terapeutas y guías holísticos de Mar del Plata. Filtrá por actividad, buscá por nombre y descubrí sus servicios.",
   openGraph: {

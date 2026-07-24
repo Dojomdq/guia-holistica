@@ -71,16 +71,16 @@ export default function Hero() {
             >
               Encontrá tu
               <br />
-              <span>camino al bienestar</span>
+              <span>camino al bienestar en Mar del Plata</span>
             </h1>
 
             <p
-              className={`text-white/55 text-base sm:text-lg max-w-md leading-relaxed mb-5 md:mb-6 transition-all duration-700 delay-200 ${
+              className={`text-white/55 text-base sm:text-lg max-w-2xl leading-relaxed mb-5 md:mb-6 transition-all duration-700 delay-200 ${
                 loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
-              Facilitadores, terapeutas y guías de sanación
-              en un solo lugar.
+              Directorio de terapeutas, coaches y facilitadores de bienestar.
+              Buscá, filtrá y contactá al profesional ideal para vos.
             </p>
 
             {/* Search */}

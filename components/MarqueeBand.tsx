@@ -36,6 +36,7 @@ export default function MarqueeBand() {
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
+      <h2 className="text-2xl font-display text-warmblack text-center mb-4">Explorá por actividad</h2>
       <div className="flex animate-marquee w-max">
         <div className="flex shrink-0">{marqueeContent}</div>
         <div className="flex shrink-0" aria-hidden="true">{marqueeContent}</div>
