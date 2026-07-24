@@ -4,34 +4,13 @@ import { useState, useEffect } from "react";
 import { Search, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const rotatingWords = [
-  "Bienestar",
-  "Transformación",
-  "Conexión",
-  "Conciencia",
-  "Armonía",
-];
-
 export default function Hero() {
   const [search, setSearch] = useState("");
-  const [wordIndex, setWordIndex] = useState(0);
-  const [fading, setFading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     setLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    const id = setInterval(() => {
-      setFading(true);
-      setTimeout(() => {
-        setWordIndex((i) => (i + 1) % rotatingWords.length);
-        setFading(false);
-      }, 350);
-    }, 3000);
-    return () => clearInterval(id);
   }, []);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -92,19 +71,7 @@ export default function Hero() {
             >
               Encontrá tu
               <br />
-              <span className="relative inline-block h-[1.1em] align-bottom">
-                <span className="invisible" aria-hidden="true">
-                  Transformación
-                </span>
-                <span
-                  className={`absolute left-0 bottom-0 whitespace-nowrap transition-opacity duration-300 ${
-                    fading ? "opacity-0" : "opacity-100"
-                  }`}
-                  aria-live="polite"
-                >
-                  {rotatingWords[wordIndex]}
-                </span>
-              </span>
+              <span>camino al bienestar</span>
             </h1>
 
             <p
