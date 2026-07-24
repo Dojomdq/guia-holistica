@@ -199,48 +199,56 @@ export default function MapaPageInner() {
             </span>
           </div>
 
-          <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-warmblack/20" />
-            <input
-              type="text"
-              value={busqueda}
-              onChange={(e) => handleBusqueda(e.target.value)}
-              placeholder="chamanismo, yoga, reiki..."
-              className="input-field pl-10 pr-10 py-2.5 text-[13px]"
-            />
-            {busqueda && (
-              <button
-                onClick={limpiarBusqueda}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200 transition-colors"
-              >
-                <X className="h-3.5 w-3.5 text-warmblack/25" />
-              </button>
-            )}
-          </div>
-
-          {/* Category pills */}
-          <div className="flex flex-wrap gap-1 mt-3">
-            {categorias.map((cat) => {
-              const Icon = getCategoryIcon(cat.slug);
-              const isActive =
-                normalizeText(busqueda) === normalizeText(cat.nombre);
-              return (
+          {/* Unified search + filters bar */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            <div className="relative flex-1 min-w-0">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-warmblack/20" />
+              <input
+                type="text"
+                value={busqueda}
+                onChange={(e) => handleBusqueda(e.target.value)}
+                placeholder="Buscar..."
+                className="input-field pl-10 pr-10 py-2.5 text-[13px] w-full"
+              />
+              {busqueda && (
                 <button
-                  key={cat.slug}
-                  onClick={() =>
-                    handleBusqueda(busqueda === cat.nombre ? "" : cat.nombre)
-                  }
-                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-200 ${
-                    isActive
-                      ? "bg-warmblack text-white"
-                      : "bg-cream-200/50 text-warmblack/45 hover:text-warmblack/70 border border-cream-200 hover:border-cream-300"
-                  }`}
+                  onClick={limpiarBusqueda}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200 transition-colors"
                 >
-                  <Icon className="h-2.5 w-2.5" strokeWidth={1.5} />
-                  {cat.nombre}
+                  <X className="h-3.5 w-3.5 text-warmblack/25" />
                 </button>
-              );
-            })}
+              )}
+            </div>
+            <div className="flex items-center gap-1.5 overflow-x-auto shrink-0 pb-0.5 sm:pb-0">
+              <button
+                onClick={() => setCategoriaSeleccionada(null)}
+                className={`px-3 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
+                  !categoriaSeleccionada
+                    ? "bg-warmblack text-white"
+                    : "bg-cream-200/50 text-warmblack/45 hover:text-warmblack/70 border border-cream-200"
+                }`}
+              >
+                Todas
+              </button>
+              {categorias.map((cat) => {
+                const isActive = normalizeText(categoriaSeleccionada || "") === normalizeText(cat.nombre);
+                return (
+                  <button
+                    key={cat.slug}
+                    onClick={() =>
+                      setCategoriaSeleccionada(isActive ? null : cat.nombre)
+                    }
+                    className={`px-3 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
+                      isActive
+                        ? "bg-warmblack text-white"
+                        : "bg-cream-200/50 text-warmblack/45 hover:text-warmblack/70 border border-cream-200"
+                    }`}
+                  >
+                    {cat.nombre}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -352,37 +360,6 @@ export default function MapaPageInner() {
 
       {/* Map */}
       <div className="flex-1 relative">
-        {/* Category filter bar */}
-        <div className="absolute top-3 left-3 right-3 z-[1000] flex flex-wrap gap-2 justify-center">
-          <button
-            onClick={() => setCategoriaSeleccionada(null)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow-soft ${
-              !categoriaSeleccionada
-                ? "bg-warmblack text-white"
-                : "bg-white/90 text-warmblack/60 hover:bg-white hover:text-warmblack border border-cream-200"
-            }`}
-          >
-            Todas
-          </button>
-          {categorias.map((cat) => {
-            const isActive = normalizeText(categoriaSeleccionada || "") === normalizeText(cat.nombre);
-            return (
-              <button
-                key={cat.slug}
-                onClick={() =>
-                  setCategoriaSeleccionada(isActive ? null : cat.nombre)
-                }
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 shadow-soft ${
-                  isActive
-                    ? "bg-warmblack text-white"
-                    : "bg-white/90 text-warmblack/60 hover:bg-white hover:text-warmblack border border-cream-200"
-                }`}
-              >
-                {cat.nombre}
-              </button>
-            );
-          })}
-        </div>
         <MapaInteractivo
           facilitadores={facilitadoresEnMapa}
           seleccionado={facilitadorSeleccionado}
