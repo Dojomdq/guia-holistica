@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { Search, X, MapPin, ChevronRight } from "lucide-react";
+import { Search, X, MapPin, ChevronRight, SlidersHorizontal } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 import type { FacilitadorConActividades } from "@/lib/types";
@@ -39,6 +39,15 @@ interface Facilitador {
   actividades: Actividad[];
 }
 
+const FILTROS = [
+  { label: "Todas", slug: null },
+  { label: "Yoga", slug: "yoga" },
+  { label: "Reiki", slug: "reiki" },
+  { label: "Meditación", slug: "meditacion" },
+  { label: "Biodanza", slug: "biodanza" },
+  { label: "Chamanismo", slug: "chamanismo" },
+];
+
 function normalizeText(text: string): string {
   return text
     .toLowerCase()
@@ -71,43 +80,22 @@ export default function MapaPageInner() {
   const initialQuery = searchParams.get("q") || "";
 
   const [busqueda, setBusqueda] = useState(initialQuery);
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<string | null>(null);
-  const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<
-    string | null
-  >(null);
+  const [filtroActivo, setFiltroActivo] = useState<string | null>(null);
+  const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
   const [panelAbierto, setPanelAbierto] = useState(true);
-  const [todosFacilitadores, setTodosFacilitadores] = useState<Facilitador[]>(
-    []
-  );
-  const [categorias, setCategorias] = useState<
-    { slug: string; nombre: string }[]
-  >([]);
+  const [todosFacilitadores, setTodosFacilitadores] = useState<Facilitador[]>([]);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
     async function cargar() {
-      const [fRes, cRes] = await Promise.all([
-        supabase
-          .from("facilitadores")
-          .select("*, facilitador_actividades(actividades(id, nombre, slug))")
-          .eq("activo", true)
-          .order("nombre"),
-        supabase
-          .from("categorias")
-          .select("slug, nombre, icono")
-          .order("nombre"),
-      ]);
+      const { data } = await supabase
+        .from("facilitadores")
+        .select("*, facilitador_actividades(actividades(id, nombre, slug))")
+        .eq("activo", true)
+        .order("nombre");
 
-      if (fRes.data) {
-        setTodosFacilitadores(fRes.data.map(mapToFacilitador));
-      }
-      if (cRes.data) {
-        setCategorias(
-          cRes.data.map((c) => ({
-            slug: c.slug,
-            nombre: c.nombre,
-          }))
-        );
+      if (data) {
+        setTodosFacilitadores(data.map(mapToFacilitador));
       }
       setCargando(false);
     }
@@ -125,26 +113,14 @@ export default function MapaPageInner() {
             normalizeText(a.nombre).includes(q) ||
             normalizeText(a.slug).includes(q)
         );
-        const matchCategoria = categorias.some(
-          (c) =>
-            normalizeText(c.nombre).includes(q) &&
-            f.actividades.some((a) => {
-              const catSlug = c.slug;
-              return (
-                normalizeText(a.slug).includes(catSlug) ||
-                normalizeText(a.nombre).includes(q)
-              );
-            })
-        );
         const matchNombre = normalizeText(f.nombre).includes(q);
         const matchBio = f.bio ? normalizeText(f.bio).includes(q) : false;
-
-        return matchActividad || matchCategoria || matchNombre || matchBio;
+        return matchActividad || matchNombre || matchBio;
       });
     }
 
-    if (categoriaSeleccionada) {
-      const catSlug = normalizeText(categoriaSeleccionada);
+    if (filtroActivo) {
+      const catSlug = normalizeText(filtroActivo);
       results = results.filter((f) =>
         f.actividades.some(
           (a) =>
@@ -155,7 +131,7 @@ export default function MapaPageInner() {
     }
 
     return results;
-  }, [busqueda, categoriaSeleccionada, todosFacilitadores, categorias]);
+  }, [busqueda, filtroActivo, todosFacilitadores]);
 
   const handleBusqueda = useCallback(
     (value: string) => {
@@ -169,24 +145,24 @@ export default function MapaPageInner() {
 
   const limpiarBusqueda = () => {
     setBusqueda("");
+    setFiltroActivo(null);
     router.replace("/mapa", { scroll: false });
   };
 
   const facilitadoresEnMapa = useMemo(
-    () =>
-      facilitadoresFiltrados.filter((f) => f.direccion && f.direccion.trim()),
+    () => facilitadoresFiltrados.filter((f) => f.direccion && f.direccion.trim()),
     [facilitadoresFiltrados]
   );
 
   return (
     <div
-      className="flex"
+      className="flex flex-col md:flex-row"
       style={{ height: "calc(100vh - 64px)" }}
     >
       {/* Sidebar */}
       <div
         className={`${
-          panelAbierto ? "w-[360px]" : "w-0"
+          panelAbierto ? "w-full md:w-[360px]" : "w-0"
         } flex-shrink-0 bg-cream-100 border-r border-cream-200 flex flex-col transition-all duration-500 ease-out-expo overflow-hidden`}
       >
         <div className="p-4 border-b border-cream-200/60">
@@ -199,56 +175,50 @@ export default function MapaPageInner() {
             </span>
           </div>
 
-          {/* Unified search + filters bar */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-            <div className="relative flex-1 min-w-0">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-warmblack/20" />
-              <input
-                type="text"
-                value={busqueda}
-                onChange={(e) => handleBusqueda(e.target.value)}
-                placeholder="Buscar..."
-                className="input-field pl-10 pr-10 py-2.5 text-[13px] w-full"
-              />
-              {busqueda && (
-                <button
-                  onClick={limpiarBusqueda}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200 transition-colors"
-                >
-                  <X className="h-3.5 w-3.5 text-warmblack/25" />
-                </button>
-              )}
-            </div>
-            <div className="flex items-center gap-1.5 overflow-x-auto shrink-0 pb-0.5 sm:pb-0">
+          {/* Search input */}
+          <div className="relative mb-3">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-warmblack/20" />
+            <input
+              type="text"
+              value={busqueda}
+              onChange={(e) => handleBusqueda(e.target.value)}
+              placeholder="Buscar por nombre o actividad..."
+              className="input-field pl-10 pr-10 py-2.5 text-[13px] w-full"
+            />
+            {busqueda && (
               <button
-                onClick={() => setCategoriaSeleccionada(null)}
-                className={`px-3 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
-                  !categoriaSeleccionada
-                    ? "bg-warmblack text-white"
-                    : "bg-cream-200/50 text-warmblack/45 hover:text-warmblack/70 border border-cream-200"
-                }`}
+                onClick={limpiarBusqueda}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200 transition-colors"
               >
-                Todas
+                <X className="h-3.5 w-3.5 text-warmblack/25" />
               </button>
-              {categorias.map((cat) => {
-                const isActive = normalizeText(categoriaSeleccionada || "") === normalizeText(cat.nombre);
-                return (
-                  <button
-                    key={cat.slug}
-                    onClick={() =>
-                      setCategoriaSeleccionada(isActive ? null : cat.nombre)
-                    }
-                    className={`px-3 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
-                      isActive
-                        ? "bg-warmblack text-white"
-                        : "bg-cream-200/50 text-warmblack/45 hover:text-warmblack/70 border border-cream-200"
-                    }`}
-                  >
-                    {cat.nombre}
-                  </button>
-                );
-              })}
-            </div>
+            )}
+          </div>
+
+          {/* Filter buttons */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+            <SlidersHorizontal className="h-3.5 w-3.5 text-warmblack/20 shrink-0" />
+            {FILTROS.map((f) => {
+              const isActive =
+                f.slug === null
+                  ? filtroActivo === null
+                  : normalizeText(filtroActivo || "") === normalizeText(f.label);
+              return (
+                <button
+                  key={f.label}
+                  onClick={() =>
+                    setFiltroActivo(isActive ? null : f.slug ? f.label : null)
+                  }
+                  className={`px-3.5 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
+                    isActive
+                      ? "bg-warmblack text-white"
+                      : "bg-cream-200/50 text-warmblack/45 hover:text-warmblack/70 border border-cream-200 hover:border-cream-300"
+                  }`}
+                >
+                  {f.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -297,9 +267,7 @@ export default function MapaPageInner() {
                       )
                     }
                     className={`w-full p-3.5 text-left hover:bg-cream-200/40 transition-all duration-200 ${
-                      facilitadorSeleccionado === f.id
-                        ? "bg-cream-200/40"
-                        : ""
+                      facilitadorSeleccionado === f.id ? "bg-cream-200/40" : ""
                     }`}
                   >
                     <div className="flex items-start gap-3">
@@ -347,7 +315,7 @@ export default function MapaPageInner() {
       {/* Toggle */}
       <button
         onClick={() => setPanelAbierto(!panelAbierto)}
-        className="absolute top-[88px] z-[1000] bg-cream-100 border border-cream-200 rounded-r-lg p-1.5 shadow-soft hover:bg-cream-200 transition-all duration-300"
+        className="hidden md:block absolute top-[88px] z-[1000] bg-cream-100 border border-cream-200 rounded-r-lg p-1.5 shadow-soft hover:bg-cream-200 transition-all duration-300"
         style={{ left: panelAbierto ? "360px" : "0px" }}
         aria-label={panelAbierto ? "Cerrar panel" : "Abrir panel"}
       >
@@ -359,7 +327,7 @@ export default function MapaPageInner() {
       </button>
 
       {/* Map */}
-      <div className="flex-1 relative">
+      <div className="flex-1 relative min-h-[50vh] md:min-h-0">
         <MapaInteractivo
           facilitadores={facilitadoresEnMapa}
           seleccionado={facilitadorSeleccionado}
