@@ -36,7 +36,7 @@ export default function CTASection() {
             <span className="w-6 h-px bg-sand-300/30" />
           </span>
           <h2 className="font-serif text-[clamp(2rem,5vw,3.5rem)] leading-[1.1] tracking-[-0.025em] text-white mb-6">
-            Sumá tu perfil – es gratuito
+            Sumá tu perfil y sumate al mapa
           </h2>
           <p className="text-sage-200/60 text-body-lg mb-10 max-w-md mx-auto leading-relaxed">
             Sumate al directorio y conectá con personas que buscan tu ayuda.

@@ -28,8 +28,8 @@ const SITE_URL = "https://www.agenciakoi.com";
 
 export const metadata: Metadata = {
   title: {
-    default: "Guía Holística Mar del Plata | Facilitadores, Yoga, Reiki y Más",
-    template: "%s | Guía Holística Mar del Plata",
+    default: "Directorio de Bienestar en Mar del Plata | Encontrá Terapeutas, Yoga y Reiki",
+    template: "%s | Directorio de Bienestar en Mar del Plata",
   },
   description:
     "Encontrá facilitadores, terapeutas y guías holísticos en Mar del Plata. Mapa interactivo con chamanismo, yoga, reiki, meditación, tarot y más. Conectá con tu sanación.",
