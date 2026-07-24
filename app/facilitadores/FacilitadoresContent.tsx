@@ -7,7 +7,6 @@ import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 import { useClickTracker } from "@/lib/useClickTracker";
 import { useScrollReveal } from "@/lib/useScrollReveal";
-import PopupFacilitadores from "@/components/PopupFacilitadores";
 
 interface FacilitadorItem {
   id: string;
@@ -298,7 +297,6 @@ export default function FacilitadoresContent() {
           </>
         )}
       </div>
-      <PopupFacilitadores />
     </div>
   );
 }

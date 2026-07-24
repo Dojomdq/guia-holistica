@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import FacilitadoresContent from "./FacilitadoresContent";
+import PopupFacilitadores from "@/components/PopupFacilitadores";
 
 export const metadata: Metadata = {
   title: "Terapeutas y Facilitadores Holísticos en Mar del Plata | Directorio con Mapa",
@@ -16,5 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default function FacilitadoresPage() {
-  return <FacilitadoresContent />;
+  return (
+    <>
+      <FacilitadoresContent />
+      <PopupFacilitadores />
+    </>
+  );
 }
