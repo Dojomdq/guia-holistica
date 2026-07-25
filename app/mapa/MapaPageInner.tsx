@@ -156,8 +156,7 @@ export default function MapaPageInner() {
 
   return (
     <div
-      className="flex flex-col md:flex-row"
-      style={{ height: "calc(100vh - 64px)" }}
+      className="relative flex flex-col md:flex-row h-[500px] sm:h-[560px] md:h-[620px] lg:h-[660px]"
     >
       {/* Sidebar */}
       <div
@@ -315,7 +314,7 @@ export default function MapaPageInner() {
       {/* Toggle */}
       <button
         onClick={() => setPanelAbierto(!panelAbierto)}
-        className="hidden md:block absolute top-[88px] z-[1000] bg-cream-100 border border-cream-200 rounded-r-lg p-1.5 shadow-soft hover:bg-cream-200 transition-all duration-300"
+        className="hidden md:flex absolute top-1/2 -translate-y-1/2 z-[1000] bg-cream-100 border border-cream-200 rounded-r-lg p-1.5 shadow-soft hover:bg-cream-200 transition-all duration-300 items-center"
         style={{ left: panelAbierto ? "360px" : "0px" }}
         aria-label={panelAbierto ? "Cerrar panel" : "Abrir panel"}
       >
@@ -327,7 +326,7 @@ export default function MapaPageInner() {
       </button>
 
       {/* Map */}
-      <div className="flex-1 relative min-h-[50vh] md:min-h-0">
+      <div className="flex-1 relative min-h-0">
         <MapaInteractivo
           facilitadores={facilitadoresEnMapa}
           seleccionado={facilitadorSeleccionado}

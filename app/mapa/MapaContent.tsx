@@ -6,7 +6,7 @@ export default function MapaContent() {
   return (
     <Suspense
       fallback={
-        <div className="h-[calc(100vh-64px)] flex items-center justify-center">
+        <div className="h-[500px] sm:h-[560px] md:h-[620px] lg:h-[660px] flex items-center justify-center">
           <div className="text-center">
             <MapPin className="h-12 w-12 text-stone-300 mx-auto animate-pulse" />
             <p className="text-stone-400 mt-2">Cargando mapa...</p>
