@@ -64,8 +64,8 @@ export default function ActividadesContent() {
   }, []);
 
   return (
-    <div className="section-pad">
-      <div className="container-page">
+    <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
+      <div className="container-page py-16 sm:py-20 lg:py-24">
         <div
           ref={ref}
           className={`max-w-2xl mb-14 transition-all duration-700 ${
@@ -73,8 +73,10 @@ export default function ActividadesContent() {
           }`}
         >
           <span className="label">Explorá</span>
-          <h1 className="heading-xl mt-4">Actividades</h1>
-          <p className="body-lg mt-4 max-w-lg">
+          <h1 className="font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.12] tracking-[-0.02em] text-bark mt-4">
+            Actividades
+          </h1>
+          <p className="text-lg text-bark/55 mt-4 max-w-lg">
             Encontrá la que necesitás. Cada una tiene facilitadores verificados.
           </p>
         </div>
@@ -109,7 +111,7 @@ export default function ActividadesContent() {
                   onClick={() => track("actividad", a.slug)}
                 >
                   <div
-                    className={`card h-full ${
+                    className={`bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-200 hover:scale-105 hover:shadow-lg h-full ${
                       isVisible
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-4"
