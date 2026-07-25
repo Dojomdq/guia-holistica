@@ -42,16 +42,12 @@ export default function Header() {
   }, [mobileOpen]);
 
   const isHome = pathname === "/";
-  const showDark = scrolled || !isHome;
+  const showDark = true;
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
-          showDark
-            ? "bg-cream-50/95 backdrop-blur-xl border-b border-cream-200/50 shadow-soft"
-            : "bg-transparent"
-        }`}
+        className="fixed top-0 left-0 right-0 z-[100] bg-cream-50/95 backdrop-blur-xl border-b border-cream-200/50 shadow-soft transition-all duration-500"
       >
         <div className="container-wide">
           <div className="flex h-16 lg:h-[72px] items-center justify-between">
