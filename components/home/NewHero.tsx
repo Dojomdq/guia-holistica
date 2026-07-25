@@ -23,7 +23,7 @@ export default function NewHero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
       {/* Background image */}
       <div className="absolute inset-0">
         <img
@@ -40,7 +40,7 @@ export default function NewHero() {
       </div>
 
       {/* Content — centered */}
-      <div className="relative z-10 w-full px-6 py-20">
+      <div className="relative z-10 w-full px-6 py-14">
         <div className="max-w-4xl mx-auto text-center">
           {/* Overline */}
           <div
@@ -56,7 +56,7 @@ export default function NewHero() {
 
           {/* Main heading */}
           <h1
-            className={`font-serif text-[clamp(2.75rem,7vw,6.5rem)] leading-[1.02] tracking-[-0.03em] text-white mb-6 transition-all duration-[1200ms] ${
+            className={`font-serif text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.02] tracking-[-0.03em] text-white mb-5 transition-all duration-[1200ms] ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
@@ -121,16 +121,6 @@ export default function NewHero() {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div
-        className={`absolute bottom-8 left-1/2 -translate-x-1/2 transition-all duration-700 delay-[800ms] ${
-          loaded ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <div className="w-5 h-8 rounded-full border-2 border-white/20 flex justify-center pt-1.5">
-          <div className="w-1 h-2 rounded-full bg-white/40 animate-bounce" />
-        </div>
-      </div>
     </section>
   );
 }
