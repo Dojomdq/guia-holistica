@@ -28,8 +28,8 @@ export default function MapSection() {
           fill
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-bark/80" />
-        <div className="absolute inset-0 bg-gradient-to-b from-bark/60 via-bark/80 to-bark/90" />
+        <div className="absolute inset-0 bg-bark/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-bark/40 via-bark/50 to-bark/70" />
         <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay noise-overlay pointer-events-none" />
       </div>
 

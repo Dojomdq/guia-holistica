@@ -18,8 +18,8 @@ export default function NewCTA() {
           fill
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-bark/85" />
-        <div className="absolute inset-0 bg-gradient-to-b from-bark/60 via-bark/80 to-bark/90" />
+        <div className="absolute inset-0 bg-bark/55" />
+        <div className="absolute inset-0 bg-gradient-to-b from-bark/40 via-bark/55 to-bark/75" />
       </div>
 
       <div className="relative py-24 sm:py-28 lg:py-32">
