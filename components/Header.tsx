@@ -41,11 +41,14 @@ export default function Header() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
+  const isHome = pathname === "/";
+  const showDark = scrolled || !isHome;
+
   return (
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
+          showDark
             ? "bg-cream-50/90 backdrop-blur-xl border-b border-cream-200/50"
             : "bg-transparent"
         }`}
@@ -59,12 +62,12 @@ export default function Header() {
             >
               <span
                 className={`font-serif text-xl font-semibold tracking-tight transition-colors duration-500 ${
-                  scrolled ? "text-bark" : "text-white"
+                  showDark ? "text-bark" : "text-white"
                 }`}
               >
                 Guía
                 <span className={`ml-1.5 font-normal transition-colors duration-500 ${
-                  scrolled ? "text-sand-600" : "text-sand-300/80"
+                  showDark ? "text-sand-600" : "text-sand-300/80"
                 }`}>
                   de Bienestar
                 </span>
@@ -84,10 +87,10 @@ export default function Header() {
                     aria-current={active ? "page" : undefined}
                     className={`relative px-4 py-2 text-[13px] font-medium transition-all duration-300 ${
                       active
-                        ? scrolled
+                        ? showDark
                           ? "text-bark"
                           : "text-white"
-                        : scrolled
+                        : showDark
                           ? "text-bark/45 hover:text-bark/75"
                           : "text-white/50 hover:text-white/85"
                     }`}
@@ -95,7 +98,7 @@ export default function Header() {
                     {active && (
                       <span
                         className={`absolute inset-x-2 -inset-y-0.5 rounded-full -z-10 transition-colors duration-300 ${
-                          scrolled ? "bg-sage-100/60" : "bg-white/10"
+                          showDark ? "bg-sage-100/60" : "bg-white/10"
                         }`}
                       />
                     )}
@@ -109,7 +112,7 @@ export default function Header() {
               <Link
                 href="/mapa"
                 className={`hidden sm:inline-flex btn text-[13px] px-5 py-2 ${
-                  scrolled
+                  showDark
                     ? "bg-bark text-white hover:bg-bark/85"
                     : "bg-white/15 text-white backdrop-blur-sm border border-white/15 hover:bg-white/25"
                 }`}
@@ -123,7 +126,7 @@ export default function Header() {
                 className={`lg:hidden p-2 rounded-lg transition-colors duration-300 ${
                   mobileOpen
                     ? "bg-bark text-white"
-                    : scrolled
+                    : showDark
                       ? "text-bark hover:bg-cream-200/60"
                       : "text-white hover:bg-white/10"
                 }`}
