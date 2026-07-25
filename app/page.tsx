@@ -3,7 +3,6 @@ import NewHero from "@/components/home/NewHero";
 import WhatWeOffer from "@/components/home/WhatWeOffer";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import MapSection from "@/components/home/MapSection";
-import StatsSection from "@/components/home/StatsSection";
 import NewCTA from "@/components/home/NewCTA";
 
 export const metadata: Metadata = {
@@ -27,7 +26,6 @@ export default function Home() {
       <WhatWeOffer />
       <CategoryGrid />
       <MapSection />
-      <StatsSection />
       <NewCTA />
     </>
   );
