@@ -147,8 +147,8 @@ export default function ActividadesAdmin() {
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-serif font-semibold text-warmblack">Actividades</h1>
-        <button onClick={openNew} className="inline-flex items-center gap-2 bg-warmblack text-white px-4 py-2.5 rounded-xl hover:bg-warmblack/85 transition-all duration-300 text-sm font-medium hover:-translate-y-0.5">
+        <h1 className="text-2xl font-serif font-semibold text-bark">Actividades</h1>
+        <button onClick={openNew} className="inline-flex items-center gap-2 bg-bark text-white px-4 py-2.5 rounded-xl hover:bg-bark/85 transition-all duration-300 text-sm font-medium hover:-translate-y-0.5">
           <Plus className="h-4 w-4" /> Nueva Actividad
         </button>
       </div>
@@ -163,17 +163,17 @@ export default function ActividadesAdmin() {
       {showForm && (
         <div className="bg-white rounded-2xl p-6 shadow-soft border border-cream-300/60 mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-serif font-semibold text-warmblack">{editando ? "Editar Actividad" : "Nueva Actividad"}</h2>
-            <button onClick={() => { setShowForm(false); setEditando(null); }} className="text-warmblack/30 hover:text-warmblack/60 transition-colors"><X className="h-5 w-5" /></button>
+            <h2 className="font-serif font-semibold text-bark">{editando ? "Editar Actividad" : "Nueva Actividad"}</h2>
+            <button onClick={() => { setShowForm(false); setEditando(null); }} className="text-bark/30 hover:text-bark/60 transition-colors"><X className="h-5 w-5" /></button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-warmblack/70 mb-1">Nombre *</label>
-              <input type="text" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-warmblack placeholder:text-warmblack/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Nombre de la actividad" />
+              <label className="block text-sm font-medium text-bark/70 mb-1">Nombre *</label>
+              <input type="text" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Nombre de la actividad" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-warmblack/70 mb-1">Categoría *</label>
-              <select value={form.categoria_id} onChange={(e) => setForm({ ...form, categoria_id: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-warmblack focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all">
+              <label className="block text-sm font-medium text-bark/70 mb-1">Categoría *</label>
+              <select value={form.categoria_id} onChange={(e) => setForm({ ...form, categoria_id: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all">
                 <option value="">Seleccionar categoría</option>
                 {categorias.map((c) => (
                   <option key={c.id} value={c.id}>{c.nombre}</option>
@@ -181,16 +181,16 @@ export default function ActividadesAdmin() {
               </select>
             </div>
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-warmblack/70 mb-1">Descripción</label>
-              <textarea rows={3} value={form.descripcion} onChange={(e) => setForm({ ...form, descripcion: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-warmblack placeholder:text-warmblack/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Descripción de la actividad..." />
+              <label className="block text-sm font-medium text-bark/70 mb-1">Descripción</label>
+              <textarea rows={3} value={form.descripcion} onChange={(e) => setForm({ ...form, descripcion: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Descripción de la actividad..." />
             </div>
           </div>
           <div className="flex gap-3 mt-6">
             <button onClick={handleSave} disabled={guardando || !form.nombre || !form.categoria_id}
-              className="bg-warmblack text-white px-6 py-2.5 rounded-xl hover:bg-warmblack/85 transition-all duration-300 text-sm font-medium disabled:opacity-50 hover:-translate-y-0.5">
+              className="bg-bark text-white px-6 py-2.5 rounded-xl hover:bg-bark/85 transition-all duration-300 text-sm font-medium disabled:opacity-50 hover:-translate-y-0.5">
               {guardando ? "Guardando..." : "Guardar"}
             </button>
-            <button onClick={() => { setShowForm(false); setEditando(null); }} className="bg-cream-200 text-warmblack/60 px-6 py-2.5 rounded-xl hover:bg-cream-300 transition-all duration-300 text-sm font-medium">
+            <button onClick={() => { setShowForm(false); setEditando(null); }} className="bg-cream-200 text-bark/60 px-6 py-2.5 rounded-xl hover:bg-cream-300 transition-all duration-300 text-sm font-medium">
               Cancelar
             </button>
           </div>
@@ -198,47 +198,47 @@ export default function ActividadesAdmin() {
       )}
 
       <div className="relative max-w-md mb-6">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-warmblack/25" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-bark/25" />
         <input type="text" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} placeholder="Buscar actividad..."
-          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/80 backdrop-blur-sm border border-cream-300 text-sm text-warmblack placeholder:text-warmblack/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" />
+          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/80 backdrop-blur-sm border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" />
       </div>
 
       <div className="bg-white rounded-2xl shadow-soft border border-cream-300/60 overflow-hidden">
         {cargando ? (
-          <div className="p-8 text-center text-warmblack/30">Cargando...</div>
+          <div className="p-8 text-center text-bark/30">Cargando...</div>
         ) : (
           <table className="w-full">
             <thead className="bg-cream-50 border-b border-cream-300/60">
               <tr>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-warmblack/40 uppercase tracking-wide">Nombre</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-warmblack/40 uppercase tracking-wide hidden md:table-cell">Categoría</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-warmblack/40 uppercase tracking-wide hidden lg:table-cell">Descripción</th>
-                <th className="text-right px-6 py-3 text-xs font-semibold text-warmblack/40 uppercase tracking-wide">Acciones</th>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-bark/40 uppercase tracking-wide">Nombre</th>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-bark/40 uppercase tracking-wide hidden md:table-cell">Categoría</th>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-bark/40 uppercase tracking-wide hidden lg:table-cell">Descripción</th>
+                <th className="text-right px-6 py-3 text-xs font-semibold text-bark/40 uppercase tracking-wide">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-cream-200">
               {filtered.map((a) => (
                 <tr key={a.id} className="hover:bg-cream-50/50 transition-colors">
                   <td className="px-6 py-4">
-                    <p className="font-medium text-warmblack text-sm">{a.nombre}</p>
-                    <p className="text-xs text-warmblack/35 mt-0.5">{a.slug}</p>
+                    <p className="font-medium text-bark text-sm">{a.nombre}</p>
+                    <p className="text-xs text-bark/35 mt-0.5">{a.slug}</p>
                   </td>
                   <td className="px-6 py-4 hidden md:table-cell">
-                    <span className="px-2.5 py-0.5 bg-cream-200 text-warmblack/60 text-xs rounded-full font-medium">{a.categoria_nombre}</span>
+                    <span className="px-2.5 py-0.5 bg-cream-200 text-bark/60 text-xs rounded-full font-medium">{a.categoria_nombre}</span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-warmblack/50 hidden lg:table-cell">
+                  <td className="px-6 py-4 text-sm text-bark/50 hidden lg:table-cell">
                     <span className="line-clamp-1">{a.descripcion || "—"}</span>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <button onClick={() => openEdit(a)} className="p-1.5 text-warmblack/30 hover:text-warmblack/60 hover:bg-cream-200 rounded-lg transition-colors"><Pencil className="h-4 w-4" /></button>
-                      <button onClick={() => handleDelete(a.id, a.nombre)} className="p-1.5 text-warmblack/30 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="h-4 w-4" /></button>
+                      <button onClick={() => openEdit(a)} className="p-1.5 text-bark/30 hover:text-bark/60 hover:bg-cream-200 rounded-lg transition-colors"><Pencil className="h-4 w-4" /></button>
+                      <button onClick={() => handleDelete(a.id, a.nombre)} className="p-1.5 text-bark/30 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="h-4 w-4" /></button>
                     </div>
                   </td>
                 </tr>
               ))}
               {filtered.length === 0 && (
-                <tr><td colSpan={4} className="px-6 py-8 text-center text-warmblack/30 text-sm">No se encontraron actividades</td></tr>
+                <tr><td colSpan={4} className="px-6 py-8 text-center text-bark/30 text-sm">No se encontraron actividades</td></tr>
               )}
             </tbody>
           </table>

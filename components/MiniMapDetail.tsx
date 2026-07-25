@@ -31,7 +31,7 @@ export default function MiniMapDetail({ lat, lng, nombre }: Props) {
       />
       <Marker position={[lat, lng]} icon={markerIcon}>
         <Popup>
-          <p className="font-serif font-medium text-warmblack text-sm">
+          <p className="font-serif font-medium text-bark text-sm">
             {nombre}
           </p>
         </Popup>

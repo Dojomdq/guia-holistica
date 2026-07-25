@@ -119,11 +119,11 @@ export default function CategoriasPopulares() {
                       />
                     </div>
                   </div>
-                  <h3 className="text-sm font-medium text-warmblack group-hover:text-sage-700 transition-colors duration-200">
+                  <h3 className="text-sm font-medium text-bark group-hover:text-sage-700 transition-colors duration-200">
                     {cat.nombre}
                   </h3>
                   {!hasFacilitadores && (
-                    <p className="text-[11px] text-warmblack/25 mt-1 italic">
+                    <p className="text-[11px] text-bark/25 mt-1 italic">
                       Próximamente
                     </p>
                   )}
@@ -137,7 +137,7 @@ export default function CategoriasPopulares() {
             href="/mapa"
             className="group"
           >
-            <div className="h-full bg-warmblack rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:bg-warmblack/85 hover:-translate-y-px hover:shadow-large min-h-[140px]">
+            <div className="h-full bg-bark rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:bg-bark/85 hover:-translate-y-px hover:shadow-large min-h-[140px]">
               <ArrowRight className="h-4 w-4 text-white/30 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-white/60" />
               <div>
                 <h3 className="text-sm font-medium text-white/80">

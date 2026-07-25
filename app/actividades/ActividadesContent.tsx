@@ -127,12 +127,12 @@ export default function ActividadesContent() {
                           strokeWidth={1.5}
                         />
                       </div>
-                      <span className="text-[11px] text-warmblack/25 font-mono flex items-center gap-1">
+                      <span className="text-[11px] text-bark/25 font-mono flex items-center gap-1">
                         <Users className="h-3 w-3" />
                         {a.count}
                       </span>
                     </div>
-                    <h2 className="text-[15px] font-medium text-warmblack group-hover:text-sage-700 transition-colors duration-200 flex items-center gap-2">
+                    <h2 className="text-[15px] font-medium text-bark group-hover:text-sage-700 transition-colors duration-200 flex items-center gap-2">
                       {a.nombre}
                       <ArrowUpRight className="h-3.5 w-3.5 opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all duration-300" />
                     </h2>

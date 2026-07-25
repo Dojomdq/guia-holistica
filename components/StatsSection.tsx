@@ -14,7 +14,7 @@ export default function StatsSection() {
           }`}
         >
           <span className="w-12 h-px bg-cream-300/70" />
-          <p className="text-[13px] text-warmblack/35 font-medium tracking-wide px-6">
+          <p className="text-[13px] text-bark/35 font-medium tracking-wide px-6">
             Sanación holística en Mar del Plata
           </p>
           <span className="w-12 h-px bg-cream-300/70" />

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display, DM_Mono } from "next/font/google";
+import { DM_Sans, Cormorant_Garamond, DM_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -11,10 +11,11 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-const playfair = Playfair_Display({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-cormorant",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 const dmMono = DM_Mono({
@@ -94,7 +95,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${dmSans.variable} ${playfair.variable} ${dmMono.variable}`}>
+    <html lang="es" className={`${dmSans.variable} ${cormorant.variable} ${dmMono.variable}`}>
       <head>
         <link
           rel="stylesheet"

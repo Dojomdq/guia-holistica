@@ -107,7 +107,7 @@ export default function FacilitadorContent({
     return (
       <div className="section-pad">
         <div className="container-page text-center max-w-3xl">
-          <p className="text-warmblack/35 text-body-lg mb-6">
+          <p className="text-bark/35 text-body-lg mb-6">
             Facilitador no encontrado
           </p>
           <Link href="/facilitadores" className="btn-ghost">
@@ -128,7 +128,7 @@ export default function FacilitadorContent({
       <div className="container-page max-w-3xl">
         <Link
           href="/facilitadores"
-          className="inline-flex items-center gap-1.5 text-warmblack/35 hover:text-warmblack/65 text-[13px] mb-8 transition-colors group"
+          className="inline-flex items-center gap-1.5 text-bark/35 hover:text-bark/65 text-[13px] mb-8 transition-colors group"
         >
           <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
           Volver
@@ -147,7 +147,7 @@ export default function FacilitadorContent({
               </div>
 
               <div className="flex-1">
-                <h1 className="font-serif text-[clamp(1.5rem,3vw,2.25rem)] font-medium text-warmblack mb-3 tracking-[-0.02em]">
+                <h1 className="font-serif text-[clamp(1.5rem,3vw,2.25rem)] font-medium text-bark mb-3 tracking-[-0.02em]">
                   {f.nombre}
                 </h1>
                 <div className="flex flex-wrap gap-1.5 mb-5">
@@ -212,8 +212,8 @@ export default function FacilitadorContent({
             {f.direccion && (
               <div className="mt-10 pt-8 divider">
                 <div className="flex items-center gap-2 mb-4">
-                  <MapPin className="h-4 w-4 text-warmblack/25" />
-                  <h2 className="text-[15px] font-medium text-warmblack/65">
+                  <MapPin className="h-4 w-4 text-bark/25" />
+                  <h2 className="text-[15px] font-medium text-bark/65">
                     {f.direccion}
                   </h2>
                 </div>

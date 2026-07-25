@@ -113,18 +113,18 @@ export default function FacilitadoresDestacados() {
                     );
                   })()}
                 </div>
-                <h3 className="font-serif text-2xl sm:text-3xl font-medium text-warmblack group-hover:text-sage-700 transition-colors duration-300 mb-3">
+                <h3 className="font-serif text-2xl sm:text-3xl font-medium text-bark group-hover:text-sage-700 transition-colors duration-300 mb-3">
                   {first.nombre}
                 </h3>
                 {first.bio && (
-                  <p className="text-[15px] text-warmblack/50 leading-relaxed line-clamp-3 max-w-md">
+                  <p className="text-[15px] text-bark/50 leading-relaxed line-clamp-3 max-w-md">
                     {first.bio}
                   </p>
                 )}
               </div>
               <div className="flex items-center justify-between mt-6 pt-5 border-t border-cream-200">
                 {first.direccion && (
-                  <span className="flex items-center gap-1.5 text-[13px] text-warmblack/35">
+                  <span className="flex items-center gap-1.5 text-[13px] text-bark/35">
                     <MapPin className="h-3.5 w-3.5" />
                     {first.direccion}
                   </span>
@@ -162,12 +162,12 @@ export default function FacilitadoresDestacados() {
                           {f.actividad}
                         </span>
                       </div>
-                      <h3 className="font-serif text-lg font-medium text-warmblack group-hover:text-sage-700 transition-colors duration-300">
+                      <h3 className="font-serif text-lg font-medium text-bark group-hover:text-sage-700 transition-colors duration-300">
                         {f.nombre}
                       </h3>
                     </div>
                     {f.direccion && (
-                      <span className="flex items-center gap-1 text-[12px] text-warmblack/35 mt-3">
+                      <span className="flex items-center gap-1 text-[12px] text-bark/35 mt-3">
                         <MapPin className="h-3 w-3" />
                         {f.direccion}
                       </span>

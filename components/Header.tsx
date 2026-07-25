@@ -58,11 +58,16 @@ export default function Header() {
               aria-label="Guía Holística - Inicio"
             >
               <span
-                className={`font-serif text-lg tracking-tight transition-colors duration-500 ${
-                  scrolled ? "text-warmblack" : "text-white"
+                className={`font-serif text-xl font-semibold tracking-tight transition-colors duration-500 ${
+                  scrolled ? "text-bark" : "text-white"
                 }`}
               >
-                Guía Holística
+                Guía
+                <span className={`ml-1.5 font-normal transition-colors duration-500 ${
+                  scrolled ? "text-sand-600" : "text-sand-300/80"
+                }`}>
+                  de Bienestar
+                </span>
               </span>
             </Link>
 
@@ -80,10 +85,10 @@ export default function Header() {
                     className={`relative px-4 py-2 text-[13px] font-medium transition-all duration-300 ${
                       active
                         ? scrolled
-                          ? "text-warmblack"
+                          ? "text-bark"
                           : "text-white"
                         : scrolled
-                          ? "text-warmblack/45 hover:text-warmblack/75"
+                          ? "text-bark/45 hover:text-bark/75"
                           : "text-white/50 hover:text-white/85"
                     }`}
                   >
@@ -105,7 +110,7 @@ export default function Header() {
                 href="/mapa"
                 className={`hidden sm:inline-flex btn text-[13px] px-5 py-2 ${
                   scrolled
-                    ? "bg-warmblack text-white hover:bg-warmblack/85"
+                    ? "bg-bark text-white hover:bg-bark/85"
                     : "bg-white/15 text-white backdrop-blur-sm border border-white/15 hover:bg-white/25"
                 }`}
               >
@@ -117,9 +122,9 @@ export default function Header() {
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className={`lg:hidden p-2 rounded-lg transition-colors duration-300 ${
                   mobileOpen
-                    ? "bg-warmblack text-white"
+                    ? "bg-bark text-white"
                     : scrolled
-                      ? "text-warmblack hover:bg-cream-200/60"
+                      ? "text-bark hover:bg-cream-200/60"
                       : "text-white hover:bg-white/10"
                 }`}
                 aria-expanded={mobileOpen}
@@ -143,7 +148,7 @@ export default function Header() {
         }`}
       >
         <div
-          className="absolute inset-0 bg-warmblack/30 backdrop-blur-sm"
+          className="absolute inset-0 bg-bark/30 backdrop-blur-sm"
           onClick={() => setMobileOpen(false)}
         />
         <nav
@@ -164,8 +169,8 @@ export default function Header() {
                     aria-current={active ? "page" : undefined}
                     className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-[15px] font-medium transition-all duration-300 ${
                       active
-                        ? "bg-warmblack text-white"
-                        : "text-warmblack/55 hover:text-warmblack hover:bg-cream-200/40"
+                        ? "bg-bark text-white"
+                        : "text-bark/55 hover:text-bark hover:bg-cream-200/40"
                     }`}
                     style={{
                       transitionDelay: mobileOpen ? `${i * 40}ms` : "0ms",

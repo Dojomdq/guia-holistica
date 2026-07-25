@@ -128,33 +128,33 @@ export default function MapaInteractivo({
           >
             <Popup>
               <div className="p-2 min-w-[220px]">
-                <h3 className="font-serif font-medium text-warmblack text-sm mb-1.5">
+                <h3 className="font-serif font-medium text-bark text-sm mb-1.5">
                   {f.nombre}
                 </h3>
                 <div className="flex flex-wrap gap-1 mb-2">
                   {f.actividades.map((a) => (
                     <span
                       key={a.id}
-                      className="px-2 py-0.5 bg-cream-200/60 text-warmblack/50 text-[11px] rounded-full"
+                      className="px-2 py-0.5 bg-cream-200/60 text-bark/50 text-[11px] rounded-full"
                     >
                       {a.nombre}
                     </span>
                   ))}
                 </div>
                 {f.bio && (
-                  <p className="text-xs text-warmblack/40 mb-2 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-bark/40 mb-2 line-clamp-2 leading-relaxed">
                     {f.bio}
                   </p>
                 )}
                 {f.direccion && (
-                  <p className="text-[11px] text-warmblack/30 mb-2.5">
+                  <p className="text-[11px] text-bark/30 mb-2.5">
                     {f.direccion}
                   </p>
                 )}
                 <div className="flex gap-2">
                   <Link
                     href={`/facilitadores/${f.id}`}
-                    className="text-xs bg-warmblack text-white px-3 py-1.5 rounded-full hover:bg-warmblack/90 transition-colors font-medium"
+                    className="text-xs bg-bark text-white px-3 py-1.5 rounded-full hover:bg-bark/90 transition-colors font-medium"
                     onClick={() => track("facilitador", f.id)}
                   >
                     Ver perfil

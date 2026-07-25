@@ -32,7 +32,7 @@ export default function AdminLayout({
     <div className="flex min-h-[calc(100vh-72px)]">
       <button
         onClick={() => setMobileOpen(!mobileOpen)}
-        className="md:hidden fixed bottom-4 right-4 z-50 bg-warmblack text-white p-3 rounded-full shadow-large"
+        className="md:hidden fixed bottom-4 right-4 z-50 bg-bark text-white p-3 rounded-full shadow-large"
         aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
       >
         {mobileOpen ? (
@@ -44,13 +44,13 @@ export default function AdminLayout({
 
       {mobileOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-warmblack/30 backdrop-blur-sm z-40"
+          className="md:hidden fixed inset-0 bg-bark/30 backdrop-blur-sm z-40"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-40 w-56 bg-warmblack text-cream-500/60 flex-shrink-0 flex flex-col transition-transform duration-500 ease-out ${
+        className={`fixed md:static inset-y-0 left-0 z-40 w-56 bg-bark text-cream-500/60 flex-shrink-0 flex flex-col transition-transform duration-500 ease-out ${
           mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >

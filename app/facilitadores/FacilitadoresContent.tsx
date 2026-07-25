@@ -135,7 +135,7 @@ export default function FacilitadoresContent() {
           }`}
         >
           <div className="relative max-w-md mb-5">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-warmblack/25" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-bark/25" />
             <input
               type="text"
               value={busqueda}
@@ -148,7 +148,7 @@ export default function FacilitadoresContent() {
                 onClick={() => setBusqueda("")}
                 className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200 transition-colors"
               >
-                <X className="h-4 w-4 text-warmblack/25" />
+                <X className="h-4 w-4 text-bark/25" />
               </button>
             )}
           </div>
@@ -158,8 +158,8 @@ export default function FacilitadoresContent() {
               onClick={() => setFiltroCategoria(null)}
               className={`px-3.5 py-1.5 rounded-lg text-[13px] font-medium transition-all duration-200 ${
                 filtroCategoria === null
-                  ? "bg-warmblack text-white"
-                  : "bg-cream-200/50 text-warmblack/50 hover:text-warmblack/70 border border-cream-200 hover:border-cream-300"
+                  ? "bg-bark text-white"
+                  : "bg-cream-200/50 text-bark/50 hover:text-bark/70 border border-cream-200 hover:border-cream-300"
               }`}
             >
               Todos
@@ -176,8 +176,8 @@ export default function FacilitadoresContent() {
                   }
                   className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[13px] font-medium transition-all duration-200 ${
                     filtroCategoria === cat.slug
-                      ? "bg-warmblack text-white"
-                      : "bg-cream-200/50 text-warmblack/50 hover:text-warmblack/70 border border-cream-200 hover:border-cream-300"
+                      ? "bg-bark text-white"
+                      : "bg-cream-200/50 text-bark/50 hover:text-bark/70 border border-cream-200 hover:border-cream-300"
                   }`}
                 >
                   <Icon className="h-3 w-3" strokeWidth={1.5} />
@@ -248,11 +248,11 @@ export default function FacilitadoresContent() {
                           />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-[15px] font-medium text-warmblack group-hover:text-sage-700 transition-colors duration-200 flex items-center gap-1.5">
+                          <h3 className="text-[15px] font-medium text-bark group-hover:text-sage-700 transition-colors duration-200 flex items-center gap-1.5">
                             {f.nombre}
                             <ArrowUpRight className="h-3.5 w-3.5 opacity-0 group-hover:opacity-50 transition-opacity duration-200" />
                           </h3>
-                          <p className="text-[13px] text-warmblack/40 mt-1 line-clamp-2 leading-relaxed">
+                          <p className="text-[13px] text-bark/40 mt-1 line-clamp-2 leading-relaxed">
                             {f.bio}
                           </p>
                           <div className="flex flex-wrap gap-1 mt-2.5">
@@ -263,7 +263,7 @@ export default function FacilitadoresContent() {
                             ))}
                           </div>
                           {f.direccion && (
-                            <span className="flex items-center gap-1 text-[12px] text-warmblack/30 mt-2.5">
+                            <span className="flex items-center gap-1 text-[12px] text-bark/30 mt-2.5">
                               <MapPin className="h-3 w-3" />
                               {f.direccion}
                             </span>
@@ -278,7 +278,7 @@ export default function FacilitadoresContent() {
 
             {filtered.length === 0 && (
               <div className="text-center py-20">
-                <p className="text-warmblack/35 text-body-lg">
+                <p className="text-bark/35 text-body-lg">
                   No se encontraron facilitadores
                   {filtroCategoria && ` para esta categoría`}
                   {busqueda && ` para "${busqueda}"`}

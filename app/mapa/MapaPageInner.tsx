@@ -14,7 +14,7 @@ const MapaInteractivo = dynamic(() => import("@/components/MapaInteractivo"), {
     <div className="h-full bg-cream-100 flex items-center justify-center">
       <div className="text-center">
         <MapPin className="h-10 w-10 text-cream-300 mx-auto animate-pulse-subtle" />
-        <p className="text-warmblack/25 mt-3 text-[13px]">Cargando mapa...</p>
+        <p className="text-bark/25 mt-3 text-[13px]">Cargando mapa...</p>
       </div>
     </div>
   ),
@@ -166,17 +166,17 @@ export default function MapaPageInner() {
       >
         <div className="p-4 border-b border-cream-200/60">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="font-serif text-base font-medium text-warmblack tracking-tight">
+            <h2 className="font-serif text-base font-medium text-bark tracking-tight">
               Facilitadores
             </h2>
-            <span className="text-[11px] text-warmblack/25 font-mono">
+            <span className="text-[11px] text-bark/25 font-mono">
               {cargando ? "..." : `${facilitadoresFiltrados.length}`}
             </span>
           </div>
 
           {/* Search input */}
           <div className="relative mb-3">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-warmblack/20" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-bark/20" />
             <input
               type="text"
               value={busqueda}
@@ -189,14 +189,14 @@ export default function MapaPageInner() {
                 onClick={limpiarBusqueda}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200 transition-colors"
               >
-                <X className="h-3.5 w-3.5 text-warmblack/25" />
+                <X className="h-3.5 w-3.5 text-bark/25" />
               </button>
             )}
           </div>
 
           {/* Filter buttons */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
-            <Filter className="h-3.5 w-3.5 text-warmblack/20 shrink-0" />
+            <Filter className="h-3.5 w-3.5 text-bark/20 shrink-0" />
             {FILTROS.map((f) => {
               const isActive =
                 f.slug === null
@@ -210,8 +210,8 @@ export default function MapaPageInner() {
                   }
                   className={`px-3.5 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
                     isActive
-                      ? "bg-warmblack text-white"
-                      : "bg-cream-200/50 text-warmblack/45 hover:text-warmblack/70 border border-cream-200 hover:border-cream-300"
+                      ? "bg-bark text-white"
+                      : "bg-cream-200/50 text-bark/45 hover:text-bark/70 border border-cream-200 hover:border-cream-300"
                   }`}
                 >
                   {f.label}
@@ -237,7 +237,7 @@ export default function MapaPageInner() {
             </div>
           ) : facilitadoresFiltrados.length === 0 ? (
             <div className="p-8 text-center">
-              <p className="text-warmblack/25 text-[13px]">
+              <p className="text-bark/25 text-[13px]">
                 No se encontraron facilitadores
               </p>
               <button
@@ -281,27 +281,27 @@ export default function MapaPageInner() {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-medium text-warmblack text-[13px] truncate">
+                        <h3 className="font-medium text-bark text-[13px] truncate">
                           {f.nombre}
                         </h3>
                         <div className="flex flex-wrap gap-1 mt-1">
                           {f.actividades.map((a) => (
                             <span
                               key={a.id}
-                              className="px-1.5 py-0.5 bg-cream-200/60 text-warmblack/40 text-[10px] rounded"
+                              className="px-1.5 py-0.5 bg-cream-200/60 text-bark/40 text-[10px] rounded"
                             >
                               {a.nombre}
                             </span>
                           ))}
                         </div>
                         {f.direccion && (
-                          <p className="text-[11px] text-warmblack/25 mt-1 flex items-center gap-1">
+                          <p className="text-[11px] text-bark/25 mt-1 flex items-center gap-1">
                             <MapPin className="h-2.5 w-2.5" />
                             {f.direccion}
                           </p>
                         )}
                       </div>
-                      <ChevronRight className="h-3.5 w-3.5 text-warmblack/10 shrink-0 mt-1" />
+                      <ChevronRight className="h-3.5 w-3.5 text-bark/10 shrink-0 mt-1" />
                     </div>
                   </button>
                 );
@@ -319,7 +319,7 @@ export default function MapaPageInner() {
         aria-label={panelAbierto ? "Cerrar panel" : "Abrir panel"}
       >
         <ChevronRight
-          className={`h-3.5 w-3.5 text-warmblack/25 transition-transform duration-300 ${
+          className={`h-3.5 w-3.5 text-bark/25 transition-transform duration-300 ${
             panelAbierto ? "rotate-180" : ""
           }`}
         />

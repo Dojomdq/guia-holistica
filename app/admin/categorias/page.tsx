@@ -109,8 +109,8 @@ export default function CategoriasAdmin() {
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-serif font-semibold text-warmblack">Categorías</h1>
-        <button onClick={openNew} className="inline-flex items-center gap-2 bg-warmblack text-white px-4 py-2.5 rounded-xl hover:bg-warmblack/85 transition-all duration-300 text-sm font-medium hover:-translate-y-0.5">
+        <h1 className="text-2xl font-serif font-semibold text-bark">Categorías</h1>
+        <button onClick={openNew} className="inline-flex items-center gap-2 bg-bark text-white px-4 py-2.5 rounded-xl hover:bg-bark/85 transition-all duration-300 text-sm font-medium hover:-translate-y-0.5">
           <Plus className="h-4 w-4" /> Nueva Categoría
         </button>
       </div>
@@ -125,29 +125,29 @@ export default function CategoriasAdmin() {
       {showForm && (
         <div className="bg-white rounded-2xl p-6 shadow-soft border border-cream-300/60 mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-serif font-semibold text-warmblack">{editando ? "Editar Categoría" : "Nueva Categoría"}</h2>
-            <button onClick={() => { setShowForm(false); setEditando(null); }} className="text-warmblack/30 hover:text-warmblack/60 transition-colors"><X className="h-5 w-5" /></button>
+            <h2 className="font-serif font-semibold text-bark">{editando ? "Editar Categoría" : "Nueva Categoría"}</h2>
+            <button onClick={() => { setShowForm(false); setEditando(null); }} className="text-bark/30 hover:text-bark/60 transition-colors"><X className="h-5 w-5" /></button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-warmblack/70 mb-1">Nombre *</label>
-              <input type="text" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-warmblack placeholder:text-warmblack/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Nombre de la categoría" />
+              <label className="block text-sm font-medium text-bark/70 mb-1">Nombre *</label>
+              <input type="text" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Nombre de la categoría" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-warmblack/70 mb-1">Slug</label>
-              <input type="text" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-warmblack placeholder:text-warmblack/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="auto-generado si se deja vacío" />
+              <label className="block text-sm font-medium text-bark/70 mb-1">Slug</label>
+              <input type="text" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="auto-generado si se deja vacío" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-warmblack/70 mb-1">Icono (emoji)</label>
-              <input type="text" value={form.icono} onChange={(e) => setForm({ ...form, icono: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-warmblack placeholder:text-warmblack/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="🌿" maxLength={4} />
+              <label className="block text-sm font-medium text-bark/70 mb-1">Icono (emoji)</label>
+              <input type="text" value={form.icono} onChange={(e) => setForm({ ...form, icono: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="🌿" maxLength={4} />
             </div>
           </div>
           <div className="flex gap-3 mt-6">
             <button onClick={handleSave} disabled={guardando || !form.nombre}
-              className="bg-warmblack text-white px-6 py-2.5 rounded-xl hover:bg-warmblack/85 transition-all duration-300 text-sm font-medium disabled:opacity-50 hover:-translate-y-0.5">
+              className="bg-bark text-white px-6 py-2.5 rounded-xl hover:bg-bark/85 transition-all duration-300 text-sm font-medium disabled:opacity-50 hover:-translate-y-0.5">
               {guardando ? "Guardando..." : "Guardar"}
             </button>
-            <button onClick={() => { setShowForm(false); setEditando(null); }} className="bg-cream-200 text-warmblack/60 px-6 py-2.5 rounded-xl hover:bg-cream-300 transition-all duration-300 text-sm font-medium">
+            <button onClick={() => { setShowForm(false); setEditando(null); }} className="bg-cream-200 text-bark/60 px-6 py-2.5 rounded-xl hover:bg-cream-300 transition-all duration-300 text-sm font-medium">
               Cancelar
             </button>
           </div>
@@ -175,13 +175,13 @@ export default function CategoriasAdmin() {
               <div className="flex items-center gap-3">
                 <span className="text-2xl">{cat.icono || "🌿"}</span>
                 <div>
-                  <h3 className="font-semibold text-warmblack text-sm">{cat.nombre}</h3>
-                  <p className="text-xs text-warmblack/35">{cat.slug}</p>
+                  <h3 className="font-semibold text-bark text-sm">{cat.nombre}</h3>
+                  <p className="text-xs text-bark/35">{cat.slug}</p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
-                <button onClick={() => openEdit(cat)} className="p-1.5 text-warmblack/30 hover:text-warmblack/60 hover:bg-cream-200 rounded-lg transition-colors"><Pencil className="h-4 w-4" /></button>
-                <button onClick={() => handleDelete(cat.id, cat.nombre)} className="p-1.5 text-warmblack/30 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="h-4 w-4" /></button>
+                <button onClick={() => openEdit(cat)} className="p-1.5 text-bark/30 hover:text-bark/60 hover:bg-cream-200 rounded-lg transition-colors"><Pencil className="h-4 w-4" /></button>
+                <button onClick={() => handleDelete(cat.id, cat.nombre)} className="p-1.5 text-bark/30 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="h-4 w-4" /></button>
               </div>
             </div>
           ))}

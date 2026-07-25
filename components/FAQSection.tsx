@@ -68,14 +68,14 @@ export default function FAQSection() {
                 }`}
                 aria-expanded={openIndex === i}
               >
-                <span className="font-serif text-lg text-warmblack pr-4">
+                <span className="font-serif text-lg text-bark pr-4">
                   {faq.pregunta}
                 </span>
                 <ChevronDown
                   className={`h-5 w-5 flex-shrink-0 transition-all duration-300 ${
                     openIndex === i
                       ? "rotate-180 text-sage-600"
-                      : "text-warmblack/30 group-hover:text-warmblack/50"
+                      : "text-bark/30 group-hover:text-bark/50"
                   }`}
                 />
               </button>

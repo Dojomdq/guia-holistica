@@ -22,7 +22,6 @@ import {
   CircleDashed,
   PersonStanding,
   Hash,
-  type LucideIcon,
 } from "lucide-react";
 
 const CATEGORIES = [
@@ -52,11 +51,11 @@ export default function MarqueeBand() {
   const router = useRouter();
 
   return (
-    <section ref={ref} className="py-10 sm:py-14 lg:py-16 bg-cream-50">
+    <section ref={ref} className="py-12 sm:py-16 lg:py-20 bg-cream-50">
       <div className="container-wide">
         {/* Heading */}
         <div
-          className={`text-center mb-8 transition-all duration-700 ${
+          className={`text-center mb-10 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
@@ -65,30 +64,30 @@ export default function MarqueeBand() {
             Actividades
             <span className="w-8 h-px bg-sage-300" />
           </span>
-          <h2 className="font-serif text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[1.15] tracking-[-0.02em] text-warmblack">
+          <h2 className="font-serif text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.12] tracking-[-0.02em] text-bark">
             Explorá por actividad
           </h2>
         </div>
 
         {/* Category grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
           {CATEGORIES.map((cat, i) => {
             const Icon = cat.icon;
             return (
               <button
                 key={cat.slug}
                 onClick={() => router.push(`/mapa?q=${cat.slug}`)}
-                className={`group flex flex-col items-center gap-2.5 p-4 sm:p-5 bg-white rounded-xl border border-cream-200/80 transition-all duration-300 ease-out-expo hover:border-sage-300 hover:shadow-medium hover:-translate-y-0.5 cursor-pointer ${
+                className={`group flex flex-col items-center gap-3 p-5 sm:p-6 bg-white rounded-xl border border-cream-200/60 transition-all duration-300 ease-out-expo hover:border-sage-300/60 hover:shadow-medium hover:-translate-y-0.5 cursor-pointer ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"
                 }`}
                 style={{ transitionDelay: `${Math.min(i * 40, 400)}ms` }}
               >
-                <div className="w-10 h-10 rounded-lg bg-cream-100 flex items-center justify-center transition-all duration-300 group-hover:bg-sage-50 group-hover:scale-110">
-                  <Icon className="h-5 w-5 text-warmblack/50 transition-colors duration-300 group-hover:text-sage-600" />
+                <div className="w-11 h-11 rounded-xl bg-cream-100 flex items-center justify-center transition-all duration-300 group-hover:bg-sage-50 group-hover:scale-110">
+                  <Icon className="h-5 w-5 text-bark/40 transition-colors duration-300 group-hover:text-sage-600" />
                 </div>
-                <span className="text-[13px] font-medium text-warmblack/70 transition-colors duration-300 group-hover:text-warmblack text-center leading-tight">
+                <span className="text-[13px] font-medium text-bark/60 transition-colors duration-300 group-hover:text-bark text-center leading-tight">
                   {cat.name}
                 </span>
               </button>
