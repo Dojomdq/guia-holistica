@@ -128,6 +128,7 @@ const config: Config = {
         "medium": "0 2px 8px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.03)",
         "large": "0 4px 16px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.05)",
         "glow": "0 0 48px -12px rgba(79, 125, 90, 0.2)",
+        "glow-lg": "0 0 64px -16px rgba(79, 125, 90, 0.3)",
       },
       transitionTimingFunction: {
         "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { MapPin, ArrowUpRight } from "lucide-react";
-import { useScrollReveal } from "@/lib/useScrollReveal";
+import { MapPin, ArrowUpRight, Users } from "lucide-react";
+import { useScrollReveal, useCountUp } from "@/lib/useScrollReveal";
 
 const MiniMap = dynamic(() => import("@/components/MiniMap"), {
   ssr: false,
@@ -16,9 +16,10 @@ const MiniMap = dynamic(() => import("@/components/MiniMap"), {
 
 export default function MapaPreview() {
   const { ref, isVisible } = useScrollReveal();
+  const { ref: countRef, count } = useCountUp(22, 1500);
 
   return (
-    <section ref={ref} className="py-3 sm:py-5 lg:py-6 bg-sand-50/60">
+    <section ref={ref} className="py-8 sm:py-12 lg:py-14 bg-sand-50/60">
       <div className="container-wide">
         <div
           className={`grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-5 transition-all duration-700 ${
@@ -26,21 +27,34 @@ export default function MapaPreview() {
           }`}
         >
           {/* Map */}
-          <div className="lg:col-span-8">
-            <div className="rounded-2xl overflow-hidden border border-cream-300/50 shadow-medium">
-              <div className="h-[260px] sm:h-[320px] lg:h-[360px]">
+          <div className="lg:col-span-8 relative">
+            <div className="rounded-2xl overflow-hidden border border-cream-300/50 shadow-medium transition-shadow duration-500 hover:shadow-large">
+              <div className="h-[260px] sm:h-[320px] lg:h-[380px] relative">
                 <MiniMap />
+                {/* Facilitador count badge */}
+                <div
+                  ref={countRef}
+                  className="absolute top-4 left-4 z-[1000] flex items-center gap-2 bg-white/95 backdrop-blur-sm rounded-full px-3.5 py-2 shadow-medium border border-cream-200"
+                >
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sage-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-sage-500" />
+                  </span>
+                  <span className="text-sm font-semibold text-warmblack">
+                    {count} facilitadores
+                  </span>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Text */}
-          <div className="lg:col-span-4 lg:pb-4">
+          <div className="lg:col-span-4 lg:pb-4 flex flex-col justify-center">
             <span className="label">Explorá</span>
             <h2 className="heading-md mt-3 mb-3">
               El mapa
             </h2>
-            <p className="text-[15px] text-warmblack/45 leading-relaxed mb-6">
+            <p className="text-base text-warmblack/50 leading-relaxed mb-6">
               Mirá en el mapa dónde están los facilitadores y encontrá el más cercano a vos.
             </p>
             <Link
