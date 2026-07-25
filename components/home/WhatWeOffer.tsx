@@ -49,7 +49,7 @@ export default function WhatWeOffer() {
             <span className="w-8 h-px bg-sage-300" />
           </span>
           <h2 className="font-serif text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.12] tracking-[-0.02em] text-bark">
-            Qué ofrecemos
+            Cómo funciona
           </h2>
         </div>
 
