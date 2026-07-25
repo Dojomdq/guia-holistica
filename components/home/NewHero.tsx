@@ -37,6 +37,15 @@ export default function NewHero() {
         <div className="absolute inset-0 bg-bark/70" />
         <div className="absolute inset-0 bg-gradient-to-t from-bark/90 via-bark/40 to-bark/20" />
         <div className="absolute inset-0 bg-terracotta-900/10 mix-blend-multiply" />
+        {/* Animated gradient overlay */}
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{
+            background: "linear-gradient(135deg, #FDFBF7 0%, #F2F6F3 25%, #FAF6EE 50%, #F2F6F3 75%, #FDFBF7 100%)",
+            backgroundSize: "400% 400%",
+            animation: "heroGradient 10s ease infinite",
+          }}
+        />
       </div>
 
       {/* Content */}
@@ -54,8 +63,8 @@ export default function NewHero() {
           </div>
 
           <h1
-            className={`font-serif text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.02] tracking-[-0.03em] text-white mb-5 transition-all duration-[1200ms] ${
-              loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            className={`font-serif text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.02] tracking-[-0.03em] text-white mb-5 transition-all duration-1000 ease-out ${
+              loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
             Bienestar en
@@ -64,7 +73,7 @@ export default function NewHero() {
           </h1>
 
           <p
-            className={`text-white/60 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10 transition-all duration-700 delay-200 ${
+            className={`text-white/60 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10 transition-all duration-700 delay-500 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
@@ -73,7 +82,7 @@ export default function NewHero() {
 
           <form
             onSubmit={handleSearch}
-            className={`max-w-xl mx-auto transition-all duration-700 delay-300 ${
+            className={`max-w-xl mx-auto transition-all duration-700 delay-[700ms] ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
@@ -98,7 +107,7 @@ export default function NewHero() {
           </form>
 
           <div
-            className={`flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-6 transition-all duration-700 delay-[500ms] ${
+            className={`flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-6 transition-all duration-700 delay-[900ms] ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >

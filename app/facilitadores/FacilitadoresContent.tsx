@@ -113,8 +113,8 @@ export default function FacilitadoresContent() {
   }, [busqueda, filtroCategoria, facilitadores]);
 
   return (
-    <div className="section-pad">
-      <div className="container-page">
+    <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
+      <div className="container-page py-16 sm:py-20 lg:py-24">
         <div
           ref={ref}
           className={`max-w-2xl mb-10 transition-all duration-700 ${
@@ -122,8 +122,10 @@ export default function FacilitadoresContent() {
           }`}
         >
           <span className="label">Comunidad</span>
-          <h1 className="heading-xl mt-4">Facilitadores</h1>
-          <p className="body-lg mt-4 max-w-lg">
+          <h1 className="font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.12] tracking-[-0.02em] text-bark mt-4">
+            Facilitadores
+          </h1>
+          <p className="text-lg text-bark/55 mt-4 max-w-lg">
             Conocé a los profesionales de nuestra comunidad
           </p>
         </div>
@@ -229,7 +231,7 @@ export default function FacilitadoresContent() {
                     onClick={() => track("facilitador", f.id)}
                   >
                     <div
-                      className={`card h-full ${
+                      className={`bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-300 hover:shadow-lg hover:border-cream-300 hover:-translate-y-0.5 h-full ${
                         isVisible
                           ? "opacity-100 translate-y-0"
                           : "opacity-0 translate-y-4"
@@ -278,7 +280,7 @@ export default function FacilitadoresContent() {
 
             {filtered.length === 0 && (
               <div className="text-center py-20">
-                <p className="text-bark/35 text-body-lg">
+                <p className="text-bark/35 text-lg">
                   No se encontraron facilitadores
                   {filtroCategoria && ` para esta categoría`}
                   {busqueda && ` para "${busqueda}"`}

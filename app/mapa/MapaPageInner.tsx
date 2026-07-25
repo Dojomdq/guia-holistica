@@ -155,15 +155,16 @@ export default function MapaPageInner() {
   );
 
   return (
-    <div
-      className="relative flex flex-col md:flex-row h-[500px] sm:h-[560px] md:h-[620px] lg:h-[660px]"
-    >
-      {/* Sidebar */}
+    <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
       <div
-        className={`${
-          panelAbierto ? "w-full md:w-[360px]" : "w-0"
-        } flex-shrink-0 bg-cream-100 border-r border-cream-200 flex flex-col transition-all duration-500 ease-out-expo overflow-hidden`}
+        className="relative flex flex-col md:flex-row h-[500px] sm:h-[560px] md:h-[620px] lg:h-[660px] rounded-2xl overflow-hidden shadow-2xl border border-cream-200/60 m-6 sm:m-8 lg:m-12"
       >
+        {/* Sidebar */}
+        <div
+          className={`${
+            panelAbierto ? "w-full md:w-[360px]" : "w-0"
+          } flex-shrink-0 bg-cream-100 border-r border-cream-200 flex flex-col transition-all duration-500 ease-out-expo overflow-hidden`}
+        >
         <div className="p-4 border-b border-cream-200/60">
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-serif text-base font-medium text-bark tracking-tight">
@@ -333,6 +334,7 @@ export default function MapaPageInner() {
           onSeleccionar={setFacilitadorSeleccionado}
         />
       </div>
+    </div>
     </div>
   );
 }

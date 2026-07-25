@@ -62,9 +62,13 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
       />
       <NewHero />
+      <div className="section-divider" />
       <WhatWeOffer />
+      <div className="section-divider" />
       <CategoryGrid />
+      <div className="section-divider" />
       <MapSection />
+      <div className="section-divider" />
       <NewCTA />
     </>
   );

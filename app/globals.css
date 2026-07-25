@@ -104,6 +104,42 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .section-divider {
+    @apply w-full h-px bg-gradient-to-r from-transparent via-cream-300 to-transparent;
+  }
+}
+
+/* Animated gradient for hero */
+@keyframes heroGradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDelayed {
+  0%, 50% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Leaflet overrides */
