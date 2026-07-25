@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 
 const faqs = [
   {
-    pregunta: "¿Qué es la Guía Holística?",
+    pregunta: "¿Qué es Bienestar en Mar del Plata?",
     respuesta:
       "Es una plataforma interactiva que reúne facilitadores, terapeutas y guías holísticos en Mar del Plata. Podés buscar por actividad, ubicación y explorar el mapa interactivo.",
   },

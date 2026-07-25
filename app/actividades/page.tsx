@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "Explorá todas las actividades holísticas disponibles en Mar del Plata: chamanismo, yoga, reiki, meditación, tarot, astrología, sanación energética y más. Encontrá la que necesitás.",
   openGraph: {
-    title: "Actividades Holísticas | Guía Holística Mar del Plata",
+    title: "Actividades Holísticas | Bienestar en Mar del Plata",
     description:
       "Explorá todas las actividades holísticas disponibles en Mar del Plata: chamanismo, yoga, reiki, meditación, tarot y más.",
   },

@@ -98,7 +98,7 @@ export default function AdminDashboard() {
     <div>
       <div className="mb-8">
         <h1 className="font-serif text-2xl sm:text-3xl font-medium text-bark">Dashboard</h1>
-        <p className="text-small mt-1">Resumen de tu guia holistica</p>
+        <p className="text-small mt-1">Resumen de tu directorio de bienestar</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">

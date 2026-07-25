@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description:
     "Conocé a los facilitadores, terapeutas y guías holísticos de Mar del Plata. Filtrá por actividad, buscá por nombre y descubrí sus servicios.",
   openGraph: {
-    title: "Facilitadores Holísticos | Guía Holística Mar del Plata",
+    title: "Facilitadores Holísticos | Bienestar en Mar del Plata",
     description:
       "Conocé a los facilitadores, terapeutas y guías holísticos de Mar del Plata. Filtrá por actividad y descubrí sus servicios.",
   },

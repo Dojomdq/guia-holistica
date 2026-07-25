@@ -30,7 +30,7 @@ export async function generateMetadata({
     title: data.nombre,
     description: desc.substring(0, 160),
     openGraph: {
-      title: `${data.nombre} | Guía Holística Mar del Plata`,
+      title: `${data.nombre} | Bienestar en Mar del Plata`,
       description: desc.substring(0, 160),
       url: `https://www.agenciakoi.com/facilitadores/${params.id}`,
     },

@@ -54,7 +54,7 @@ export default function Header() {
             <Link
               href="/"
               className="flex items-center gap-2 group"
-              aria-label="Guía Holística - Inicio"
+              aria-label="Bienestar en Mar del Plata - Inicio"
             >
               <span
                 className={`font-serif text-xl font-semibold tracking-tight transition-colors duration-500 ${

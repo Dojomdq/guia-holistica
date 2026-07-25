@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description:
     "Encontrá terapeutas, facilitadores y guías holísticos cerca tuyo en Mar del Plata. Mapa interactivo con chamanismo, yoga, reiki, meditación y más.",
   openGraph: {
-    title: "Bienestar en Mar del Plata | Guía Holística",
+    title: "Bienestar en Mar del Plata | Encontrá Terapeutas, Yoga y Reiki",
     description:
       "Encontrá terapeutas, facilitadores y guías holísticos cerca tuyo en Mar del Plata. Mapa interactivo con chamanismo, yoga, reiki, meditación y más.",
   },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Guía Holística Mar del Plata",
+  name: "Bienestar en Mar del Plata",
   url: SITE_URL,
   description:
     "Directorio de bienestar en Mar del Plata. Encontrá terapeutas, facilitadores y guías holísticos.",
@@ -41,7 +41,7 @@ const jsonLd = {
 const webSiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Guía Holística Mar del Plata",
+  name: "Bienestar en Mar del Plata",
   url: SITE_URL,
   potentialAction: {
     "@type": "SearchAction",
