@@ -1,0 +1,90 @@
+"use client";
+
+import Link from "next/link";
+import { Map, LayoutGrid, Users, ArrowUpRight } from "lucide-react";
+import { useScrollReveal } from "@/lib/useScrollReveal";
+
+const FEATURES = [
+  {
+    icon: Map,
+    title: "Mapa interactivo",
+    description: "Encontrá facilitadores cerca tuyo en un mapa de Mar del Plata.",
+    href: "/mapa",
+    color: "bg-sage-100 text-sage-700",
+    border: "hover:border-sage-400",
+  },
+  {
+    icon: LayoutGrid,
+    title: "19 categorías",
+    description: "Yoga, reiki, chamanismo, meditación y mucho más.",
+    href: "/actividades",
+    color: "bg-sand-100 text-sand-700",
+    border: "hover:border-sand-400",
+  },
+  {
+    icon: Users,
+    title: "22 facilitadores",
+    description: "Perfiles verificados con contacto directo por WhatsApp.",
+    href: "/facilitadores",
+    color: "bg-terracotta-100 text-terracotta-700",
+    border: "hover:border-terracotta-400",
+  },
+];
+
+export default function WhatWeOffer() {
+  const { ref, isVisible } = useScrollReveal();
+
+  return (
+    <section ref={ref} className="py-20 sm:py-24 lg:py-28 bg-cream-50">
+      <div className="container-wide">
+        {/* Section header */}
+        <div
+          className={`text-center mb-14 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
+          <span className="inline-flex items-center gap-2 text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-sage-600 mb-4">
+            <span className="w-8 h-px bg-sage-300" />
+            Cómo funciona
+            <span className="w-8 h-px bg-sage-300" />
+          </span>
+          <h2 className="font-serif text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.12] tracking-[-0.02em] text-bark">
+            Qué ofrecemos
+          </h2>
+        </div>
+
+        {/* Feature cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {FEATURES.map((feature, i) => {
+            const Icon = feature.icon;
+            return (
+              <Link
+                key={feature.title}
+                href={feature.href}
+                className={`group bg-white rounded-2xl border border-cream-200/80 p-8 transition-all duration-300 hover:shadow-medium ${feature.border} ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-4"
+                }`}
+                style={{ transitionDelay: `${i * 100}ms` }}
+              >
+                <div
+                  className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110 ${feature.color}`}
+                >
+                  <Icon className="h-6 w-6" strokeWidth={1.5} />
+                </div>
+                <h3 className="font-serif text-xl font-medium text-bark mb-2 flex items-center gap-1.5">
+                  {feature.title}
+                  <ArrowUpRight className="h-4 w-4 opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
+                </h3>
+                <p className="text-[15px] text-bark/50 leading-relaxed">
+                  {feature.description}
+                </p>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
