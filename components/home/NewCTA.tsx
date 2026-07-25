@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, Heart } from "lucide-react";
 import { useScrollReveal } from "@/lib/useScrollReveal";
 import { WHATSAPP_LINK } from "@/lib/constants";
@@ -9,10 +10,17 @@ export default function NewCTA() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-terracotta-800">
-      <div className="absolute inset-0 opacity-[0.06] mix-blend-overlay noise-overlay pointer-events-none" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-sand-400/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-terracotta-300/10 rounded-full blur-3xl pointer-events-none" />
+    <section ref={ref} className="relative overflow-hidden">
+      <div className="absolute inset-0">
+        <Image
+          src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/IMG_20240709_175009590_zycrnh.jpg"
+          alt=""
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-bark/85" />
+        <div className="absolute inset-0 bg-gradient-to-b from-bark/60 via-bark/80 to-bark/90" />
+      </div>
 
       <div className="relative py-24 sm:py-28 lg:py-32">
         <div className="container-wide text-center">

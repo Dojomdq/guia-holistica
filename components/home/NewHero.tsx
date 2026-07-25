@@ -28,8 +28,8 @@ export default function NewHero() {
       {/* Background image */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=1080&fit=crop&crop=center"
-          alt="Playa de Mar del Plata al atardecer"
+          src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/AF49F0FF-4A15-4EA3-AE9F-AC8F83C11FC0_hkigqu.jpg"
+          alt="Costa de Mar del Plata"
           fill
           className="object-cover"
           priority

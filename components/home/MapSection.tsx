@@ -23,7 +23,7 @@ export default function MapSection() {
       {/* Background image */}
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1920&h=800&fit=crop&crop=center"
+          src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/IMG_20230812_162528493_HDR_dinino.jpg"
           alt=""
           fill
           className="object-cover"
