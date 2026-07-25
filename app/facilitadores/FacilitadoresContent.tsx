@@ -231,7 +231,7 @@ export default function FacilitadoresContent() {
                     onClick={() => track("facilitador", f.id)}
                   >
                     <div
-                      className={`bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-300 hover:shadow-lg hover:border-cream-300 hover:-translate-y-0.5 h-full ${
+                      className={`bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-200 hover:scale-105 hover:shadow-lg hover:border-cream-300 h-full ${
                         isVisible
                           ? "opacity-100 translate-y-0"
                           : "opacity-0 translate-y-4"

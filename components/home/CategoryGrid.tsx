@@ -85,7 +85,7 @@ export default function CategoryGrid() {
               <button
                 key={cat.slug}
                 onClick={() => router.push(`/mapa?q=${cat.slug}`)}
-                className={`group relative flex flex-col items-center gap-3 p-5 sm:p-6 rounded-2xl border border-cream-200/60 transition-all duration-300 ease-out-expo hover:shadow-medium hover:-translate-y-0.5 cursor-pointer ${cat.bg} ${cat.hoverBg} ${
+                className={`group relative flex flex-col items-center gap-3 p-5 sm:p-6 rounded-2xl border border-cream-200/60 transition-all duration-200 ease-out-expo hover:scale-105 hover:shadow-lg cursor-pointer ${cat.bg} ${cat.hoverBg} ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"

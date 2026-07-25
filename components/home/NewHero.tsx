@@ -77,7 +77,7 @@ export default function NewHero() {
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Encontrá terapeutas, facilitadores y guías holísticos cerca tuyo.
+            Encontrá terapeutas, facilitadores y guías cerca tuyo en Mar del Plata.
           </p>
 
           <form
@@ -98,7 +98,7 @@ export default function NewHero() {
               />
               <button
                 type="submit"
-                className="flex items-center gap-2 px-7 py-3.5 bg-sand-400 text-bark rounded-xl hover:bg-sand-300 hover:shadow-warm hover:-translate-y-0.5 transition-all duration-300 text-sm font-semibold shrink-0 group/btn"
+                className="flex items-center gap-2 px-7 py-3.5 bg-sand-400 text-bark rounded-xl hover:bg-sand-300 hover:scale-102 hover:shadow-md transition-all duration-150 text-sm font-semibold shrink-0 group/btn"
               >
                 Buscar
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />

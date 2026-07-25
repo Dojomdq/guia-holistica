@@ -45,7 +45,7 @@ export default function NewCTA() {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-10 py-5 bg-white text-bark rounded-full text-base font-semibold hover:bg-cream-100 hover:-translate-y-1 hover:shadow-large transition-all duration-300 group"
+              className="inline-flex items-center gap-3 px-10 py-5 bg-white text-bark rounded-full text-base font-semibold hover:bg-cream-100 hover:scale-102 hover:shadow-md transition-all duration-150 group"
             >
               Sumarme ahora
               <ArrowUpRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

@@ -66,7 +66,7 @@ export default function WhatWeOffer() {
                 key={feature.title}
                 href={feature.href}
                 {...externalProps}
-                className={`group bg-white rounded-2xl border border-cream-200/80 p-8 transition-all duration-300 hover:shadow-medium ${feature.border} ${
+                className={`group bg-white rounded-2xl border border-cream-200/80 p-8 transition-all duration-200 hover:scale-105 hover:shadow-lg ${feature.border} ${
                   isVisible
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-4"
