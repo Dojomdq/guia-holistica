@@ -51,7 +51,15 @@ export default function CategoryGrid() {
   const router = useRouter();
 
   return (
-    <section ref={ref} className="py-20 sm:py-24 lg:py-28 bg-cream-50 relative">
+    <section ref={ref} className="py-20 sm:py-24 lg:py-28 relative overflow-hidden">
+      <div className="absolute inset-0">
+        <img
+          src="https://images.unsplash.com/photo-1545243424-0ce743321e11?w=1920&h=800&fit=crop&crop=center"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-cream-50/92" />
+      </div>
       <div className="absolute inset-0 opacity-[0.02] mix-blend-overlay noise-overlay pointer-events-none" />
 
       <div className="relative container-wide">

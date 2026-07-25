@@ -68,6 +68,7 @@ const config: Config = {
           900: "#332C26",
           950: "#2A1F14",
         },
+        warmblack: "#1A1510",
       },
       fontFamily: {
         sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
