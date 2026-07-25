@@ -68,10 +68,10 @@ export default function CategoryGrid() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          <span className="inline-flex items-center gap-2 text-lg font-medium tracking-wide uppercase text-bark/50 mb-4">
-            <span className="w-10 h-px bg-bark/25" />
+          <span className="inline-flex items-center gap-2 px-5 py-2 bg-sage-600 text-white text-sm font-semibold tracking-wide uppercase rounded-full mb-5 shadow-md">
+            <span className="w-2 h-2 bg-white/40 rounded-full" />
             Explorá
-            <span className="w-10 h-px bg-bark/25" />
+            <span className="w-2 h-2 bg-white/40 rounded-full" />
           </span>
           <h2 className="font-serif text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.12] tracking-[-0.02em] text-bark">
             Explorá las actividades disponibles
