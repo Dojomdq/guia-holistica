@@ -27,7 +27,7 @@ export default function Hero() {
       {/* Background — real Mar del Plata coast photo */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=1080&fit=crop&crop=center"
+          src="https://images.unsplash.com/photo-vRJRJ2wWX5k?w=1920&h=1080&fit=crop&crop=center"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
@@ -38,8 +38,8 @@ export default function Hero() {
           style={{
             background:
               "linear-gradient(to top, " +
-              "rgba(42,31,20,0.90) 0%, " +
-              "rgba(42,31,20,0.78) 15%, " +
+              "rgba(42,31,20,0.92) 0%, " +
+              "rgba(42,31,20,0.80) 15%, " +
               "rgba(42,31,20,0.55) 35%, " +
               "rgba(42,31,20,0.25) 55%, " +
               "rgba(42,31,20,0.10) 75%, " +

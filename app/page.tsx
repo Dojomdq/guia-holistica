@@ -23,8 +23,12 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <MarqueeBand />
-      <MapaPreview />
+      <div className="bg-cream-50">
+        <MarqueeBand />
+      </div>
+      <div className="bg-sage-50/30">
+        <MapaPreview />
+      </div>
       <ParallaxBreak />
       <CTASection />
     </>

@@ -5,7 +5,7 @@ import { Mail, MessageCircle } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-bark relative overflow-hidden">
+    <footer className="bg-gradient-to-b from-bark to-terracotta relative overflow-hidden">
       {/* Subtle texture */}
       <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay noise-overlay pointer-events-none" />
 

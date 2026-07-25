@@ -51,7 +51,7 @@ export default function MarqueeBand() {
   const router = useRouter();
 
   return (
-    <section ref={ref} className="py-12 sm:py-16 lg:py-20 bg-cream-50">
+    <section ref={ref} className="py-12 sm:py-16 lg:py-20">
       <div className="container-wide">
         {/* Heading */}
         <div

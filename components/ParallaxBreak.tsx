@@ -13,13 +13,13 @@ export default function ParallaxBreak() {
       {/* Background — Mar del Plata coast, different crop */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1920&h=800&fit=crop&crop=bottom"
+          src="https://images.unsplash.com/photo-QeQbK4J3P4A?w=1920&h=800&fit=crop&crop=center"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
           loading="lazy"
         />
         {/* Dark overlay for text contrast */}
-        <div className="absolute inset-0 bg-bark/65" />
+        <div className="absolute inset-0 bg-bark/55" />
         {/* Warm tint */}
         <div className="absolute inset-0 bg-terracotta-900/10 mix-blend-multiply" />
         {/* Subtle grain */}

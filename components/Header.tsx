@@ -47,9 +47,9 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
           showDark
-            ? "bg-cream-50/90 backdrop-blur-xl border-b border-cream-200/50"
+            ? "bg-cream-50/95 backdrop-blur-xl border-b border-cream-200/50 shadow-soft"
             : "bg-transparent"
         }`}
       >
