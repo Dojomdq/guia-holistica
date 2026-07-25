@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { MapPin, ArrowUpRight } from "lucide-react";
 import { useScrollReveal } from "@/lib/useScrollReveal";
@@ -22,11 +21,10 @@ export default function MapSection() {
     <section ref={ref} className="relative py-20 sm:py-24 lg:py-28 overflow-hidden">
       {/* Background image */}
       <div className="absolute inset-0">
-        <Image
+        <img
           src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/IMG_20230812_162528493_HDR_dinino.jpg"
           alt=""
-          fill
-          className="object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-bark/50" />
         <div className="absolute inset-0 bg-gradient-to-b from-bark/40 via-bark/50 to-bark/70" />

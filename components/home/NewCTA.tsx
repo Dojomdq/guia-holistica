@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowUpRight, Heart } from "lucide-react";
 import { useScrollReveal } from "@/lib/useScrollReveal";
 import { WHATSAPP_LINK } from "@/lib/constants";
@@ -12,11 +11,10 @@ export default function NewCTA() {
   return (
     <section ref={ref} className="relative overflow-hidden">
       <div className="absolute inset-0">
-        <Image
+        <img
           src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/IMG_20240709_175009590_zycrnh.jpg"
           alt=""
-          fill
-          className="object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-bark/55" />
         <div className="absolute inset-0 bg-gradient-to-b from-bark/40 via-bark/55 to-bark/75" />
