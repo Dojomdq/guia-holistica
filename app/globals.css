@@ -33,44 +33,12 @@
     @apply mx-auto max-w-7xl px-6 sm:px-8 lg:px-12;
   }
 
-  .section-pad {
-    @apply py-14 sm:py-18 lg:py-24;
-  }
-
-  .section-pad-tight {
-    @apply py-10 sm:py-14 lg:py-18;
-  }
-
   .label {
     @apply font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-sage-600;
   }
 
   .label-light {
     @apply font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-white/60;
-  }
-
-  .heading-xl {
-    @apply font-serif text-display-xl text-bark;
-  }
-
-  .heading-lg {
-    @apply font-serif text-display-lg text-bark;
-  }
-
-  .heading-md {
-    @apply font-serif text-display-md text-bark;
-  }
-
-  .body-lg {
-    @apply text-body-lg text-bark/60;
-  }
-
-  .body-text {
-    @apply text-body text-bark/60;
-  }
-
-  .body-sm {
-    @apply text-body-sm text-bark/45;
   }
 
   .btn {
@@ -105,16 +73,8 @@
     @apply bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-300 hover:shadow-medium hover:border-cream-300;
   }
 
-  .card-elevated {
-    @apply bg-white rounded-2xl border border-cream-200/80 p-6 shadow-soft transition-all duration-300 hover:shadow-large hover:-translate-y-0.5;
-  }
-
   .badge {
     @apply inline-flex items-center gap-1 px-2.5 py-1 bg-sage-50 text-sage-700 text-[11px] font-medium rounded-md border border-sage-100;
-  }
-
-  .divider {
-    @apply border-t border-cream-200;
   }
 
   .noise-overlay {

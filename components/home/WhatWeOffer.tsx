@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Map, MessageCircle, HelpCircle, ArrowUpRight } from "lucide-react";
 import { useScrollReveal } from "@/lib/useScrollReveal";
+import { WHATSAPP_LINK } from "@/lib/constants";
 
 const FEATURES = [
   {
@@ -25,7 +26,7 @@ const FEATURES = [
     icon: HelpCircle,
     title: "¿No encontrás tu actividad?",
     description: "Si tu práctica no está en la lista, escribinos y la agregamos. Queremos que el directorio crezca con la comunidad.",
-    href: "https://wa.me/5492235742540",
+    href: WHATSAPP_LINK,
     color: "bg-terracotta-100 text-terracotta-700",
     border: "hover:border-terracotta-400",
   },
@@ -37,7 +38,6 @@ export default function WhatWeOffer() {
   return (
     <section ref={ref} className="py-20 sm:py-24 lg:py-28 bg-cream-50">
       <div className="container-wide">
-        {/* Section header */}
         <div
           className={`text-center mb-14 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -53,7 +53,6 @@ export default function WhatWeOffer() {
           </h2>
         </div>
 
-        {/* Feature cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {FEATURES.map((feature, i) => {
             const Icon = feature.icon;

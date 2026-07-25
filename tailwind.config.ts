@@ -68,22 +68,10 @@ const config: Config = {
           900: "#332C26",
           950: "#2A1F14",
         },
-        stone: {
-          50: "#F9F8F6",
-          100: "#F0EEEA",
-          200: "#E2DED6",
-          300: "#CCC5B9",
-          400: "#B0A696",
-          500: "#9A8E7C",
-          600: "#827568",
-          700: "#6B6056",
-          800: "#59504A",
-          900: "#4A4440",
-        },
       },
       fontFamily: {
         sans: ["var(--font-dm-sans)", "system-ui", "sans-serif"],
-        serif: ["var(--font-cormorant)", "Georgia", "serif"],
+        serif: ["var(--font-playfair)", "Georgia", "serif"],
         mono: ["var(--font-dm-mono)", "Menlo", "monospace"],
       },
       fontSize: {

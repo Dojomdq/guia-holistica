@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Search, ArrowRight, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -26,23 +27,21 @@ export default function NewHero() {
     <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
       {/* Background image */}
       <div className="absolute inset-0">
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=1080&fit=crop&crop=center"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-          loading="eager"
+          alt="Playa de Mar del Plata al atardecer"
+          fill
+          className="object-cover"
+          priority
         />
-        {/* Gradient overlays */}
         <div className="absolute inset-0 bg-bark/70" />
         <div className="absolute inset-0 bg-gradient-to-t from-bark/90 via-bark/40 to-bark/20" />
-        {/* Subtle warm tint */}
         <div className="absolute inset-0 bg-terracotta-900/10 mix-blend-multiply" />
       </div>
 
-      {/* Content — centered */}
+      {/* Content */}
       <div className="relative z-10 w-full px-6 py-14">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Overline */}
           <div
             className={`mb-6 transition-all duration-700 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -54,7 +53,6 @@ export default function NewHero() {
             </span>
           </div>
 
-          {/* Main heading */}
           <h1
             className={`font-serif text-[clamp(2.5rem,6vw,5.5rem)] leading-[1.02] tracking-[-0.03em] text-white mb-5 transition-all duration-[1200ms] ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -65,7 +63,6 @@ export default function NewHero() {
             <span className="text-sand-300/90">Mar del Plata</span>
           </h1>
 
-          {/* Subtitle */}
           <p
             className={`text-white/60 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10 transition-all duration-700 delay-200 ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -74,7 +71,6 @@ export default function NewHero() {
             Encontrá terapeutas, facilitadores y guías holísticos cerca tuyo.
           </p>
 
-          {/* Search bar */}
           <form
             onSubmit={handleSearch}
             className={`max-w-xl mx-auto transition-all duration-700 delay-300 ${
@@ -88,6 +84,7 @@ export default function NewHero() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="chamanismo, yoga, reiki..."
+                aria-label="Buscar facilitadores o actividades"
                 className="flex-1 px-4 py-3.5 bg-transparent text-white placeholder:text-white/30 focus:outline-none text-base"
               />
               <button
@@ -100,7 +97,6 @@ export default function NewHero() {
             </div>
           </form>
 
-          {/* Quick links */}
           <div
             className={`flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-6 transition-all duration-700 delay-[500ms] ${
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -112,7 +108,7 @@ export default function NewHero() {
                 onClick={() =>
                   router.push(`/mapa?q=${encodeURIComponent(tag.toLowerCase())}`)
                 }
-                className="text-white/35 text-[13px] font-medium hover:text-sand-300 transition-colors duration-300"
+                className="text-white/50 text-[13px] font-medium hover:text-sand-300 transition-colors duration-300"
               >
                 {tag}
               </button>
@@ -120,7 +116,6 @@ export default function NewHero() {
           </div>
         </div>
       </div>
-
     </section>
   );
 }

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { DM_Sans, Cormorant_Garamond, DM_Mono } from "next/font/google";
+import { DM_Sans, Playfair_Display, DM_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SITE_URL } from "@/lib/constants";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -11,9 +12,9 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-const cormorant = Cormorant_Garamond({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-cormorant",
+  variable: "--font-playfair",
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
@@ -24,8 +25,6 @@ const dmMono = DM_Mono({
   display: "swap",
   weight: "500",
 });
-
-const SITE_URL = "https://www.agenciakoi.com";
 
 export const metadata: Metadata = {
   title: {
@@ -60,7 +59,7 @@ export const metadata: Metadata = {
     url: SITE_URL,
     images: [
       {
-        url: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=630&fit=crop",
+        url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&h=630&fit=crop",
         width: 1200,
         height: 630,
         alt: "Guía Holística Mar del Plata",
@@ -95,13 +94,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${dmSans.variable} ${cormorant.variable} ${dmMono.variable}`}>
+    <html lang="es" className={`${dmSans.variable} ${playfair.variable} ${dmMono.variable}`}>
       <head>
         <link
           rel="stylesheet"
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossOrigin=""
+          crossOrigin="anonymous"
         />
       </head>
       <body className="font-sans">

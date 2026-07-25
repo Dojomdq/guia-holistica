@@ -52,11 +52,9 @@ export default function CategoryGrid() {
 
   return (
     <section ref={ref} className="py-20 sm:py-24 lg:py-28 bg-cream-50 relative">
-      {/* Subtle texture */}
       <div className="absolute inset-0 opacity-[0.02] mix-blend-overlay noise-overlay pointer-events-none" />
 
       <div className="relative container-wide">
-        {/* Section header */}
         <div
           className={`text-center mb-14 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -68,11 +66,10 @@ export default function CategoryGrid() {
             <span className="w-8 h-px bg-sage-300" />
           </span>
           <h2 className="font-serif text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.12] tracking-[-0.02em] text-bark">
-            19 formas de bienestar
+            Explorá las actividades disponibles
           </h2>
         </div>
 
-        {/* Category grid */}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3 max-w-6xl mx-auto">
           {CATEGORIES.map((cat, i) => {
             const Icon = cat.icon;

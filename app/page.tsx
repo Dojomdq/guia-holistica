@@ -4,6 +4,7 @@ import WhatWeOffer from "@/components/home/WhatWeOffer";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import MapSection from "@/components/home/MapSection";
 import NewCTA from "@/components/home/NewCTA";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Bienestar en Mar del Plata | Encontrá Terapeutas, Yoga y Reiki",
@@ -15,13 +16,51 @@ export const metadata: Metadata = {
       "Encontrá terapeutas, facilitadores y guías holísticos cerca tuyo en Mar del Plata. Mapa interactivo con chamanismo, yoga, reiki, meditación y más.",
   },
   alternates: {
-    canonical: "https://www.agenciakoi.com",
+    canonical: SITE_URL,
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Guía Holística Mar del Plata",
+  url: SITE_URL,
+  description:
+    "Directorio de bienestar en Mar del Plata. Encontrá terapeutas, facilitadores y guías holísticos.",
+  areaServed: {
+    "@type": "City",
+    name: "Mar del Plata",
+    containedInPlace: {
+      "@type": "Country",
+      name: "Argentina",
+    },
+  },
+  sameAs: [],
+};
+
+const webSiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Guía Holística Mar del Plata",
+  url: SITE_URL,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${SITE_URL}/mapa?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
   },
 };
 
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd) }}
+      />
       <NewHero />
       <WhatWeOffer />
       <CategoryGrid />
