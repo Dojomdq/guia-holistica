@@ -58,7 +58,7 @@ export default function CategoryGrid() {
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-cream-50/92" />
+        <div className="absolute inset-0 bg-cream-50/97" />
       </div>
       <div className="absolute inset-0 opacity-[0.02] mix-blend-overlay noise-overlay pointer-events-none" />
 
