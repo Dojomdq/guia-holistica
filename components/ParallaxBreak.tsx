@@ -10,18 +10,20 @@ export default function ParallaxBreak() {
       ref={ref}
       className="relative py-16 sm:py-20 lg:py-28 overflow-hidden"
     >
-      {/* Background — real nature image */}
+      {/* Background — Mar del Plata coast, different crop */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=1920&h=800&fit=crop&crop=center"
+          src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1920&h=800&fit=crop&crop=bottom"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
           loading="lazy"
         />
         {/* Dark overlay for text contrast */}
-        <div className="absolute inset-0 bg-bark/70" />
+        <div className="absolute inset-0 bg-bark/65" />
+        {/* Warm tint */}
+        <div className="absolute inset-0 bg-terracotta-900/10 mix-blend-multiply" />
         {/* Subtle grain */}
-        <div className="absolute inset-0 opacity-[0.06] mix-blend-overlay noise-overlay" />
+        <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay noise-overlay" />
       </div>
 
       {/* Content */}

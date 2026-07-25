@@ -24,42 +24,30 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-[92svh] flex items-end overflow-hidden">
-      {/* Background — warm earth gradient with texture */}
+      {/* Background — real Mar del Plata coast photo */}
       <div className="absolute inset-0">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(160deg, " +
-              "#3D2B1A 0%, " +
-              "#4A3520 15%, " +
-              "#5C4530 30%, " +
-              "#6B5540 50%, " +
-              "#7A6550 70%, " +
-              "#8B7560 85%, " +
-              "#9C8570 100%)",
-          }}
+        <img
+          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&h=1080&fit=crop&crop=center"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
         />
-        {/* Organic noise texture */}
-        <div
-          className="absolute inset-0 opacity-[0.12] mix-blend-overlay noise-overlay"
-        />
-        {/* Warm light orb */}
-        <div className="absolute top-[15%] right-[10%] w-[500px] h-[500px] rounded-full bg-sand-400/20 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full bg-terracotta-400/10 blur-[100px] pointer-events-none" />
-        {/* Bottom gradient for text readability */}
+        {/* Dark overlay for text readability */}
         <div
           className="absolute inset-0"
           style={{
             background:
               "linear-gradient(to top, " +
-              "rgba(42,31,20,0.92) 0%, " +
-              "rgba(42,31,20,0.80) 20%, " +
-              "rgba(42,31,20,0.50) 45%, " +
-              "rgba(42,31,20,0.15) 70%, " +
+              "rgba(42,31,20,0.90) 0%, " +
+              "rgba(42,31,20,0.78) 15%, " +
+              "rgba(42,31,20,0.55) 35%, " +
+              "rgba(42,31,20,0.25) 55%, " +
+              "rgba(42,31,20,0.10) 75%, " +
               "rgba(42,31,20,0.0) 100%)",
           }}
         />
+        {/* Warm tint */}
+        <div className="absolute inset-0 bg-terracotta-900/15 mix-blend-multiply" />
       </div>
 
       {/* Content */}
