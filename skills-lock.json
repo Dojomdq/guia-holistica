@@ -1,0 +1,335 @@
+{
+  "version": 1,
+  "skills": {
+    "algorithmic-art": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/algorithmic-art/SKILL.md",
+      "computedHash": "7c446629c20a537aba3496490550bbfddf71b3bb71904c9c0056c9daa025a330"
+    },
+    "brand-guidelines": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/brand-guidelines/SKILL.md",
+      "computedHash": "cf41642f38f35bcae5bbf59215f0ee629d5f6a54b4811454f6cb93bc9b12b69e"
+    },
+    "canvas-design": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/canvas-design/SKILL.md",
+      "computedHash": "21e7c68d336893e4f2aa8d269854fd5e253c89cfc6dd0e74fa487fe7e96abdeb"
+    },
+    "coding-architect": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/coding-architect/SKILL.md",
+      "computedHash": "2ae1aa89e32ebe289d7257f35d110680f3032b56b64d438dc79becc5c916b3c9"
+    },
+    "custom-agent-creator": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/custom-agent-creator/SKILL.md",
+      "computedHash": "b62d88c33868a65f7c4d7e5e44825c666ecc378622a2e9eff0eaf737d1ad61a1"
+    },
+    "deploy-to-vercel": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/deploy-to-vercel/SKILL.md",
+      "computedHash": "03e0eaaa9bf13ba1e7ffa387f5893de6f324c0868c627001f179395a8feaa7c9"
+    },
+    "devcontainer-config": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/devcontainer-config/SKILL.md",
+      "computedHash": "a2828d70d44eca90233657bdcdf8ccb2a6a2f361b83c6ccc3d0e2b251dc23b80"
+    },
+    "django-backend-dev": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/django-backend-dev/SKILL.md",
+      "computedHash": "5a63ee486648ed5bb443b2b33edd332dfe91193c63e04125a63e3168e6316132"
+    },
+    "doc-coauthoring": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/doc-coauthoring/SKILL.md",
+      "computedHash": "62cd7744438ee2aecc986c520bb603988a78ff6aaaf70a471bf4584fe0b78dae"
+    },
+    "docx": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/docx/SKILL.md",
+      "computedHash": "e62f62bb4ba4f5512d70ac812d3a31ffd0ec9f7d0101a8901d21ce12947e3a16"
+    },
+    "environments": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/environments/SKILL.md",
+      "computedHash": "5a77fc4c1512571bf9c29abbbf8fd17ee71509573e61a58a26b9eff3d7438b7c"
+    },
+    "feature-breakdown": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/feature-breakdown/SKILL.md",
+      "computedHash": "fd29f99130265e078d819825c73db51f5eb5b795b912236b3a7a767e5eee70c2"
+    },
+    "feature-planning": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/feature-planning/SKILL.md",
+      "computedHash": "881647f3fa46ba73310efd6b0f3cfa058ba7c451f73706247b4cbb84dae48bf5"
+    },
+    "feature-summary": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/feature-summary/SKILL.md",
+      "computedHash": "9d9e7a8713d4238a2623a26ccbeaf0d6a3a2a8a02fe71a8ae11ba23534685916"
+    },
+    "gemini-researcher": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/gemini-researcher/SKILL.md",
+      "computedHash": "5701088576d7d5658ac0f059ccc4b282cc53ff6ca5c09dcde6a6cefdb8250c07"
+    },
+    "git-commit-workflow": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/git-commit-workflow/SKILL.md",
+      "computedHash": "2c07463018ac4b14187d3b3c81914320a1ba51b1f50ab0f594ef97d3629bb057"
+    },
+    "git-worktrees-usage": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/git-worktrees-usage/SKILL.md",
+      "computedHash": "2d3453202304b5d5aa10bc094b7713ccd65fa841c5b6dc5382e986603a9ec770"
+    },
+    "github-create-issue": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/github-create-issue/SKILL.md",
+      "computedHash": "6e88c90e27b01486bf811bbdd016c3f2d72e6b23dd26154a40203a4ceb8abb3c"
+    },
+    "github-create-label": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/github-create-label/SKILL.md",
+      "computedHash": "e3c80fe6d5f756677adcf80c5e2459fd43f9150789a345a3ae9c170e9f2cafd5"
+    },
+    "github-issue-form-templates": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/github-issue-form-templates/SKILL.md",
+      "computedHash": "7262aab7897eb44c1de734a315231252b0339367d5fc9718db71ccd5a91f96f1"
+    },
+    "github-pr-comments": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/github-pr-comments/SKILL.md",
+      "computedHash": "db3318f62dcf4e8350523d3fa64cb15b3c0013c93d8029502f0cb174b0b76845"
+    },
+    "github-pull-request": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/github-pull-request/SKILL.md",
+      "computedHash": "32730ec8074f79b2108fb8f38339ad74eb2e2d416e5b5c2378e20f24aee7aa03"
+    },
+    "greenfield-decomposer": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/greenfield-decomposer/SKILL.md",
+      "computedHash": "59ce6581fd1d2a33ebd91a748055855035020081f60ecd1295ea244334b60cca"
+    },
+    "greenfield-init": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/greenfield-init/SKILL.md",
+      "computedHash": "4128b22dbcf5adfb00cc2e5c8749076bdd17393f99ae2f4635cf013fc160604a"
+    },
+    "greenfield-one-shot": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/greenfield-one-shot/SKILL.md",
+      "computedHash": "4ee964c6043b5e14bbc8f31ae383115b0fbc9e5af191f9741cb65a1e77dbcaa8"
+    },
+    "gtk-ui-ux-engineer": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/gtk-ui-ux-engineer/SKILL.md",
+      "computedHash": "87f3780a5671b93eae558aad044d73aada675f0c2d00904759888adbf777367e"
+    },
+    "internal-comms": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/internal-comms/SKILL.md",
+      "computedHash": "6e7e5d2f3bfa91e6ce302e629ff639bc82d95d2ce3454383531093cbeb8b38b0"
+    },
+    "markdown-crossref-validator": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/markdown-crossref-validator/SKILL.md",
+      "computedHash": "64939431a97b88570e2562d7dfda76c099554a7bf661ed9d6a8103aeab56f886"
+    },
+    "mcp-builder": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/mcp-builder/SKILL.md",
+      "computedHash": "f08cbdec74dba480ec5217363446dae154b7576b8c3d9b4cb17aff234f15973b"
+    },
+    "opentui": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/opentui/SKILL.md",
+      "computedHash": "fa4397f546119815d5f8ce2ad446b47129598371802770a6fa2a0b4c1b2b20a3"
+    },
+    "pdf": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/pdf/SKILL.md",
+      "computedHash": "b01d70063be7115b374550f7f95498b34c861d1eb348cb807d697d29a5c2539a"
+    },
+    "pptx": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/pptx/SKILL.md",
+      "computedHash": "c6a8906684b704ddad43d8f1e6cfe23d96b042d526e584f36ba6c16595f1efe7"
+    },
+    "prd-creator": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/prd-creator/SKILL.md",
+      "computedHash": "021c1b2de55e68d319e03fbb679ae92cbf4e4a456aa155c1025c71a22231ef60"
+    },
+    "readme-updater": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/readme-updater/SKILL.md",
+      "computedHash": "3c13d80a50ea384486e55e2d0958ea0365750f361d674c32bee51a50e1f2fc98"
+    },
+    "reusable-commands": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/reusable-commands/SKILL.md",
+      "computedHash": "d27004afbfbb65370f6ccddeb0f1b5f5d8730bd0bd869214a874cdefa92793d6"
+    },
+    "self-learning": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/self-learning/SKILL.md",
+      "computedHash": "4f66ef52be0ab84bb61f25a60b7b9b0ff497abd6d45e95ab97596524084072e8"
+    },
+    "semver-changelog": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/semver-changelog/SKILL.md",
+      "computedHash": "46abd695bf7eda64baf410592f4d1884aaee83d42ccd8c230b9a3fb9b3b70caf"
+    },
+    "skill-creator": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "computedHash": "3893f9b73632f3099e81f5d5d4b3b59a813d06a8da1f08ebb6624a5a70578232"
+    },
+    "system-prompt-validator": {
+      "source": "prulloac/agent-skills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/system-prompt-validator/SKILL.md",
+      "computedHash": "d83504e9500e3545a4d9704c7d2e4ff02d0613b38fde2d6cc96eab488b56d29c"
+    },
+    "tailwind-auditor": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/tailwind-auditor/SKILL.md",
+      "computedHash": "728b7601e95c597c3d3a8c0d12519cbfe716e9c781f2e7a611d25db56a7471c5"
+    },
+    "tailwind-bem-stylist": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/tailwind-bem-stylist/SKILL.md",
+      "computedHash": "76e7701cb8e4c9ee17ad4ffea5b0bac4506c7d57ed1deae750b70d69928a6291"
+    },
+    "task-archiver": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/task-archiver/SKILL.md",
+      "computedHash": "40453aa9ce5f3e448b123c0f386402e5b45382a2a82ebb9fa32277345efd7a91"
+    },
+    "task-creator": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/task-creator/SKILL.md",
+      "computedHash": "895592a6b80c3833409a45e0f99b82178f8d041d7d7e1defe86e37e71a76521b"
+    },
+    "task-orchestrator": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/task-orchestrator/SKILL.md",
+      "computedHash": "2222bea74655c83886e7d0ffed4e62a3c906c18c357c3cab4eefcb701d293cdb"
+    },
+    "theme-factory": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/theme-factory/SKILL.md",
+      "computedHash": "0290eabfd6fea9fcfd59c12de15e3f4046593185089956802b6d48ba1d07f428"
+    },
+    "vercel-cli-with-tokens": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vercel-cli-with-tokens/SKILL.md",
+      "computedHash": "eb16b20dcbe6ce51e0372083d624e0847af1b09487ec99249227d5a8eddebfc0"
+    },
+    "vercel-composition-patterns": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/composition-patterns/SKILL.md",
+      "computedHash": "575757e3e25761c8c562d6e395d29f0b76c98b1273c0bd72d88e6ab1bc9c7d42"
+    },
+    "vercel-optimize": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vercel-optimize/SKILL.md",
+      "computedHash": "ad0ef9c5c980f824e2ec19cba5c45426aba923a17e71fbaf6d1830574b62cc44"
+    },
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "computedHash": "ca7b0c0c6e5f2750043f7f0cd72d16ac4e2abc48f9b5500d047a4b77a2506212"
+    },
+    "vercel-react-native-skills": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-native-skills/SKILL.md",
+      "computedHash": "41d24eafa7c3d82e270439808f7cfbc4d51aeb2d14f2809a2267c16275784d06"
+    },
+    "vercel-react-view-transitions": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-view-transitions/SKILL.md",
+      "computedHash": "c8952fc9127fa0564d0cb71dccb4215a5608ac933b5831104f09173a97a46f85"
+    },
+    "vue3-typescript": {
+      "source": "barkbarkgoose/ai-agents",
+      "sourceType": "github",
+      "skillPath": "skills/vue3-typescript/SKILL.md",
+      "computedHash": "ffd76eae7aebeaf10e39cb59e0a2e016ffdb4a2d55c581fd9c11c0f955fc4456"
+    },
+    "web-artifacts-builder": {
+      "source": "gotar/opencode-config",
+      "sourceType": "github",
+      "skillPath": "skills/web-artifacts-builder/SKILL.md",
+      "computedHash": "8506451d6d3a3494ddca091b0f0ff7a9961ddd4301df2b6264dd3f98bed75b0a"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/web-design-guidelines/SKILL.md",
+      "computedHash": "f3bc47f890f42a44db1007ab390709ec368e4b8c089baee6b0007182236ac474"
+    },
+    "writing-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/writing-guidelines/SKILL.md",
+      "computedHash": "25aa3a33a97bddbcb1847ce4a6169106ec25e5b19b15b99c66e75ab383866ef2"
+    }
+  }
+}
