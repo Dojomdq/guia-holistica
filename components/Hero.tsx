@@ -24,31 +24,8 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-[92svh] flex items-end overflow-hidden">
-      {/* Background — real Mar del Plata coast photo */}
-      <div className="absolute inset-0">
-        <img
-          src="https://images.unsplash.com/photo-vRJRJ2wWX5k?w=1920&h=1080&fit=crop&crop=center"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-          loading="eager"
-        />
-        {/* Dark overlay for text readability */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to top, " +
-              "rgba(42,31,20,0.92) 0%, " +
-              "rgba(42,31,20,0.80) 15%, " +
-              "rgba(42,31,20,0.55) 35%, " +
-              "rgba(42,31,20,0.25) 55%, " +
-              "rgba(42,31,20,0.10) 75%, " +
-              "rgba(42,31,20,0.0) 100%)",
-          }}
-        />
-        {/* Warm tint */}
-        <div className="absolute inset-0 bg-terracotta-900/15 mix-blend-multiply" />
-      </div>
+      {/* Background — gradient from cream to sage */}
+      <div className="absolute inset-0 bg-gradient-to-b from-cream-50 to-sage-50/20" />
 
       {/* Content */}
       <div className="relative w-full pb-16 md:pb-20 lg:pb-24">
@@ -59,23 +36,23 @@ export default function Hero() {
               loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            <span className="label-light !text-sand-300/80">Mar del Plata · Argentina</span>
+            <span className="label !text-sage-600">Mar del Plata · Argentina</span>
           </div>
 
           {/* Main heading */}
           <div className="max-w-[1000px]">
             <h1
-              className={`font-serif text-[clamp(3.25rem,9vw,8rem)] leading-[0.97] tracking-[-0.035em] text-white mb-6 md:mb-7 transition-all duration-[1200ms] ${
+              className={`font-serif text-[clamp(3.25rem,9vw,8rem)] leading-[0.97] tracking-[-0.035em] text-bark mb-6 md:mb-7 transition-all duration-[1200ms] ${
                 loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
             >
               Encontrá tu
               <br />
-              <span className="text-sand-300/90">camino al bienestar</span>
+              <span className="text-sage-600">camino al bienestar</span>
             </h1>
 
             <p
-              className={`text-white/70 text-lg sm:text-xl max-w-2xl leading-relaxed mb-8 md:mb-9 transition-all duration-700 delay-200 ${
+              className={`text-bark/60 text-lg sm:text-xl max-w-2xl leading-relaxed mb-8 md:mb-9 transition-all duration-700 delay-200 ${
                 loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
@@ -90,14 +67,14 @@ export default function Hero() {
                 loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
-              <div className="flex items-center bg-white/[0.10] backdrop-blur-xl rounded-2xl border border-white/[0.12] p-2">
-                <Search className="ml-4 h-5 w-5 text-white/35 shrink-0" />
+              <div className="flex items-center bg-white/70 backdrop-blur-xl rounded-2xl border border-cream-300 p-2">
+                <Search className="ml-4 h-5 w-5 text-bark/30 shrink-0" />
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="chamanismo, yoga, reiki..."
-                  className="flex-1 px-4 py-3.5 bg-transparent text-white placeholder:text-white/35 focus:outline-none text-base"
+                  className="flex-1 px-4 py-3.5 bg-transparent text-bark placeholder:text-bark/35 focus:outline-none text-base"
                 />
                 <button
                   type="submit"
@@ -121,7 +98,7 @@ export default function Hero() {
                   onClick={() =>
                     router.push(`/mapa?q=${encodeURIComponent(tag.toLowerCase())}`)
                   }
-                  className="text-white/45 text-[13px] font-medium hover:text-sand-300 transition-colors duration-300 flex items-center gap-1"
+                  className="text-bark/40 text-[13px] font-medium hover:text-sage-600 transition-colors duration-300 flex items-center gap-1"
                 >
                   {tag}
                   <ArrowUpRight className="h-3 w-3 opacity-50" />
