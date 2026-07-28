@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { Search, X, MapPin, ChevronRight, Filter } from "lucide-react";
+import { Search, X, MapPin, ChevronRight } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 import type { FacilitadorConActividades } from "@/lib/types";
@@ -39,15 +39,6 @@ interface Facilitador {
   actividades: Actividad[];
 }
 
-const FILTROS = [
-  { label: "Todas", slug: null },
-  { label: "Yoga", slug: "yoga" },
-  { label: "Reiki", slug: "reiki" },
-  { label: "Meditación", slug: "meditacion" },
-  { label: "Biodanza", slug: "biodanza" },
-  { label: "Chamanismo", slug: "chamanismo" },
-];
-
 function normalizeText(text: string): string {
   return text
     .toLowerCase()
@@ -80,7 +71,6 @@ export default function MapaPageInner() {
   const initialQuery = searchParams.get("q") || "";
 
   const [busqueda, setBusqueda] = useState(initialQuery);
-  const [filtroActivo, setFiltroActivo] = useState<string | null>(null);
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
   const [panelAbierto, setPanelAbierto] = useState(true);
   const [todosFacilitadores, setTodosFacilitadores] = useState<Facilitador[]>([]);
@@ -116,19 +106,8 @@ export default function MapaPageInner() {
       );
     }
 
-    if (filtroActivo) {
-      const catSlug = normalizeText(filtroActivo);
-      results = results.filter((f) =>
-        f.actividades.some(
-          (a) =>
-            normalizeText(a.slug).includes(catSlug) ||
-            normalizeText(a.nombre).includes(catSlug)
-        )
-      );
-    }
-
     return results.sort((a, b) => a.nombre.localeCompare(b.nombre));
-  }, [busqueda, filtroActivo, todosFacilitadores]);
+  }, [busqueda, todosFacilitadores]);
 
   const handleBusqueda = useCallback(
     (value: string) => {
@@ -142,7 +121,6 @@ export default function MapaPageInner() {
 
   const limpiarBusqueda = () => {
     setBusqueda("");
-    setFiltroActivo(null);
     router.replace("/mapa", { scroll: false });
   };
 
@@ -165,7 +143,7 @@ export default function MapaPageInner() {
         <div className="p-4 border-b border-cream-200/60">
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-serif text-base font-medium text-bark tracking-tight">
-              Facilitadores
+              Actividades
             </h2>
             <span className="text-[11px] text-bark/25 font-mono">
               {cargando ? "..." : `${facilitadoresFiltrados.length}`}
@@ -173,13 +151,16 @@ export default function MapaPageInner() {
           </div>
 
           {/* Search input */}
-          <div className="relative mb-3">
+          <label className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark/30 mb-2 block">
+            Actividad
+          </label>
+          <div className="relative">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-bark/20" />
             <input
               type="text"
               value={busqueda}
               onChange={(e) => handleBusqueda(e.target.value)}
-              placeholder="Buscar por actividad..."
+              placeholder="Buscá una actividad..."
               className="input-field pl-10 pr-10 py-2.5 text-[13px] w-full"
             />
             {busqueda && (
@@ -190,32 +171,6 @@ export default function MapaPageInner() {
                 <X className="h-3.5 w-3.5 text-bark/25" />
               </button>
             )}
-          </div>
-
-          {/* Filter buttons */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1">
-            <Filter className="h-3.5 w-3.5 text-bark/20 shrink-0" />
-            {FILTROS.map((f) => {
-              const isActive =
-                f.slug === null
-                  ? filtroActivo === null
-                  : normalizeText(filtroActivo || "") === normalizeText(f.label);
-              return (
-                <button
-                  key={f.label}
-                  onClick={() =>
-                    setFiltroActivo(isActive ? null : f.slug ? f.label : null)
-                  }
-                  className={`px-3.5 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
-                    isActive
-                      ? "bg-bark text-white"
-                      : "bg-cream-200/50 text-bark/45 hover:text-bark/70 border border-cream-200 hover:border-cream-300"
-                  }`}
-                >
-                  {f.label}
-                </button>
-              );
-            })}
           </div>
         </div>
 
@@ -279,21 +234,21 @@ export default function MapaPageInner() {
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-medium text-bark text-[13px] truncate">
-                          {f.nombre}
-                        </h3>
-                        <div className="flex flex-wrap gap-1 mt-1">
+                        <div className="flex flex-wrap gap-1 mb-1">
                           {f.actividades.map((a) => (
                             <span
                               key={a.id}
-                              className="px-1.5 py-0.5 bg-cream-200/60 text-bark/40 text-[10px] rounded"
+                              className="px-1.5 py-0.5 bg-bark/10 text-bark/60 text-[10px] font-semibold rounded"
                             >
                               {a.nombre}
                             </span>
                           ))}
                         </div>
+                        <h3 className="font-medium text-bark text-[13px]">
+                          {f.nombre}
+                        </h3>
                         {f.direccion && (
-                          <p className="text-[11px] text-bark/25 mt-1 flex items-center gap-1">
+                          <p className="text-[11px] text-bark/25 mt-0.5 flex items-center gap-1">
                             <MapPin className="h-2.5 w-2.5" />
                             {f.direccion}
                           </p>
