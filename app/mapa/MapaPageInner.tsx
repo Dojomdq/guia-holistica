@@ -107,16 +107,13 @@ export default function MapaPageInner() {
 
     if (busqueda.trim()) {
       const q = normalizeText(busqueda.trim());
-      results = results.filter((f) => {
-        const matchActividad = f.actividades.some(
+      results = results.filter((f) =>
+        f.actividades.some(
           (a) =>
             normalizeText(a.nombre).includes(q) ||
             normalizeText(a.slug).includes(q)
-        );
-        const matchNombre = normalizeText(f.nombre).includes(q);
-        const matchBio = f.bio ? normalizeText(f.bio).includes(q) : false;
-        return matchActividad || matchNombre || matchBio;
-      });
+        )
+      );
     }
 
     if (filtroActivo) {
@@ -130,7 +127,7 @@ export default function MapaPageInner() {
       );
     }
 
-    return results;
+    return results.sort((a, b) => a.nombre.localeCompare(b.nombre));
   }, [busqueda, filtroActivo, todosFacilitadores]);
 
   const handleBusqueda = useCallback(
@@ -182,7 +179,7 @@ export default function MapaPageInner() {
               type="text"
               value={busqueda}
               onChange={(e) => handleBusqueda(e.target.value)}
-              placeholder="Buscar por nombre o actividad..."
+              placeholder="Buscar por actividad..."
               className="input-field pl-10 pr-10 py-2.5 text-[13px] w-full"
             />
             {busqueda && (
