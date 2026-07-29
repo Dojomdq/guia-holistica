@@ -187,7 +187,7 @@ export default function MapaInteractivo({
             <Popup closeButton={true} autoPan={true}>
               <div className="p-2.5 min-w-[200px] max-w-[260px]">
                 <div className="flex items-start justify-between gap-2 mb-2">
-                  <h3 className="font-serif font-medium text-cream-100 text-sm leading-tight">
+                  <h3 className="font-serif font-medium text-bark text-sm leading-tight">
                     {m.facilitador.nombre}
                   </h3>
                   <button
@@ -195,33 +195,33 @@ export default function MapaInteractivo({
                       e.stopPropagation();
                       onSeleccionar(null);
                     }}
-                    className="shrink-0 p-0.5 -mr-1 -mt-0.5 rounded-md hover:bg-white/10 transition-colors"
+                    className="shrink-0 p-0.5 -mr-1 -mt-0.5 rounded-md hover:bg-cream-200 transition-colors"
                   >
-                    <X className="h-3.5 w-3.5 text-cream-400" />
+                    <X className="h-3.5 w-3.5 text-bark-300" />
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-1 mb-2">
                   {m.facilitador.actividades.map((a) => (
                     <span
                       key={a.id}
-                      className="px-2 py-0.5 bg-white/15 text-cream-200 text-[10px] font-medium rounded-full"
+                      className="px-2 py-0.5 bg-cream-200/60 text-bark-600 text-[10px] font-medium rounded-full"
                     >
                       {a.nombre}
                     </span>
                   ))}
                 </div>
                 {m.facilitador.bio && (
-                  <p className="text-xs text-cream-200/80 mb-2 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-bark-600 mb-2 line-clamp-2 leading-relaxed">
                     {m.facilitador.bio}
                   </p>
                 )}
-                <p className="text-[11px] text-cream-300 mb-2.5">
+                <p className="text-[11px] text-bark-500 mb-2.5">
                   {m.ubicacion.direccion || "Ubicación sin dirección"}
                 </p>
                 <div className="flex gap-2">
                   <Link
                     href={`/facilitadores/${m.facilitador.id}`}
-                    className="text-xs px-3 py-1.5 rounded-full font-medium bg-sage-600 text-white hover:bg-sage-500 transition-colors"
+                    className="text-xs px-3 py-1.5 rounded-full font-medium bg-bark text-white hover:opacity-90 transition-opacity"
                     onClick={() => track("facilitador", m.facilitador.id)}
                   >
                     Ver perfil
@@ -231,7 +231,7 @@ export default function MapaInteractivo({
                       href={`https://wa.me/${m.facilitador.whatsapp.replace(/[^0-9]/g, "")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs px-3 py-1.5 rounded-full font-medium bg-terracotta-600 text-white hover:bg-terracotta-500 transition-colors"
+                      className="text-xs px-3 py-1.5 rounded-full font-medium bg-sage-600 text-white hover:opacity-90 transition-opacity"
                     >
                       WhatsApp
                     </a>

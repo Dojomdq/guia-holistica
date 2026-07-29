@@ -224,21 +224,22 @@
 }
 
 .leaflet-popup-content-wrapper {
-  @apply rounded-xl shadow-medium border border-sage-800 bg-bark;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.04);
+  border: 1px solid #E2E8F0;
+  background: #fff !important;
   padding: 0 !important;
 }
 
 .leaflet-popup-content {
-  @apply text-sm m-0 text-cream-100;
+  font-size: 0.875rem;
+  margin: 0;
+  color: #0F1B2D;
   line-height: 1.5;
 }
 
 .leaflet-popup-tip {
-  @apply bg-bark;
-}
-
-.leaflet-popup-close-button {
-  color: #94A3B8 !important;
+  background: #fff !important;
 }
 
 /* Scrollbar */
