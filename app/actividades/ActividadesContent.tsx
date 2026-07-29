@@ -122,7 +122,7 @@ export default function ActividadesContent() {
               return (
                 <Link
                   key={a.slug}
-                  href={`/mapa?q=${a.slug}`}
+                  href={`/actividades/${a.slug}`}
                   className="group"
                   onClick={() => track("actividad", a.slug)}
                 >

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useScrollReveal } from "@/lib/useScrollReveal";
 
 const CATEGORIES = [
@@ -27,7 +27,6 @@ const CATEGORIES = [
 
 export default function CategoryGrid() {
   const { ref, isVisible } = useScrollReveal();
-  const router = useRouter();
 
   return (
     <section ref={ref} className="py-24 sm:py-28 relative overflow-hidden bg-sage-50">
@@ -49,9 +48,9 @@ export default function CategoryGrid() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
           {CATEGORIES.map((cat, i) => {
             return (
-              <button
+              <Link
                 key={cat.slug}
-                onClick={() => router.push(`/mapa?q=${cat.slug}`)}
+                href={`/actividades/${cat.slug}`}
                 className={`group relative flex items-center gap-4 p-5 rounded-2xl bg-white border border-cream-200/40 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-sage-300/60 cursor-pointer ${
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
@@ -63,7 +62,7 @@ export default function CategoryGrid() {
                 <span className="text-[14px] font-medium text-bark-600 group-hover:text-bark text-left leading-tight transition-colors duration-300">
                   {cat.name}
                 </span>
-              </button>
+              </Link>
             );
           })}
         </div>
