@@ -19,19 +19,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     if (url && key) {
       const supabase = createClient(url, key);
-      const { data: facilitadores } = await supabase
-        .from("facilitadores")
-        .select("id")
-        .eq("activo", true);
-      dynamicPages = (facilitadores || []).map((f) => ({
-        url: `${base}/facilitadores/${f.id}`,
-        lastModified: new Date(),
-        changeFrequency: "monthly" as const,
-        priority: 0.6,
-      }));
+
+      const [{ data: facilitadores }, { data: categorias }] = await Promise.all([
+        supabase.from("facilitadores").select("id").eq("activo", true),
+        supabase.from("categorias").select("slug"),
+      ]);
+
+      dynamicPages = [
+        ...(facilitadores || []).map((f) => ({
+          url: `${base}/facilitadores/${f.id}`,
+          lastModified: new Date(),
+          changeFrequency: "monthly" as const,
+          priority: 0.6,
+        })),
+        ...(categorias || []).map((c) => ({
+          url: `${base}/actividades/${c.slug}`,
+          lastModified: new Date(),
+          changeFrequency: "weekly" as const,
+          priority: 0.7,
+        })),
+      ];
     }
   } catch {
-    // Fallback: return only static pages if Supabase is unreachable at build time
+    // Fallback
   }
 
   return [...staticPages, ...dynamicPages];

@@ -53,10 +53,10 @@ export const metadata: Metadata = {
     url: SITE_URL,
     images: [
       {
-        url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&h=630&fit=crop",
+        url: "https://res.cloudinary.com/kmxmqr0t/image/upload/w_1200,h_630,c_fill/v1785019465/AF49F0FF-4A15-4EA3-AE9F-AC8F83C11FC0_hkigqu.jpg",
         width: 1200,
         height: 630,
-        alt: "Guía de Bienestar",
+        alt: "Guía de Bienestar - Costa de Mar del Plata",
       },
     ],
   },
@@ -100,6 +100,16 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans">
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`} />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${process.env.NEXT_PUBLIC_GA_ID}');`,
+              }}
+            />
+          </>
+        )}
         <Header />
         <main>{children}</main>
         <Footer />

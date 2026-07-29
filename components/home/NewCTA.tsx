@@ -15,6 +15,7 @@ export default function NewCTA() {
           src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/IMG_20240709_175009590_zycrnh.jpg"
           alt="Personas en la costa de Mar del Plata"
           className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-bark/55" />
         <div className="absolute inset-0 bg-gradient-to-b from-bark/40 via-bark/55 to-bark/75" />
