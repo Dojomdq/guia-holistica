@@ -15,7 +15,6 @@ import Link from "next/link";
 import { getMarkerColor } from "@/lib/categories";
 import { useClickTracker } from "@/lib/useClickTracker";
 import { CITY_COORDS } from "@/lib/constants";
-import { X } from "lucide-react";
 
 interface Actividad {
   id: string;
@@ -186,20 +185,9 @@ export default function MapaInteractivo({
           >
             <Popup closeButton={true} autoPan={true}>
               <div className="p-2.5 min-w-[200px] max-w-[260px]">
-                <div className="flex items-start justify-between gap-2 mb-2">
-                  <h3 className="font-serif font-medium text-bark text-sm leading-tight">
-                    {m.facilitador.nombre}
-                  </h3>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onSeleccionar(null);
-                    }}
-                    className="shrink-0 p-0.5 -mr-1 -mt-0.5 rounded-md hover:bg-cream-200 transition-colors"
-                  >
-                    <X className="h-3.5 w-3.5 text-bark-300" />
-                  </button>
-                </div>
+                <h3 className="font-serif font-medium text-bark text-sm mb-2 leading-tight">
+                  {m.facilitador.nombre}
+                </h3>
                 <div className="flex flex-wrap gap-1 mb-2">
                   {m.facilitador.actividades.map((a) => (
                     <span
