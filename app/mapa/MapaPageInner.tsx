@@ -75,6 +75,12 @@ export default function MapaPageInner() {
   }, [isMobile, busqueda]);
 
   useEffect(() => {
+    if (isMobile && ciudadSeleccionada) {
+      setPanelAbierto(false);
+    }
+  }, [ciudadSeleccionada, isMobile]);
+
+  useEffect(() => {
     async function cargar() {
       const { data } = await supabase
         .from("facilitadores")
