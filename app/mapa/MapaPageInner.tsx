@@ -189,18 +189,28 @@ export default function MapaPageInner() {
       <div
         className="relative flex flex-col md:flex-row h-[calc(100vh-8rem)] md:h-[calc(100vh-9rem)] rounded-2xl shadow-2xl border border-cream-200/60 mx-4 sm:mx-6 lg:mx-8 my-4"
       >
-        {/* Sidebar */}
+        {/* Sidebar — overlay on mobile, side panel on desktop */}
         <div
-          className={`${
-            panelAbierto ? "w-full md:w-[300px]" : "w-0"
-          } flex-shrink-0 bg-cream-100 border-r border-cream-200 flex flex-col transition-all duration-500 ease-out-expo overflow-hidden`}
+          className={`md:relative md:w-[300px] md:flex-shrink-0 md:border-r md:rounded-none md:translate-y-0 absolute bottom-0 left-0 right-0 z-20 max-h-[60vh] rounded-t-2xl bg-cream-100 border border-cream-200 flex flex-col transition-all duration-500 ease-out-expo overflow-hidden ${
+            panelAbierto
+              ? "translate-y-0"
+              : "translate-y-full md:w-0 md:border-r-0"
+          }`}
         >
-        <div className="p-4 border-b border-cream-200/60">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="font-serif text-base font-medium text-bark tracking-tight">
-              Actividades
-            </h2>
-            {ciudadSeleccionada && (
+          <div className="md:hidden w-10 h-1.5 bg-cream-300 rounded-full mx-auto mt-3 mb-1" />
+          <div className="p-4 border-b border-cream-200/60">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-serif text-base font-medium text-bark tracking-tight">
+                Actividades
+              </h2>
+              <button
+                onClick={() => setPanelAbierto(false)}
+                className="md:hidden p-1 -mr-1 rounded-lg hover:bg-cream-200 transition-colors"
+                aria-label="Cerrar panel"
+              >
+                <X className="h-4 w-4 text-bark-400" />
+              </button>
+              {ciudadSeleccionada && (
               <span className="text-[11px] text-bark-400 font-mono">
                 {cargando ? "..." : `${facilitadoresFiltrados.length}`}
               </span>
@@ -391,7 +401,7 @@ export default function MapaPageInner() {
       {/* Toggle */}
       <button
         onClick={() => setPanelAbierto(!panelAbierto)}
-        className="flex absolute top-1/2 -translate-y-1/2 z-[1000] bg-cream-100 border border-cream-200 rounded-r-lg p-1.5 shadow-soft hover:bg-cream-200 transition-all duration-300 items-center"
+        className="md:flex md:absolute md:top-1/2 md:-translate-y-1/2 md:z-[1000] md:bg-cream-100 md:border md:border-cream-200 md:rounded-r-lg md:p-1.5 md:shadow-soft md:hover:bg-cream-200 md:transition-all md:duration-300 md:items-center hidden"
         style={{ left: panelAbierto ? "300px" : "0px" }}
         aria-label={panelAbierto ? "Cerrar panel" : "Abrir panel"}
       >
@@ -401,6 +411,17 @@ export default function MapaPageInner() {
           }`}
         />
       </button>
+
+      {/* Mobile search button */}
+      {!panelAbierto && (
+        <button
+          onClick={() => setPanelAbierto(true)}
+          className="md:hidden absolute bottom-4 left-4 z-30 flex items-center gap-2 px-4 py-3 bg-bark text-white rounded-full shadow-lg text-sm font-medium"
+        >
+          <Search className="h-4 w-4" />
+          Buscar
+        </button>
+      )}
 
       {/* Map */}
       <div className="flex-1 relative min-h-0">
