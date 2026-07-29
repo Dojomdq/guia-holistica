@@ -1,4 +1,4 @@
-export const SITE_URL = "http://localhost:3000";
+export const SITE_URL = "https://guia-holistica-dojomdqs-projects.vercel.app";
 
 export const CITY_NAME = "Mar del Plata";
 
