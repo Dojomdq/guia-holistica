@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import NewHero from "@/components/home/NewHero";
+import WhyChooseUs from "@/components/home/WhyChooseUs";
 import WhatWeOffer from "@/components/home/WhatWeOffer";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import MapSection from "@/components/home/MapSection";
@@ -100,6 +101,8 @@ export default function Home() {
         }}
       />
       <NewHero />
+      <div className="section-divider" />
+      <WhyChooseUs />
       <div className="section-divider" />
       <WhatWeOffer />
       <div className="section-divider" />

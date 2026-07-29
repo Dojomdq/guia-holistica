@@ -18,22 +18,8 @@ export default function MapSection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="relative py-20 sm:py-24 lg:py-28 overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0">
-        <img
-          src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/IMG_20230812_162528493_HDR_dinino.jpg"
-          alt="Atardecer en la costa de Mar del Plata"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-bark/50" />
-        <div className="absolute inset-0 bg-gradient-to-b from-bark/40 via-bark/50 to-bark/70" />
-        <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay noise-overlay pointer-events-none" />
-      </div>
-
-      {/* Decorative ring */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-sand-400/5 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-sand-400/10 pointer-events-none" />
+    <section ref={ref} className="relative py-24 sm:py-28 bg-sand-100 overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.015] mix-blend-overlay noise-overlay pointer-events-none" />
 
       <div className="relative container-wide">
         <div
@@ -41,12 +27,15 @@ export default function MapSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          <span className="inline-flex items-center gap-2 text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-sand-400 mb-4">
-            <span className="w-8 h-px bg-sand-400/30" />
+          <span className="inline-flex items-center gap-2 text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-sand-600 mb-4">
+            <span className="w-8 h-px bg-sand-400/60" />
             Ubicación
-            <span className="w-8 h-px bg-sand-400/30" />
+            <span className="w-8 h-px bg-sand-400/60" />
           </span>
-          <h2 className="heading-lg text-white">Encontrá tu espacio</h2>
+          <h2 className="heading-lg text-bark">Encontrá tu espacio</h2>
+          <p className="text-bark-600 mt-3 max-w-lg mx-auto">
+            Explorá el mapa interactivo y encontrá facilitadores cerca tuyo.
+          </p>
         </div>
 
         <div
@@ -76,15 +65,15 @@ export default function MapSection() {
                   Mapa de facilitadores
                 </h3>
                 <p className="text-sm text-bark-600 mt-0.5">
-                  Encontrá al profesional más cercano a vos en Mar del Plata
+                  Encontrá al profesional más cercano a vos
                 </p>
               </div>
               <Link
                 href="/mapa"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-bark text-white rounded-full text-sm font-medium hover:bg-bark/85 hover:-translate-y-0.5 hover:shadow-warm transition-all duration-300 shrink-0 group"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-sage-600 text-white rounded-full text-sm font-medium hover:bg-terracotta-600 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 shrink-0 group"
               >
                 <MapPin className="h-4 w-4" />
-                Explorá el mapa completo
+                Mirá el mapa interactivo
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
             </div>

@@ -88,7 +88,7 @@ export default function NewHero() {
               />
               <button
                 type="submit"
-                className="flex items-center gap-2 px-6 py-3.5 bg-sage-500 text-white rounded-xl hover:bg-sage-400 hover:scale-[1.02] transition-all duration-200 text-sm font-semibold shrink-0 group/btn shadow-md"
+                className="flex items-center gap-2 px-6 py-3.5 bg-sage-500 text-white rounded-xl hover:bg-terracotta-600 hover:shadow-md hover:scale-[1.02] transition-all duration-200 text-sm font-semibold shrink-0 group/btn"
               >
                 Buscar
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />

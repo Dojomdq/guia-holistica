@@ -30,9 +30,7 @@ export default function CategoryGrid() {
   const router = useRouter();
 
   return (
-    <section ref={ref} className="py-24 sm:py-28 relative overflow-hidden bg-cream-50">
-      <div className="absolute inset-0 opacity-[0.015] mix-blend-overlay noise-overlay pointer-events-none" />
-
+    <section ref={ref} className="py-24 sm:py-28 relative overflow-hidden bg-sage-50">
       <div className="relative container-wide">
         <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
           <span className="inline-flex items-center gap-3 px-5 py-2 bg-sage-600 text-white text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-6 shadow-glow">
@@ -48,21 +46,21 @@ export default function CategoryGrid() {
           </p>
         </div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
           {CATEGORIES.map((cat, i) => {
             return (
               <button
                 key={cat.slug}
                 onClick={() => router.push(`/mapa?q=${cat.slug}`)}
-                className={`group relative flex flex-col items-center gap-3 p-5 rounded-2xl bg-white border border-cream-200/60 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:border-sage-300/50 cursor-pointer ${
+                className={`group relative flex items-center gap-4 p-5 rounded-2xl bg-white border border-cream-200/40 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-sage-300/60 cursor-pointer ${
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
-                style={{ transitionDelay: `${Math.min(i * 30, 400)}ms` }}
+                style={{ transitionDelay: `${Math.min(i * 50, 400)}ms` }}
               >
-                <div className="w-12 h-12 rounded-xl bg-cream-100 flex items-center justify-center transition-all duration-300 group-hover:bg-sage-100 group-hover:scale-110 text-xl">
+                <div className="w-12 h-12 rounded-xl bg-sage-50 flex items-center justify-center transition-all duration-300 group-hover:bg-sage-100 group-hover:scale-110 text-xl shrink-0">
                   {cat.emoji}
                 </div>
-                <span className="text-[12px] font-medium text-bark-600 group-hover:text-bark text-center leading-tight transition-colors duration-300">
+                <span className="text-[14px] font-medium text-bark-600 group-hover:text-bark text-left leading-tight transition-colors duration-300">
                   {cat.name}
                 </span>
               </button>
