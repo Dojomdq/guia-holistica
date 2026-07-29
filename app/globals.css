@@ -238,6 +238,13 @@
   line-height: 1.5;
 }
 
+.leaflet-popup-content a {
+  text-decoration: none;
+}
+.leaflet-popup-content a[class*="text-white"] {
+  color: #fff !important;
+}
+
 .leaflet-popup-tip {
   background: #fff !important;
 }
