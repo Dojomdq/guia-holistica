@@ -224,21 +224,21 @@
 }
 
 .leaflet-popup-content-wrapper {
-  @apply rounded-xl shadow-medium border border-cream-200 bg-white;
+  @apply rounded-xl shadow-medium border border-sage-800 bg-bark;
   padding: 0 !important;
 }
 
 .leaflet-popup-content {
-  @apply text-sm m-0 text-bark;
+  @apply text-sm m-0 text-cream-100;
   line-height: 1.5;
 }
 
 .leaflet-popup-tip {
-  @apply bg-white;
+  @apply bg-bark;
 }
 
-.leaflet-popup-content a {
-  text-decoration: none;
+.leaflet-popup-close-button {
+  color: #94A3B8 !important;
 }
 
 /* Scrollbar */
