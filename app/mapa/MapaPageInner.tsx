@@ -187,7 +187,7 @@ export default function MapaPageInner() {
   return (
     <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
       <div
-        className="relative flex flex-col md:flex-row h-[calc(100vh-8rem)] md:h-[calc(100vh-9rem)] rounded-2xl shadow-2xl border border-cream-200/60 mx-4 sm:mx-6 lg:mx-8 my-4"
+        className="relative flex flex-col md:flex-row h-[calc(100vh-6rem)] md:h-[calc(100vh-7rem)] shadow-2xl mx-0 sm:mx-4 lg:mx-6 my-0 sm:my-3"
       >
         {/* Sidebar — overlay on mobile, side panel on desktop */}
         <div
@@ -398,28 +398,14 @@ export default function MapaPageInner() {
         </div>
       </div>
 
-      {/* Toggle */}
-      <button
-        onClick={() => setPanelAbierto(!panelAbierto)}
-        className="md:flex md:absolute md:top-1/2 md:-translate-y-1/2 md:z-[1000] md:bg-cream-100 md:border md:border-cream-200 md:rounded-r-lg md:p-1.5 md:shadow-soft md:hover:bg-cream-200 md:transition-all md:duration-300 md:items-center hidden"
-        style={{ left: panelAbierto ? "300px" : "0px" }}
-        aria-label={panelAbierto ? "Cerrar panel" : "Abrir panel"}
-      >
-        <ChevronRight
-          className={`h-3.5 w-3.5 text-bark-400 transition-transform duration-300 ${
-            panelAbierto ? "rotate-180" : ""
-          }`}
-        />
-      </button>
-
       {/* Mobile search button */}
       {!panelAbierto && (
         <button
           onClick={() => setPanelAbierto(true)}
-          className="md:hidden absolute bottom-4 left-4 z-30 flex items-center gap-2 px-4 py-3 bg-bark text-white rounded-full shadow-lg text-sm font-medium"
+          className="md:hidden absolute top-3 right-3 z-30 flex items-center justify-center w-11 h-11 bg-bark text-white rounded-full shadow-lg"
+          aria-label="Buscar"
         >
-          <Search className="h-4 w-4" />
-          Buscar
+          <Search className="h-5 w-5" />
         </button>
       )}
 

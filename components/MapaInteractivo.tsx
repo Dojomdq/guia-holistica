@@ -97,7 +97,7 @@ function FocusMarkers({
   const map = useMap();
   useEffect(() => {
     if (ciudad && CITY_COORDS[ciudad]) {
-      map.flyTo(CITY_COORDS[ciudad], 12, { duration: 0.8 });
+      map.flyTo(CITY_COORDS[ciudad], 14, { duration: 0.8 });
       return;
     }
     if (selectedId && markers.length > 0) {
@@ -112,7 +112,7 @@ function FocusMarkers({
       const lngs = markers.map((m) => m.ubicacion.longitud);
       const avgLat = lats.reduce((a, b) => a + b, 0) / lats.length;
       const avgLng = lngs.reduce((a, b) => a + b, 0) / lngs.length;
-      map.flyTo([avgLat, avgLng], 12, { duration: 0.8 });
+      map.flyTo([avgLat, avgLng], 14, { duration: 0.8 });
     }
   }, [selectedId, markers, map]);
   return null;
@@ -129,7 +129,7 @@ export default function MapaInteractivo({
   return (
     <MapContainer
       center={DEFAULT_CENTER}
-      zoom={13}
+      zoom={14}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
       className="z-0"
