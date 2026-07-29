@@ -11,8 +11,12 @@
   }
 
   body {
-    @apply bg-cream-50 text-bark;
+    @apply bg-cream-50 text-bark font-normal;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "cv01" 1, "cv02" 1;
+  }
+
+  :root {
+    --font-cabinet: "Cabinet Grotesk", sans-serif;
   }
 
   ::selection {
@@ -33,6 +37,22 @@
     @apply mx-auto max-w-7xl px-6 sm:px-8 lg:px-12;
   }
 
+  .heading-xl {
+    @apply font-serif text-[clamp(2.75rem,6.5vw,5.5rem)] leading-[1.02] tracking-[-0.02em] font-medium;
+  }
+
+  .heading-lg {
+    @apply font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.08] tracking-[-0.02em] font-medium;
+  }
+
+  .heading-md {
+    @apply font-serif text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.12] tracking-[-0.02em] font-medium;
+  }
+
+  .heading-sm {
+    @apply font-serif text-xl leading-snug tracking-[-0.01em] font-medium;
+  }
+
   .label {
     @apply font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-sage-600;
   }
@@ -45,12 +65,20 @@
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium text-sm rounded-full transition-all duration-300 ease-out-expo focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage-400 focus-visible:ring-offset-2;
   }
 
-  .btn-dark {
+  .btn-primary {
+    @apply btn bg-sage-600 text-white hover:bg-sage-700 hover:-translate-y-px hover:shadow-glow active:translate-y-0;
+  }
+
+  .btn-secondary {
     @apply btn bg-bark text-white hover:bg-bark/85 hover:-translate-y-px hover:shadow-warm active:translate-y-0;
   }
 
+  .btn-dark {
+    @apply btn-secondary;
+  }
+
   .btn-sage {
-    @apply btn bg-sage-600 text-white hover:bg-sage-700 hover:-translate-y-px hover:shadow-glow active:translate-y-0;
+    @apply btn-primary;
   }
 
   .btn-outline {
@@ -74,12 +102,20 @@
   }
 
   .badge {
-    @apply inline-flex items-center gap-1 px-2.5 py-1 bg-sage-50 text-sage-700 text-[11px] font-medium rounded-md border border-sage-100;
+    @apply inline-flex items-center gap-1 px-2.5 py-1 bg-sage-50 text-sage-700 text-[11px] font-medium rounded-md border border-sage-200;
   }
 
   .noise-overlay {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-size: 200px 200px;
+  }
+
+  .section-padding {
+    @apply py-14 sm:py-20;
+  }
+
+  .section-label {
+    @apply font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-sage-600;
   }
 }
 
@@ -106,7 +142,19 @@
   }
 
   .section-divider {
-    @apply w-full h-px bg-gradient-to-r from-transparent via-cream-300 to-transparent;
+    @apply w-full h-px bg-gradient-to-r from-transparent via-sage-200 to-transparent;
+  }
+
+  .section-padding {
+    @apply py-14 sm:py-20;
+  }
+
+  .section-label {
+    @apply font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-sage-600;
+  }
+
+  .heading-section {
+    @apply font-serif text-[clamp(1.75rem,3.5vw,2.75rem)] font-medium text-bark leading-[1.12] tracking-[-0.02em];
   }
 }
 
@@ -118,6 +166,28 @@
   50% {
     background-position: 100% 50%;
   }
+}
+
+@keyframes blob {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
 
 @keyframes fadeInUp {
@@ -140,6 +210,11 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
 }
 
 /* Leaflet overrides */

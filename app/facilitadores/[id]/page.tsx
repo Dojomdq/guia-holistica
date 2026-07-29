@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import FacilitadorContent from "./FacilitadorContent";
 import { createClient } from "@supabase/supabase-js";
+import { SITE_URL } from "@/lib/constants";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -30,12 +31,12 @@ export async function generateMetadata({
     title: data.nombre,
     description: desc.substring(0, 160),
     openGraph: {
-      title: `${data.nombre} | Bienestar en Mar del Plata`,
+      title: `${data.nombre} | Guía de Bienestar`,
       description: desc.substring(0, 160),
-      url: `https://www.agenciakoi.com/facilitadores/${params.id}`,
+      url: `${SITE_URL}/facilitadores/${params.id}`,
     },
     alternates: {
-      canonical: `https://www.agenciakoi.com/facilitadores/${params.id}`,
+      canonical: `${SITE_URL}/facilitadores/${params.id}`,
     },
   };
 }

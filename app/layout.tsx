@@ -1,20 +1,14 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display, DM_Mono } from "next/font/google";
+import { DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 import { SITE_URL } from "@/lib/constants";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
@@ -28,11 +22,11 @@ const dmMono = DM_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Directorio de Bienestar en Mar del Plata | Encontrá Terapeutas, Yoga y Reiki",
-    template: "%s | Directorio de Bienestar en Mar del Plata",
+    default: "Guía de Bienestar | Encontrá Terapeutas, Yoga y Reiki",
+    template: "%s | Guía de Bienestar",
   },
   description:
-    "Encontrá facilitadores, terapeutas y guías holísticos en Mar del Plata. Mapa interactivo con chamanismo, yoga, reiki, meditación, tarot y más. Conectá con tu sanación.",
+    "Encontrá facilitadores, terapeutas y guías cerca tuyo. Mapa interactivo con chamanismo, yoga, reiki, meditación, tarot y más.",
   keywords: [
     "holístico Mar del Plata",
     "chamanismo Mar del Plata",
@@ -46,31 +40,31 @@ export const metadata: Metadata = {
     "aromaterapia",
     "masajes terapéuticos",
   ],
-  authors: [{ name: "Bienestar en Mar del Plata" }],
-  creator: "Bienestar en Mar del Plata",
+  authors: [{ name: "Guía de Bienestar" }],
+  creator: "Guía de Bienestar",
   metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",
     locale: "es_AR",
-    siteName: "Bienestar en Mar del Plata",
-    title: "Bienestar en Mar del Plata | Facilitadores, Yoga, Reiki y Más",
+    siteName: "Guía de Bienestar",
+    title: "Guía de Bienestar | Facilitadores, Yoga, Reiki y Más",
     description:
-      "Encontrá facilitadores, terapeutas y guías holísticos en Mar del Plata. Mapa interactivo con chamanismo, yoga, reiki, meditación y más.",
+      "Encontrá facilitadores, terapeutas y guías cerca tuyo. Mapa interactivo con chamanismo, yoga, reiki, meditación y más.",
     url: SITE_URL,
     images: [
       {
         url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&h=630&fit=crop",
         width: 1200,
         height: 630,
-        alt: "Bienestar en Mar del Plata",
+        alt: "Guía de Bienestar",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bienestar en Mar del Plata",
+    title: "Guía de Bienestar",
     description:
-      "Encontrá facilitadores, terapeutas y guías holísticos en Mar del Plata. Mapa interactivo con chamanismo, yoga, reiki y más.",
+      "Encontrá facilitadores, terapeutas y guías cerca tuyo. Mapa interactivo con chamanismo, yoga, reiki y más.",
   },
   robots: {
     index: true,
@@ -94,8 +88,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${dmSans.variable} ${playfair.variable} ${dmMono.variable}`}>
+    <html lang="es" className={`${dmSans.variable} ${dmMono.variable}`}>
       <head>
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&display=swap" />
         <link
           rel="stylesheet"
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -107,6 +103,7 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+        <ScrollToTop />
       </body>
     </html>
   );

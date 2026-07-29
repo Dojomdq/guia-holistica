@@ -1,8 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/constants";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = "https://www.agenciakoi.com";
+  const base = SITE_URL;
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: base, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },

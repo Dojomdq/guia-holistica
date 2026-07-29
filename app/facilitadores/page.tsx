@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 import FacilitadoresContent from "./FacilitadoresContent";
-import PopupFacilitadores from "@/components/PopupFacilitadores";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Terapeutas y Facilitadores Holísticos en Mar del Plata | Directorio con Mapa",
   description:
     "Conocé a los facilitadores, terapeutas y guías holísticos de Mar del Plata. Filtrá por actividad, buscá por nombre y descubrí sus servicios.",
   openGraph: {
-    title: "Facilitadores Holísticos | Bienestar en Mar del Plata",
+    title: "Facilitadores | Guía de Bienestar",
     description:
       "Conocé a los facilitadores, terapeutas y guías holísticos de Mar del Plata. Filtrá por actividad y descubrí sus servicios.",
   },
   alternates: {
-    canonical: "https://www.agenciakoi.com/facilitadores",
+    canonical: `${SITE_URL}/facilitadores`,
   },
 };
 
@@ -20,7 +20,6 @@ export default function FacilitadoresPage() {
   return (
     <>
       <FacilitadoresContent />
-      <PopupFacilitadores />
     </>
   );
 }

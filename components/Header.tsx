@@ -54,16 +54,21 @@ export default function Header() {
             <Link
               href="/"
               className="flex items-center gap-2 group"
-              aria-label="Bienestar en Mar del Plata - Inicio"
+              aria-label="Guía de Bienestar - Inicio"
             >
+              <svg width="26" height="26" viewBox="0 0 26 26" fill="none" className="shrink-0">
+                <circle cx="13" cy="13" r="12" className={`transition-colors duration-500 ${showDark ? "stroke-sage-600" : "stroke-sage-400/60"}`} strokeWidth="1.5" />
+                <path d="M8 15c0-4 3.5-6 5-7 1.5 1 5 3 5 7 0 2.5-2 4.5-5 4.5S8 17.5 8 15z" className={`transition-colors duration-500 ${showDark ? "fill-sage-500/20 stroke-sage-600" : "fill-sage-400/20 stroke-sage-400"}`} strokeWidth="1.2" strokeLinejoin="round" />
+                <path d="M11 15c0-1.5 1-2.5 2-3 1 .5 2 1.5 2 3s-1 2-2 2-2-.5-2-2z" className={`transition-colors duration-500 ${showDark ? "fill-sage-600" : "fill-sage-400"}`} />
+              </svg>
               <span
-                className={`font-serif text-xl font-semibold tracking-tight transition-colors duration-500 ${
+                className={`font-serif text-lg sm:text-xl font-semibold tracking-tight transition-colors duration-500 ${
                   showDark ? "text-bark" : "text-white"
                 }`}
               >
                 Guía
                 <span className={`ml-1.5 font-normal transition-colors duration-500 ${
-                  showDark ? "text-sand-600" : "text-sand-300/80"
+                  showDark ? "text-sage-600" : "text-sage-400"
                 }`}>
                   de Bienestar
                 </span>
@@ -87,8 +92,8 @@ export default function Header() {
                           ? "text-bark"
                           : "text-white"
                         : showDark
-                          ? "text-bark/45 hover:text-bark/75"
-                          : "text-white/50 hover:text-white/85"
+                          ? "text-bark-600 hover:text-bark-800"
+                          : "text-cream-200 hover:text-cream-50"
                     }`}
                   >
                     {active && (
@@ -169,7 +174,7 @@ export default function Header() {
                     className={`flex items-center justify-between px-4 py-3.5 rounded-xl text-[15px] font-medium transition-all duration-300 ${
                       active
                         ? "bg-bark text-white"
-                        : "text-bark/55 hover:text-bark hover:bg-cream-200/40"
+                        : "text-bark-700 hover:text-bark hover:bg-cream-200/40"
                     }`}
                     style={{
                       transitionDelay: mobileOpen ? `${i * 40}ms` : "0ms",
