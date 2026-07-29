@@ -241,7 +241,7 @@
 .leaflet-popup-content a {
   text-decoration: none;
 }
-.leaflet-popup-content a[class*="text-white"] {
+.popup-btn-white {
   color: #fff !important;
 }
 
