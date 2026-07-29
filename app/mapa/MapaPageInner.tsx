@@ -14,7 +14,7 @@ const MapaInteractivo = dynamic(() => import("@/components/MapaInteractivo"), {
     <div className="h-full bg-cream-100 flex items-center justify-center">
       <div className="text-center">
         <MapPin className="h-10 w-10 text-cream-300 mx-auto animate-pulse-subtle" />
-        <p className="text-bark/25 mt-3 text-[13px]">Cargando mapa...</p>
+        <p className="text-bark-400 mt-3 text-[13px]">Cargando mapa...</p>
       </div>
     </div>
   ),
@@ -94,14 +94,14 @@ export default function MapaPageInner() {
         }));
         setTodosFacilitadores(mapped);
 
-        const ciudades = new Set<string>();
+        const ciudades = new Set<string>(["Mar del Plata", "Bahía Blanca"]);
         mapped.forEach((f) =>
           f.ubicaciones.forEach((u) => {
             if (u.ciudad) ciudades.add(u.ciudad);
           })
         );
         const sorted = Array.from(ciudades).sort((a, b) => a.localeCompare(b));
-        setCiudadesDisponibles(sorted.length > 0 ? sorted : ["Mar del Plata"]);
+        setCiudadesDisponibles(sorted);
       }
       setCargando(false);
     }
@@ -181,7 +181,7 @@ export default function MapaPageInner() {
               Actividades
             </h2>
             {ciudadSeleccionada && (
-              <span className="text-[11px] text-bark/25 font-mono">
+              <span className="text-[11px] text-bark-400 font-mono">
                 {cargando ? "..." : `${facilitadoresFiltrados.length}`}
               </span>
             )}
@@ -190,7 +190,7 @@ export default function MapaPageInner() {
           {/* City selector */}
           {mostrarSelectorCiudad && (
             <div className="mb-3">
-              <label className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark/30 mb-1.5 block">
+              <label className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark-500 mb-1.5 block">
                 Ciudad
               </label>
               <div className="flex flex-wrap gap-1.5">
@@ -206,7 +206,7 @@ export default function MapaPageInner() {
                       className={`px-3 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
                         isActive
                           ? "bg-bark text-white shadow-sm"
-                          : "bg-cream-200/60 text-bark/45 hover:text-bark/70 border border-cream-200 hover:border-cream-300"
+                          : "bg-cream-200/60 text-bark-600 hover:text-bark-800 border border-cream-200 hover:border-cream-300"
                       }`}
                     >
                       {ciudad}
@@ -218,11 +218,11 @@ export default function MapaPageInner() {
           )}
 
           {/* Search input */}
-          <label className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark/30 mb-2 block">
+          <label className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark-500 mb-2 block">
             Actividad
           </label>
           <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-bark/20" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-bark-300" />
             <input
               type="text"
               value={busqueda}
@@ -236,12 +236,12 @@ export default function MapaPageInner() {
                 onClick={limpiarBusqueda}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200 transition-colors"
               >
-                <X className="h-3.5 w-3.5 text-bark/25" />
+                <X className="h-3.5 w-3.5 text-bark-400" />
               </button>
             )}
           </div>
           {!ciudadSeleccionada && mostrarSelectorCiudad && (
-            <p className="text-[11px] text-bark/25 mt-2 text-center">
+            <p className="text-[11px] text-bark-400 mt-2 text-center">
               Seleccioná una ciudad para explorar actividades
             </p>
           )}
@@ -263,14 +263,14 @@ export default function MapaPageInner() {
             </div>
           ) : !ciudadSeleccionada && mostrarSelectorCiudad ? (
             <div className="p-8 text-center">
-              <MapPin className="h-8 w-8 text-bark/15 mx-auto mb-3" />
-              <p className="text-bark/25 text-[13px] leading-relaxed">
+              <MapPin className="h-8 w-8 text-bark-300 mx-auto mb-3" />
+              <p className="text-bark-400 text-[13px] leading-relaxed">
                 Elegí una ciudad para empezar
               </p>
             </div>
           ) : facilitadoresFiltrados.length === 0 ? (
             <div className="p-8 text-center">
-              <p className="text-bark/25 text-[13px] mb-3">
+              <p className="text-bark-400 text-[13px] mb-3">
                 No se encontraron resultados
               </p>
               <button
@@ -321,7 +321,7 @@ export default function MapaPageInner() {
                           {f.actividades.map((a) => (
                             <span
                               key={a.id}
-                              className="px-1.5 py-0.5 bg-bark/10 text-bark/60 text-[10px] font-semibold rounded"
+                              className="px-1.5 py-0.5 bg-bark/10 text-bark-700 text-[10px] font-semibold rounded"
                             >
                               {a.nombre}
                             </span>
@@ -333,11 +333,11 @@ export default function MapaPageInner() {
                         {f.ubicaciones.map((u, i) => (
                           <p
                             key={u.id}
-                            className="text-[11px] text-bark/25 mt-0.5 flex items-center gap-1"
+                            className="text-[11px] text-bark-400 mt-0.5 flex items-center gap-1"
                           >
                             <MapPin className="h-2.5 w-2.5 shrink-0" />
                             {tieneMultiplesUbi && (
-                              <span className="text-bark/15 font-mono text-[10px] mr-0.5">
+                              <span className="text-bark-300 font-mono text-[10px] mr-0.5">
                                 {i + 1}.
                               </span>
                             )}
@@ -345,7 +345,7 @@ export default function MapaPageInner() {
                           </p>
                         ))}
                       </div>
-                      <ChevronRight className="h-3.5 w-3.5 text-bark/10 shrink-0 mt-1" />
+                      <ChevronRight className="h-3.5 w-3.5 text-bark-300 shrink-0 mt-1" />
                     </div>
                   </button>
                 );
@@ -363,7 +363,7 @@ export default function MapaPageInner() {
         aria-label={panelAbierto ? "Cerrar panel" : "Abrir panel"}
       >
         <ChevronRight
-          className={`h-3.5 w-3.5 text-bark/25 transition-transform duration-300 ${
+          className={`h-3.5 w-3.5 text-bark-400 transition-transform duration-300 ${
             panelAbierto ? "rotate-180" : ""
           }`}
         />
@@ -375,6 +375,7 @@ export default function MapaPageInner() {
           markers={markers}
           seleccionado={facilitadorSeleccionado}
           onSeleccionar={setFacilitadorSeleccionado}
+          ciudadSeleccionada={ciudadSeleccionada}
         />
       </div>
     </div>

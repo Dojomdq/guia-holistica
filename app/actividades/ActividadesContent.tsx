@@ -10,6 +10,8 @@ import {
 } from "@/lib/categories";
 import { useClickTracker } from "@/lib/useClickTracker";
 import { useScrollReveal } from "@/lib/useScrollReveal";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import { SITE_URL } from "@/lib/constants";
 
 interface ActividadItem {
   slug: string;
@@ -65,7 +67,21 @@ export default function ActividadesContent() {
 
   return (
     <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Inicio", item: SITE_URL },
+              { "@type": "ListItem", position: 2, name: "Actividades" },
+            ],
+          }),
+        }}
+      />
       <div className="container-page py-16 sm:py-20 lg:py-24">
+        <Breadcrumbs items={[{ label: "Actividades" }]} />
         <div
           ref={ref}
           className={`max-w-2xl mb-14 transition-all duration-700 ${
@@ -73,10 +89,10 @@ export default function ActividadesContent() {
           }`}
         >
           <span className="label">Explorá</span>
-          <h1 className="font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.12] tracking-[-0.02em] text-bark mt-4">
+          <h1 className="heading-lg text-bark mt-4">
             Actividades
           </h1>
-          <p className="text-lg text-bark/55 mt-4 max-w-lg">
+          <p className="text-lg text-bark-700 mt-4 max-w-lg">
             Encontrá la que necesitás. Cada una tiene facilitadores verificados.
           </p>
         </div>
@@ -129,7 +145,7 @@ export default function ActividadesContent() {
                           strokeWidth={1.5}
                         />
                       </div>
-                      <span className="text-[11px] text-bark/25 font-mono flex items-center gap-1">
+                      <span className="text-[11px] text-bark-400 font-mono flex items-center gap-1">
                         <Users className="h-3 w-3" />
                         {a.count}
                       </span>

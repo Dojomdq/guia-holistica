@@ -116,7 +116,7 @@ export default function AdminDashboard() {
                 </div>
                 <div>
                   <p className="text-2xl font-serif font-medium text-bark">{stat.value}</p>
-                  <p className="text-xs text-bark/40">{stat.label}</p>
+                  <p className="text-xs text-bark-600">{stat.label}</p>
                 </div>
               </div>
             </Link>
@@ -127,11 +127,11 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60">
           <div className="flex items-center gap-2 mb-5">
-            <TrendingUp className="h-5 w-5 text-bark/30" />
+            <TrendingUp className="h-5 w-5 text-bark-500" />
             <h2 className="font-serif font-medium text-bark text-lg">Actividades mas clickeadas</h2>
           </div>
           {topActividades.length === 0 ? (
-            <p className="text-sm text-bark/30">Sin datos aun</p>
+            <p className="text-sm text-bark-500">Sin datos aun</p>
           ) : (
             <div className="space-y-3">
               {topActividades.map((item, i) => {
@@ -139,13 +139,13 @@ export default function AdminDashboard() {
                 const pct = Math.round((item.count / maxCount) * 100);
                 return (
                   <div key={item.referencia_id} className="flex items-center gap-3">
-                    <span className="text-xs text-bark/20 w-4 text-right">{i + 1}</span>
+                    <span className="text-xs text-bark-300 w-4 text-right">{i + 1}</span>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm text-bark/70 truncate">
+                        <span className="text-sm text-bark-800 truncate">
                           {actividadNames[item.referencia_id] || item.referencia_id}
                         </span>
-                        <span className="text-xs font-medium text-bark/40">{item.count}</span>
+                        <span className="text-xs font-medium text-bark-600">{item.count}</span>
                       </div>
                       <div className="h-1.5 bg-cream-200 rounded-full overflow-hidden">
                         <div className="h-full bg-sage-500 rounded-full" style={{ width: `${pct}%` }} />
@@ -160,11 +160,11 @@ export default function AdminDashboard() {
 
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60">
           <div className="flex items-center gap-2 mb-5">
-            <TrendingUp className="h-5 w-5 text-bark/30" />
+            <TrendingUp className="h-5 w-5 text-bark-500" />
             <h2 className="font-serif font-medium text-bark text-lg">Facilitadores mas clickeados</h2>
           </div>
           {topFacilitadores.length === 0 ? (
-            <p className="text-sm text-bark/30">Sin datos aun</p>
+            <p className="text-sm text-bark-500">Sin datos aun</p>
           ) : (
             <div className="space-y-3">
               {topFacilitadores.map((item, i) => {
@@ -172,13 +172,13 @@ export default function AdminDashboard() {
                 const pct = Math.round((item.count / maxCount) * 100);
                 return (
                   <div key={item.referencia_id} className="flex items-center gap-3">
-                    <span className="text-xs text-bark/20 w-4 text-right">{i + 1}</span>
+                    <span className="text-xs text-bark-300 w-4 text-right">{i + 1}</span>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm text-bark/70 truncate">
+                        <span className="text-sm text-bark-800 truncate">
                           {facilitadorNames[item.referencia_id] || item.referencia_id}
                         </span>
-                        <span className="text-xs font-medium text-bark/40">{item.count}</span>
+                        <span className="text-xs font-medium text-bark-600">{item.count}</span>
                       </div>
                       <div className="h-1.5 bg-cream-200 rounded-full overflow-hidden">
                         <div className="h-full bg-sage-500 rounded-full" style={{ width: `${pct}%` }} />
@@ -192,7 +192,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <a href="/" target="_blank" className="inline-flex items-center gap-2 text-sm text-bark/40 hover:text-bark/60 font-medium transition-colors">
+      <a href="/" target="_blank" className="inline-flex items-center gap-2 text-sm text-bark-600 hover:text-bark-700 font-medium transition-colors">
         <ExternalLink className="h-4 w-4" /> Ver sitio publico
       </a>
     </div>

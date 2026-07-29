@@ -13,6 +13,8 @@ import {
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import { SITE_URL } from "@/lib/constants";
 import type { Ubicacion } from "@/lib/types";
 
 const MiniMapDetail = dynamic(() => import("@/components/MiniMapDetail"), {
@@ -111,7 +113,7 @@ export default function FacilitadorContent({
     return (
       <div className="section-pad">
         <div className="container-page text-center max-w-3xl">
-          <p className="text-bark/35 text-body-lg mb-6">
+          <p className="text-bark-500 text-body-lg mb-6">
             Facilitador no encontrado
           </p>
           <Link href="/facilitadores" className="btn-ghost">
@@ -130,9 +132,42 @@ export default function FacilitadorContent({
   return (
     <div className="section-pad">
       <div className="container-page max-w-3xl">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Inicio", item: SITE_URL },
+                { "@type": "ListItem", position: 2, name: "Facilitadores", item: `${SITE_URL}/facilitadores` },
+                { "@type": "ListItem", position: 3, name: f.nombre },
+              ],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: f.nombre,
+              description: f.bio,
+              email: f.email,
+              url: `${SITE_URL}/facilitadores/${f.id}`,
+              ...(f.instagram && { sameAs: [`https://instagram.com/${f.instagram.replace("@", "")}`] }),
+              ...(f.sitio_web && { url: f.sitio_web }),
+            }),
+          }}
+        />
+        <Breadcrumbs items={[
+          { label: "Facilitadores", href: "/facilitadores" },
+          { label: f.nombre },
+        ]} />
         <Link
           href="/facilitadores"
-          className="inline-flex items-center gap-1.5 text-bark/35 hover:text-bark/65 text-[13px] mb-8 transition-colors group"
+          className="inline-flex items-center gap-1.5 text-bark-500 hover:text-bark-700 text-[13px] mb-8 transition-colors group"
         >
           <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
           Volver
@@ -151,7 +186,7 @@ export default function FacilitadorContent({
               </div>
 
               <div className="flex-1">
-                <h1 className="font-serif text-[clamp(1.5rem,3vw,2.25rem)] font-medium text-bark mb-3 tracking-[-0.02em]">
+                <h1 className="heading-md text-bark mb-3">
                   {f.nombre}
                 </h1>
                 <div className="flex flex-wrap gap-1.5 mb-5">
@@ -216,8 +251,8 @@ export default function FacilitadorContent({
             {f.ubicaciones && f.ubicaciones.length > 0 && (
               <div className="mt-10 pt-8 divider">
                 <div className="flex items-center gap-2 mb-4">
-                  <MapPin className="h-4 w-4 text-bark/25" />
-                  <h2 className="text-[15px] font-medium text-bark/65">
+                  <MapPin className="h-4 w-4 text-bark-400" />
+                  <h2 className="text-[15px] font-medium text-bark-700">
                     {f.ubicaciones.length > 1 ? "Ubicaciones" : "Ubicación"}
                   </h2>
                 </div>
@@ -225,8 +260,8 @@ export default function FacilitadorContent({
                   {f.ubicaciones.map((u, i) => (
                     <div key={u.id}>
                       {f.ubicaciones.length > 1 && (
-                        <p className="text-[13px] font-medium text-bark/50 mb-2 flex items-center gap-1.5">
-                          <MapPin className="h-3.5 w-3.5 text-bark/20" />
+                        <p className="text-[13px] font-medium text-bark-600 mb-2 flex items-center gap-1.5">
+                          <MapPin className="h-3.5 w-3.5 text-bark-300" />
                           {u.direccion || `Ubicación ${i + 1}`}
                         </p>
                       )}
