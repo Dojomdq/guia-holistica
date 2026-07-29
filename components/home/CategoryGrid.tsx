@@ -2,48 +2,27 @@
 
 import { useRouter } from "next/navigation";
 import { useScrollReveal } from "@/lib/useScrollReveal";
-import {
-  Feather,
-  Flower2,
-  Hand,
-  Flame,
-  Eye,
-  Star,
-  Sparkles,
-  Leaf,
-  Moon,
-  Coffee,
-  Bell,
-  Droplets,
-  Hash,
-  Wind,
-  Trees,
-  Heart,
-  Sprout,
-  CircleDashed,
-  PersonStanding,
-} from "lucide-react";
 
 const CATEGORIES = [
-  { slug: "yoga", name: "Yoga", icon: Flower2 },
-  { slug: "reiki", name: "Reiki", icon: Hand },
-  { slug: "meditacion", name: "Meditación", icon: Flame },
-  { slug: "chamanismo", name: "Chamanismo", icon: Feather },
-  { slug: "tarot", name: "Tarot", icon: Eye },
-  { slug: "astrologia", name: "Astrología", icon: Star },
-  { slug: "sanacion-energetica", name: "Sanación energética", icon: Sparkles },
-  { slug: "terapias-holisticas", name: "Terapias holísticas", icon: Leaf },
-  { slug: "biodanza", name: "Biodanza", icon: PersonStanding },
-  { slug: "aromaterapia", name: "Aromaterapia", icon: Droplets },
-  { slug: "circulos-de-mujeres", name: "Círculos de mujeres", icon: Moon },
-  { slug: "cacao-ceremonia", name: "Cacao ceremony", icon: Coffee },
-  { slug: "flores-de-bach", name: "Flores de Bach", icon: Sprout },
-  { slug: "sonidos-y-vibraciones", name: "Sonidos y vibraciones", icon: Bell },
-  { slug: "numerologia", name: "Numerología", icon: Hash },
-  { slug: "pranoterapia", name: "Pranoterapia", icon: Wind },
-  { slug: "limpieza-energetica", name: "Limpieza energética", icon: CircleDashed },
-  { slug: "plantas-medicinales", name: "Plantas medicinales", icon: Trees },
-  { slug: "masajes-terapeuticos", name: "Masajes terapéuticos", icon: Heart },
+  { slug: "yoga", name: "Yoga", emoji: "🧘" },
+  { slug: "reiki", name: "Reiki", emoji: "🖐️" },
+  { slug: "meditacion", name: "Meditación", emoji: "🧠" },
+  { slug: "chamanismo", name: "Chamanismo", emoji: "🪶" },
+  { slug: "tarot", name: "Tarot", emoji: "🔮" },
+  { slug: "astrologia", name: "Astrología", emoji: "⭐" },
+  { slug: "sanacion-energetica", name: "Sanación energética", emoji: "✨" },
+  { slug: "terapias-holisticas", name: "Terapias holísticas", emoji: "🌿" },
+  { slug: "biodanza", name: "Biodanza", emoji: "💃" },
+  { slug: "aromaterapia", name: "Aromaterapia", emoji: "🌸" },
+  { slug: "circulos-de-mujeres", name: "Círculos de mujeres", emoji: "🌙" },
+  { slug: "cacao-ceremonia", name: "Cacao ceremony", emoji: "🍫" },
+  { slug: "flores-de-bach", name: "Flores de Bach", emoji: "🌼" },
+  { slug: "sonidos-y-vibraciones", name: "Sonidos y vibraciones", emoji: "🔔" },
+  { slug: "numerologia", name: "Numerología", emoji: "🔢" },
+  { slug: "pranoterapia", name: "Pranoterapia", emoji: "🌀" },
+  { slug: "limpieza-energetica", name: "Limpieza energética", emoji: "💫" },
+  { slug: "plantas-medicinales", name: "Plantas medicinales", emoji: "🌱" },
+  { slug: "masajes-terapeuticos", name: "Masajes terapéuticos", emoji: "💆" },
 ];
 
 export default function CategoryGrid() {
@@ -71,7 +50,6 @@ export default function CategoryGrid() {
 
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3 max-w-6xl mx-auto">
           {CATEGORIES.map((cat, i) => {
-            const Icon = cat.icon;
             return (
               <button
                 key={cat.slug}
@@ -81,8 +59,8 @@ export default function CategoryGrid() {
                 }`}
                 style={{ transitionDelay: `${Math.min(i * 30, 400)}ms` }}
               >
-                <div className="w-12 h-12 rounded-xl bg-cream-100 flex items-center justify-center transition-all duration-300 group-hover:bg-sage-100 group-hover:scale-110">
-                  <Icon className="h-6 w-6 text-bark-400 group-hover:text-sage-600 transition-colors duration-300" strokeWidth={1.5} />
+                <div className="w-12 h-12 rounded-xl bg-cream-100 flex items-center justify-center transition-all duration-300 group-hover:bg-sage-100 group-hover:scale-110 text-xl">
+                  {cat.emoji}
                 </div>
                 <span className="text-[12px] font-medium text-bark-600 group-hover:text-bark text-center leading-tight transition-colors duration-300">
                   {cat.name}
