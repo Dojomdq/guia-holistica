@@ -149,15 +149,23 @@
 }
 
 .leaflet-popup-content-wrapper {
-  @apply rounded-xl shadow-medium border border-cream-200;
+  @apply rounded-xl shadow-medium border border-cream-200 bg-white;
+  padding: 0 !important;
 }
 
 .leaflet-popup-content {
-  @apply text-sm text-bark m-3;
+  @apply text-sm m-0;
+  color: #2A1F14;
+  line-height: 1.5;
 }
 
 .leaflet-popup-tip {
-  @apply fill-white;
+  @apply bg-white;
+}
+
+.leaflet-popup-content a {
+  color: #2A1F14;
+  text-decoration: none;
 }
 
 /* Scrollbar */
