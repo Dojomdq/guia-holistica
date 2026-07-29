@@ -204,7 +204,7 @@ export default function MapaInteractivo({
                   {m.facilitador.actividades.map((a) => (
                     <span
                       key={a.id}
-                      className="px-2 py-0.5 bg-sage-50 text-sage-700 text-[10px] font-medium rounded-full"
+                      className="px-2 py-0.5 bg-sage-600 text-white text-[10px] font-medium rounded-full"
                     >
                       {a.nombre}
                     </span>
