@@ -183,7 +183,7 @@ export default function MapaInteractivo({
               click: () => onSeleccionar(m.facilitador.id),
             }}
           >
-            <Popup closeButton={true} autoPan={true}>
+            <Popup closeButton={false} autoPan={true}>
               <div className="p-2.5 min-w-[200px] max-w-[260px]">
                 <h3 className="font-serif font-medium text-bark text-sm mb-2 leading-tight">
                   {m.facilitador.nombre}
