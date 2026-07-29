@@ -167,7 +167,7 @@ export default function MapaPageInner() {
   return (
     <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
       <div
-        className="relative flex flex-col md:flex-row h-[80vh] md:h-[70vh] rounded-2xl overflow-hidden shadow-2xl border border-cream-200/60 mx-4 sm:mx-6 lg:mx-8 my-4"
+        className="relative flex flex-col md:flex-row h-[calc(100vh-8rem)] md:h-[calc(100vh-9rem)] rounded-2xl shadow-2xl border border-cream-200/60 mx-4 sm:mx-6 lg:mx-8 my-4"
       >
         {/* Sidebar */}
         <div
