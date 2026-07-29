@@ -11,14 +11,11 @@ interface FacilitadorAdmin {
   telefono: string | null;
   whatsapp: string | null;
   bio: string | null;
-  ciudad: string;
-  latitud: number;
-  longitud: number;
-  direccion: string | null;
   instagram: string | null;
   sitio_web: string | null;
   activo: boolean;
   actividad_ids: string[];
+  ubicaciones: { id: string; direccion: string | null; latitud: number; longitud: number; ciudad: string }[];
 }
 
 interface ActividadOption {
@@ -26,10 +23,19 @@ interface ActividadOption {
   nombre: string;
 }
 
+interface UbicacionForm {
+  direccion: string;
+  latitud: string;
+  longitud: string;
+  ciudad: string;
+}
+
+const EMPTY_UBI: UbicacionForm = { direccion: "", latitud: "-38.0055", longitud: "-57.5426", ciudad: "Mar del Plata" };
+
 const EMPTY_FORM = {
   nombre: "", email: "", telefono: "", whatsapp: "", bio: "",
-  ciudad: "Mar del Plata", latitud: "-38.0055", longitud: "-57.5426",
-  direccion: "", instagram: "", sitio_web: "", activo: true, actividad_ids: [] as string[],
+  instagram: "", sitio_web: "", activo: true, actividad_ids: [] as string[],
+  ubicaciones: [] as UbicacionForm[],
 };
 
 export default function FacilitadoresAdmin() {
@@ -41,7 +47,7 @@ export default function FacilitadoresAdmin() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [cargando, setCargando] = useState(true);
   const [guardando, setGuardando] = useState(false);
-  const [buscandoDir, setBuscandoDir] = useState(false);
+  const [buscandoDir, setBuscandoDir] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   async function load() {
@@ -49,7 +55,7 @@ export default function FacilitadoresAdmin() {
     const [fRes, aRes] = await Promise.all([
       supabase
         .from("facilitadores")
-        .select("*, facilitador_actividades(actividades(id))")
+        .select("*, facilitador_actividades(actividades(id)), ubicaciones(*)")
         .order("nombre"),
       supabase
         .from("actividades")
@@ -62,8 +68,23 @@ export default function FacilitadoresAdmin() {
     } else {
       setFacilitadores(
         (fRes.data || []).map((f: any) => ({
-          ...f,
+          id: f.id,
+          nombre: f.nombre,
+          email: f.email,
+          telefono: f.telefono,
+          whatsapp: f.whatsapp,
+          bio: f.bio,
+          instagram: f.instagram,
+          sitio_web: f.sitio_web,
+          activo: f.activo,
           actividad_ids: (f.facilitador_actividades || []).map((fa: any) => fa.actividades?.id).filter(Boolean),
+          ubicaciones: (f.ubicaciones || []).map((u: any) => ({
+            id: u.id,
+            direccion: u.direccion,
+            latitud: u.latitud,
+            longitud: u.longitud,
+            ciudad: u.ciudad,
+          })),
         }))
       );
     }
@@ -80,8 +101,7 @@ export default function FacilitadoresAdmin() {
   const filtered = facilitadores.filter(
     (f) =>
       f.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-      f.email.toLowerCase().includes(busqueda.toLowerCase()) ||
-      f.ciudad.toLowerCase().includes(busqueda.toLowerCase())
+      f.email.toLowerCase().includes(busqueda.toLowerCase())
   );
 
   function openNew() {
@@ -93,11 +113,17 @@ export default function FacilitadoresAdmin() {
   function openEdit(f: FacilitadorAdmin) {
     setForm({
       nombre: f.nombre, email: f.email, telefono: f.telefono || "",
-      whatsapp: f.whatsapp || "", bio: f.bio || "", ciudad: f.ciudad,
-      latitud: String(f.latitud), longitud: String(f.longitud),
-      direccion: f.direccion || "", instagram: f.instagram || "",
-      sitio_web: f.sitio_web || "", activo: f.activo,
-      actividad_ids: f.actividad_ids,
+      whatsapp: f.whatsapp || "", bio: f.bio || "",
+      instagram: f.instagram || "", sitio_web: f.sitio_web || "",
+      activo: f.activo, actividad_ids: f.actividad_ids,
+      ubicaciones: f.ubicaciones.length > 0
+        ? f.ubicaciones.map((u) => ({
+            direccion: u.direccion || "",
+            latitud: String(u.latitud),
+            longitud: String(u.longitud),
+            ciudad: u.ciudad,
+          }))
+        : [{ ...EMPTY_UBI }],
     });
     setEditando(f.id);
     setShowForm(true);
@@ -112,6 +138,47 @@ export default function FacilitadoresAdmin() {
     }));
   }
 
+  function updateUbi(idx: number, field: keyof UbicacionForm, value: string) {
+    setForm((prev) => {
+      const ubi = [...prev.ubicaciones];
+      ubi[idx] = { ...ubi[idx], [field]: value };
+      return { ...prev, ubicaciones: ubi };
+    });
+  }
+
+  function addUbi() {
+    setForm((prev) => ({ ...prev, ubicaciones: [...prev.ubicaciones, { ...EMPTY_UBI }] }));
+  }
+
+  function removeUbi(idx: number) {
+    setForm((prev) => ({
+      ...prev,
+      ubicaciones: prev.ubicaciones.filter((_, i) => i !== idx),
+    }));
+  }
+
+  async function buscarDireccion(idx: number) {
+    const ubi = form.ubicaciones[idx];
+    if (!ubi.direccion.trim()) return;
+    setBuscandoDir(idx);
+    try {
+      const query = encodeURIComponent(`${ubi.direccion}, ${ubi.ciudad}, Argentina`);
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`, {
+        headers: { "Accept-Language": "es" },
+      });
+      const data = await res.json();
+      if (data.length > 0) {
+        updateUbi(idx, "latitud", parseFloat(data[0].lat).toFixed(6));
+        updateUbi(idx, "longitud", parseFloat(data[0].lon).toFixed(6));
+      } else {
+        alert("No se encontró la dirección. Probá de otra forma.");
+      }
+    } catch {
+      alert("Error al buscar la dirección");
+    }
+    setBuscandoDir(null);
+  }
+
   async function handleSave() {
     setGuardando(true);
     setError(null);
@@ -121,10 +188,6 @@ export default function FacilitadoresAdmin() {
       telefono: form.telefono || null,
       whatsapp: form.whatsapp || null,
       bio: form.bio || null,
-      ciudad: form.ciudad || "Mar del Plata",
-      latitud: parseFloat(form.latitud) || -38.0055,
-      longitud: parseFloat(form.longitud) || -57.5426,
-      direccion: form.direccion || null,
       instagram: form.instagram || null,
       sitio_web: form.sitio_web || null,
       activo: form.activo,
@@ -148,6 +211,20 @@ export default function FacilitadoresAdmin() {
           form.actividad_ids.map((aid) => ({ facilitador_id: editando, actividad_id: aid }))
         );
       }
+
+      await supabase.from("ubicaciones").delete().eq("facilitador_id", editando);
+      const ubiData = form.ubicaciones
+        .filter((u) => u.direccion.trim() || u.latitud !== "-38.0055")
+        .map((u) => ({
+          facilitador_id: editando,
+          direccion: u.direccion || null,
+          latitud: parseFloat(u.latitud) || -38.0055,
+          longitud: parseFloat(u.longitud) || -57.5426,
+          ciudad: u.ciudad || "Mar del Plata",
+        }));
+      if (ubiData.length) {
+        await supabase.from("ubicaciones").insert(ubiData);
+      }
     } else {
       const { data: newFac, error: insErr } = await supabase
         .from("facilitadores")
@@ -166,6 +243,19 @@ export default function FacilitadoresAdmin() {
           form.actividad_ids.map((aid) => ({ facilitador_id: newFac.id, actividad_id: aid }))
         );
       }
+
+      const ubiData = form.ubicaciones
+        .filter((u) => u.direccion.trim() || u.latitud !== "-38.0055")
+        .map((u) => ({
+          facilitador_id: newFac.id,
+          direccion: u.direccion || null,
+          latitud: parseFloat(u.latitud) || -38.0055,
+          longitud: parseFloat(u.longitud) || -57.5426,
+          ciudad: u.ciudad || "Mar del Plata",
+        }));
+      if (ubiData.length) {
+        await supabase.from("ubicaciones").insert(ubiData);
+      }
     }
 
     setShowForm(false);
@@ -178,33 +268,9 @@ export default function FacilitadoresAdmin() {
   async function handleDelete(id: string, nombre: string) {
     if (!confirm(`¿Eliminar a "${nombre}"?`)) return;
     await supabase.from("facilitador_actividades").delete().eq("facilitador_id", id);
+    await supabase.from("ubicaciones").delete().eq("facilitador_id", id);
     const { error } = await supabase.from("facilitadores").delete().eq("id", id);
     if (!error) await load();
-  }
-
-  async function buscarDireccion() {
-    if (!form.direccion.trim()) return;
-    setBuscandoDir(true);
-    try {
-      const query = encodeURIComponent(`${form.direccion}, ${form.ciudad}, Argentina`);
-      const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`, {
-        headers: { "Accept-Language": "es" },
-      });
-      const data = await res.json();
-      if (data.length > 0) {
-        setForm((prev) => ({
-          ...prev,
-          latitud: parseFloat(data[0].lat).toFixed(6),
-          longitud: parseFloat(data[0].lon).toFixed(6),
-        }));
-        alert("Dirección ubicada correctamente");
-      } else {
-        alert("No se encontró la dirección. Probá de otra forma, ej: 'San Martín 3534, Mar del Plata'");
-      }
-    } catch {
-      alert("Error al buscar la dirección");
-    }
-    setBuscandoDir(false);
   }
 
   return (
@@ -246,28 +312,52 @@ export default function FacilitadoresAdmin() {
               <label className="block text-sm font-medium text-bark/70 mb-1">WhatsApp</label>
               <input type="tel" value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="+542235550000" />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-bark/70 mb-1">Dirección</label>
-              <input type="text" value={form.direccion} onChange={(e) => setForm({ ...form, direccion: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Av. Libertador 1234, Mar del Plata" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-bark/70 mb-1">Ciudad</label>
-              <input type="text" value={form.ciudad} onChange={(e) => setForm({ ...form, ciudad: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" />
-            </div>
+
+            {/* Ubicaciones */}
             <div className="md:col-span-2">
-              <div className="flex items-center gap-2 mb-1">
-                <label className="text-sm font-medium text-bark/70">Ubicación en mapa</label>
-                <button type="button" onClick={buscarDireccion} disabled={buscandoDir || !form.direccion.trim()}
-                  className="inline-flex items-center gap-1 text-xs font-medium text-bark/40 hover:text-bark/70 bg-cream-200 hover:bg-cream-300 px-2 py-1 rounded-lg transition-colors disabled:opacity-50">
-                  <Crosshair className="h-3 w-3" />
-                  {buscandoDir ? "Buscando..." : "Ubicar dirección"}
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-sm font-medium text-bark/70">Ubicaciones</label>
+                <button type="button" onClick={addUbi} className="inline-flex items-center gap-1 text-xs font-medium text-sage-600 hover:text-sage-700 bg-sage-50 px-2.5 py-1 rounded-lg transition-colors">
+                  <Plus className="h-3 w-3" /> Agregar ubicación
                 </button>
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <input type="text" value={form.latitud} onChange={(e) => setForm({ ...form, latitud: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Latitud" />
-                <input type="text" value={form.longitud} onChange={(e) => setForm({ ...form, longitud: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Longitud" />
-              </div>
+              {form.ubicaciones.length === 0 && (
+                <p className="text-xs text-bark/30 mb-2">Sin ubicaciones cargadas</p>
+              )}
+              {form.ubicaciones.map((ubi, idx) => (
+                <div key={idx} className="bg-cream-50 rounded-xl p-4 mb-3 border border-cream-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-medium text-bark/40 font-mono">Ubicación {idx + 1}</span>
+                    {form.ubicaciones.length > 1 && (
+                      <button type="button" onClick={() => removeUbi(idx)} className="text-bark/25 hover:text-red-500 transition-colors">
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="md:col-span-2">
+                      <input type="text" value={ubi.direccion} onChange={(e) => updateUbi(idx, "direccion", e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Dirección" />
+                    </div>
+                    <div>
+                      <input type="text" value={ubi.ciudad} onChange={(e) => updateUbi(idx, "ciudad", e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Ciudad" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input type="text" value={ubi.latitud} onChange={(e) => updateUbi(idx, "latitud", e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Latitud" />
+                      <input type="text" value={ubi.longitud} onChange={(e) => updateUbi(idx, "longitud", e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Longitud" />
+                      <button type="button" onClick={() => buscarDireccion(idx)} disabled={buscandoDir === idx || !ubi.direccion.trim()}
+                        className="shrink-0 inline-flex items-center gap-1 text-xs font-medium text-bark/40 hover:text-bark/70 bg-cream-200 hover:bg-cream-300 px-2 py-2 rounded-lg transition-colors disabled:opacity-50">
+                        <Crosshair className="h-3 w-3" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
+
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-bark/70 mb-1">Bio</label>
               <textarea rows={3} value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark/25 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Breve descripción..." />
@@ -327,7 +417,7 @@ export default function FacilitadoresAdmin() {
               <tr>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-bark/40 uppercase tracking-wide">Nombre</th>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-bark/40 uppercase tracking-wide hidden md:table-cell">Email</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-bark/40 uppercase tracking-wide hidden lg:table-cell">Dirección</th>
+                <th className="text-left px-6 py-3 text-xs font-semibold text-bark/40 uppercase tracking-wide hidden lg:table-cell">Ubicaciones</th>
                 <th className="text-left px-6 py-3 text-xs font-semibold text-bark/40 uppercase tracking-wide">Estado</th>
                 <th className="text-right px-6 py-3 text-xs font-semibold text-bark/40 uppercase tracking-wide">Acciones</th>
               </tr>
@@ -343,14 +433,16 @@ export default function FacilitadoresAdmin() {
                   </td>
                   <td className="px-6 py-4 text-sm text-bark/50 hidden md:table-cell">{f.email}</td>
                   <td className="px-6 py-4 text-sm text-bark/50 hidden lg:table-cell">
-                    <span className="flex items-center gap-1">
-                      <MapPin className="h-3 w-3" />
-                      {f.direccion || (
-                        <span className="flex items-center gap-1 text-orange-500">
-                          <AlertCircle className="h-3 w-3" /> Sin dirección
-                        </span>
-                      )}
-                    </span>
+                    {f.ubicaciones.length > 0 ? (
+                      <span className="flex items-center gap-1">
+                        <MapPin className="h-3 w-3" />
+                        {f.ubicaciones.length} ubicacion(es)
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1 text-orange-500">
+                        <AlertCircle className="h-3 w-3" /> Sin dirección
+                      </span>
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium ${f.activo ? "bg-sage-50 text-sage-700 border border-sage-200/60" : "bg-red-50 text-red-700 border border-red-200/60"}`}>

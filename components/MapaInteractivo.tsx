@@ -21,21 +21,32 @@ interface Actividad {
   slug: string;
 }
 
-interface Facilitador {
+interface Ubicacion {
   id: string;
-  nombre: string;
-  bio: string | null;
+  facilitador_id: string;
   direccion: string | null;
   latitud: number;
   longitud: number;
+  ciudad: string;
+}
+
+interface FacilitadorMarker {
+  id: string;
+  nombre: string;
+  bio: string | null;
   whatsapp: string | null;
   instagram: string | null;
   foto_url: string | null;
   actividades: Actividad[];
 }
 
+interface MarkerItem {
+  ubicacion: Ubicacion;
+  facilitador: FacilitadorMarker;
+}
+
 interface Props {
-  facilitadores: Facilitador[];
+  markers: MarkerItem[];
   seleccionado: string | null;
   onSeleccionar: (id: string | null) => void;
 }
@@ -72,28 +83,38 @@ function MapEvents({
   return null;
 }
 
-function FlyToFacilitador({
-  facilitador,
+function FocusMarkers({
+  markers,
+  selectedId,
 }: {
-  facilitador: Facilitador | undefined;
+  markers: MarkerItem[];
+  selectedId: string | null;
 }) {
   const map = useMap();
   useEffect(() => {
-    if (facilitador) {
-      map.flyTo([facilitador.latitud, facilitador.longitud], 15, {
-        duration: 0.8,
-      });
+    if (selectedId && markers.length > 0) {
+      const target = markers.find((m) => m.facilitador.id === selectedId);
+      if (target) {
+        map.flyTo([target.ubicacion.latitud, target.ubicacion.longitud], 15, {
+          duration: 0.8,
+        });
+      }
+    } else if (!selectedId && markers.length > 0) {
+      const lats = markers.map((m) => m.ubicacion.latitud);
+      const lngs = markers.map((m) => m.ubicacion.longitud);
+      const avgLat = lats.reduce((a, b) => a + b, 0) / lats.length;
+      const avgLng = lngs.reduce((a, b) => a + b, 0) / lngs.length;
+      map.flyTo([avgLat, avgLng], 12, { duration: 0.8 });
     }
-  }, [facilitador, map]);
+  }, [selectedId, markers, map]);
   return null;
 }
 
 export default function MapaInteractivo({
-  facilitadores,
+  markers,
   seleccionado,
   onSeleccionar,
 }: Props) {
-  const seleccionadoData = facilitadores.find((f) => f.id === seleccionado);
   const track = useClickTracker();
 
   return (
@@ -110,29 +131,33 @@ export default function MapaInteractivo({
       />
 
       <MapEvents onSeleccionar={onSeleccionar} />
-      <FlyToFacilitador facilitador={seleccionadoData} />
+      <FocusMarkers markers={markers} selectedId={seleccionado} />
 
-      {facilitadores.map((f) => {
-        const isSelected = seleccionado === f.id;
+      {markers.map((m, idx) => {
+        const isSelected = seleccionado === m.facilitador.id;
         const color = getMarkerColor(
-          f.actividades.length > 0 ? f.actividades[0].slug : ""
+          m.facilitador.actividades.length > 0
+            ? m.facilitador.actividades[0].slug
+            : ""
         );
         const icon = createIcon(color, isSelected);
 
         return (
           <Marker
-            key={f.id}
-            position={[f.latitud, f.longitud]}
+            key={`${m.facilitador.id}-${m.ubicacion.id || idx}`}
+            position={[m.ubicacion.latitud, m.ubicacion.longitud]}
             icon={icon}
-            eventHandlers={{ click: () => onSeleccionar(f.id) }}
+            eventHandlers={{
+              click: () => onSeleccionar(m.facilitador.id),
+            }}
           >
             <Popup>
               <div className="p-2 min-w-[220px]">
                 <h3 className="font-serif font-medium text-bark text-sm mb-1.5">
-                  {f.nombre}
+                  {m.facilitador.nombre}
                 </h3>
                 <div className="flex flex-wrap gap-1 mb-2">
-                  {f.actividades.map((a) => (
+                  {m.facilitador.actividades.map((a) => (
                     <span
                       key={a.id}
                       className="px-2 py-0.5 bg-cream-200/60 text-bark/50 text-[11px] rounded-full"
@@ -141,27 +166,25 @@ export default function MapaInteractivo({
                     </span>
                   ))}
                 </div>
-                {f.bio && (
+                {m.facilitador.bio && (
                   <p className="text-xs text-bark/40 mb-2 line-clamp-2 leading-relaxed">
-                    {f.bio}
+                    {m.facilitador.bio}
                   </p>
                 )}
-                {f.direccion && (
-                  <p className="text-[11px] text-bark/30 mb-2.5">
-                    {f.direccion}
-                  </p>
-                )}
+                <p className="text-[11px] text-bark/30 mb-2.5">
+                  {m.ubicacion.direccion || "Ubicación sin dirección"}
+                </p>
                 <div className="flex gap-2">
                   <Link
-                    href={`/facilitadores/${f.id}`}
+                    href={`/facilitadores/${m.facilitador.id}`}
                     className="text-xs bg-bark text-white px-3 py-1.5 rounded-full hover:bg-bark/90 transition-colors font-medium"
-                    onClick={() => track("facilitador", f.id)}
+                    onClick={() => track("facilitador", m.facilitador.id)}
                   >
                     Ver perfil
                   </Link>
-                  {f.whatsapp && (
+                  {m.facilitador.whatsapp && (
                     <a
-                      href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}`}
+                      href={`https://wa.me/${m.facilitador.whatsapp.replace(/[^0-9]/g, "")}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs bg-sage-600 text-white px-3 py-1.5 rounded-full hover:bg-sage-700 transition-colors font-medium"

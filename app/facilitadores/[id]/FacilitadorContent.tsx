@@ -13,7 +13,7 @@ import {
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
-import type { FacilitadorConActividades } from "@/lib/types";
+import type { Ubicacion } from "@/lib/types";
 
 const MiniMapDetail = dynamic(() => import("@/components/MiniMapDetail"), {
   ssr: false,
@@ -29,13 +29,11 @@ interface FacilitadorData {
   telefono: string | null;
   whatsapp: string | null;
   bio: string | null;
-  direccion: string | null;
-  latitud: number;
-  longitud: number;
   instagram: string | null;
   sitio_web: string | null;
   foto_url: string | null;
   actividades: { id: string; nombre: string; slug: string }[];
+  ubicaciones: Ubicacion[];
 }
 
 export default function FacilitadorContent({
@@ -51,7 +49,7 @@ export default function FacilitadorContent({
     async function load() {
       const { data } = await supabase
         .from("facilitadores")
-        .select("*, facilitador_actividades(actividades(id, nombre, slug))")
+        .select("*, facilitador_actividades(actividades(id, nombre, slug)), ubicaciones(*)")
         .eq("id", params.id)
         .single();
 
@@ -63,9 +61,6 @@ export default function FacilitadorContent({
           telefono: data.telefono,
           whatsapp: data.whatsapp,
           bio: data.bio,
-          direccion: data.direccion,
-          latitud: data.latitud,
-          longitud: data.longitud,
           instagram: data.instagram,
           sitio_web: data.sitio_web,
           foto_url: data.foto_url,
@@ -73,6 +68,15 @@ export default function FacilitadorContent({
             id: fa.actividades.id,
             nombre: fa.actividades.nombre,
             slug: fa.actividades.slug,
+          })),
+          ubicaciones: (data.ubicaciones || []).map((u: any) => ({
+            id: u.id,
+            facilitador_id: u.facilitador_id,
+            direccion: u.direccion,
+            latitud: u.latitud,
+            longitud: u.longitud,
+            ciudad: u.ciudad,
+            created_at: u.created_at,
           })),
         });
       } else {
@@ -209,20 +213,32 @@ export default function FacilitadorContent({
               </div>
             </div>
 
-            {f.direccion && (
+            {f.ubicaciones && f.ubicaciones.length > 0 && (
               <div className="mt-10 pt-8 divider">
                 <div className="flex items-center gap-2 mb-4">
                   <MapPin className="h-4 w-4 text-bark/25" />
                   <h2 className="text-[15px] font-medium text-bark/65">
-                    {f.direccion}
+                    {f.ubicaciones.length > 1 ? "Ubicaciones" : "Ubicación"}
                   </h2>
                 </div>
-                <div className="rounded-xl overflow-hidden border border-cream-200">
-                  <MiniMapDetail
-                    lat={f.latitud}
-                    lng={f.longitud}
-                    nombre={f.nombre}
-                  />
+                <div className="space-y-4">
+                  {f.ubicaciones.map((u, i) => (
+                    <div key={u.id}>
+                      {f.ubicaciones.length > 1 && (
+                        <p className="text-[13px] font-medium text-bark/50 mb-2 flex items-center gap-1.5">
+                          <MapPin className="h-3.5 w-3.5 text-bark/20" />
+                          {u.direccion || `Ubicación ${i + 1}`}
+                        </p>
+                      )}
+                      <div className="rounded-xl overflow-hidden border border-cream-200">
+                        <MiniMapDetail
+                          lat={u.latitud}
+                          lng={u.longitud}
+                          nombre={f.nombre}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}

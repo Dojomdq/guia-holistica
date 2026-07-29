@@ -16,6 +16,16 @@ export interface Actividad {
   categoria?: Categoria;
 }
 
+export interface Ubicacion {
+  id: string;
+  facilitador_id: string;
+  direccion: string | null;
+  latitud: number;
+  longitud: number;
+  ciudad: string;
+  created_at: string;
+}
+
 export interface Facilitador {
   id: string;
   nombre: string;
@@ -33,6 +43,7 @@ export interface Facilitador {
   activo: boolean;
   created_at: string;
   actividades?: Actividad[];
+  ubicaciones?: Ubicacion[];
 }
 
 export interface FacilitadorConActividades extends Facilitador {

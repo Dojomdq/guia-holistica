@@ -3,10 +3,10 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { Search, X, MapPin, ChevronRight } from "lucide-react";
+import { Search, X, MapPin, ChevronRight, ChevronDown } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
-import type { FacilitadorConActividades } from "@/lib/types";
+import type { FacilitadorConActividades, Ubicacion } from "@/lib/types";
 
 const MapaInteractivo = dynamic(() => import("@/components/MapaInteractivo"), {
   ssr: false,
@@ -26,17 +26,20 @@ interface Actividad {
   slug: string;
 }
 
-interface Facilitador {
+interface FacilitadorConUbi {
   id: string;
   nombre: string;
   bio: string | null;
-  direccion: string | null;
-  latitud: number;
-  longitud: number;
   whatsapp: string | null;
   instagram: string | null;
   foto_url: string | null;
   actividades: Actividad[];
+  ubicaciones: Ubicacion[];
+}
+
+interface MarkerItem {
+  ubicacion: Ubicacion;
+  facilitador: FacilitadorConUbi;
 }
 
 function normalizeText(text: string): string {
@@ -46,46 +49,59 @@ function normalizeText(text: string): string {
     .replace(/[\u0300-\u036f]/g, "");
 }
 
-function mapToFacilitador(row: FacilitadorConActividades): Facilitador {
-  return {
-    id: row.id,
-    nombre: row.nombre,
-    bio: row.bio,
-    direccion: row.direccion,
-    latitud: row.latitud,
-    longitud: row.longitud,
-    whatsapp: row.whatsapp,
-    instagram: row.instagram,
-    foto_url: row.foto_url,
-    actividades: (row.facilitador_actividades || []).map((fa) => ({
-      id: fa.actividades.id,
-      nombre: fa.actividades.nombre,
-      slug: fa.actividades.slug,
-    })),
-  };
-}
-
 export default function MapaPageInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const initialQuery = searchParams.get("q") || "";
 
-  const [busqueda, setBusqueda] = useState(initialQuery);
+  const [busqueda, setBusqueda] = useState(searchParams.get("q") || "");
+  const [ciudadSeleccionada, setCiudadSeleccionada] = useState<string | null>(null);
+  const [ciudadesDisponibles, setCiudadesDisponibles] = useState<string[]>([]);
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
   const [panelAbierto, setPanelAbierto] = useState(true);
-  const [todosFacilitadores, setTodosFacilitadores] = useState<Facilitador[]>([]);
+  const [todosFacilitadores, setTodosFacilitadores] = useState<FacilitadorConUbi[]>([]);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
     async function cargar() {
       const { data } = await supabase
         .from("facilitadores")
-        .select("*, facilitador_actividades(actividades(id, nombre, slug))")
+        .select("*, facilitador_actividades(actividades(id, nombre, slug)), ubicaciones(*)")
         .eq("activo", true)
         .order("nombre");
 
       if (data) {
-        setTodosFacilitadores(data.map(mapToFacilitador));
+        const mapped: FacilitadorConUbi[] = (data as any[]).map((row) => ({
+          id: row.id,
+          nombre: row.nombre,
+          bio: row.bio,
+          whatsapp: row.whatsapp,
+          instagram: row.instagram,
+          foto_url: row.foto_url,
+          actividades: (row.facilitador_actividades || []).map((fa: any) => ({
+            id: fa.actividades.id,
+            nombre: fa.actividades.nombre,
+            slug: fa.actividades.slug,
+          })),
+          ubicaciones: (row.ubicaciones || []).map((u: any) => ({
+            id: u.id,
+            facilitador_id: u.facilitador_id,
+            direccion: u.direccion,
+            latitud: u.latitud,
+            longitud: u.longitud,
+            ciudad: u.ciudad,
+            created_at: u.created_at,
+          })),
+        }));
+        setTodosFacilitadores(mapped);
+
+        const ciudades = new Set<string>();
+        mapped.forEach((f) =>
+          f.ubicaciones.forEach((u) => {
+            if (u.ciudad) ciudades.add(u.ciudad);
+          })
+        );
+        const sorted = Array.from(ciudades).sort((a, b) => a.localeCompare(b));
+        setCiudadesDisponibles(sorted.length > 0 ? sorted : ["Mar del Plata"]);
       }
       setCargando(false);
     }
@@ -94,6 +110,14 @@ export default function MapaPageInner() {
 
   const facilitadoresFiltrados = useMemo(() => {
     let results = todosFacilitadores;
+
+    if (ciudadSeleccionada) {
+      results = results.filter((f) =>
+        f.ubicaciones.some(
+          (u) => normalizeText(u.ciudad) === normalizeText(ciudadSeleccionada)
+        )
+      );
+    }
 
     if (busqueda.trim()) {
       const q = normalizeText(busqueda.trim());
@@ -107,11 +131,24 @@ export default function MapaPageInner() {
     }
 
     return results.sort((a, b) => a.nombre.localeCompare(b.nombre));
-  }, [busqueda, todosFacilitadores]);
+  }, [busqueda, ciudadSeleccionada, todosFacilitadores]);
+
+  const markers: MarkerItem[] = useMemo(() => {
+    const items: MarkerItem[] = [];
+    facilitadoresFiltrados.forEach((f) =>
+      f.ubicaciones.forEach((u) => {
+        if (u.latitud && u.longitud) {
+          items.push({ ubicacion: u, facilitador: f });
+        }
+      })
+    );
+    return items;
+  }, [facilitadoresFiltrados]);
 
   const handleBusqueda = useCallback(
     (value: string) => {
       setBusqueda(value);
+      setFacilitadorSeleccionado(null);
       const params = new URLSearchParams();
       if (value.trim()) params.set("q", value.trim());
       router.replace(`/mapa?${params.toString()}`, { scroll: false });
@@ -121,13 +158,11 @@ export default function MapaPageInner() {
 
   const limpiarBusqueda = () => {
     setBusqueda("");
+    setFacilitadorSeleccionado(null);
     router.replace("/mapa", { scroll: false });
   };
 
-  const facilitadoresEnMapa = useMemo(
-    () => facilitadoresFiltrados.filter((f) => f.direccion && f.direccion.trim()),
-    [facilitadoresFiltrados]
-  );
+  const mostrarSelectorCiudad = ciudadesDisponibles.length > 1;
 
   return (
     <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
@@ -145,10 +180,42 @@ export default function MapaPageInner() {
             <h2 className="font-serif text-base font-medium text-bark tracking-tight">
               Actividades
             </h2>
-            <span className="text-[11px] text-bark/25 font-mono">
-              {cargando ? "..." : `${facilitadoresFiltrados.length}`}
-            </span>
+            {ciudadSeleccionada && (
+              <span className="text-[11px] text-bark/25 font-mono">
+                {cargando ? "..." : `${facilitadoresFiltrados.length}`}
+              </span>
+            )}
           </div>
+
+          {/* City selector */}
+          {mostrarSelectorCiudad && (
+            <div className="mb-3">
+              <label className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark/30 mb-1.5 block">
+                Ciudad
+              </label>
+              <div className="flex flex-wrap gap-1.5">
+                {ciudadesDisponibles.map((ciudad) => {
+                  const isActive = ciudadSeleccionada === ciudad;
+                  return (
+                    <button
+                      key={ciudad}
+                      onClick={() => {
+                        setCiudadSeleccionada(isActive ? null : ciudad);
+                        setFacilitadorSeleccionado(null);
+                      }}
+                      className={`px-3 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
+                        isActive
+                          ? "bg-bark text-white shadow-sm"
+                          : "bg-cream-200/60 text-bark/45 hover:text-bark/70 border border-cream-200 hover:border-cream-300"
+                      }`}
+                    >
+                      {ciudad}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Search input */}
           <label className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark/30 mb-2 block">
@@ -162,6 +229,7 @@ export default function MapaPageInner() {
               onChange={(e) => handleBusqueda(e.target.value)}
               placeholder="Buscá una actividad..."
               className="input-field pl-10 pr-10 py-2.5 text-[13px] w-full"
+              disabled={!ciudadSeleccionada && mostrarSelectorCiudad}
             />
             {busqueda && (
               <button
@@ -172,6 +240,11 @@ export default function MapaPageInner() {
               </button>
             )}
           </div>
+          {!ciudadSeleccionada && mostrarSelectorCiudad && (
+            <p className="text-[11px] text-bark/25 mt-2 text-center">
+              Seleccioná una ciudad para explorar actividades
+            </p>
+          )}
         </div>
 
         {/* List */}
@@ -188,14 +261,21 @@ export default function MapaPageInner() {
                 </div>
               ))}
             </div>
+          ) : !ciudadSeleccionada && mostrarSelectorCiudad ? (
+            <div className="p-8 text-center">
+              <MapPin className="h-8 w-8 text-bark/15 mx-auto mb-3" />
+              <p className="text-bark/25 text-[13px] leading-relaxed">
+                Elegí una ciudad para empezar
+              </p>
+            </div>
           ) : facilitadoresFiltrados.length === 0 ? (
             <div className="p-8 text-center">
-              <p className="text-bark/25 text-[13px]">
-                No se encontraron facilitadores
+              <p className="text-bark/25 text-[13px] mb-3">
+                No se encontraron resultados
               </p>
               <button
                 onClick={limpiarBusqueda}
-                className="mt-2 text-sage-600 text-[13px] font-medium hover:text-sage-700 transition-colors"
+                className="text-sage-600 text-[13px] font-medium hover:text-sage-700 transition-colors"
               >
                 Limpiar búsqueda
               </button>
@@ -210,6 +290,9 @@ export default function MapaPageInner() {
                   CATEGORY_MARKER_COLORS[
                     f.actividades.length > 0 ? f.actividades[0].slug : ""
                   ] || "#5d8a6e";
+                const tieneMultiplesUbi = f.ubicaciones.filter(
+                  (u) => u.latitud && u.longitud
+                ).length > 1;
                 return (
                   <button
                     key={f.id}
@@ -247,12 +330,20 @@ export default function MapaPageInner() {
                         <h3 className="font-medium text-bark text-[13px]">
                           {f.nombre}
                         </h3>
-                        {f.direccion && (
-                          <p className="text-[11px] text-bark/25 mt-0.5 flex items-center gap-1">
-                            <MapPin className="h-2.5 w-2.5" />
-                            {f.direccion}
+                        {f.ubicaciones.map((u, i) => (
+                          <p
+                            key={u.id}
+                            className="text-[11px] text-bark/25 mt-0.5 flex items-center gap-1"
+                          >
+                            <MapPin className="h-2.5 w-2.5 shrink-0" />
+                            {tieneMultiplesUbi && (
+                              <span className="text-bark/15 font-mono text-[10px] mr-0.5">
+                                {i + 1}.
+                              </span>
+                            )}
+                            <span className="truncate">{u.direccion}</span>
                           </p>
-                        )}
+                        ))}
                       </div>
                       <ChevronRight className="h-3.5 w-3.5 text-bark/10 shrink-0 mt-1" />
                     </div>
@@ -281,7 +372,7 @@ export default function MapaPageInner() {
       {/* Map */}
       <div className="flex-1 relative min-h-0">
         <MapaInteractivo
-          facilitadores={facilitadoresEnMapa}
+          markers={markers}
           seleccionado={facilitadorSeleccionado}
           onSeleccionar={setFacilitadorSeleccionado}
         />
