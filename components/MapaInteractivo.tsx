@@ -177,7 +177,8 @@ export default function MapaInteractivo({
                 <div className="flex gap-2">
                   <Link
                     href={`/facilitadores/${m.facilitador.id}`}
-                    className="text-xs bg-bark text-white px-3 py-1.5 rounded-full hover:bg-bark/90 transition-colors font-medium"
+                    style={{ backgroundColor: "#2A1F14", color: "#fff" }}
+                    className="text-xs px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity font-medium inline-block"
                     onClick={() => track("facilitador", m.facilitador.id)}
                   >
                     Ver perfil
@@ -187,7 +188,8 @@ export default function MapaInteractivo({
                       href={`https://wa.me/${m.facilitador.whatsapp.replace(/[^0-9]/g, "")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs bg-sage-600 text-white px-3 py-1.5 rounded-full hover:bg-sage-700 transition-colors font-medium"
+                      style={{ backgroundColor: "#5d8a6e", color: "#fff" }}
+                      className="text-xs px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity font-medium inline-block"
                     >
                       WhatsApp
                     </a>
