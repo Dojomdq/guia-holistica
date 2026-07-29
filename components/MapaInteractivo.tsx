@@ -15,6 +15,7 @@ import Link from "next/link";
 import { getMarkerColor } from "@/lib/categories";
 import { useClickTracker } from "@/lib/useClickTracker";
 import { CITY_COORDS } from "@/lib/constants";
+import { X } from "lucide-react";
 
 interface Actividad {
   id: string;
@@ -54,23 +55,45 @@ interface Props {
 }
 
 function createIcon(color: string, isSelected: boolean): L.DivIcon {
-  const size = isSelected ? 36 : 26;
-  const borderW = isSelected ? 3 : 2.5;
+  const size = isSelected ? 42 : 34;
+  const innerSize = isSelected ? 16 : 12;
 
   return new L.DivIcon({
     html: `<div style="
-      background:${color};
-      width:${size}px;
-      height:${size}px;
-      border-radius:50%;
-      border:${borderW}px solid white;
-      box-shadow:${isSelected ? `0 0 0 4px ${color}25, 0 4px 12px rgba(0,0,0,0.2)` : "0 2px 8px rgba(0,0,0,0.12)"};
-      transition:all .2s ease;
-      ${isSelected ? "transform:scale(1.1);" : ""}
-    "></div>`,
+      position: relative;
+      width: ${size}px;
+      height: ${size}px;
+    ">
+      <div style="
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: ${size}px;
+        height: ${size * 0.9}px;
+        background: ${color};
+        border-radius: 50% 50% 50% 0;
+        transform-origin: bottom left;
+        transform: translateX(-50%) rotate(-45deg);
+        box-shadow: ${isSelected ? `0 0 0 4px ${color}30, 0 4px 16px rgba(0,0,0,0.25)` : "0 2px 8px rgba(0,0,0,0.15)"};
+        border: 2.5px solid white;
+      "></div>
+      <div style="
+        position: absolute;
+        bottom: ${size * 0.23}px;
+        left: 50%;
+        transform: translate(-50%, 50%);
+        width: ${innerSize}px;
+        height: ${innerSize}px;
+        background: white;
+        border-radius: 50%;
+        z-index: 1;
+      "></div>
+    </div>`,
     className: "",
-    iconSize: [size, size],
-    iconAnchor: [size / 2, size / 2],
+    iconSize: [size, size + 8],
+    iconAnchor: [size / 2, size + 8],
+    popupAnchor: [0, -(size + 4)],
   });
 }
 
@@ -161,16 +184,27 @@ export default function MapaInteractivo({
               click: () => onSeleccionar(m.facilitador.id),
             }}
           >
-            <Popup>
-              <div className="p-2 min-w-[220px]">
-                <h3 className="font-serif font-medium text-bark text-sm mb-1.5">
-                  {m.facilitador.nombre}
-                </h3>
+            <Popup closeButton={true} autoPan={true}>
+              <div className="p-2 min-w-[200px] max-w-[260px]">
+                <div className="flex items-start justify-between gap-2 mb-1.5">
+                  <h3 className="font-serif font-medium text-bark text-sm leading-tight">
+                    {m.facilitador.nombre}
+                  </h3>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSeleccionar(null);
+                    }}
+                    className="shrink-0 p-0.5 -mr-1 -mt-0.5 rounded-md hover:bg-cream-200 transition-colors"
+                  >
+                    <X className="h-3.5 w-3.5 text-bark-300" />
+                  </button>
+                </div>
                 <div className="flex flex-wrap gap-1 mb-2">
-                  {m.facilitador.actividades.map((a) => (
+                  {m.facilitador.actividades.slice(0, 3).map((a) => (
                     <span
                       key={a.id}
-                      className="px-2 py-0.5 bg-cream-200/60 text-bark-600 text-[11px] rounded-full"
+                      className="px-2 py-0.5 bg-sage-50 text-sage-700 text-[10px] font-medium rounded-full"
                     >
                       {a.nombre}
                     </span>
