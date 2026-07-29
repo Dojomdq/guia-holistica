@@ -114,7 +114,7 @@ function FocusMarkers({
       const avgLng = lngs.reduce((a, b) => a + b, 0) / lngs.length;
       map.flyTo([avgLat, avgLng], 14, { duration: 0.8 });
     }
-  }, [selectedId, markers, map]);
+  }, [selectedId, markers, map, ciudad]);
   return null;
 }
 
@@ -187,8 +187,7 @@ export default function MapaInteractivo({
                 <div className="flex gap-2">
                   <Link
                     href={`/facilitadores/${m.facilitador.id}`}
-                    style={{ backgroundColor: "#2A1F14", color: "#fff" }}
-                    className="text-xs px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity font-medium inline-block"
+                    className="text-xs px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity font-medium inline-block bg-bark text-white"
                     onClick={() => track("facilitador", m.facilitador.id)}
                   >
                     Ver perfil
@@ -198,8 +197,7 @@ export default function MapaInteractivo({
                       href={`https://wa.me/${m.facilitador.whatsapp.replace(/[^0-9]/g, "")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{ backgroundColor: "#5d8a6e", color: "#fff" }}
-                      className="text-xs px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity font-medium inline-block"
+                      className="text-xs px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity font-medium inline-block bg-sage-600 text-white"
                     >
                       WhatsApp
                     </a>
