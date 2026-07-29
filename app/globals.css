@@ -229,8 +229,7 @@
 }
 
 .leaflet-popup-content {
-  @apply text-sm m-0;
-  color: #2A1F14;
+  @apply text-sm m-0 text-bark;
   line-height: 1.5;
 }
 
