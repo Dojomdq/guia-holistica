@@ -87,7 +87,7 @@ export default function MarqueeBand() {
                 <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 ${cat.bg}`}>
                   <Icon className={`h-5 w-5 ${cat.iconColor} transition-colors duration-300`} strokeWidth={1.5} />
                 </div>
-                <span className="text-[13px] font-medium text-bark/70 transition-colors duration-300 group-hover:text-bark text-center leading-tight">
+                <span className="text-[13px] font-medium text-bark-800 transition-colors duration-300 group-hover:text-bark text-center leading-tight">
                   {cat.name}
                 </span>
               </button>

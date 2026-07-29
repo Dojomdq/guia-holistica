@@ -35,7 +35,7 @@ export default function TestimoniosSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="section-label">Testimonios</span>
+          <span className="label">Testimonios</span>
         </div>
 
         {/* Large editorial quote — first testimonio */}
@@ -45,17 +45,17 @@ export default function TestimoniosSection() {
           }`}
         >
           <div className="max-w-3xl">
-            <span className="font-serif text-6xl sm:text-7xl text-sage-300/40 leading-none select-none">
+            <span className="font-serif text-6xl sm:text-7xl text-sage-200 leading-none select-none">
               &ldquo;
             </span>
-            <p className="font-serif text-2xl sm:text-3xl lg:text-4xl text-bark/80 leading-snug -mt-8 sm:-mt-10 ml-2">
+            <p className="font-serif text-2xl sm:text-3xl lg:text-4xl text-bark-900 leading-snug -mt-8 sm:-mt-10 ml-2">
               {testimonios[0].texto}
             </p>
             <div className="mt-8 ml-2">
               <p className="font-medium text-bark text-sm">
                 {testimonios[0].nombre}
               </p>
-              <p className="text-xs text-bark/35 mt-0.5">
+              <p className="text-xs text-bark-500 mt-0.5">
                 {testimonios[0].actividad}
               </p>
             </div>
@@ -70,14 +70,14 @@ export default function TestimoniosSection() {
         >
           {testimonios.slice(1).map((t) => (
             <div key={t.nombre}>
-              <p className="text-bark/50 text-sm leading-relaxed italic">
+              <p className="text-bark-600 text-sm leading-relaxed italic">
                 &ldquo;{t.texto}&rdquo;
               </p>
               <div className="mt-4">
                 <p className="font-medium text-bark text-sm">
                   {t.nombre}
                 </p>
-                <p className="text-xs text-bark/35 mt-0.5">
+                <p className="text-xs text-bark-500 mt-0.5">
                   {t.actividad}
                 </p>
               </div>

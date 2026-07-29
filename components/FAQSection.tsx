@@ -6,9 +6,9 @@ import { ChevronDown } from "lucide-react";
 
 const faqs = [
   {
-    pregunta: "¿Qué es Bienestar en Mar del Plata?",
+    pregunta: "¿Qué es la Guía de Bienestar?",
     respuesta:
-      "Es una plataforma interactiva que reúne facilitadores, terapeutas y guías holísticos en Mar del Plata. Podés buscar por actividad, ubicación y explorar el mapa interactivo.",
+      "Es una plataforma interactiva que reúne facilitadores, terapeutas y guías. Podés buscar por actividad, ubicación y explorar el mapa interactivo.",
   },
   {
     pregunta: "¿Cómo encuentro un facilitador cerca mío?",
@@ -45,7 +45,7 @@ export default function FAQSection() {
           }`}
         >
           <span className="section-label justify-center">Preguntas</span>
-          <h2 className="heading-section mt-4">FAQ</h2>
+          <h2 className="heading-lg mt-4">FAQ</h2>
         </div>
 
         <div className="max-w-2xl mx-auto space-y-3">
@@ -75,7 +75,7 @@ export default function FAQSection() {
                   className={`h-5 w-5 flex-shrink-0 transition-all duration-300 ${
                     openIndex === i
                       ? "rotate-180 text-sage-600"
-                      : "text-bark/30 group-hover:text-bark/50"
+                      : "text-bark-500 group-hover:text-bark-600"
                   }`}
                 />
               </button>

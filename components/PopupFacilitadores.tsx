@@ -3,11 +3,18 @@
 import { useState, useEffect } from "react";
 import { X, MapPin, Sparkles } from "lucide-react";
 
+const STORAGE_KEY = "popup_visto";
+
 export default function PopupFacilitadores() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsOpen(true), 3000);
+    const yaVisto = sessionStorage.getItem(STORAGE_KEY);
+    if (yaVisto) return;
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+      sessionStorage.setItem(STORAGE_KEY, "1");
+    }, 15000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -18,7 +25,7 @@ export default function PopupFacilitadores() {
       <div className="bg-cream-50 rounded-2xl max-w-md w-full p-8 shadow-2xl border border-cream-200 relative">
         <button
           onClick={() => setIsOpen(false)}
-          className="absolute top-3 right-3 text-bark/40 hover:text-bark transition"
+          className="absolute top-3 right-3 text-bark-600 hover:text-bark transition"
         >
           <X className="h-6 w-6" />
         </button>
@@ -36,7 +43,7 @@ export default function PopupFacilitadores() {
           ¿Te gustaría que los usuarios te encuentren en este mapa?
         </h3>
 
-        <p className="text-bark/60 text-base mb-6 leading-relaxed">
+        <p className="text-bark-700 text-base mb-6 leading-relaxed">
           Sumá tu perfil y aparecé en el directorio de bienestar de Mar del Plata. Miles de personas buscan tu ayuda.
         </p>
 
@@ -49,7 +56,7 @@ export default function PopupFacilitadores() {
           Sumarme ahora <Sparkles className="inline h-5 w-5 ml-2" />
         </a>
 
-        <p className="text-center text-xs text-bark/35 mt-4">
+        <p className="text-center text-xs text-bark-500 mt-4">
           1 minuto
         </p>
       </div>

@@ -48,8 +48,8 @@ function StatItem({
         {count}
         <span className="text-sage-500">{stat.suffix}</span>
       </div>
-      <p className="text-[15px] font-medium text-bark/60 mt-2">{stat.label}</p>
-      <p className="text-[13px] text-bark/30 mt-0.5">{stat.sublabel}</p>
+      <p className="text-[15px] font-medium text-bark-700 mt-2">{stat.label}</p>
+      <p className="text-[13px] text-bark-500 mt-0.5">{stat.sublabel}</p>
     </div>
   );
 }

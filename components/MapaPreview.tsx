@@ -53,7 +53,7 @@ export default function MapaPreview() {
                 <h3 className="font-serif text-lg font-medium text-bark">
                   Mapa de facilitadores
                 </h3>
-                <p className="text-sm text-bark/45 mt-0.5">
+                <p className="text-sm text-bark-600 mt-0.5">
                   Encontrá al profesional más cercano a vos en Mar del Plata
                 </p>
               </div>

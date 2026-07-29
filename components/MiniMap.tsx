@@ -83,7 +83,7 @@ export default function MiniMap() {
                   <p className="font-serif font-medium text-bark text-sm">
                     {f.nombre}
                   </p>
-                  <p className="text-xs text-bark/40 mt-0.5">
+                  <p className="text-xs text-bark-600 mt-0.5">
                     {f.actividad}
                   </p>
                   <Link

@@ -14,6 +14,7 @@ import Link from "next/link";
 
 import { getMarkerColor } from "@/lib/categories";
 import { useClickTracker } from "@/lib/useClickTracker";
+import { CITY_COORDS } from "@/lib/constants";
 
 interface Actividad {
   id: string;
@@ -49,6 +50,7 @@ interface Props {
   markers: MarkerItem[];
   seleccionado: string | null;
   onSeleccionar: (id: string | null) => void;
+  ciudadSeleccionada?: string | null;
 }
 
 function createIcon(color: string, isSelected: boolean): L.DivIcon {
@@ -86,12 +88,18 @@ function MapEvents({
 function FocusMarkers({
   markers,
   selectedId,
+  ciudad,
 }: {
   markers: MarkerItem[];
   selectedId: string | null;
+  ciudad?: string | null;
 }) {
   const map = useMap();
   useEffect(() => {
+    if (ciudad && CITY_COORDS[ciudad]) {
+      map.flyTo(CITY_COORDS[ciudad], 12, { duration: 0.8 });
+      return;
+    }
     if (selectedId && markers.length > 0) {
       const target = markers.find((m) => m.facilitador.id === selectedId);
       if (target) {
@@ -114,6 +122,7 @@ export default function MapaInteractivo({
   markers,
   seleccionado,
   onSeleccionar,
+  ciudadSeleccionada,
 }: Props) {
   const track = useClickTracker();
 
@@ -131,7 +140,7 @@ export default function MapaInteractivo({
       />
 
       <MapEvents onSeleccionar={onSeleccionar} />
-      <FocusMarkers markers={markers} selectedId={seleccionado} />
+      <FocusMarkers markers={markers} selectedId={seleccionado} ciudad={ciudadSeleccionada} />
 
       {markers.map((m, idx) => {
         const isSelected = seleccionado === m.facilitador.id;
@@ -160,18 +169,18 @@ export default function MapaInteractivo({
                   {m.facilitador.actividades.map((a) => (
                     <span
                       key={a.id}
-                      className="px-2 py-0.5 bg-cream-200/60 text-bark/50 text-[11px] rounded-full"
+                      className="px-2 py-0.5 bg-cream-200/60 text-bark-600 text-[11px] rounded-full"
                     >
                       {a.nombre}
                     </span>
                   ))}
                 </div>
                 {m.facilitador.bio && (
-                  <p className="text-xs text-bark/40 mb-2 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-bark-600 mb-2 line-clamp-2 leading-relaxed">
                     {m.facilitador.bio}
                   </p>
                 )}
-                <p className="text-[11px] text-bark/30 mb-2.5">
+                <p className="text-[11px] text-bark-500 mb-2.5">
                   {m.ubicacion.direccion || "Ubicación sin dirección"}
                 </p>
                 <div className="flex gap-2">

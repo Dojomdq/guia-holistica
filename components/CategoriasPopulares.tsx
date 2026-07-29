@@ -123,7 +123,7 @@ export default function CategoriasPopulares() {
                     {cat.nombre}
                   </h3>
                   {!hasFacilitadores && (
-                    <p className="text-[11px] text-bark/25 mt-1 italic">
+                    <p className="text-[11px] text-bark-400 mt-1 italic">
                       Próximamente
                     </p>
                   )}
@@ -138,12 +138,12 @@ export default function CategoriasPopulares() {
             className="group"
           >
             <div className="h-full bg-bark rounded-2xl p-5 flex flex-col justify-between transition-all duration-300 hover:bg-bark/85 hover:-translate-y-px hover:shadow-large min-h-[140px]">
-              <ArrowRight className="h-4 w-4 text-white/30 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-white/60" />
+              <ArrowRight className="h-4 w-4 text-cream-300 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-cream-100" />
               <div>
-                <h3 className="text-sm font-medium text-white/80">
+                <h3 className="text-sm font-medium text-cream-50">
                   Ver mapa
                 </h3>
-                <p className="text-[11px] text-white/30 mt-1">
+                <p className="text-[11px] text-cream-300 mt-1">
                   Todas las ubicaciones
                 </p>
               </div>

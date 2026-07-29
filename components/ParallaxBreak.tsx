@@ -14,7 +14,7 @@ export default function ParallaxBreak() {
       <div className="absolute inset-0">
         <img
           src="https://images.unsplash.com/photo-QeQbK4J3P4A?w=1920&h=800&fit=crop&crop=center"
-          alt=""
+          alt="Costa de Mar del Plata"
           className="absolute inset-0 w-full h-full object-cover"
           loading="lazy"
         />
@@ -37,7 +37,7 @@ export default function ParallaxBreak() {
         >
           Bienestar corporal
           <br />
-          <span className="text-sand-300/80">en Mar del Plata.</span>
+          <span className="text-sand-300">en Mar del Plata.</span>
         </p>
       </div>
 

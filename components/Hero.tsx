@@ -52,7 +52,7 @@ export default function Hero() {
             </h1>
 
             <p
-              className={`text-bark/60 text-lg sm:text-xl max-w-2xl leading-relaxed mb-8 md:mb-9 transition-all duration-700 delay-200 ${
+              className={`text-bark-700 text-lg sm:text-xl max-w-2xl leading-relaxed mb-8 md:mb-9 transition-all duration-700 delay-200 ${
                 loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
@@ -68,13 +68,13 @@ export default function Hero() {
               }`}
             >
               <div className="flex items-center bg-white/70 backdrop-blur-xl rounded-2xl border border-cream-300 p-2">
-                <Search className="ml-4 h-5 w-5 text-bark/30 shrink-0" />
+                <Search className="ml-4 h-5 w-5 text-bark-500 shrink-0" />
                 <input
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="chamanismo, yoga, reiki..."
-                  className="flex-1 px-4 py-3.5 bg-transparent text-bark placeholder:text-bark/35 focus:outline-none text-base"
+                  className="flex-1 px-4 py-3.5 bg-transparent text-bark placeholder:text-bark-500 focus:outline-none text-base"
                 />
                 <button
                   type="submit"
@@ -98,7 +98,7 @@ export default function Hero() {
                   onClick={() =>
                     router.push(`/mapa?q=${encodeURIComponent(tag.toLowerCase())}`)
                   }
-                  className="text-bark/40 text-[13px] font-medium hover:text-sage-600 transition-colors duration-300 flex items-center gap-1"
+                  className="text-bark-600 text-[13px] font-medium hover:text-sage-600 transition-colors duration-300 flex items-center gap-1"
                 >
                   {tag}
                   <ArrowUpRight className="h-3 w-3 opacity-50" />

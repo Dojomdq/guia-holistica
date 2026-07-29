@@ -23,7 +23,7 @@ export default function MapSection() {
       <div className="absolute inset-0">
         <img
           src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/IMG_20230812_162528493_HDR_dinino.jpg"
-          alt=""
+          alt="Atardecer en la costa de Mar del Plata"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-bark/50" />
@@ -31,20 +31,22 @@ export default function MapSection() {
         <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay noise-overlay pointer-events-none" />
       </div>
 
+      {/* Decorative ring */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-sand-400/5 pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-sand-400/10 pointer-events-none" />
+
       <div className="relative container-wide">
         <div
           className={`text-center mb-14 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
-          <span className="inline-flex items-center gap-2 text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-sand-300/60 mb-4">
+          <span className="inline-flex items-center gap-2 text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-sand-400 mb-4">
             <span className="w-8 h-px bg-sand-400/30" />
-            Explorá
+            Ubicación
             <span className="w-8 h-px bg-sand-400/30" />
           </span>
-          <h2 className="font-serif text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.12] tracking-[-0.02em] text-white">
-            Encontrá tu espacio
-          </h2>
+          <h2 className="heading-lg text-white">Encontrá tu espacio</h2>
         </div>
 
         <div
@@ -73,7 +75,7 @@ export default function MapSection() {
                 <h3 className="font-serif text-lg font-medium text-bark">
                   Mapa de facilitadores
                 </h3>
-                <p className="text-sm text-bark/45 mt-0.5">
+                <p className="text-sm text-bark-600 mt-0.5">
                   Encontrá al profesional más cercano a vos en Mar del Plata
                 </p>
               </div>

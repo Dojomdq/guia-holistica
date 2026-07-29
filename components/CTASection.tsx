@@ -39,7 +39,7 @@ export default function CTASection() {
             <br />
             con quienes te buscan
           </h2>
-          <p className="text-white/60 text-lg mb-10 max-w-lg mx-auto leading-relaxed">
+          <p className="text-cream-100 text-lg mb-10 max-w-lg mx-auto leading-relaxed">
             Miles de personas en Mar del Plata buscan tu ayuda.
             Aparecé en el directorio.
           </p>
