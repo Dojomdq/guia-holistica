@@ -55,8 +55,8 @@ interface Props {
 }
 
 function createIcon(color: string, isSelected: boolean): L.DivIcon {
-  const size = isSelected ? 42 : 34;
-  const innerSize = isSelected ? 16 : 12;
+  const size = isSelected ? 34 : 24;
+  const innerSize = isSelected ? 14 : 10;
 
   return new L.DivIcon({
     html: `<div style="
@@ -201,7 +201,7 @@ export default function MapaInteractivo({
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-1 mb-2">
-                  {m.facilitador.actividades.slice(0, 3).map((a) => (
+                  {m.facilitador.actividades.map((a) => (
                     <span
                       key={a.id}
                       className="px-2 py-0.5 bg-sage-50 text-sage-700 text-[10px] font-medium rounded-full"
