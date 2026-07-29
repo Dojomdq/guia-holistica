@@ -158,6 +158,7 @@ export default function MapaPageInner() {
 
   const limpiarBusqueda = () => {
     setBusqueda("");
+    setCiudadSeleccionada(null);
     setFacilitadorSeleccionado(null);
     router.replace("/mapa", { scroll: false });
   };
@@ -218,25 +219,36 @@ export default function MapaPageInner() {
           )}
 
           {/* Search input */}
-          <label className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark-500 mb-2 block">
-            Actividad
-          </label>
-          <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-bark-300" />
-            <input
-              type="text"
-              value={busqueda}
-              onChange={(e) => handleBusqueda(e.target.value)}
-              placeholder="Buscá una actividad..."
-              className="input-field pl-10 pr-10 py-2.5 text-[13px] w-full"
-              disabled={!ciudadSeleccionada && mostrarSelectorCiudad}
-            />
-            {busqueda && (
+          <div className="flex items-center gap-2">
+            <label className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark-500 sr-only">
+              Actividad
+            </label>
+            <div className="relative flex-1">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-bark-300" />
+              <input
+                type="text"
+                value={busqueda}
+                onChange={(e) => handleBusqueda(e.target.value)}
+                placeholder="Buscá una actividad..."
+                className="input-field pl-10 pr-10 py-2.5 text-[13px] w-full"
+                disabled={!ciudadSeleccionada && mostrarSelectorCiudad}
+              />
+              {busqueda && (
+                <button
+                  onClick={limpiarBusqueda}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg hover:bg-cream-200/80 transition-colors"
+                  aria-label="Limpiar búsqueda"
+                >
+                  <X className="h-4 w-4 text-bark-400" />
+                </button>
+              )}
+            </div>
+            {(busqueda || ciudadSeleccionada) && (
               <button
                 onClick={limpiarBusqueda}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200 transition-colors"
+                className="shrink-0 px-3 py-2 text-[11px] font-medium text-sage-600 hover:text-sage-700 hover:bg-sage-50 rounded-lg transition-colors"
               >
-                <X className="h-3.5 w-3.5 text-bark-400" />
+                Volver
               </button>
             )}
           </div>
