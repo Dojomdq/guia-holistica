@@ -57,10 +57,10 @@ export default function MapaPageInner() {
   const [ciudadSeleccionada, setCiudadSeleccionada] = useState<string | null>(null);
   const [ciudadesDisponibles, setCiudadesDisponibles] = useState<string[]>([]);
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
-  const [panelAbierto, setPanelAbierto] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
+  const [panelAbierto, setPanelAbierto] = useState(false);
   const [todosFacilitadores, setTodosFacilitadores] = useState<FacilitadorConUbi[]>([]);
   const [cargando, setCargando] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
@@ -70,10 +70,9 @@ export default function MapaPageInner() {
   }, []);
 
   useEffect(() => {
-    if (isMobile && facilitadorSeleccionado) {
-      setPanelAbierto(false);
-    }
-  }, [facilitadorSeleccionado, isMobile]);
+    if (!isMobile) setPanelAbierto(true);
+    if (busqueda.trim()) setPanelAbierto(true);
+  }, [isMobile, busqueda]);
 
   useEffect(() => {
     async function cargar() {
@@ -384,7 +383,7 @@ export default function MapaPageInner() {
       {/* Toggle */}
       <button
         onClick={() => setPanelAbierto(!panelAbierto)}
-        className="hidden md:flex absolute top-1/2 -translate-y-1/2 z-[1000] bg-cream-100 border border-cream-200 rounded-r-lg p-1.5 shadow-soft hover:bg-cream-200 transition-all duration-300 items-center"
+        className="flex absolute top-1/2 -translate-y-1/2 z-[1000] bg-cream-100 border border-cream-200 rounded-r-lg p-1.5 shadow-soft hover:bg-cream-200 transition-all duration-300 items-center"
         style={{ left: panelAbierto ? "300px" : "0px" }}
         aria-label={panelAbierto ? "Cerrar panel" : "Abrir panel"}
       >
