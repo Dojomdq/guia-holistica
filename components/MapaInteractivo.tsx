@@ -156,6 +156,7 @@ export default function MapaInteractivo({
             key={`${m.facilitador.id}-${m.ubicacion.id || idx}`}
             position={[m.ubicacion.latitud, m.ubicacion.longitud]}
             icon={icon}
+            opacity={seleccionado && !isSelected ? 0.35 : 1}
             eventHandlers={{
               click: () => onSeleccionar(m.facilitador.id),
             }}

@@ -58,8 +58,22 @@ export default function MapaPageInner() {
   const [ciudadesDisponibles, setCiudadesDisponibles] = useState<string[]>([]);
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
   const [panelAbierto, setPanelAbierto] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const [todosFacilitadores, setTodosFacilitadores] = useState<FacilitadorConUbi[]>([]);
   const [cargando, setCargando] = useState(true);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile && facilitadorSeleccionado) {
+      setPanelAbierto(false);
+    }
+  }, [facilitadorSeleccionado, isMobile]);
 
   useEffect(() => {
     async function cargar() {
