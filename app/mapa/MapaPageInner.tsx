@@ -286,11 +286,13 @@ export default function MapaPageInner() {
                 </div>
               ))}
             </div>
-          ) : !ciudadSeleccionada && mostrarSelectorCiudad ? (
+          ) : !busqueda.trim() ? (
             <div className="p-8 text-center">
               <MapPin className="h-8 w-8 text-bark-300 mx-auto mb-3" />
               <p className="text-bark-400 text-[13px] leading-relaxed">
-                Elegí una ciudad para empezar
+                {ciudadSeleccionada
+                  ? `${facilitadoresFiltrados.length} facilitadores en ${ciudadSeleccionada}`
+                  : "Buscá una actividad para ver resultados"}
               </p>
             </div>
           ) : facilitadoresFiltrados.length === 0 ? (
