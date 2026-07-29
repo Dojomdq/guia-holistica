@@ -409,6 +409,24 @@ export default function MapaPageInner() {
         </button>
       )}
 
+      {/* Active filter bar */}
+      {(busqueda.trim() || ciudadSeleccionada) && (
+        <div className="absolute top-3 left-3 right-16 z-30 flex items-center gap-2 px-3 py-2 bg-white/95 backdrop-blur-sm rounded-xl shadow-medium border border-cream-200/80 text-sm">
+          <span className="text-bark-600 truncate">
+            {ciudadSeleccionada && <span className="font-medium">{ciudadSeleccionada}</span>}
+            {busqueda.trim() && ciudadSeleccionada && " · "}
+            {busqueda.trim() && <span>{busqueda}</span>}
+          </span>
+          <button
+            onClick={limpiarBusqueda}
+            className="shrink-0 ml-auto p-1 rounded-lg hover:bg-cream-200 transition-colors"
+            aria-label="Limpiar filtros"
+          >
+            <X className="h-4 w-4 text-bark-400" />
+          </button>
+        </div>
+      )}
+
       {/* Map */}
       <div className="flex-1 relative min-h-0">
         <MapaInteractivo
