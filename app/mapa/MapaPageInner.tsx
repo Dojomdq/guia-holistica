@@ -167,12 +167,12 @@ export default function MapaPageInner() {
   return (
     <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
       <div
-        className="relative flex flex-col md:flex-row h-[500px] sm:h-[560px] md:h-[620px] lg:h-[660px] rounded-2xl overflow-hidden shadow-2xl border border-cream-200/60 m-6 sm:m-8 lg:m-12"
+        className="relative flex flex-col md:flex-row h-[80vh] md:h-[70vh] rounded-2xl overflow-hidden shadow-2xl border border-cream-200/60 mx-4 sm:mx-6 lg:mx-8 my-4"
       >
         {/* Sidebar */}
         <div
           className={`${
-            panelAbierto ? "w-full md:w-[360px]" : "w-0"
+            panelAbierto ? "w-full md:w-[300px]" : "w-0"
           } flex-shrink-0 bg-cream-100 border-r border-cream-200 flex flex-col transition-all duration-500 ease-out-expo overflow-hidden`}
         >
         <div className="p-4 border-b border-cream-200/60">
@@ -359,7 +359,7 @@ export default function MapaPageInner() {
       <button
         onClick={() => setPanelAbierto(!panelAbierto)}
         className="hidden md:flex absolute top-1/2 -translate-y-1/2 z-[1000] bg-cream-100 border border-cream-200 rounded-r-lg p-1.5 shadow-soft hover:bg-cream-200 transition-all duration-300 items-center"
-        style={{ left: panelAbierto ? "360px" : "0px" }}
+        style={{ left: panelAbierto ? "300px" : "0px" }}
         aria-label={panelAbierto ? "Cerrar panel" : "Abrir panel"}
       >
         <ChevronRight
