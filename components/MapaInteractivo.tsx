@@ -129,12 +129,6 @@ function FocusMarkers({
           duration: 0.8,
         });
       }
-    } else if (!selectedId && markers.length > 0) {
-      const lats = markers.map((m) => m.ubicacion.latitud);
-      const lngs = markers.map((m) => m.ubicacion.longitud);
-      const avgLat = lats.reduce((a, b) => a + b, 0) / lats.length;
-      const avgLng = lngs.reduce((a, b) => a + b, 0) / lngs.length;
-      map.flyTo([avgLat, avgLng], 14, { duration: 0.8 });
     }
   }, [selectedId, markers, map, ciudad]);
   return null;
