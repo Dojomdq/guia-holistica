@@ -15,7 +15,7 @@ export default function Footer() {
             {/* Column 1 — Brand */}
             <div>
               <Link href="/" className="group inline-block"
-                style={{ marginLeft: "-50px" }}>
+                style={{ marginLeft: "-43px" }}>
                 <img
                   src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785382470/1200x_fcfaao.png"
                   alt="Guía de Bienestar"
