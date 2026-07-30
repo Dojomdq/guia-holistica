@@ -187,7 +187,7 @@ export default function FacilitadoresAdmin() {
     setError(null);
     const payload = {
       nombre: form.nombre,
-      email: form.email,
+      email: form.email || null,
       telefono: form.telefono || null,
       whatsapp: form.whatsapp || null,
       bio: form.bio || null,
@@ -396,7 +396,7 @@ export default function FacilitadoresAdmin() {
             </label>
           </div>
           <div className="flex gap-3 mt-4">
-            <button onClick={handleSave} disabled={guardando || !form.nombre || !form.email}
+            <button onClick={handleSave} disabled={guardando || !form.nombre}
               className="bg-bark text-white px-6 py-2.5 rounded-xl hover:bg-bark/85 transition-all duration-300 text-sm font-medium disabled:opacity-50 hover:-translate-y-0.5">
               {guardando ? "Guardando..." : "Guardar"}
             </button>
