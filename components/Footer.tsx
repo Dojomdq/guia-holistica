@@ -14,7 +14,8 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Column 1 — Brand */}
             <div>
-              <Link href="/" className="group inline-block -ml-10">
+              <Link href="/" className="group inline-block"
+                style={{ marginLeft: "-50px" }}>
                 <img
                   src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785382470/1200x_fcfaao.png"
                   alt="Guía de Bienestar"
