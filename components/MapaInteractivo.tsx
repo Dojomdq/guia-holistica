@@ -202,7 +202,7 @@ export default function MapaInteractivo({
                   </Link>
                   {m.facilitador.whatsapp && (
                     <a
-                      href={`https://wa.me/${m.facilitador.whatsapp.replace(/[^0-9]/g, "")}`}
+                      href={`https://wa.me/${m.facilitador.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs px-3 py-1.5 rounded-full font-medium bg-sage-600 popup-btn-white hover:opacity-90 transition-opacity"

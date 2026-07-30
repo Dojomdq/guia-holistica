@@ -213,7 +213,7 @@ export default function FacilitadorContent({
                   )}
                   {f.whatsapp && (
                     <a
-                      href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}`}
+                      href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-sage text-[13px]"
