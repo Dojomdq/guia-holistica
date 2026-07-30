@@ -18,7 +18,7 @@ export default function Footer() {
                 <img
                   src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785382170/blanco_l4la4y.png"
                   alt="Guía de Bienestar"
-                  className="h-10 w-auto"
+                  className="h-12 sm:h-14 w-auto"
                 />
               </Link>
               <p className="text-sm text-cream-100 mt-5 max-w-[300px] leading-relaxed">

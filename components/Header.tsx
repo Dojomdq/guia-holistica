@@ -59,7 +59,7 @@ export default function Header() {
               <img
                 src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png"
                 alt="Guía de Bienestar"
-                className="h-8 lg:h-10 w-auto"
+                className="h-9 lg:h-12 w-auto"
               />
             </Link>
 
