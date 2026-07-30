@@ -120,17 +120,9 @@ function FocusMarkers({
   useEffect(() => {
     if (ciudad && CITY_COORDS[ciudad]) {
       map.flyTo(CITY_COORDS[ciudad], 14, { duration: 0.8 });
-      return;
     }
-    if (selectedId && markers.length > 0) {
-      const target = markers.find((m) => m.facilitador.id === selectedId);
-      if (target) {
-        map.flyTo([target.ubicacion.latitud, target.ubicacion.longitud], 15, {
-          duration: 0.8,
-        });
-      }
-    }
-  }, [selectedId, markers, map, ciudad]);
+  }, [ciudad, map]);
+
   return null;
 }
 
