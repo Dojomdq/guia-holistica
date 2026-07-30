@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { X, MapPin, Sparkles } from "lucide-react";
+import { CITY_NAME } from "@/lib/constants";
 
 const STORAGE_KEY = "popup_visto";
 
@@ -17,6 +18,13 @@ export default function PopupFacilitadores() {
     }, 15000);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setIsOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -44,7 +52,7 @@ export default function PopupFacilitadores() {
         </h3>
 
         <p className="text-bark-700 text-base mb-6 leading-relaxed">
-          Sumá tu perfil y aparecé en el directorio de bienestar de Mar del Plata. Miles de personas buscan tu ayuda.
+          Sumá tu perfil y aparecé en el directorio de bienestar de {CITY_NAME}. Miles de personas buscan tu ayuda.
         </p>
 
         <a

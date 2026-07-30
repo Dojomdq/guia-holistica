@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*"],
+  matcher: ["/admin", "/admin/:path*", "/api/:path*"],
 };
 
 export function middleware(request: NextRequest) {
@@ -14,8 +14,11 @@ export function middleware(request: NextRequest) {
     });
   }
 
-  const user = process.env.ADMIN_USER || "admin";
-  const pass = process.env.ADMIN_PASS || "guia2026";
+  const user = process.env.ADMIN_USER;
+  const pass = process.env.ADMIN_PASS;
+  if (!user || !pass) {
+    return new NextResponse("Configuración de admin no encontrada", { status: 500 });
+  }
 
   const authHeader = request.headers.get("authorization");
 

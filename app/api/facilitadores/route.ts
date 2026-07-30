@@ -13,43 +13,48 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const supabase = getAdminClient();
+  try {
+    const body = await req.json();
+    const supabase = getAdminClient();
 
-  const { actividad_ids, ...facData } = body;
+    const { actividad_ids, ...facData } = body;
 
-  const lat = body.latitud || -38.0055;
-  const lng = body.longitud || -57.5426;
+    const lat = body.latitud || -38.0055;
+    const lng = body.longitud || -57.5426;
 
-  const { data: fac, error: facErr } = await supabase
-    .from("facilitadores")
-    .insert({
-      nombre: facData.nombre,
-      email: facData.email,
-      telefono: facData.telefono || null,
-      whatsapp: facData.whatsapp || null,
-      foto_url: facData.foto_url || null,
-      bio: facData.bio || null,
-      ciudad: facData.ciudad || "Mar del Plata",
-      latitud: lat,
-      longitud: lng,
-      direccion: facData.direccion || null,
-      instagram: facData.instagram || null,
-      sitio_web: facData.sitio_web || null,
-      activo: facData.activo !== false,
-    })
-    .select()
-    .single();
+    const { data: fac, error: facErr } = await supabase
+      .from("facilitadores")
+      .insert({
+        nombre: facData.nombre,
+        email: facData.email,
+        telefono: facData.telefono || null,
+        whatsapp: facData.whatsapp || null,
+        foto_url: facData.foto_url || null,
+        bio: facData.bio || null,
+        ciudad: facData.ciudad || "Mar del Plata",
+        latitud: lat,
+        longitud: lng,
+        direccion: facData.direccion || null,
+        instagram: facData.instagram || null,
+        sitio_web: facData.sitio_web || null,
+        activo: facData.activo !== false,
+      })
+      .select()
+      .single();
 
-  if (facErr) return NextResponse.json({ error: facErr.message }, { status: 500 });
+    if (facErr) return NextResponse.json({ success: false, error: facErr.message }, { status: 500 });
 
-  if (actividad_ids?.length) {
-    const rels = actividad_ids.map((aid: string) => ({
-      facilitador_id: fac.id,
-      actividad_id: aid,
-    }));
-    await supabase.from("facilitador_actividades").insert(rels);
+    if (actividad_ids?.length) {
+      const rels = actividad_ids.map((aid: string) => ({
+        facilitador_id: fac.id,
+        actividad_id: aid,
+      }));
+      const { error: relErr } = await supabase.from("facilitador_actividades").insert(rels);
+      if (relErr) return NextResponse.json({ success: false, error: relErr.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true, data: fac }, { status: 201 });
+  } catch (err: any) {
+    return NextResponse.json({ success: false, error: err.message || "Error interno" }, { status: 500 });
   }
-
-  return NextResponse.json(fac, { status: 201 });
 }
