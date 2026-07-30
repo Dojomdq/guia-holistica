@@ -164,7 +164,10 @@ export default function FacilitadoresAdmin() {
     try {
       const query = encodeURIComponent(`${ubi.direccion}, ${ubi.ciudad}, Argentina`);
       const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`, {
-        headers: { "Accept-Language": "es" },
+        headers: {
+          "Accept-Language": "es",
+          "User-Agent": "GuiaDeBienestar/1.0",
+        },
       });
       const data = await res.json();
       if (data.length > 0) {
@@ -214,7 +217,7 @@ export default function FacilitadoresAdmin() {
 
       await supabase.from("ubicaciones").delete().eq("facilitador_id", editando);
       const ubiData = form.ubicaciones
-        .filter((u) => u.direccion.trim() || u.latitud !== "-38.0055")
+        .filter((u) => u.direccion.trim() || u.latitud.trim() || u.longitud.trim())
         .map((u) => ({
           facilitador_id: editando,
           direccion: u.direccion || null,
@@ -245,7 +248,7 @@ export default function FacilitadoresAdmin() {
       }
 
       const ubiData = form.ubicaciones
-        .filter((u) => u.direccion.trim() || u.latitud !== "-38.0055")
+        .filter((u) => u.direccion.trim() || u.latitud.trim() || u.longitud.trim())
         .map((u) => ({
           facilitador_id: newFac.id,
           direccion: u.direccion || null,
