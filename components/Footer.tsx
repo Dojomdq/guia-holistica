@@ -16,7 +16,7 @@ export default function Footer() {
             <div>
               <Link href="/" className="group inline-block">
                 <img
-                  src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785382170/blanco_l4la4y.png"
+                  src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785382470/1200x_fcfaao.png"
                   alt="Guía de Bienestar"
                   className="w-64 sm:w-80 h-auto"
                 />
