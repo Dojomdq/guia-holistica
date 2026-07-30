@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Search, MapPin, X, Crosshair, AlertCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
+import MapPicker from "@/components/MapPicker";
 
 interface FacilitadorAdmin {
   id: string;
@@ -358,6 +359,14 @@ export default function FacilitadoresAdmin() {
                         <Crosshair className="h-3 w-3" />
                       </button>
                     </div>
+                    <MapPicker
+                      lat={parseFloat(ubi.latitud) || -38.0055}
+                      lng={parseFloat(ubi.longitud) || -57.5426}
+                      onChange={(lat, lng) => {
+                        updateUbi(idx, "latitud", String(lat));
+                        updateUbi(idx, "longitud", String(lng));
+                      }}
+                    />
                   </div>
                 </div>
               ))}
