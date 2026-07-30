@@ -16,7 +16,7 @@ export default function Footer() {
             <div>
               <Link href="/" className="group inline-block">
                 <img
-                  src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png"
+                  src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785382170/blanco_l4la4y.png"
                   alt="Guía de Bienestar"
                   className="h-10 w-auto"
                 />
