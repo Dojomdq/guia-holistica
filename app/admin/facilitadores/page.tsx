@@ -187,7 +187,7 @@ export default function FacilitadoresAdmin() {
     setError(null);
     const payload = {
       nombre: form.nombre,
-      email: form.email || null,
+      email: form.email || `facilitador-${Date.now()}@guia-de-bienestar.local`,
       telefono: form.telefono || null,
       whatsapp: form.whatsapp || null,
       bio: form.bio || null,
