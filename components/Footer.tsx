@@ -14,16 +14,12 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Column 1 — Brand */}
             <div>
-              <Link href="/" className="group inline-flex items-center gap-3">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none" className="shrink-0">
-                  <circle cx="14" cy="14" r="13" className="stroke-sage-500/60" strokeWidth="1.5" />
-                  <path d="M9 16c0-4 3.5-6 5-7 1.5 1 5 3 5 7 0 2.5-2 4.5-5 4.5S9 18.5 9 16z" className="fill-sage-500/20 stroke-sage-500" strokeWidth="1.2" strokeLinejoin="round" />
-                  <path d="M12 16c0-1.5 1-2.5 2-3 1 .5 2 1.5 2 3s-1 2-2 2-2-.5-2-2z" className="fill-sage-500" />
-                </svg>
-                <span className="font-serif text-[clamp(1.5rem,3vw,2.5rem)] text-cream-100 leading-[1.05] tracking-[-0.03em] group-hover:text-white transition-colors duration-300">
-                  Guía
-                  <span className="ml-2 font-normal text-sage-500">de Bienestar</span>
-                </span>
+              <Link href="/" className="group inline-block">
+                <img
+                  src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png"
+                  alt="Guía de Bienestar"
+                  className="h-10 w-auto"
+                />
               </Link>
               <p className="text-sm text-cream-100 mt-5 max-w-[300px] leading-relaxed">
                 Directorio de bienestar en Mar del Plata. Conectá con terapeutas, guías y facilitadores de tu zona.

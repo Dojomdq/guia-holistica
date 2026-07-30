@@ -90,7 +90,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${dmSans.variable} ${dmMono.variable}`}>
       <head>
-        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link rel="icon" type="image/png" href="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381416/favicon_web_wiy37z.png" />
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&display=swap" />
         <link
           rel="stylesheet"

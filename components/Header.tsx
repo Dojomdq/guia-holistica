@@ -56,23 +56,11 @@ export default function Header() {
               className="flex items-center gap-2 group"
               aria-label="Guía de Bienestar - Inicio"
             >
-              <svg width="26" height="26" viewBox="0 0 26 26" fill="none" className="shrink-0">
-                <circle cx="13" cy="13" r="12" className={`transition-colors duration-500 ${showDark ? "stroke-sage-600" : "stroke-sage-400/60"}`} strokeWidth="1.5" />
-                <path d="M8 15c0-4 3.5-6 5-7 1.5 1 5 3 5 7 0 2.5-2 4.5-5 4.5S8 17.5 8 15z" className={`transition-colors duration-500 ${showDark ? "fill-sage-500/20 stroke-sage-600" : "fill-sage-400/20 stroke-sage-400"}`} strokeWidth="1.2" strokeLinejoin="round" />
-                <path d="M11 15c0-1.5 1-2.5 2-3 1 .5 2 1.5 2 3s-1 2-2 2-2-.5-2-2z" className={`transition-colors duration-500 ${showDark ? "fill-sage-600" : "fill-sage-400"}`} />
-              </svg>
-              <span
-                className={`font-serif text-lg sm:text-xl font-semibold tracking-tight transition-colors duration-500 ${
-                  showDark ? "text-bark" : "text-white"
-                }`}
-              >
-                Guía
-                <span className={`ml-1.5 font-normal transition-colors duration-500 ${
-                  showDark ? "text-sage-600" : "text-sage-400"
-                }`}>
-                  de Bienestar
-                </span>
-              </span>
+              <img
+                src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png"
+                alt="Guía de Bienestar"
+                className="h-8 lg:h-10 w-auto"
+              />
             </Link>
 
             <nav
