@@ -377,16 +377,23 @@ export default function FacilitadoresAdmin() {
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-bark-800 mb-2">Actividades</label>
-              <div className="flex flex-wrap gap-2">
-                {actividades.map((a) => (
-                  <button key={a.id} type="button" onClick={() => toggleActividad(a.id)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
-                      form.actividad_ids.includes(a.id) ? "bg-bark text-white" : "bg-cream-200 text-bark-700 hover:bg-cream-300"
-                    }`}>
-                    {a.nombre}
-                  </button>
-                ))}
-              </div>
+              {actividades.length === 0 ? (
+                <p className="text-sm text-bark-400">
+                  No hay actividades cargadas.{" "}
+                  <a href="/admin/actividades" className="text-sage-600 underline">Crear actividades</a>
+                </p>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {actividades.map((a) => (
+                    <button key={a.id} type="button" onClick={() => toggleActividad(a.id)}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
+                        form.actividad_ids.includes(a.id) ? "bg-bark text-white" : "bg-cream-200 text-bark-700 hover:bg-cream-300"
+                      }`}>
+                      {a.nombre}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <div className="flex items-center gap-3 mt-6">
