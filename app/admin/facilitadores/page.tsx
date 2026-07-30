@@ -194,6 +194,8 @@ export default function FacilitadoresAdmin() {
       instagram: form.instagram || null,
       sitio_web: form.sitio_web || null,
       activo: form.activo,
+      latitud: form.ubicaciones[0]?.latitud || -38.0055,
+      longitud: form.ubicaciones[0]?.longitud || -57.5426,
     };
 
     if (editando) {
