@@ -7,22 +7,18 @@ const STORAGE_KEY = "popup_eventos_visto";
 
 const SLIDES = [
   {
-    imagen: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785554110/WhatsApp_Image_2026-07-31_at_12.40.42_dcmzog.jpg",
+    tipo: "imagen" as const,
+    fuente: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785554110/WhatsApp_Image_2026-07-31_at_12.40.42_dcmzog.jpg",
     titulo: "Próximo evento",
     descripcion: "Retiro de yoga y meditación en la costa",
     fecha: "15 de agosto",
   },
   {
-    imagen: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785554110/WhatsApp_Image_2026-07-31_at_12.40.42_dcmzog.jpg",
+    tipo: "video" as const,
+    fuente: "https://res.cloudinary.com/kmxmqr0t/video/upload/v1785554212/WhatsApp_Video_2026-07-31_at_12.11.30_vwohj9.mp4",
     titulo: "Taller",
     descripcion: "Ceremonia de cacao y sanación sonora",
     fecha: "22 de agosto",
-  },
-  {
-    imagen: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785554110/WhatsApp_Image_2026-07-31_at_12.40.42_dcmzog.jpg",
-    titulo: "Encuentro",
-    descripcion: "Círculo de mujeres: luna nueva",
-    fecha: "30 de agosto",
   },
 ];
 
@@ -84,11 +80,22 @@ export default function PopupEventos({ onClose }: Props) {
                 i === current ? "opacity-100" : "opacity-0 pointer-events-none"
               }`}
             >
-              <img
-                src={slide.imagen}
-                alt={slide.titulo}
-                className="w-full h-full object-contain"
-              />
+              {slide.tipo === "video" ? (
+                <video
+                  src={slide.fuente}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-contain"
+                />
+              ) : (
+                <img
+                  src={slide.fuente}
+                  alt={slide.titulo}
+                  className="w-full h-full object-contain"
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-bark/60 via-transparent to-transparent pointer-events-none" />
               <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
                 <p className="text-xs font-semibold uppercase tracking-wider text-sand-300 mb-1">
@@ -124,7 +131,7 @@ export default function PopupEventos({ onClose }: Props) {
 
         <div className="px-5 py-4 flex items-center justify-between bg-white/60 backdrop-blur-sm border-t border-cream-200">
           <a
-            href="https://wa.me/5492235742540?text=Hola%20quiero%20saber%20m%C3%A1s%20sobre%20los%20eventos"
+            href="https://wa.me/5492235742540?text=Vengo%20del%20sitio%20Guiadebienestar%2C%20me%20gustaria%20mas%20informacion%20porque%20tengo%20interes%20en%20participar%20en%20el%20evento"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-semibold text-sage-600 hover:text-sage-700 transition"
