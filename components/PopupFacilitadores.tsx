@@ -6,7 +6,11 @@ import { CITY_NAME } from "@/lib/constants";
 
 const STORAGE_KEY = "popup_visto";
 
-export default function PopupFacilitadores() {
+interface Props {
+  onClose?: () => void;
+}
+
+export default function PopupFacilitadores({ onClose }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -21,10 +25,10 @@ export default function PopupFacilitadores() {
 
   useEffect(() => {
     if (!isOpen) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setIsOpen(false); };
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") { setIsOpen(false); onClose?.(); } };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -32,7 +36,7 @@ export default function PopupFacilitadores() {
     <div className="fixed inset-0 bg-bark/80 backdrop-blur-sm flex items-center justify-center z-50 px-4">
       <div className="bg-cream-50 rounded-2xl max-w-md w-full p-8 shadow-2xl border border-cream-200 relative">
         <button
-          onClick={() => setIsOpen(false)}
+          onClick={() => { setIsOpen(false); onClose?.(); } }
           className="absolute top-3 right-3 text-bark-600 hover:text-bark transition"
         >
           <X className="h-6 w-6" />

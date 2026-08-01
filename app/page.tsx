@@ -7,7 +7,7 @@ import MapSection from "@/components/home/MapSection";
 import NewCTA from "@/components/home/NewCTA";
 import TestimoniosSection from "@/components/TestimoniosSection";
 import FAQSection from "@/components/FAQSection";
-import PopupFacilitadores from "@/components/PopupFacilitadores";
+import PopupManager from "@/components/PopupManager";
 import { SITE_URL, INSTAGRAM_URL, WHATSAPP_LINK } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -115,7 +115,7 @@ export default function Home() {
       <TestimoniosSection />
       <div className="section-divider" />
       <FAQSection />
-      <PopupFacilitadores />
+      <PopupManager />
     </>
   );
 }
