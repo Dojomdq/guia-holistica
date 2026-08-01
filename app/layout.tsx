@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import FloatingCTA from "@/components/FloatingCTA";
 import { SITE_URL } from "@/lib/constants";
 
 const dmSans = DM_Sans({
@@ -114,6 +115,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <ScrollToTop />
+        <FloatingCTA />
       </body>
     </html>
   );
