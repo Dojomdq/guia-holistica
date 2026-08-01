@@ -107,3 +107,20 @@ export function getCategoryColor(slug: string): string {
   }
   return "bg-stone-50 border-stone-200 text-stone-700";
 }
+
+export const EMOJIS: Record<string, string> = {
+  yoga: "🧘", reiki: "🖐️", meditacion: "🧠", chamanismo: "🪶",
+  tarot: "🔮", astrologia: "⭐", "sanacion-energetica": "✨",
+  "terapias-holisticas": "🌿", biodanza: "💃", aromaterapia: "🌸",
+  "circulos-de-mujeres": "🌙", "cacao-ceremonia": "🍫",
+  "flores-de-bach": "🌼", "sonidos-y-vibraciones": "🔔",
+  numerologia: "🔢", pranoterapia: "🌀", "limpieza-energetica": "💫",
+  "plantas-medicinales": "🌱", "masajes-terapeuticos": "💆",
+};
+
+export function getEmoji(slug: string): string {
+  for (const [key, emoji] of Object.entries(EMOJIS)) {
+    if (slug.includes(key)) return emoji;
+  }
+  return "🌿";
+}

@@ -5,16 +5,21 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
-import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
+import { getEmoji } from "@/lib/categories";
 
 const defaultPosition: [number, number] = [-38.0055, -57.5426];
 
-function createIcon(color: string): L.DivIcon {
+function createIcon(emoji: string): L.DivIcon {
   return new L.DivIcon({
-    html: `<div style="background:${color};width:20px;height:20px;border-radius:50%;border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.15)"></div>`,
+    html: `<div style="
+      width:32px;height:32px;background:white;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:16px;border:2px solid white;
+      box-shadow:0 2px 8px rgba(0,0,0,0.12);line-height:1
+    ">${emoji}</div>`,
     className: "",
-    iconSize: [20, 20],
-    iconAnchor: [10, 10],
+    iconSize: [32, 32],
+    iconAnchor: [16, 16],
   });
 }
 
@@ -71,12 +76,12 @@ export default function MiniMap() {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
         {facilitadores.map((f) => {
-          const color = CATEGORY_MARKER_COLORS[f.slug] || "#5d8a6e";
+          const emoji = getEmoji(f.slug);
           return (
             <Marker
               key={f.id}
               position={[f.lat, f.lng]}
-              icon={createIcon(color)}
+              icon={createIcon(emoji)}
             >
               <Popup>
                 <div className="text-center p-1">

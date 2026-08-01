@@ -12,7 +12,7 @@ import {
 import L from "leaflet";
 import Link from "next/link";
 
-import { getMarkerColor } from "@/lib/categories";
+import { getMarkerColor, getEmoji } from "@/lib/categories";
 import { useClickTracker } from "@/lib/useClickTracker";
 import { CITY_COORDS } from "@/lib/constants";
 
@@ -53,46 +53,34 @@ interface Props {
   ciudadSeleccionada?: string | null;
 }
 
-function createIcon(color: string, isSelected: boolean): L.DivIcon {
-  const size = isSelected ? 28 : 20;
-  const innerSize = isSelected ? 12 : 8;
+function createIcon(emoji: string, isSelected: boolean): L.DivIcon {
+  const size = isSelected ? 44 : 36;
+  const fontSize = isSelected ? "22px" : "18px";
+  const bg = isSelected ? "white" : "white";
+  const shadow = isSelected
+    ? "0 4px 16px rgba(0,0,0,0.25), 0 0 0 3px rgba(90,143,143,0.25)"
+    : "0 2px 8px rgba(0,0,0,0.12)";
 
   return new L.DivIcon({
     html: `<div style="
-      position: relative;
       width: ${size}px;
       height: ${size}px;
-    ">
-      <div style="
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: ${size}px;
-        height: ${size * 0.9}px;
-        background: ${color};
-        border-radius: 50% 50% 50% 0;
-        transform-origin: bottom left;
-        transform: translateX(-50%) rotate(-45deg);
-        box-shadow: ${isSelected ? `0 0 0 4px ${color}30, 0 4px 16px rgba(0,0,0,0.25)` : "0 2px 8px rgba(0,0,0,0.15)"};
-        border: 2.5px solid white;
-      "></div>
-      <div style="
-        position: absolute;
-        bottom: ${size * 0.23}px;
-        left: 50%;
-        transform: translate(-50%, 50%);
-        width: ${innerSize}px;
-        height: ${innerSize}px;
-        background: white;
-        border-radius: 50%;
-        z-index: 1;
-      "></div>
-    </div>`,
+      background: ${bg};
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: ${fontSize};
+      box-shadow: ${shadow};
+      border: 2px solid white;
+      line-height: 1;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    ">${emoji}</div>`,
     className: "",
-    iconSize: [size, size + 8],
-    iconAnchor: [size / 2, size + 8],
-    popupAnchor: [0, -(size + 4)],
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+    popupAnchor: [0, -(size / 2)],
   });
 }
 
@@ -152,12 +140,11 @@ export default function MapaInteractivo({
 
       {markers.map((m, idx) => {
         const isSelected = seleccionado === m.facilitador.id;
-        const color = getMarkerColor(
-          m.facilitador.actividades.length > 0
-            ? m.facilitador.actividades[0].slug
-            : ""
-        );
-        const icon = createIcon(color, isSelected);
+        const slug = m.facilitador.actividades.length > 0
+          ? m.facilitador.actividades[0].slug
+          : "";
+        const emoji = getEmoji(slug);
+        const icon = createIcon(emoji, isSelected);
 
         return (
           <Marker
