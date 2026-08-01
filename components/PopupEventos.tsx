@@ -76,7 +76,7 @@ export default function PopupEventos({ onClose }: Props) {
           <X className="h-5 w-5" />
         </button>
 
-        <div className="relative overflow-hidden" style={{ aspectRatio: "16/10" }}>
+        <div className="relative overflow-hidden bg-bark/5 flex items-center justify-center" style={{ height: "50vh", minHeight: "320px", maxHeight: "70vh" }}>
           {SLIDES.map((slide, i) => (
             <div
               key={i}
@@ -87,9 +87,9 @@ export default function PopupEventos({ onClose }: Props) {
               <img
                 src={slide.imagen}
                 alt={slide.titulo}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-bark/70 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-bark/60 via-transparent to-transparent pointer-events-none" />
               <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
                 <p className="text-xs font-semibold uppercase tracking-wider text-sand-300 mb-1">
                   {slide.fecha}
