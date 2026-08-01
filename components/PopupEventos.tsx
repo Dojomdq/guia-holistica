@@ -7,19 +7,19 @@ const STORAGE_KEY = "popup_eventos_visto";
 
 const SLIDES = [
   {
-    imagen: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/IMG_20240709_175009590_zycrnh.jpg",
+    imagen: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785554110/WhatsApp_Image_2026-07-31_at_12.40.42_dcmzog.jpg",
     titulo: "Próximo evento",
     descripcion: "Retiro de yoga y meditación en la costa",
     fecha: "15 de agosto",
   },
   {
-    imagen: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/IMG_20240709_175009590_zycrnh.jpg",
+    imagen: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785554110/WhatsApp_Image_2026-07-31_at_12.40.42_dcmzog.jpg",
     titulo: "Taller",
     descripcion: "Ceremonia de cacao y sanación sonora",
     fecha: "22 de agosto",
   },
   {
-    imagen: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/IMG_20240709_175009590_zycrnh.jpg",
+    imagen: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785554110/WhatsApp_Image_2026-07-31_at_12.40.42_dcmzog.jpg",
     titulo: "Encuentro",
     descripcion: "Círculo de mujeres: luna nueva",
     fecha: "30 de agosto",
