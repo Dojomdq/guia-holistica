@@ -44,6 +44,10 @@ export const CATEGORY_ICONS: Record<string, LucideIcon> = {
   solidarios: Heart,
   "artes-marciales-no-competitivas": Wind,
   "terapias-holisticas-alternativas": Leaf,
+  kung: Wind,
+  aikido: Wind,
+  "pa-kua": Wind,
+  tai: Wind,
 };
 
 export const CATEGORY_COLORS: Record<string, string> = {
@@ -94,6 +98,10 @@ export const CATEGORY_MARKER_COLORS: Record<string, string> = {
   solidarios: "#d97706",
   "artes-marciales-no-competitivas": "#dc2626",
   "terapias-holisticas-alternativas": "#15803d",
+  kung: "#dc2626",
+  aikido: "#dc2626",
+  "pa-kua": "#dc2626",
+  tai: "#dc2626",
 };
 
 export function getCategoryIcon(slug: string): LucideIcon {
@@ -128,6 +136,10 @@ export const EMOJIS: Record<string, string> = {
   solidarios: "🤝",
   "artes-marciales-no-competitivas": "🥋",
   "terapias-holisticas-alternativas": "🌿",
+  kung: "🥋",
+  aikido: "🥋",
+  "pa-kua": "🥋",
+  tai: "🥋",
 };
 
 export function getEmoji(slug: string): string {
