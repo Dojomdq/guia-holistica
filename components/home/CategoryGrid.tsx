@@ -13,7 +13,7 @@ const DEFAULT_EMOJIS: Record<string, string> = {
   "flores-de-bach": "🌼", "sonidos-y-vibraciones": "🔔",
   numerologia: "🔢", pranoterapia: "🌀", "limpieza-energetica": "💫",
   "plantas-medicinales": "🌱", "masajes-terapeuticos": "💆",
-};
+  solidarios: "🤝",};
 
 interface CategoriaItem {
   slug: string;
