@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
-import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
+import { getMarkerColor } from "@/lib/categories";
 
 const defaultPosition: [number, number] = [-38.0055, -57.5426];
 
@@ -71,7 +71,7 @@ export default function MiniMap() {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
         {facilitadores.map((f) => {
-          const color = CATEGORY_MARKER_COLORS[f.slug] || "#5d8a6e";
+          const color = getMarkerColor(f.slug);
           return (
             <Marker
               key={f.id}

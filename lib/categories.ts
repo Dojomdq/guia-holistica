@@ -85,6 +85,11 @@ export const CATEGORY_MARKER_COLORS: Record<string, string> = {
   "plantas-medicinales": "#65a30d",
   "masajes-terapeuticos": "#0d9488",
   biodanza: "#e11d48",
+  kung: "#dc2626",
+  aikido: "#dc2626",
+  "pa-kua": "#dc2626",
+  tai: "#dc2626",
+  solidarios: "#d97706",
 };
 
 export function getCategoryIcon(slug: string): LucideIcon {
