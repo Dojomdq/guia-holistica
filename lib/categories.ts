@@ -42,6 +42,8 @@ export const CATEGORY_ICONS: Record<string, LucideIcon> = {
   "masajes-terapeuticos": Heart,
   biodanza: PersonStanding,
   solidarios: Heart,
+  "artes-marciales-no-competitivas": Wind,
+  "terapias-holisticas-alternativas": Leaf,
 };
 
 export const CATEGORY_COLORS: Record<string, string> = {
@@ -65,6 +67,8 @@ export const CATEGORY_COLORS: Record<string, string> = {
   "masajes-terapeuticos": "bg-teal-50 border-teal-200 text-teal-700",
   biodanza: "bg-rose-50 border-rose-200 text-rose-700",
   solidarios: "bg-amber-50 border-amber-200 text-amber-700",
+  "artes-marciales-no-competitivas": "bg-red-50 border-red-200 text-red-700",
+  "terapias-holisticas-alternativas": "bg-green-50 border-green-200 text-green-700",
 };
 
 export const CATEGORY_MARKER_COLORS: Record<string, string> = {
@@ -88,6 +92,8 @@ export const CATEGORY_MARKER_COLORS: Record<string, string> = {
   "masajes-terapeuticos": "#0d9488",
   biodanza: "#e11d48",
   solidarios: "#d97706",
+  "artes-marciales-no-competitivas": "#dc2626",
+  "terapias-holisticas-alternativas": "#15803d",
 };
 
 export function getCategoryIcon(slug: string): LucideIcon {
@@ -120,6 +126,8 @@ export const EMOJIS: Record<string, string> = {
   numerologia: "🔢", pranoterapia: "🌀", "limpieza-energetica": "💫",
   "plantas-medicinales": "🌱", "masajes-terapeuticos": "💆",
   solidarios: "🤝",
+  "artes-marciales-no-competitivas": "🥋",
+  "terapias-holisticas-alternativas": "🌿",
 };
 
 export function getEmoji(slug: string): string {
