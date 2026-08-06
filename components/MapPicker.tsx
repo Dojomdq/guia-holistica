@@ -26,7 +26,7 @@ export default function MapPicker({ lat, lng, onChange }: Props) {
         attributionControl: false,
       });
 
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/voyager/{z}/{x}/{y}{r}.png", {
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "&copy; CARTO",
       }).addTo(map);
 
