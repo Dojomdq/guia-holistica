@@ -140,7 +140,10 @@ export default function FacilitadorContent({
   const tieneRedes = f.whatsapp || f.instagram || f.email || f.sitio_web;
 
   return (
-    <div className="min-h-screen bg-cream-50">
+    <div className="min-h-screen bg-cream-50 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-3xl pointer-events-none opacity-40" style={{ backgroundColor: `${color}10` }} />
+      <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-sand-200/25 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 w-4 h-4 rounded-full pointer-events-none opacity-10" style={{ backgroundColor: color }} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
