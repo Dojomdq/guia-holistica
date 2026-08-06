@@ -9,6 +9,7 @@ import {
   ArrowLeft,
   MessageCircle,
   Mail,
+  Clock,
   Sparkles,
 } from "lucide-react";
 import InstagramIcon from "@/components/ui/InstagramIcon";
@@ -36,6 +37,7 @@ interface FacilitadorData {
   instagram: string | null;
   sitio_web: string | null;
   foto_url: string | null;
+  horarios: string | null;
   actividades: { id: string; nombre: string; slug: string }[];
   ubicaciones: Ubicacion[];
 }
@@ -69,6 +71,7 @@ export default function FacilitadorContent({
           instagram: data.instagram,
           sitio_web: data.sitio_web,
           foto_url: data.foto_url,
+          horarios: data.horarios || null,
           actividades: (data.facilitador_actividades || []).map((fa: any) => ({
             id: fa.actividades.id,
             nombre: fa.actividades.nombre,
@@ -133,7 +136,10 @@ export default function FacilitadorContent({
   const ubiPrincipal = f.ubicaciones[0];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-cream-50 via-white to-cream-50">
+    <div className="min-h-screen relative overflow-hidden bg-gradient-to-b from-cream-50 via-white to-cream-50">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-sage-200/15 rounded-full blur-3xl pointer-events-none -translate-y-1/4 translate-x-1/4" />
+      <div className="absolute bottom-1/3 left-0 w-80 h-80 bg-sand-200/20 rounded-full blur-3xl pointer-events-none translate-y-1/2 -translate-x-1/4" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-sage-200/5 pointer-events-none" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -268,6 +274,34 @@ export default function FacilitadorContent({
                   )}
                 </div>
               </div>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-cream-200/60">
+              <h2 className="font-serif text-lg font-medium text-bark mb-3 flex items-center gap-2">
+                <Clock className="h-5 w-5 text-sage-600" />
+                Horarios y disponibilidad
+              </h2>
+              {f.horarios ? (
+                <p className="text-bark-700 leading-relaxed">{f.horarios}</p>
+              ) : f.whatsapp ? (
+                <div className="bg-sage-50 rounded-xl p-4 border border-sage-100">
+                  <p className="text-sm text-bark-600 mb-3">
+                    Consultá disponibilidad y turnos directamente por WhatsApp.
+                  </p>
+                  <a
+                    href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, quisiera consultar disponibilidad y turnos")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-sage-600 text-white rounded-full text-sm font-medium hover:bg-sage-700 transition-colors"
+                    onClick={() => track("whatsapp", f.id)}
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    Consultar por WhatsApp
+                  </a>
+                </div>
+              ) : (
+                <p className="text-sm text-bark-500">Atiende por turnos. Consultá disponibilidad por sus redes.</p>
+              )}
             </div>
 
             {f.ubicaciones.length > 0 && (
