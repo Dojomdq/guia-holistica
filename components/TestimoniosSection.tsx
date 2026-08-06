@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useScrollReveal } from "@/lib/useScrollReveal";
+import { INSTAGRAM_URL } from "@/lib/constants";
 
 const testimonios = [
   {
@@ -9,42 +11,22 @@ const testimonios = [
     texto:
       "Gracias a la guía encontré a una profesional increíble que me ayudó en mi proceso de sanación. El mapa facilitó mucho la búsqueda.",
   },
-  {
-    nombre: "Lucas",
-    actividad: "Yoga",
-    texto:
-      "Increíble poder ver todas las opciones de actividades holísticas en un solo lugar. Muy intuitivo y fácil de usar.",
-  },
-  {
-    nombre: "Camila",
-    actividad: "Meditación",
-    texto:
-      "La mejor plataforma para conectar con facilitadores en Mar del Plata. Profesional, moderna y muy completa.",
-  },
 ];
 
 export default function TestimoniosSection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-14 sm:py-20">
+    <section ref={ref} className="py-16 sm:py-24 bg-cream-50">
       <div className="container-page">
-        {/* Header — minimal */}
         <div
-          className={`mb-8 transition-all duration-700 ${
+          className={`transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
           <span className="label">Testimonios</span>
-        </div>
 
-        {/* Large editorial quote — first testimonio */}
-        <div
-          className={`transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
-          <div className="max-w-3xl">
+          <div className="max-w-3xl mt-6">
             <span className="font-serif text-6xl sm:text-7xl text-sage-200 leading-none select-none">
               &ldquo;
             </span>
@@ -60,29 +42,17 @@ export default function TestimoniosSection() {
               </p>
             </div>
           </div>
-        </div>
 
-        {/* Two smaller quotes — side by side */}
-        <div
-          className={`grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12 pt-10 border-t border-cream-300/40 transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
-          {testimonios.slice(1).map((t) => (
-            <div key={t.nombre}>
-              <p className="text-bark-600 text-sm leading-relaxed italic">
-                &ldquo;{t.texto}&rdquo;
-              </p>
-              <div className="mt-4">
-                <p className="font-medium text-bark text-sm">
-                  {t.nombre}
-                </p>
-                <p className="text-xs text-bark-500 mt-0.5">
-                  {t.actividad}
-                </p>
-              </div>
-            </div>
-          ))}
+          <div className="mt-8 ml-2">
+            <Link
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-sage-700 hover:text-terracotta-600 hover:gap-3 transition-all duration-300"
+            >
+              📖 Ver más opiniones de usuarios
+            </Link>
+          </div>
         </div>
       </div>
     </section>

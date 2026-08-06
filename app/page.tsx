@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import NewHero from "@/components/home/NewHero";
-import WhyChooseUs from "@/components/home/WhyChooseUs";
-import WhatWeOffer from "@/components/home/WhatWeOffer";
+import SearchSection from "@/components/home/SearchSection";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import MapSection from "@/components/home/MapSection";
-import NewCTA from "@/components/home/NewCTA";
 import TestimoniosSection from "@/components/TestimoniosSection";
+import NewCTA from "@/components/home/NewCTA";
 import FAQSection from "@/components/FAQSection";
 import PopupManager from "@/components/PopupManager";
 import { SITE_URL, INSTAGRAM_URL, WHATSAPP_LINK } from "@/lib/constants";
@@ -118,18 +117,15 @@ export default function Home() {
         }}
       />
       <NewHero />
-      <div className="section-divider" />
-      <WhyChooseUs />
-      <div className="section-divider" />
-      <WhatWeOffer />
+      <SearchSection />
       <div className="section-divider" />
       <CategoryGrid />
       <div className="section-divider" />
       <MapSection />
       <div className="section-divider" />
-      <NewCTA />
-      <div className="section-divider" />
       <TestimoniosSection />
+      <div className="section-divider" />
+      <NewCTA />
       <div className="section-divider" />
       <FAQSection />
       <PopupManager />
