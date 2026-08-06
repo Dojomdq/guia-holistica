@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 
@@ -44,6 +45,34 @@ function createDotIcon(color: string, isSelected: boolean): L.DivIcon {
   });
 }
 
+function spreadCoords(items: ClusterMarkerItem[]): ClusterMarkerItem[] {
+  const groups = new Map<string, ClusterMarkerItem[]>();
+  for (const item of items) {
+    const key = `${item.lat.toFixed(5)},${item.lng.toFixed(5)}`;
+    const group = groups.get(key);
+    if (group) group.push(item);
+    else groups.set(key, [item]);
+  }
+
+  const spread: ClusterMarkerItem[] = [];
+  const R = 0.00004;
+  for (const group of groups.values()) {
+    if (group.length === 1) {
+      spread.push(group[0]);
+    } else {
+      group.forEach((item, i) => {
+        const angle = (2 * Math.PI * i) / group.length;
+        spread.push({
+          ...item,
+          lat: item.lat + R * Math.cos(angle),
+          lng: item.lng + R * Math.sin(angle),
+        });
+      });
+    }
+  }
+  return spread;
+}
+
 export default function ClusteredMarkers({
   items,
   selectedId,
@@ -51,14 +80,16 @@ export default function ClusteredMarkers({
   renderPopup,
   dimOthers,
 }: Props) {
+  const spreadItems = useMemo(() => spreadCoords(items), [items]);
+
   return (
     <>
-      {items.map((item) => {
+      {spreadItems.map((item) => {
         const isSelected = selectedId === item.id;
         const icon = createDotIcon(item.color, isSelected);
         return (
           <Marker
-            key={`${item.id}|${item.lat}|${item.lng}`}
+            key={`${item.id}|${item.lat.toFixed(6)}|${item.lng.toFixed(6)}`}
             position={[item.lat, item.lng]}
             icon={icon}
             opacity={dimOthers && selectedId && !isSelected ? 0.3 : 1}

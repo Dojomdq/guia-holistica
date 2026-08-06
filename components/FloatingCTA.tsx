@@ -1,16 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { MessageCircle } from "lucide-react";
 import { WHATSAPP_LINK } from "@/lib/constants";
 
 export default function FloatingCTA() {
   const [visible, setVisible] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  if (pathname === "/mapa") return null;
 
   return (
     <a
