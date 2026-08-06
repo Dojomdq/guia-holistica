@@ -5,7 +5,13 @@ export const config = {
 };
 
 export function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname === "/admin/logout") {
+  const pathname = request.nextUrl.pathname;
+
+  if (!pathname.startsWith("/admin") && !pathname.startsWith("/api")) {
+    return NextResponse.next();
+  }
+
+  if (pathname === "/admin/logout") {
     return new NextResponse("Sesión cerrada", {
       status: 401,
       headers: {
