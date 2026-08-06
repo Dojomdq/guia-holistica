@@ -101,6 +101,9 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans">
+        <a href="#main" className="skip-link">
+          Saltar al contenido principal
+        </a>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
             <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`} />
@@ -112,7 +115,7 @@ export default function RootLayout({
           </>
         )}
         <Header />
-        <main>{children}</main>
+        <main id="main" tabIndex={-1}>{children}</main>
         <Footer />
         <ScrollToTop />
         <FloatingCTA />

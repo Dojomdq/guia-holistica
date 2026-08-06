@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const STORAGE_KEY = "popup_eventos_visto";
@@ -30,10 +30,12 @@ interface Props {
 export default function PopupEventos({ onClose }: Props) {
   const [current, setCurrent] = useState(0);
   const [visible, setVisible] = useState(false);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const yaVisto = sessionStorage.getItem(STORAGE_KEY);
     if (yaVisto) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     const timer = setTimeout(() => {
       setVisible(true);
       sessionStorage.setItem(STORAGE_KEY, "1");
@@ -41,35 +43,61 @@ export default function PopupEventos({ onClose }: Props) {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    if (!visible) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleClose();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [visible, current]);
-
   const handleClose = useCallback(() => {
     setVisible(false);
     onClose();
   }, [onClose]);
 
-  const prev = () => setCurrent((c) => (c === 0 ? SLIDES.length - 1 : c - 1));
-  const next = () => setCurrent((c) => (c === SLIDES.length - 1 ? 0 : c + 1));
+  const prev = useCallback(() => setCurrent((c) => (c === 0 ? SLIDES.length - 1 : c - 1)), []);
+  const next = useCallback(() => setCurrent((c) => (c === SLIDES.length - 1 ? 0 : c + 1)), []);
+
+  useEffect(() => {
+    if (!visible) return;
+    const overlay = overlayRef.current;
+    const closeBtn = overlay?.querySelector<HTMLButtonElement>('[aria-label="Cerrar"]');
+    closeBtn?.focus();
+  }, [visible]);
+
+  useEffect(() => {
+    if (!visible) return;
+    const overlay = overlayRef.current;
+    if (!overlay) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") { handleClose(); return; }
+      if (e.key === "ArrowLeft") { prev(); return; }
+      if (e.key === "ArrowRight") { next(); return; }
+      if (e.key !== "Tab") return;
+      const focusables = overlay.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    };
+    overlay.addEventListener("keydown", onKey);
+    return () => overlay.removeEventListener("keydown", onKey);
+  }, [visible, handleClose, prev, next]);
 
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-0 bg-bark/80 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+    <div
+      ref={overlayRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Próximos eventos de la Guía de Bienestar"
+      className="fixed inset-0 bg-bark/80 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+    >
       <div className="bg-cream-50 rounded-2xl max-w-md w-full shadow-2xl border border-cream-200 relative overflow-hidden">
         <button
           onClick={handleClose}
+          aria-label="Cerrar"
           className="absolute top-3 right-3 z-20 bg-bark/60 hover:bg-bark/80 text-white rounded-full p-1.5 transition"
         >
-          <X className="h-5 w-5" />
+          <X className="h-5 w-5" aria-hidden="true" />
         </button>
 
         <div className="relative overflow-hidden bg-bark/5 flex items-center justify-center" style={{ height: "50vh", minHeight: "320px", maxHeight: "70vh" }}>
@@ -79,14 +107,17 @@ export default function PopupEventos({ onClose }: Props) {
               className={`absolute inset-0 transition-opacity duration-500 ${
                 i === current ? "opacity-100" : "opacity-0 pointer-events-none"
               }`}
+              aria-hidden={i !== current}
             >
               {slide.tipo === "video" ? (
                 <video
                   src={slide.fuente}
+                  controls
                   autoPlay
                   muted
                   loop
                   playsInline
+                  aria-label={slide.titulo}
                   className="w-full h-full object-contain"
                 />
               ) : (
@@ -96,7 +127,7 @@ export default function PopupEventos({ onClose }: Props) {
                   className="w-full h-full object-contain"
                 />
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-bark/60 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-bark/60 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
               <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
                 <p className="text-xs font-semibold uppercase tracking-wider text-sand-300 mb-1">
                   {slide.fecha}
@@ -115,15 +146,17 @@ export default function PopupEventos({ onClose }: Props) {
             <>
               <button
                 onClick={prev}
+                aria-label="Anterior"
                 className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/40 text-white rounded-full p-1.5 backdrop-blur-sm transition"
               >
-                <ChevronLeft className="h-5 w-5" />
+                <ChevronLeft className="h-5 w-5" aria-hidden="true" />
               </button>
               <button
                 onClick={next}
+                aria-label="Siguiente"
                 className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/40 text-white rounded-full p-1.5 backdrop-blur-sm transition"
               >
-                <ChevronRight className="h-5 w-5" />
+                <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </button>
             </>
           )}
@@ -143,6 +176,8 @@ export default function PopupEventos({ onClose }: Props) {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
+                aria-label={`Ir al evento ${i + 1}`}
+                aria-current={i === current ? "true" : undefined}
                 className={`w-2 h-2 rounded-full transition-all ${
                   i === current ? "bg-sage-600 scale-110" : "bg-cream-300"
                 }`}
@@ -151,7 +186,7 @@ export default function PopupEventos({ onClose }: Props) {
           </div>
           <button
             onClick={handleClose}
-            className="text-xs text-bark-500 hover:text-bark-700 transition"
+            className="text-xs text-bark-600 hover:text-bark-700 transition"
           >
             Cerrar
           </button>

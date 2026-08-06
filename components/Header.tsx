@@ -107,7 +107,7 @@ export default function Header() {
                 }`}
               >
                 Explorar mapa
-                <ArrowUpRight className="h-3.5 w-3.5" />
+                <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
 
               <button
@@ -135,8 +135,8 @@ export default function Header() {
 
       {/* Mobile overlay */}
       <div
-        className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${
-          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        className={`fixed inset-0 z-40 lg:hidden transition-[opacity,visibility] duration-300 ${
+          mobileOpen ? "opacity-100 pointer-events-auto visible" : "opacity-0 pointer-events-none invisible"
         }`}
       >
         <div
@@ -171,7 +171,7 @@ export default function Header() {
                     }}
                   >
                     {link.label}
-                    <ArrowUpRight className="h-4 w-4 opacity-30" />
+                    <ArrowUpRight className="h-4 w-4 opacity-30" aria-hidden="true" />
                   </Link>
                 );
               })}
@@ -184,7 +184,7 @@ export default function Header() {
                 className="btn-sage w-full text-center"
               >
                 Explorar mapa
-                <ArrowUpRight className="h-4 w-4" />
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
           </div>

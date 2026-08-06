@@ -21,20 +21,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const supabase = createClient(url, key);
 
       const [{ data: facilitadores }, { data: categorias }] = await Promise.all([
-        supabase.from("facilitadores").select("id").eq("activo", true),
-        supabase.from("categorias").select("slug"),
+        supabase.from("facilitadores").select("id, created_at").eq("activo", true),
+        supabase.from("categorias").select("slug, created_at"),
       ]);
 
       dynamicPages = [
         ...(facilitadores || []).map((f) => ({
           url: `${base}/facilitadores/${f.id}`,
-          lastModified: new Date(),
+          lastModified: f.created_at ? new Date(f.created_at) : new Date(),
           changeFrequency: "monthly" as const,
           priority: 0.6,
         })),
         ...(categorias || []).map((c) => ({
           url: `${base}/actividades/${c.slug}`,
-          lastModified: new Date(),
+          lastModified: c.created_at ? new Date(c.created_at) : new Date(),
           changeFrequency: "weekly" as const,
           priority: 0.7,
         })),

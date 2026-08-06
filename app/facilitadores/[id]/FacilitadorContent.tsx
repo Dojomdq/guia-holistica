@@ -161,6 +161,42 @@ export default function FacilitadorContent({
             }),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ProfessionalService",
+              name: f.nombre,
+              description: f.bio,
+              url: `${SITE_URL}/facilitadores/${f.id}`,
+              ...(f.foto_url && { image: f.foto_url }),
+              telephone: f.whatsapp || f.telefono || undefined,
+              email: f.email,
+              knowsAbout: f.actividades.map((a) => a.nombre),
+              areaServed: {
+                "@type": "City",
+                name: "Mar del Plata",
+              },
+              ...(f.ubicaciones[0]?.latitud !== undefined && {
+                geo: {
+                  "@type": "GeoCoordinates",
+                  latitude: f.ubicaciones[0].latitud,
+                  longitude: f.ubicaciones[0].longitud,
+                },
+              }),
+              ...(f.ubicaciones[0]?.direccion && {
+                address: {
+                  "@type": "PostalAddress",
+                  streetAddress: f.ubicaciones[0].direccion,
+                  addressLocality: f.ubicaciones[0].ciudad || "Mar del Plata",
+                  addressCountry: "AR",
+                },
+              }),
+              ...(f.instagram && { sameAs: [`https://instagram.com/${f.instagram.replace("@", "")}`] }),
+            }),
+          }}
+        />
         <Breadcrumbs items={[
           { label: "Facilitadores", href: "/facilitadores" },
           { label: f.nombre },

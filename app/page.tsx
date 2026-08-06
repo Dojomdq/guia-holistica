@@ -29,6 +29,7 @@ const jsonLd = {
   "@type": "Organization",
   name: "Guía de Bienestar",
   url: SITE_URL,
+  logo: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png",
   description:
     "Directorio de bienestar. Encontrá terapeutas, facilitadores y guías.",
   areaServed: {
@@ -39,6 +40,22 @@ const jsonLd = {
       name: "Argentina",
     },
   },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Mar del Plata",
+    addressRegion: "Buenos Aires",
+    addressCountry: "AR",
+  },
+  knowsAbout: [
+    "Terapias holísticas",
+    "Yoga",
+    "Meditación",
+    "Reiki",
+    "Chamanismo",
+    "Tarot",
+    "Bienestar",
+    "Facilitadores en Mar del Plata",
+  ],
   sameAs: [INSTAGRAM_URL, WHATSAPP_LINK].filter(Boolean),
 };
 

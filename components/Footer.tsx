@@ -59,6 +59,8 @@ export default function Footer() {
                   { href: "/", label: "Inicio" },
                   { href: "/actividades", label: "Actividades" },
                   { href: "/mapa", label: "Mapa" },
+                  { href: "/acerca", label: "Sobre nosotros" },
+                  { href: "/accesibilidad", label: "Accesibilidad" },
                 ].map((link) => (
                   <Link
                     key={link.label}
@@ -83,14 +85,14 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 text-sm text-cream-100 hover:text-cream-100 transition-colors duration-300 w-fit"
                 >
-                  <MessageCircle className="h-4 w-4 shrink-0" />
+                  <MessageCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
                   WhatsApp
                 </a>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
                   className="flex items-center gap-2.5 text-sm text-cream-100 hover:text-cream-100 transition-colors duration-300 w-fit"
                 >
-                  <Mail className="h-4 w-4 shrink-0" />
+                  <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
                   {CONTACT_EMAIL}
                 </a>
                 <a

@@ -142,6 +142,24 @@ export default function FacilitadoresContent() {
           }),
         }}
       />
+      {!cargando && facilitadores.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              name: "Facilitadores holísticos en Mar del Plata",
+              itemListElement: facilitadores.map((f, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                name: f.nombre,
+                url: `${SITE_URL}/facilitadores/${f.id}`,
+              })),
+            }),
+          }}
+        />
+      )}
       <div className="container-page py-16 sm:py-20 lg:py-24">
         <Breadcrumbs items={[{ label: "Facilitadores" }]} />
         <div
@@ -205,14 +223,16 @@ export default function FacilitadoresContent() {
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
               placeholder="Buscar por nombre o actividad..."
+              aria-label="Buscar por nombre o actividad"
               className="input-field pl-11 pr-10"
             />
             {busqueda && (
               <button
                 onClick={() => setBusqueda("")}
+                aria-label="Limpiar búsqueda"
                 className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200 transition-colors"
               >
-                <X className="h-4 w-4 text-bark-400" />
+                <X className="h-4 w-4 text-bark-400" aria-hidden="true" />
               </button>
             )}
           </div>

@@ -22,6 +22,10 @@ export default function MapaContent() {
       />
       <div className="container-page pt-16 sm:pt-20 lg:pt-24">
         <Breadcrumbs items={[{ label: "Mapa" }]} />
+        <h1 className="heading-lg text-bark mt-4">Mapa de facilitadores holísticos en Mar del Plata</h1>
+        <p className="text-bark-700 mt-2 max-w-xl">
+          Explorá el mapa interactivo para encontrar terapeutas, guías y facilitadores cerca tuyo.
+        </p>
       </div>
       <Suspense
       fallback={

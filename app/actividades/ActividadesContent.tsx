@@ -80,6 +80,24 @@ export default function ActividadesContent() {
           }),
         }}
       />
+      {!cargando && actividades.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              name: "Actividades holísticas disponibles en Mar del Plata",
+              itemListElement: actividades.map((a, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                name: a.nombre,
+                url: `${SITE_URL}/actividades/${a.slug}`,
+              })),
+            }),
+          }}
+        />
+      )}
       <div className="container-page py-16 sm:py-20 lg:py-24">
         <Breadcrumbs items={[{ label: "Actividades" }]} />
         <div
