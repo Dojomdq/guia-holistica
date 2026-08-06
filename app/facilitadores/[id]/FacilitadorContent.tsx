@@ -176,7 +176,7 @@ export default function FacilitadorContent({
               knowsAbout: f.actividades.map((a) => a.nombre),
               areaServed: {
                 "@type": "City",
-                name: "Mar del Plata",
+                name: f.ubicaciones[0]?.ciudad || CITY_NAME,
               },
               ...(f.ubicaciones[0]?.latitud !== undefined && {
                 geo: {
@@ -189,7 +189,7 @@ export default function FacilitadorContent({
                 address: {
                   "@type": "PostalAddress",
                   streetAddress: f.ubicaciones[0].direccion,
-                  addressLocality: f.ubicaciones[0].ciudad || "Mar del Plata",
+                  addressLocality: f.ubicaciones[0].ciudad || CITY_NAME,
                   addressCountry: "AR",
                 },
               }),

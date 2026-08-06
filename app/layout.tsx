@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import FloatingCTA from "@/components/FloatingCTA";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_URL, CITY_NAME } from "@/lib/constants";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -29,15 +29,15 @@ export const metadata: Metadata = {
   description:
     "Encontrá facilitadores, terapeutas y guías cerca tuyo. Mapa interactivo con chamanismo, yoga, reiki, meditación, tarot y más.",
   keywords: [
-    "holístico Mar del Plata",
-    "chamanismo Mar del Plata",
-    "yoga Mar del Plata",
-    "reiki Mar del Plata",
-    "meditación Mar del Plata",
-    "terapias holísticas",
+    `bienestar ${CITY_NAME}`,
+    `chamanismo ${CITY_NAME}`,
+    `yoga ${CITY_NAME}`,
+    `reiki ${CITY_NAME}`,
+    `meditación ${CITY_NAME}`,
+    "terapias de bienestar",
     "sanación energética",
-    "facilitadores holísticos",
-    "tarot Mar del Plata",
+    "profesionales de bienestar",
+    `tarot ${CITY_NAME}`,
     "aromaterapia",
     "masajes terapéuticos",
   ],

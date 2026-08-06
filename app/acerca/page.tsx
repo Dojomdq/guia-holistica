@@ -24,7 +24,7 @@ const jsonLd = {
     "Directorio gratuito de facilitadores, terapeutas y guías de bienestar.",
   areaServed: { "@type": "City", name: CITY_NAME },
   knowsAbout: [
-    "Terapias holísticas",
+    "Terapias de bienestar",
     "Yoga",
     "Meditación",
     "Reiki",
@@ -70,7 +70,7 @@ export default function AcercaPage() {
             </h2>
             <p className="text-bark-700 mt-2 leading-relaxed">
               Es un directorio gratuito y de acceso abierto que reúne a
-              facilitadores, terapeutas y guías de prácticas holísticas. Cada
+              facilitadores, terapeutas y guías de prácticas de bienestar. Cada
               perfil muestra sus actividades, su ubicación en el mapa y su
               contacto directo, para que quienes buscan puedan conectar sin
               intermediarios.

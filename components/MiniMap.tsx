@@ -5,9 +5,10 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 import { getEmoji, getMarkerColor } from "@/lib/categories";
+import { CITY_COORDS, CITY_NAME } from "@/lib/constants";
 import ClusteredMarkers from "@/components/ClusteredMarkers";
 
-const defaultPosition: [number, number] = [-38.0055, -57.5426];
+const defaultPosition: [number, number] = CITY_COORDS[CITY_NAME] ?? [-38, -57];
 
 export default function MiniMap() {
   const [facilitadores, setFacilitadores] = useState<
@@ -39,7 +40,7 @@ export default function MiniMap() {
             lat: f.latitud,
             lng: f.longitud,
             actividad:
-              f.facilitador_actividades?.[0]?.actividades?.nombre || "Holística",
+              f.facilitador_actividades?.[0]?.actividades?.nombre || "Profesional",
             slug: f.facilitador_actividades?.[0]?.actividades?.slug || "",
           }))
         );

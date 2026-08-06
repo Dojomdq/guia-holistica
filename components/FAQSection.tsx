@@ -21,14 +21,14 @@ const faqs = [
       "Sí, cada facilitador pasa por un proceso de verificación antes de ser publicado en la guía. Trabajamos para mantener la calidad y confiabilidad de la información.",
   },
   {
-    pregunta: "¿Puedo publicar mi práctica holística?",
+    pregunta: "¿Puedo publicar mi práctica de bienestar?",
     respuesta:
-      "¡Por supuesto! Si sos facilitador o terapeuta holístico, escribinos para sumarte a la guía. Es gratuito y te ayuda a que más personas te encuentren.",
+      "¡Por supuesto! Si sos profesional de bienestar, escribinos para sumarte a la guía. Es gratuito y te ayuda a que más personas te encuentren.",
   },
   {
     pregunta: "¿Qué actividades puedo encontrar?",
     respuesta:
-      "Tenemos 18 categorías incluyendo yoga, reiki, meditación, chamanismo, tarot, astrología, aromaterapia, masajes terapéuticos, sanación energética y muchas más.",
+      "Tenemos múltiples categorías incluyendo yoga, reiki, meditación, chamanismo, tarot, astrología, aromaterapia, masajes terapéuticos, sanación energética y muchas más.",
   },
 ];
 

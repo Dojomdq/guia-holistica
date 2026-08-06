@@ -117,6 +117,10 @@
   .section-label {
     @apply font-mono text-[11px] font-medium tracking-[0.14em] uppercase text-sage-600;
   }
+
+  .section-pad {
+    @apply py-14 sm:py-20;
+  }
 }
 
 @layer utilities {
