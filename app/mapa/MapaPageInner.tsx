@@ -194,15 +194,15 @@ export default function MapaPageInner() {
       >
         {/* Sidebar — overlay on mobile, side panel on desktop */}
         <div
-          className={`md:relative md:w-[300px] md:flex-shrink-0 md:border-r md:rounded-none md:translate-y-0 absolute bottom-0 left-0 right-0 z-20 max-h-[60vh] rounded-t-2xl bg-cream-100 border border-cream-200 flex flex-col transition-all duration-500 ease-out-expo overflow-hidden ${
+          className={`md:relative md:w-[300px] md:flex-shrink-0 md:border-r md:rounded-none md:translate-y-0 absolute bottom-0 left-0 right-0 z-20 max-h-[40vh] rounded-t-2xl bg-cream-100 border border-cream-200 flex flex-col transition-all duration-500 ease-out-expo overflow-hidden ${
             panelAbierto
               ? "translate-y-0"
               : "translate-y-full md:w-0 md:border-r-0"
           }`}
         >
           <div className="md:hidden w-10 h-1.5 bg-cream-300 rounded-full mx-auto mt-3 mb-1" />
-          <div className="p-4 border-b border-cream-200/60">
-            <div className="flex items-center justify-between mb-3">
+          <div className="p-3 border-b border-cream-200/60">
+            <div className="flex items-center justify-between mb-2">
               <h2 className="font-serif text-base font-medium text-bark tracking-tight">
                 Actividades
               </h2>
@@ -220,10 +220,10 @@ export default function MapaPageInner() {
             )}
           </div>
 
-          {/* City selector */}
+           {/* City selector */}
           {mostrarSelectorCiudad && (
-            <div className="mb-3">
-              <label className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark-500 mb-1.5 block">
+            <div className="mb-2">
+              <label className="text-[10px] font-mono font-medium tracking-[0.14em] uppercase text-bark-500 mb-1 block">
                 Ciudad
               </label>
               <div className="flex flex-wrap gap-1.5">
@@ -341,23 +341,23 @@ export default function MapaPageInner() {
                         facilitadorSeleccionado === f.id ? null : f.id
                       )
                     }
-                    className={`w-full p-3.5 text-left hover:bg-cream-200/40 transition-all duration-200 ${
+                    className={`w-full p-2.5 text-left hover:bg-cream-200/40 transition-all duration-200 ${
                       facilitadorSeleccionado === f.id ? "bg-cream-200/40" : ""
                     }`}
                   >
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-2.5">
                       <div
-                        className="flex h-9 w-9 items-center justify-center rounded-lg shrink-0"
+                        className="flex h-7 w-7 items-center justify-center rounded-md shrink-0"
                         style={{ backgroundColor: `${color}08` }}
                       >
                         <Icon
-                          className="h-4 w-4"
+                          className="h-3.5 w-3.5"
                           style={{ color }}
                           strokeWidth={1.5}
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap gap-1 mb-1">
+                        <div className="flex flex-wrap gap-0.5 mb-0.5">
                           {f.actividades.map((a) => (
                             <span
                               key={a.id}
@@ -367,7 +367,7 @@ export default function MapaPageInner() {
                             </span>
                           ))}
                         </div>
-                        <h3 className="font-medium text-bark text-[13px]">
+                        <h3 className="font-medium text-bark text-[12px]">
                           {f.nombre}
                         </h3>
                         {f.ubicaciones.map((u, i) => (
