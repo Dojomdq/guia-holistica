@@ -9,12 +9,14 @@ import {
   ArrowLeft,
   MessageCircle,
   Mail,
+  Sparkles,
 } from "lucide-react";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { SITE_URL } from "@/lib/constants";
+import { SITE_URL, CITY_NAME, WHATSAPP_LINK } from "@/lib/constants";
+import { useClickTracker } from "@/lib/useClickTracker";
 import type { Ubicacion } from "@/lib/types";
 
 const MiniMapDetail = dynamic(() => import("@/components/MiniMapDetail"), {
@@ -46,6 +48,7 @@ export default function FacilitadorContent({
   const [f, setF] = useState<FacilitadorData | null>(null);
   const [cargando, setCargando] = useState(true);
   const [noExiste, setNoExiste] = useState(false);
+  const track = useClickTracker();
 
   useEffect(() => {
     async function load() {
@@ -114,7 +117,7 @@ export default function FacilitadorContent({
       <div className="section-pad">
         <div className="container-page text-center max-w-3xl">
           <p className="text-bark-500 text-body-lg mb-6">
-            Facilitador no encontrado
+            Profesional no encontrado
           </p>
           <Link href="/facilitadores" className="btn-ghost">
             <ArrowLeft className="h-4 w-4" />
@@ -126,133 +129,107 @@ export default function FacilitadorContent({
   }
 
   const Icon = getCategoryIcon(f.actividades[0]?.slug || "");
-  const color =
-    CATEGORY_MARKER_COLORS[f.actividades[0]?.slug || ""] || "#5d8a6e";
+  const color = CATEGORY_MARKER_COLORS[f.actividades[0]?.slug || ""] || "#5d8a6e";
+  const ubiPrincipal = f.ubicaciones[0];
 
   return (
-    <div className="section-pad">
-      <div className="container-page max-w-3xl">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                { "@type": "ListItem", position: 1, name: "Inicio", item: SITE_URL },
-                { "@type": "ListItem", position: 2, name: "Facilitadores", item: `${SITE_URL}/facilitadores` },
-                { "@type": "ListItem", position: 3, name: f.nombre },
-              ],
-            }),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: f.nombre,
-              description: f.bio,
-              email: f.email,
-              url: `${SITE_URL}/facilitadores/${f.id}`,
-              ...(f.instagram && { sameAs: [`https://instagram.com/${f.instagram.replace("@", "")}`] }),
-              ...(f.sitio_web && { url: f.sitio_web }),
-            }),
-          }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "ProfessionalService",
-              name: f.nombre,
-              description: f.bio,
-              url: `${SITE_URL}/facilitadores/${f.id}`,
-              ...(f.foto_url && { image: f.foto_url }),
-              telephone: f.whatsapp || f.telefono || undefined,
-              email: f.email,
-              knowsAbout: f.actividades.map((a) => a.nombre),
-              areaServed: {
-                "@type": "City",
-                name: f.ubicaciones[0]?.ciudad || CITY_NAME,
+    <div className="min-h-screen bg-gradient-to-b from-cream-50 via-white to-cream-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Inicio", item: SITE_URL },
+              { "@type": "ListItem", position: 2, name: "Facilitadores", item: `${SITE_URL}/facilitadores` },
+              { "@type": "ListItem", position: 3, name: f.nombre },
+            ],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ProfessionalService",
+            name: f.nombre,
+            description: f.bio,
+            url: `${SITE_URL}/facilitadores/${f.id}`,
+            ...(f.foto_url && { image: f.foto_url }),
+            telephone: f.whatsapp || f.telefono || undefined,
+            email: f.email,
+            knowsAbout: f.actividades.map((a) => a.nombre),
+            areaServed: {
+              "@type": "City",
+              name: ubiPrincipal?.ciudad || CITY_NAME,
+            },
+            ...(ubiPrincipal?.latitud !== undefined && {
+              geo: {
+                "@type": "GeoCoordinates",
+                latitude: ubiPrincipal.latitud,
+                longitude: ubiPrincipal.longitud,
               },
-              ...(f.ubicaciones[0]?.latitud !== undefined && {
-                geo: {
-                  "@type": "GeoCoordinates",
-                  latitude: f.ubicaciones[0].latitud,
-                  longitude: f.ubicaciones[0].longitud,
-                },
-              }),
-              ...(f.ubicaciones[0]?.direccion && {
-                address: {
-                  "@type": "PostalAddress",
-                  streetAddress: f.ubicaciones[0].direccion,
-                  addressLocality: f.ubicaciones[0].ciudad || CITY_NAME,
-                  addressCountry: "AR",
-                },
-              }),
-              ...(f.instagram && { sameAs: [`https://instagram.com/${f.instagram.replace("@", "")}`] }),
             }),
-          }}
-        />
+            ...(ubiPrincipal?.direccion && {
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: ubiPrincipal.direccion,
+                addressLocality: ubiPrincipal.ciudad || CITY_NAME,
+                addressCountry: "AR",
+              },
+            }),
+            ...(f.instagram && { sameAs: [`https://instagram.com/${f.instagram.replace("@", "")}`] }),
+          }),
+        }}
+      />
+
+      <div className="container-page max-w-3xl py-10 sm:py-14">
         <Breadcrumbs items={[
           { label: "Facilitadores", href: "/facilitadores" },
           { label: f.nombre },
         ]} />
         <Link
           href="/facilitadores"
-          className="inline-flex items-center gap-1.5 text-bark-500 hover:text-bark-700 text-[13px] mb-8 transition-colors group"
+          className="inline-flex items-center gap-1.5 text-bark-500 hover:text-bark-700 text-[13px] my-5 transition-colors group"
         >
           <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
           Volver
         </Link>
 
-        <div className="bg-white rounded-2xl border border-cream-200 overflow-hidden shadow-soft">
-          <div className="p-7 md:p-10">
-            <div className="flex flex-col md:flex-row gap-6 md:gap-8">
-              <div className="flex-shrink-0">
-                <div
-                  className="h-20 w-20 rounded-2xl flex items-center justify-center transition-transform duration-300 hover:scale-105"
-                  style={{ backgroundColor: `${color}0A` }}
-                >
-                  <Icon className="h-9 w-9" style={{ color }} strokeWidth={1.5} />
-                </div>
+        <div className="bg-white rounded-2xl border border-cream-200/80 shadow-lg overflow-hidden">
+          <div className="p-6 sm:p-8">
+            <div className="flex flex-col sm:flex-row gap-5 sm:gap-6">
+              <div
+                className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center shrink-0"
+                style={{ backgroundColor: `${color}12` }}
+              >
+                <Icon className="h-8 w-8 sm:h-9 sm:w-9" style={{ color }} strokeWidth={1.5} />
               </div>
 
               <div className="flex-1">
-                <h1 className="heading-md text-bark mb-3">
+                <h1 className="font-serif text-2xl sm:text-3xl font-medium text-bark mb-2">
                   {f.nombre}
                 </h1>
-                <div className="flex flex-wrap gap-1.5 mb-5">
+                <div className="flex flex-wrap gap-1.5 mb-4">
                   {f.actividades.map((a) => (
-                    <span key={a.id} className="badge">
-                      {a.nombre}
-                    </span>
+                    <span key={a.id} className="badge">{a.nombre}</span>
                   ))}
                 </div>
 
                 {f.bio && (
-                  <p className="body-lg mb-6">{f.bio}</p>
+                  <p className="text-bark-700 leading-relaxed mb-5">{f.bio}</p>
                 )}
 
                 <div className="flex flex-wrap gap-2.5">
-                  {f.email && (
-                    <a
-                      href={`mailto:${f.email}`}
-                      className="btn-dark text-[13px]"
-                    >
-                      <Mail className="h-4 w-4" />
-                      Email
-                    </a>
-                  )}
                   {f.whatsapp && (
                     <a
                       href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-sage text-[13px]"
+                      onClick={() => track("whatsapp", f.id)}
                     >
                       <MessageCircle className="h-4 w-4" />
                       WhatsApp
@@ -267,6 +244,15 @@ export default function FacilitadorContent({
                     >
                       <InstagramIcon className="h-4 w-4" />
                       Instagram
+                    </a>
+                  )}
+                  {f.email && (
+                    <a
+                      href={`mailto:${f.email}`}
+                      className="btn-outline text-[13px]"
+                    >
+                      <Mail className="h-4 w-4" />
+                      Email
                     </a>
                   )}
                   {f.sitio_web && (
@@ -284,35 +270,65 @@ export default function FacilitadorContent({
               </div>
             </div>
 
-            {f.ubicaciones && f.ubicaciones.length > 0 && (
-              <div className="mt-10 pt-8 divider">
-                <div className="flex items-center gap-2 mb-4">
-                  <MapPin className="h-4 w-4 text-bark-400" />
-                  <h2 className="text-[15px] font-medium text-bark-700">
-                    {f.ubicaciones.length > 1 ? "Ubicaciones" : "Ubicación"}
-                  </h2>
-                </div>
-                <div className="space-y-4">
+            {f.ubicaciones.length > 0 && (
+              <div className="mt-8 pt-8 border-t border-cream-200/60">
+                <h2 className="font-serif text-lg font-medium text-bark mb-5 flex items-center gap-2">
+                  <MapPin className="h-5 w-5 text-sage-600" />
+                  {f.ubicaciones.length > 1 ? "Ubicaciones" : "Ubicación"}
+                </h2>
+
+                <div className="space-y-5">
                   {f.ubicaciones.map((u, i) => (
                     <div key={u.id}>
-                      {f.ubicaciones.length > 1 && (
-                        <p className="text-[13px] font-medium text-bark-600 mb-2 flex items-center gap-1.5">
-                          <MapPin className="h-3.5 w-3.5 text-bark-300" />
-                          {u.direccion || `Ubicación ${i + 1}`}
-                        </p>
-                      )}
-                      <div className="rounded-xl overflow-hidden border border-cream-200">
-                        <MiniMapDetail
-                          lat={u.latitud}
-                          lng={u.longitud}
-                          nombre={f.nombre}
-                        />
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
+                          style={{ backgroundColor: `${color}10` }}>
+                          <MapPin className="h-4 w-4" style={{ color }} />
+                        </div>
+                        <div>
+                          {f.ubicaciones.length > 1 && (
+                            <p className="text-[11px] font-mono font-medium tracking-[0.1em] uppercase text-bark-500 mb-0.5">
+                              Sede {i + 1}
+                            </p>
+                          )}
+                          <p className="text-bark font-medium">
+                            {u.direccion || "Consultar dirección"}
+                          </p>
+                          {u.ciudad && (
+                            <p className="text-sm text-bark-500 mt-0.5">{u.ciudad}</p>
+                          )}
+                        </div>
                       </div>
+
+                      {u.latitud && u.longitud && (
+                        <div className="rounded-xl overflow-hidden border border-cream-200 shadow-sm">
+                          <MiniMapDetail
+                            lat={u.latitud}
+                            lng={u.longitud}
+                            nombre={f.nombre}
+                          />
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
               </div>
             )}
+
+            <div className="mt-10 pt-8 border-t border-cream-200/60 text-center">
+              <p className="text-sm text-bark-500 mb-4">
+                ¿Querés sumar tu perfil como {f.nombre}?
+              </p>
+              <a
+                href={`${WHATSAPP_LINK}?text=Hola%20quiero%20sumar%20mi%20perfil%20a%20la%20Gu%C3%ADa%20de%20Bienestar`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-sage-600 text-white rounded-full text-sm font-medium hover:bg-terracotta-600 transition-colors"
+              >
+                <Sparkles className="h-4 w-4" />
+                Sumá tu perfil
+              </a>
+            </div>
           </div>
         </div>
       </div>
