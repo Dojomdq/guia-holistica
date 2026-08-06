@@ -28,33 +28,28 @@ interface Props {
   dimOthers?: boolean;
 }
 
-function createEmojiIcon(emoji: string, isSelected: boolean): L.DivIcon {
-  const size = isSelected ? 44 : 36;
-  const fontSize = isSelected ? "22px" : "18px";
+function createDotIcon(color: string, isSelected: boolean): L.DivIcon {
+  const size = isSelected ? 28 : 20;
+  const borderWidth = isSelected ? 3 : 2;
   const shadow = isSelected
-    ? "0 4px 16px rgba(0,0,0,0.25), 0 0 0 3px rgba(90,143,143,0.25)"
-    : "0 2px 8px rgba(0,0,0,0.12)";
+    ? "0 3px 12px rgba(0,0,0,0.30), 0 0 0 4px rgba(255,255,255,0.90)"
+    : "0 1.5px 6px rgba(0,0,0,0.20), 0 0 0 2.5px rgba(255,255,255,0.85)";
 
   return new L.DivIcon({
     html: `<div style="
       width: ${size}px;
       height: ${size}px;
-      background: #fff;
+      background: ${color};
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: ${fontSize};
       box-shadow: ${shadow};
-      border: 2px solid white;
-      line-height: 1;
       cursor: pointer;
       transition: all 0.2s ease;
-    ">${emoji}</div>`,
+      box-sizing: border-box;
+    "></div>`,
     className: "",
-    iconSize: [size, size],
-    iconAnchor: [size / 2, size / 2],
-    popupAnchor: [0, -(size / 2)],
+    iconSize: [size + borderWidth * 2, size + borderWidth * 2],
+    iconAnchor: [size / 2 + borderWidth, size / 2 + borderWidth],
+    popupAnchor: [0, -(size / 2 + borderWidth)],
   });
 }
 
@@ -152,13 +147,13 @@ export default function ClusteredMarkers({
         if (g.items.length === 1) {
           const item = g.items[0];
           const isSelected = selectedId === item.id;
-          const icon = createEmojiIcon(item.emoji, isSelected);
+          const icon = createDotIcon(item.color, isSelected);
           return (
             <Marker
               key={item.id}
               position={[item.lat, item.lng]}
               icon={icon}
-              opacity={dimOthers && selectedId && !isSelected ? 0.35 : 1}
+              opacity={dimOthers && selectedId && !isSelected ? 0.3 : 1}
               eventHandlers={{ click: () => onSelect?.(item.id) }}
             >
               {renderPopup && (
