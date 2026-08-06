@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Actividades | Guía de Bienestar",
     description:
-      "Explorá todas las actividades holísticas disponibles en Mar del Plata: chamanismo, yoga, reiki, meditación, tarot y más.",
+      "Explorá todas las actividades de bienestar disponibles: chamanismo, yoga, reiki, meditación, tarot y más.",
   },
   alternates: {
     canonical: `${SITE_URL}/actividades`,

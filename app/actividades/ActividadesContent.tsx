@@ -87,7 +87,7 @@ export default function ActividadesContent() {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "ItemList",
-              name: "Actividades holísticas disponibles en Mar del Plata",
+              name: "Actividades de bienestar disponibles",
               itemListElement: actividades.map((a, i) => ({
                 "@type": "ListItem",
                 position: i + 1,
@@ -145,12 +145,12 @@ export default function ActividadesContent() {
                   onClick={() => track("actividad", a.slug)}
                 >
                   <div
-                    className={`bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-200 hover:scale-105 hover:shadow-lg h-full ${
+                    className={`bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-200 hover:scale-[1.02] hover:shadow-lg h-full ${
                       isVisible
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-4"
                     }`}
-                    style={{ transitionDelay: `${i * 30}ms` }}
+                    style={{ borderLeftWidth: 3, borderLeftColor: markerColor, transitionDelay: `${i * 30}ms` }}
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div
