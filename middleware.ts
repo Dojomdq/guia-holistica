@@ -1,48 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export const config = {
-  matcher: ["/admin", "/admin/:path*", "/api/:path*"],
-};
+const AUTH_COOKIE = "admin_auth";
 
-export function middleware(request: NextRequest) {
+function checkAuth(request: NextRequest): string | null {
+  return request.cookies.get(AUTH_COOKIE)?.value || null;
+}
+
+export default function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  if (pathname === "/admin/login") {
+    return NextResponse.next();
+  }
 
   if (!pathname.startsWith("/admin") && !pathname.startsWith("/api")) {
     return NextResponse.next();
   }
 
-  if (pathname === "/admin/logout") {
-    return new NextResponse("Sesión cerrada", {
-      status: 401,
-      headers: {
-        "WWW-Authenticate": 'Basic realm="Admin", charset="UTF-8"',
-      },
-    });
-  }
+  const token = checkAuth(request);
 
-  const user = process.env.ADMIN_USER;
-  const pass = process.env.ADMIN_PASS;
-  if (!user || !pass) {
-    return new NextResponse("Configuración de admin no encontrada", { status: 500 });
-  }
-
-  const authHeader = request.headers.get("authorization");
-
-  if (authHeader) {
-    const [scheme, encoded] = authHeader.split(" ");
-    if (scheme === "Basic" && encoded) {
-      const decoded = atob(encoded);
+  if (token) {
+    try {
+      const decoded = atob(token);
       const [u, p] = decoded.split(":");
-      if (u === user && p === pass) {
+      if (u === process.env.ADMIN_USER && p === process.env.ADMIN_PASS) {
         return NextResponse.next();
       }
-    }
+    } catch {}
   }
 
-  return new NextResponse("Autenticación requerida", {
-    status: 401,
-    headers: {
-      "WWW-Authenticate": 'Basic realm="Admin"',
-    },
-  });
+  if (pathname.startsWith("/admin")) {
+    const loginUrl = new URL("/admin/login", request.url);
+    loginUrl.searchParams.set("from", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  return new NextResponse("No autorizado", { status: 401 });
 }
+
+export const config = {
+  matcher: ["/admin", "/admin/:path*", "/api/:path*"],
+};
