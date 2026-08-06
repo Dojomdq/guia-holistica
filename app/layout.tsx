@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import FloatingCTA from "@/components/FloatingCTA";
+import ThemeProvider from "@/app/ThemeProvider";
 import { SITE_URL, CITY_NAME } from "@/lib/constants";
 
 const dmSans = DM_Sans({
@@ -114,11 +115,13 @@ export default function RootLayout({
             />
           </>
         )}
+        <ThemeProvider>
         <Header />
         <main id="main" tabIndex={-1}>{children}</main>
         <Footer />
         <ScrollToTop />
         <FloatingCTA />
+      </ThemeProvider>
       </body>
     </html>
   );

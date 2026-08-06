@@ -11,8 +11,8 @@
   }
 
   body {
-    @apply bg-cream-50 text-bark font-normal;
-    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "cv01" 1, "cv02" 1;
+    @apply bg-cream-50 text-bark font-normal dark:bg-bark-950 dark:text-cream-100;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
   }
 
   :root {
@@ -94,15 +94,15 @@
   }
 
   .input-field {
-    @apply w-full px-5 py-3.5 bg-white border border-cream-300 rounded-xl text-bark placeholder:text-bark-500 focus:outline-none focus:ring-2 focus:ring-sage-500/20 focus:border-sage-400 transition-all duration-300;
+    @apply w-full px-5 py-3.5 bg-white border border-cream-300 rounded-xl text-bark placeholder:text-bark-500 focus:outline-none focus:ring-2 focus:ring-sage-500/20 focus:border-sage-400 transition-all duration-300 dark:bg-bark-900 dark:border-bark-700 dark:text-cream-100 dark:placeholder:text-bark-400;
   }
 
   .card {
-    @apply bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-300 hover:shadow-medium hover:border-cream-300;
+    @apply bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-300 hover:shadow-medium hover:border-cream-300 dark:bg-bark-900 dark:border-bark-700 dark:hover:border-bark-600;
   }
 
   .badge {
-    @apply inline-flex items-center gap-1 px-2.5 py-1 bg-sage-50 text-sage-700 text-[11px] font-medium rounded-md border border-sage-200;
+    @apply inline-flex items-center gap-1 px-2.5 py-1 bg-sage-50 text-sage-700 text-[11px] font-medium rounded-md border border-sage-200 dark:bg-sage-900/40 dark:text-sage-300 dark:border-sage-800;
   }
 
   .noise-overlay {

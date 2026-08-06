@@ -6,7 +6,7 @@ import { WHATSAPP_LINK, CONTACT_EMAIL, INSTAGRAM_URL, INSTAGRAM_HANDLE } from "@
 
 export default function Footer() {
   return (
-    <footer className="bg-warmblack relative overflow-hidden">
+    <footer className="bg-warmblack dark:bg-bark-950 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay noise-overlay pointer-events-none" />
 
       <div className="relative container-wide py-12">
