@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 import { useScrollReveal } from "@/lib/useScrollReveal";
+import { getMarkerColor } from "@/lib/categories";
 
 const DEFAULT_EMOJIS: Record<string, string> = {
   yoga: "🧘", reiki: "🖐️", meditacion: "🧠", chamanismo: "🪶",
@@ -73,7 +74,11 @@ export default function CategoryGrid() {
                   className={`group flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white border border-cream-300/50 hover:border-sage-300 hover:bg-sage-50 hover:shadow-md transition-all duration-300 ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                   }`}
-                  style={{ transitionDelay: `${Math.min(i * 40, 400)}ms` }}
+                  style={{
+                    borderLeftWidth: 3,
+                    borderLeftColor: getMarkerColor(cat.slug),
+                    transitionDelay: `${Math.min(i * 40, 400)}ms`,
+                  }}
                 >
                   <span className="text-base leading-none" aria-hidden="true">{cat.emoji}</span>
                   <span className="text-[13px] font-medium text-bark-600 group-hover:text-bark leading-tight transition-colors duration-300">

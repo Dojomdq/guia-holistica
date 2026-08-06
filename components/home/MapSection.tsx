@@ -81,9 +81,6 @@ export default function MapSection() {
                   <h3 className="font-serif text-xl sm:text-2xl font-medium text-bark">
                     Descubrí a todos los profesionales en el mapa
                   </h3>
-                  <p className="text-bark-600 text-sm sm:text-base mt-2 max-w-sm mx-auto">
-                    Vista previa del mapa interactivo de Mar del Plata.
-                  </p>
                   <button
                     onClick={() => setMapaCargado(true)}
                     className="mt-6 inline-flex items-center gap-2 px-7 py-3.5 bg-sage-600 text-white rounded-full text-sm font-medium hover:bg-terracotta-600 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
-import { getEmoji } from "@/lib/categories";
+import { getEmoji, getMarkerColor } from "@/lib/categories";
 import ClusteredMarkers from "@/components/ClusteredMarkers";
 
 const defaultPosition: [number, number] = [-38.0055, -57.5426];
@@ -68,6 +68,7 @@ export default function MiniMap() {
             lng: f.lng,
             emoji: getEmoji(f.slug),
             nombre: f.nombre,
+            color: getMarkerColor(f.slug),
             data: f,
           }))}
           renderPopup={(item) => {

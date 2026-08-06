@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 import Link from "next/link";
 
-import { getEmoji } from "@/lib/categories";
+import { getEmoji, getMarkerColor } from "@/lib/categories";
 import ClusteredMarkers from "@/components/ClusteredMarkers";
 import { useClickTracker } from "@/lib/useClickTracker";
 import { CITY_COORDS } from "@/lib/constants";
@@ -116,6 +116,7 @@ export default function MapaInteractivo({
             lng: m.ubicacion.longitud,
             emoji: getEmoji(slug),
             nombre: m.facilitador.nombre,
+            color: getMarkerColor(slug),
             data: m,
           };
         })}

@@ -9,7 +9,7 @@ import { CITY_NAME } from "@/lib/constants";
 const BENEFICIOS = [
   { emoji: "🔍", texto: "Búsqueda rápida" },
   { emoji: "🤝", texto: "Contacto directo" },
-  { emoji: "✅", texto: "Perfiles verificados" },
+  { emoji: "✅", texto: "Calidad y confianza" },
   { emoji: "📍", texto: "Cerca tuyo" },
 ];
 
@@ -44,10 +44,10 @@ export default function NewHero() {
             </span>
           </div>
 
-          <h1 className={`heading-xl text-white mb-5 transition-all duration-1000 ease-out ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            Encontrá terapeutas y guías
-            <br />
-            de <span className="text-sage-100">bienestar</span> en Mar del Plata
+          <h1 className={`heading-xl text-white mb-5 text-balance transition-all duration-1000 ease-out ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            Encontrá terapeutas y guías de{" "}
+            <span className="text-sage-100">bienestar</span>{" "}
+            en Mar del Plata
           </h1>
 
           <p className={`text-cream-100/90 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10 transition-all duration-700 delay-300 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>

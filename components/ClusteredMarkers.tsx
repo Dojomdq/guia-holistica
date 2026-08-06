@@ -10,6 +10,7 @@ export interface ClusterMarkerItem {
   lng: number;
   emoji: string;
   nombre: string;
+  color: string;
   data?: unknown;
 }
 
@@ -57,41 +58,17 @@ function createEmojiIcon(emoji: string, isSelected: boolean): L.DivIcon {
   });
 }
 
-function createClusterIcon(count: number, emoji: string): L.DivIcon {
-  const size = 40;
+function createClusterIcon(color: string): L.DivIcon {
+  const size = 32;
   return new L.DivIcon({
     html: `<div style="
       width: ${size}px;
       height: ${size}px;
-      background: #fff;
+      background: ${color};
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 19px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.18);
-      border: 2px solid white;
-      line-height: 1;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.28), 0 0 0 3px rgba(255,255,255,0.85);
       cursor: pointer;
-      position: relative;
-    ">${emoji}<span style="
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      background: #B5654F;
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      font-family: ui-sans-serif, system-ui, sans-serif;
-      min-width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #fff;
-      padding: 0 3px;
-    ">${count}</span></div>`,
+    "></div>`,
     className: "",
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
@@ -193,7 +170,7 @@ export default function ClusteredMarkers({
           );
         }
 
-        const icon = createClusterIcon(g.items.length, g.items[0].emoji);
+        const icon = createClusterIcon(g.items[0].color);
         return (
           <Marker
             key={g.items.map((i) => i.id).join("|")}

@@ -140,12 +140,15 @@ export default function MapaPageInner() {
 
     if (busqueda.trim()) {
       const q = normalizeText(busqueda.trim());
-      results = results.filter((f) =>
-        f.actividades.some(
-          (a) =>
-            normalizeText(a.nombre).includes(q) ||
-            normalizeText(a.slug).includes(q)
-        )
+      results = results.filter(
+        (f) =>
+          normalizeText(f.nombre).includes(q) ||
+          f.actividades.some(
+            (a) =>
+              normalizeText(a.nombre).includes(q) ||
+              normalizeText(a.slug).includes(q)
+          ) ||
+          f.ubicaciones.some((u) => normalizeText(u.ciudad).includes(q))
       );
     }
 
@@ -260,7 +263,6 @@ export default function MapaPageInner() {
                 onChange={(e) => handleBusqueda(e.target.value)}
                 placeholder="Buscá una actividad..."
                 className="input-field pl-10 pr-10 py-2.5 text-[13px] w-full"
-                disabled={!ciudadSeleccionada && mostrarSelectorCiudad}
               />
               {busqueda && (
                 <button
@@ -281,11 +283,6 @@ export default function MapaPageInner() {
               </button>
             )}
           </div>
-          {!ciudadSeleccionada && mostrarSelectorCiudad && (
-            <p className="text-[11px] text-bark-400 mt-2 text-center">
-              Seleccioná una ciudad para explorar actividades
-            </p>
-          )}
         </div>
 
         {/* List */}
