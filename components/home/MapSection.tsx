@@ -71,7 +71,7 @@ export default function MapSection() {
 
                 <div className="absolute top-4 left-4 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-full px-3.5 py-1.5 shadow-medium border border-cream-300/50" aria-hidden="true">
                   <MapPin className="h-3.5 w-3.5 text-sage-600" />
-                  <span className="text-xs font-medium text-bark">Mar del Plata</span>
+                  <span className="text-xs font-medium text-bark">Tu ciudad</span>
                 </div>
 
                 <div className="relative z-10 text-center px-6">

@@ -47,7 +47,7 @@ export default function NewHero() {
           <h1 className={`heading-xl text-white mb-5 text-balance transition-all duration-1000 ease-out ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
             Encontrá terapeutas y guías de{" "}
             <span className="text-sage-100">bienestar</span>{" "}
-            en Mar del Plata
+            en tu ciudad
           </h1>
 
           <p className={`text-cream-100/90 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10 transition-all duration-700 delay-300 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>

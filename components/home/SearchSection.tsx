@@ -15,7 +15,7 @@ const MODOS: { id: SearchMode; label: string; placeholder: string }[] = [
   {
     id: "ciudad",
     label: "Ciudad",
-    placeholder: "Buscá por ciudad (Mar del Plata)...",
+    placeholder: "Buscá por ciudad...",
   },
   {
     id: "nombre",

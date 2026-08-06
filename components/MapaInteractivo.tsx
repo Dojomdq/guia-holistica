@@ -145,9 +145,15 @@ export default function MapaInteractivo({
                   {m.facilitador.bio}
                 </p>
               )}
-              <p className="text-[11px] text-bark-500 mb-2.5">
-                {m.ubicacion.direccion || "Ubicación sin dirección"}
-              </p>
+              <p className="text-[11px] text-bark-500 mb-2.5 flex items-baseline gap-1.5">
+    <span>{m.ubicacion.direccion || "Sin dirección"}</span>
+    {m.ubicacion.ciudad && (
+      <>
+        <span className="text-bark-300">·</span>
+        <span className="text-bark-400">{m.ubicacion.ciudad}</span>
+      </>
+    )}
+  </p>
               <div className="flex gap-2">
                 <Link
                   href={`/facilitadores/${m.facilitador.id}`}

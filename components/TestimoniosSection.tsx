@@ -1,17 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { Star } from "lucide-react";
 import { useScrollReveal } from "@/lib/useScrollReveal";
 import { INSTAGRAM_URL } from "@/lib/constants";
 
-const testimonios = [
-  {
-    nombre: "María",
-    actividad: "Reiki",
-    texto:
-      "Gracias a la guía encontré a una profesional increíble que me ayudó en mi proceso de sanación. El mapa facilitó mucho la búsqueda.",
-  },
-];
+const testimonio = {
+  nombre: "María",
+  actividad: "Reiki",
+  iniciales: "M",
+  texto:
+    "Gracias a la guía encontré a una profesional increíble que me ayudó en mi proceso de sanación. El mapa facilitó mucho la búsqueda.",
+};
 
 export default function TestimoniosSection() {
   const { ref, isVisible } = useScrollReveal();
@@ -20,30 +20,44 @@ export default function TestimoniosSection() {
     <section ref={ref} className="py-16 sm:py-24 bg-sand-100">
       <div className="container-page">
         <div
-          className={`transition-all duration-700 ${
+          className={`max-w-2xl mx-auto transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="label">Testimonios</span>
+          <span className="label">Qué dicen</span>
 
-          <div className="max-w-3xl mt-6">
-            <span className="font-serif text-6xl sm:text-7xl text-sage-200 leading-none select-none">
-              &ldquo;
-            </span>
-            <p className="font-serif text-2xl sm:text-3xl lg:text-4xl text-bark-900 leading-snug -mt-8 sm:-mt-10 ml-2">
-              {testimonios[0].texto}
+          <div className="mt-8 relative bg-white rounded-3xl border border-cream-200/60 shadow-lg p-8 sm:p-10 text-center">
+            <div className="flex justify-center mb-5 gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className="h-5 w-5 text-amber-400 fill-amber-400"
+                  aria-hidden="true"
+                />
+              ))}
+              <span className="sr-only">5 estrellas</span>
+            </div>
+
+            <p className="font-serif text-xl sm:text-2xl text-bark-800 leading-relaxed italic">
+              &ldquo;{testimonio.texto}&rdquo;
             </p>
-            <div className="mt-8 ml-2">
-              <p className="font-medium text-bark text-sm">
-                {testimonios[0].nombre}
-              </p>
-              <p className="text-xs text-bark-500 mt-0.5">
-                {testimonios[0].actividad}
-              </p>
+
+            <div className="mt-7 flex flex-col items-center gap-2">
+              <div className="w-12 h-12 rounded-full bg-sage-100 border-2 border-white shadow-sm flex items-center justify-center">
+                <span className="font-serif text-base font-medium text-sage-700">
+                  {testimonio.iniciales}
+                </span>
+              </div>
+              <div>
+                <p className="font-medium text-bark text-sm">
+                  {testimonio.nombre}
+                </p>
+                <p className="text-xs text-bark-500">{testimonio.actividad}</p>
+              </div>
             </div>
           </div>
 
-          <div className="mt-8 ml-2">
+          <div className="mt-6 text-center">
             <Link
               href={INSTAGRAM_URL}
               target="_blank"
