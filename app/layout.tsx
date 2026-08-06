@@ -57,7 +57,7 @@ export const metadata: Metadata = {
         url: "https://res.cloudinary.com/kmxmqr0t/image/upload/w_1200,h_630,c_fill/v1785019465/AF49F0FF-4A15-4EA3-AE9F-AC8F83C11FC0_hkigqu.jpg",
         width: 1200,
         height: 630,
-        alt: "Guía de Bienestar - Costa de Mar del Plata",
+        alt: "Guía de Bienestar",
       },
     ],
   },

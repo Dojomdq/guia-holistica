@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Users, ArrowUpRight } from "lucide-react";
+import { Users, ArrowUpRight, Sparkles } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import {
   getCategoryIcon,
@@ -66,7 +66,7 @@ export default function ActividadesContent() {
   }, []);
 
   return (
-    <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
+    <div className="min-h-screen bg-cream-50">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -98,86 +98,102 @@ export default function ActividadesContent() {
           }}
         />
       )}
-      <div className="container-page py-16 sm:py-20 lg:py-24">
-        <Breadcrumbs items={[{ label: "Actividades" }]} />
-        <div
-          ref={ref}
-          className={`max-w-2xl mb-14 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
-          }`}
-        >
-          <span className="label">Explorá</span>
-          <h1 className="heading-lg text-bark mt-4">
-            Actividades
-          </h1>
-          <p className="text-lg text-bark-700 mt-4 max-w-lg">
-            Encontrá la que necesitás. Cada una tiene facilitadores verificados.
-          </p>
-        </div>
 
-        {cargando ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div
-                key={i}
-                className="bg-white rounded-2xl p-6 border border-cream-200 animate-pulse"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="h-10 w-10 rounded-xl bg-cream-200" />
-                  <div className="h-3 w-6 bg-cream-200 rounded" />
-                </div>
-                <div className="h-4 bg-cream-200 rounded w-2/3 mb-2" />
-                <div className="h-3 bg-cream-200 rounded w-1/3" />
-              </div>
-            ))}
+      <div className="relative overflow-hidden bg-gradient-to-b from-sage-50 via-white to-cream-50">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-sage-200/20 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/4" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-sand-200/30 rounded-full blur-3xl pointer-events-none translate-y-1/2 -translate-x-1/4" />
+
+        <div className="relative container-page py-16 sm:py-20 lg:py-24">
+          <Breadcrumbs items={[{ label: "Actividades" }]} />
+          <div
+            ref={ref}
+            className={`max-w-2xl mb-14 transition-all duration-700 ${
+              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+            }`}
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-sage-600 text-white text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-6">
+              <Sparkles className="h-3 w-3" />
+              Descubrí
+            </span>
+            <h1 className="heading-lg text-bark">Explorá actividades</h1>
+            <p className="text-lg text-bark-600 mt-4 max-w-lg leading-relaxed">
+              Cada categoría tiene profesionales verificados listos para acompañarte.
+            </p>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {actividades.map((a, i) => {
-              const Icon = getCategoryIcon(a.slug);
-              const markerColor =
-                CATEGORY_MARKER_COLORS[a.slug] || "#5d8a6e";
-              return (
-                <Link
-                  key={a.slug}
-                  href={`/actividades/${a.slug}`}
-                  className="group"
-                  onClick={() => track("actividad", a.slug)}
+
+          {cargando ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div
+                  key={i}
+                  className="bg-white rounded-2xl p-6 border border-cream-200 animate-pulse"
                 >
-                  <div
-                    className={`bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-200 hover:scale-[1.02] hover:shadow-lg h-full ${
-                      isVisible
-                        ? "opacity-100 translate-y-0"
-                        : "opacity-0 translate-y-4"
-                    }`}
-                    style={{ borderLeftWidth: 3, borderLeftColor: markerColor, transitionDelay: `${i * 30}ms` }}
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div
-                        className="w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                        style={{ backgroundColor: `${markerColor}12` }}
-                      >
-                        <Icon
-                          className="h-5 w-5"
-                          style={{ color: markerColor }}
-                          strokeWidth={1.5}
-                        />
-                      </div>
-                      <span className="text-[11px] text-bark-400 font-mono flex items-center gap-1">
-                        <Users className="h-3 w-3" />
-                        {a.count}
-                      </span>
-                    </div>
-                    <h2 className="text-[15px] font-medium text-bark group-hover:text-sage-700 transition-colors duration-200 flex items-center gap-2">
-                      {a.nombre}
-                      <ArrowUpRight className="h-3.5 w-3.5 opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all duration-300" />
-                    </h2>
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="h-12 w-12 rounded-xl bg-cream-200" />
+                    <div className="h-4 w-8 bg-cream-200 rounded-full" />
                   </div>
-                </Link>
-              );
-            })}
-          </div>
-        )}
+                  <div className="h-4 bg-cream-200 rounded w-2/3 mb-2" />
+                  <div className="h-3 bg-cream-200 rounded w-1/3" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {actividades.map((a, i) => {
+                const Icon = getCategoryIcon(a.slug);
+                const markerColor =
+                  CATEGORY_MARKER_COLORS[a.slug] || "#5d8a6e";
+                return (
+                  <Link
+                    key={a.slug}
+                    href={`/actividades/${a.slug}`}
+                    className="group"
+                    onClick={() => track("actividad", a.slug)}
+                  >
+                    <div
+                      className={`relative bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full ${
+                        isVisible
+                          ? "opacity-100 translate-y-0"
+                          : "opacity-0 translate-y-4"
+                      }`}
+                      style={{
+                        borderLeftWidth: 3,
+                        borderLeftColor: markerColor,
+                        transitionDelay: `${i * 40}ms`,
+                      }}
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div
+                          className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm"
+                          style={{ backgroundColor: `${markerColor}18` }}
+                        >
+                          <Icon
+                            className="h-6 w-6"
+                            style={{ color: markerColor }}
+                            strokeWidth={1.5}
+                          />
+                        </div>
+                        <span className="flex items-center gap-1.5 px-2.5 py-1 bg-cream-50 rounded-full text-[11px] font-medium text-bark-500 border border-cream-200/60">
+                          <Users className="h-3 w-3" />
+                          {a.count}
+                        </span>
+                      </div>
+                      <h2 className="text-[15px] font-semibold text-bark group-hover:text-sage-700 transition-colors duration-200 flex items-center gap-2">
+                        {a.nombre}
+                        <ArrowUpRight className="h-4 w-4 opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all duration-300" />
+                      </h2>
+                      <p className="text-[13px] text-bark-500 mt-1.5">
+                        {a.count > 0
+                          ? `${a.count} profesional${a.count !== 1 ? "es" : ""} disponible${a.count !== 1 ? "s" : ""}`
+                          : "Próximamente"}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

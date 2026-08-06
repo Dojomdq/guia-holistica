@@ -149,7 +149,7 @@ export default function FacilitadoresContent() {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "ItemList",
-              name: "Facilitadores holísticos en Mar del Plata",
+              name: "Facilitadores de bienestar",
               itemListElement: facilitadores.map((f, i) => ({
                 "@type": "ListItem",
                 position: i + 1,

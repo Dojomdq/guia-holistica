@@ -23,7 +23,7 @@ export default function Footer() {
                 />
               </Link>
               <p className="text-sm text-cream-100 mt-5 max-w-[300px] leading-relaxed">
-                Directorio de bienestar en Mar del Plata. Conectá con terapeutas, guías y facilitadores de tu zona.
+                Directorio de bienestar. Conectá con terapeutas, guías y facilitadores de tu zona.
               </p>
               <div className="flex items-center gap-3 mt-6">
                 <a
@@ -110,7 +110,7 @@ export default function Footer() {
 
           <div className="mt-12 pt-6 border-t border-cream-200/10 text-center">
             <span className="text-xs text-cream-200">
-              &copy; {new Date().getFullYear()} Guía de Bienestar · Mar del Plata
+              &copy; {new Date().getFullYear()} Guía de Bienestar
             </span>
           </div>
         </div>

@@ -8,7 +8,7 @@ import { SITE_URL, CITY_NAME, WHATSAPP_LINK, INSTAGRAM_URL, INSTAGRAM_HANDLE } f
 export const metadata: Metadata = {
   title: "Sobre Guía de Bienestar | Quiénes Somos",
   description:
-    "Guía de Bienestar es un directorio gratuito que conecta a personas con terapeutas, guías y facilitadores holísticos de Mar del Plata. Conocé cómo funciona y cómo sumarte.",
+    "Guía de Bienestar es un directorio gratuito que conecta a personas con terapeutas, guías y facilitadores de bienestar. Conocé cómo funciona y cómo sumarte.",
   alternates: {
     canonical: `${SITE_URL}/acerca`,
   },
@@ -21,8 +21,8 @@ const jsonLd = {
   url: SITE_URL,
   logo: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png",
   description:
-    "Directorio gratuito de facilitadores, terapeutas y guías holísticos en Mar del Plata, Argentina.",
-  areaServed: { "@type": "City", name: "Mar del Plata" },
+    "Directorio gratuito de facilitadores, terapeutas y guías de bienestar.",
+  areaServed: { "@type": "City", name: CITY_NAME },
   knowsAbout: [
     "Terapias holísticas",
     "Yoga",
@@ -32,7 +32,7 @@ const jsonLd = {
     "Tarot",
     "Biodanza",
     "Flores de Bach",
-    "Bienestar en Mar del Plata",
+    `Bienestar en ${CITY_NAME}`,
   ],
   sameAs: [INSTAGRAM_URL, WHATSAPP_LINK],
 };

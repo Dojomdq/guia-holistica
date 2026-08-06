@@ -13,7 +13,7 @@ const faqs = [
   {
     pregunta: "¿Cómo encuentro un facilitador cerca mío?",
     respuesta:
-      "Usá el mapa interactivo para ver todos los facilitadores en Mar del Plata. Podés filtrar por actividad y hacer clic en cada punto para ver el perfil completo con dirección, contacto y biografía.",
+      "Usá el mapa interactivo para ver todos los facilitadores. Podés filtrar por actividad y hacer clic en cada punto para ver el perfil completo con dirección, contacto y biografía.",
   },
   {
     pregunta: "¿Los facilitadores están verificados?",
