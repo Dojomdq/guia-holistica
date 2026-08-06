@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { X, MapPin, Sparkles } from "lucide-react";
-import { CITY_NAME } from "@/lib/constants";
 
 const STORAGE_KEY = "popup_visto";
 
@@ -82,7 +81,7 @@ export default function PopupFacilitadores({ onClose }: Props) {
         </h3>
 
         <p className="text-bark-700 text-base mb-6 leading-relaxed">
-          Sumá tu perfil y aparecé en el directorio de bienestar de {CITY_NAME}. Miles de personas buscan tu ayuda.
+          Sumá tu perfil y aparecé en el directorio de bienestar de tu ciudad. Miles de personas buscan tu ayuda.
         </p>
 
         <a
