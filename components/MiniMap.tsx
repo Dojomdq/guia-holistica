@@ -60,7 +60,7 @@ export default function MiniMap() {
       >
         <TileLayer
           attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/voyager/{z}/{x}/{y}{r}.png"
         />
         <ClusteredMarkers
           items={facilitadores.map((f) => ({
