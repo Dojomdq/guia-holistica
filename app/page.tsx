@@ -6,7 +6,7 @@ import TestimoniosSection from "@/components/TestimoniosSection";
 import NewCTA from "@/components/home/NewCTA";
 import FAQSection from "@/components/FAQSection";
 import PopupManager from "@/components/PopupManager";
-import { SITE_URL, INSTAGRAM_URL, WHATSAPP_LINK } from "@/lib/constants";
+import { SITE_URL, INSTAGRAM_URL, WHATSAPP_LINK, CITY_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Guía de Bienestar | Encontrá Terapeutas, Yoga y Reiki",
@@ -32,7 +32,7 @@ const jsonLd = {
     "Directorio de bienestar. Encontrá terapeutas, facilitadores y guías.",
   areaServed: {
     "@type": "City",
-    name: "Mar del Plata",
+    name: CITY_NAME,
     containedInPlace: {
       "@type": "Country",
       name: "Argentina",
@@ -40,7 +40,7 @@ const jsonLd = {
   },
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Mar del Plata",
+    addressLocality: CITY_NAME,
     addressRegion: "Buenos Aires",
     addressCountry: "AR",
   },
@@ -52,7 +52,7 @@ const jsonLd = {
     "Chamanismo",
     "Tarot",
     "Bienestar",
-    "Facilitadores en Mar del Plata",
+    `Facilitadores en ${CITY_NAME}`,
   ],
   sameAs: [INSTAGRAM_URL, WHATSAPP_LINK].filter(Boolean),
 };
@@ -100,7 +100,7 @@ export default function Home() {
                 name: "¿Cómo encuentro un facilitador cerca mío?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Usá el mapa interactivo para ver todos los facilitadores en Mar del Plata. Podés filtrar por actividad y hacer clic en cada punto para ver el perfil completo.",
+                  text: `Usá el mapa interactivo para ver todos los facilitadores en ${CITY_NAME}. Podés filtrar por actividad y hacer clic en cada punto para ver el perfil completo.`,
                 },
               },
               {

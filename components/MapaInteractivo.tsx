@@ -12,7 +12,7 @@ import Link from "next/link";
 import { getEmoji, getMarkerColor } from "@/lib/categories";
 import ClusteredMarkers from "@/components/ClusteredMarkers";
 import { useClickTracker } from "@/lib/useClickTracker";
-import { CITY_COORDS } from "@/lib/constants";
+import { CITY_COORDS, CITY_NAME } from "@/lib/constants";
 
 interface Actividad {
   id: string;
@@ -51,7 +51,7 @@ interface Props {
   ciudadSeleccionada?: string | null;
 }
 
-const DEFAULT_CENTER: [number, number] = [-38.0055, -57.5426];
+const DEFAULT_CENTER: [number, number] = CITY_COORDS[CITY_NAME] ?? [-38, -57];
 
 function MapEvents({
   onSeleccionar,

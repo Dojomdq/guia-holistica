@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { X, MapPin, Sparkles } from "lucide-react";
+import { WHATSAPP_LINK } from "@/lib/constants";
 
 const STORAGE_KEY = "popup_visto";
 
@@ -85,7 +86,7 @@ export default function PopupFacilitadores({ onClose }: Props) {
         </p>
 
         <a
-          href="https://wa.me/5492235742540?text=Hola%20quiero%20sumar%20mi%20perfil%20a%20la%20Gu%C3%ADa%20de%20Bienestar"
+          href={`${WHATSAPP_LINK}?text=Hola%20quiero%20sumar%20mi%20perfil%20a%20la%20Gu%C3%ADa%20de%20Bienestar`}
           target="_blank"
           rel="noopener noreferrer"
           className="block w-full text-center bg-terracotta-600 text-white py-4 rounded-xl hover:bg-terracotta-700 transition font-semibold shadow-lg hover:shadow-xl text-lg tracking-wide"
