@@ -140,10 +140,14 @@ export default function FacilitadorContent({
   const tieneRedes = f.whatsapp || f.instagram || f.email || f.sitio_web;
 
   return (
-    <div className="min-h-screen bg-cream-50 relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-3xl pointer-events-none opacity-40" style={{ backgroundColor: `${color}10` }} />
-      <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-sand-200/25 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-4 h-4 rounded-full pointer-events-none opacity-10" style={{ backgroundColor: color }} />
+    <div className="min-h-screen relative overflow-hidden" style={{ background: `linear-gradient(180deg, ${color}06 0%, #FAF6EE 30%, #FAF6EE 70%, ${color}04 100%)` }}>
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
+        backgroundImage: `radial-gradient(circle at 20% 50%, ${color} 1px, transparent 1px), radial-gradient(circle at 80% 20%, ${color} 1px, transparent 1px), radial-gradient(circle at 40% 80%, ${color} 1.5px, transparent 1.5px)`,
+        backgroundSize: "80px 80px, 100px 100px, 120px 120px",
+      }} />
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-3xl pointer-events-none opacity-30" style={{ backgroundColor: `${color}0D` }} />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-sand-200/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 w-3 h-3 rounded-full pointer-events-none opacity-15" style={{ backgroundColor: color }} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
