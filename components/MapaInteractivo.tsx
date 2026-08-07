@@ -78,6 +78,18 @@ function FocusMarkers({
     }
   }, [ciudad, map]);
 
+  useEffect(() => {
+    if (!selectedId) return;
+    const marker = markers.find((m) => m.facilitador.id === selectedId);
+    if (marker) {
+      map.flyTo(
+        [marker.ubicacion.latitud, marker.ubicacion.longitud],
+        16,
+        { duration: 0.6 }
+      );
+    }
+  }, [selectedId, markers, map]);
+
   return null;
 }
 

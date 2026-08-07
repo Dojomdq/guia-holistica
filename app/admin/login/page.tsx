@@ -21,10 +21,10 @@ function LoginForm() {
 
     try {
       const token = btoa(`${user}:${pass}`);
-      document.cookie = `${COOKIE_NAME}=${token}; path=/; max-age=86400; SameSite=Lax`;
+      document.cookie = `${COOKIE_NAME}=${token}; path=/; max-age=86400; SameSite=Lax; Secure`;
 
       const from = searchParams.get("from") || "/admin";
-      router.replace(from);
+      setTimeout(() => router.replace(from), 100);
     } catch {
       setError("Error al iniciar sesión");
     } finally {
