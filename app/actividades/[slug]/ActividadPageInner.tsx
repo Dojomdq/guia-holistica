@@ -40,12 +40,13 @@ useEffect(() => {
     let cancelled = false;
     async function load() {
       try {
-      // Try as categoria
-      const { data: cat } = await supabase
+      // Try as categoria - fetch all and filter to avoid .single() issues
+      const { data: cats } = await supabase
         .from("categorias")
-        .select("id, nombre")
-        .eq("slug", slug)
-        .maybeSingle();
+        .select("id, nombre, slug")
+        .order("nombre");
+
+      const cat = (cats || []).find((c) => c.slug === slug);
 
       if (!cancelled && cat) {
         setCategoriaNombre(cat.nombre);
@@ -80,12 +81,13 @@ useEffect(() => {
         return;
       }
 
-      // Try as actividad
-      const { data: act } = await supabase
+      // Try as actividad - fetch all and filter
+      const { data: acts2 } = await supabase
         .from("actividades")
-        .select("id, nombre")
-        .eq("slug", slug)
-        .maybeSingle();
+        .select("id, nombre, slug")
+        .order("nombre");
+
+      const act = (acts2 || []).find((a) => a.slug === slug);
 
       if (!cancelled && act) {
         setDisplayName(act.nombre);
