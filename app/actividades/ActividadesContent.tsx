@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { Users, ArrowUpRight, Sparkles } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import {
@@ -144,22 +143,17 @@ export default function ActividadesContent() {
                 const markerColor =
                   CATEGORY_MARKER_COLORS[a.slug] || "#5d8a6e";
                 return (
-                  <Link
+                  <a
                     key={a.slug}
                     href={`/actividades/${a.slug}`}
-                    className="group"
+                    className="group block"
                     onClick={() => track("actividad", a.slug)}
                   >
                     <div
-                      className={`relative bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full ${
-                        isVisible
-                          ? "opacity-100 translate-y-0"
-                          : "opacity-0 translate-y-4"
-                      }`}
+                      className="relative bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full opacity-100 translate-y-0"
                       style={{
                         borderLeftWidth: 3,
                         borderLeftColor: markerColor,
-                        transitionDelay: `${i * 40}ms`,
                       }}
                     >
                       <div className="flex items-start justify-between mb-4">
@@ -188,7 +182,7 @@ export default function ActividadesContent() {
                           : "Próximamente"}
                       </p>
                     </div>
-                  </Link>
+                  </a>
                 );
               })}
             </div>
