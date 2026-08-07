@@ -346,16 +346,16 @@ export default function FacilitadoresContent() {
                               </span>
                             ))}
                           </div>
-                          {f.direccion && (
-                            <span className="flex items-center gap-1 text-[12px] text-bark-500 mt-2.5">
-                              <MapPin className="h-3 w-3" />
-                              {f.direccion}{f.ciudad ? `, ${f.ciudad}` : ""}
-                            </span>
-                          )}
-                          {!f.direccion && f.ciudad && (
+                          {f.ciudad && (
                             <span className="flex items-center gap-1 text-[12px] text-bark-500 mt-2.5">
                               <MapPin className="h-3 w-3" />
                               {f.ciudad}
+                            </span>
+                          )}
+                          {!f.ciudad && f.direccion && (
+                            <span className="flex items-center gap-1 text-[12px] text-bark-500 mt-2.5">
+                              <MapPin className="h-3 w-3" />
+                              {f.direccion}
                             </span>
                           )}
                         </div>
