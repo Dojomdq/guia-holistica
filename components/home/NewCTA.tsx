@@ -22,7 +22,7 @@ export default function NewCTA() {
 
           <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6 max-w-4xl mx-auto text-center sm:text-left">
             <h2 id="cta-titulo" className="font-serif text-2xl sm:text-3xl text-white max-w-2xl leading-snug">
-              ¿Sos profesional? Sumá tu perfil gratis y conectá con nuevos pacientes.
+              ¿Sos profesional? Sumá tu perfil y conectá con nuevos pacientes.
             </h2>
             <Link
               href={WHATSAPP_LINK}

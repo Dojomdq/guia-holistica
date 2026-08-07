@@ -108,7 +108,7 @@ export default function Home() {
                 name: "¿Puedo publicar mi práctica holística?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Sí, si sos profesional de bienestar, escribinos para sumarte a la guía. Es gratuito y te ayuda a que más personas te encuentren.",
+                  text: "Sí, si sos profesional de bienestar, escribinos para sumarte a la guía. Te ayuda a que más personas te encuentren.",
                 },
               },
             ],

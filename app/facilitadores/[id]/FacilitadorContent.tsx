@@ -381,7 +381,7 @@ export default function FacilitadorContent({
         {/* CTA */}
         <div className="text-center py-6">
           <p className="text-sm text-bark-400 mb-3">
-            ¿Sos profesional? Sumá tu perfil gratis
+            ¿Sos profesional? Sumá tu perfil
           </p>
           <a
             href={`${WHATSAPP_LINK}?text=Hola%20quiero%20sumar%20mi%20perfil%20a%20la%20Gu%C3%ADa%20de%20Bienestar`}

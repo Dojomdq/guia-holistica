@@ -8,11 +8,11 @@ import { SITE_URL, CITY_NAME, WHATSAPP_LINK, INSTAGRAM_URL, INSTAGRAM_HANDLE } f
 export const metadata: Metadata = {
   title: "Sobre Guía de Bienestar | Quiénes Somos",
   description:
-    "Guía de Bienestar es un directorio gratuito que conecta a personas con terapeutas, guías y facilitadores de bienestar. Conocé cómo funciona y cómo sumarte.",
+    "Guía de Bienestar es un directorio que conecta a personas con terapeutas, guías y facilitadores de bienestar. Conocé cómo funciona y cómo sumarte.",
   openGraph: {
     title: "Sobre Guía de Bienestar | Quiénes Somos",
     description:
-      "Guía de Bienestar es un directorio gratuito que conecta a personas con terapeutas, guías y facilitadores de bienestar.",
+      "Guía de Bienestar es un directorio que conecta a personas con terapeutas, guías y facilitadores de bienestar.",
   },
   alternates: {
     canonical: `${SITE_URL}/acerca`,
@@ -26,7 +26,7 @@ const jsonLd = {
   url: SITE_URL,
   logo: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png",
   description:
-    "Directorio gratuito de facilitadores, terapeutas y guías de bienestar.",
+    "Directorio de facilitadores, terapeutas y guías de bienestar.",
   areaServed: { "@type": "City", name: CITY_NAME },
   knowsAbout: [
     "Terapias de bienestar",
@@ -74,7 +74,7 @@ export default function AcercaPage() {
               ¿Qué es Guía de Bienestar?
             </h2>
             <p className="text-bark-700 mt-2 leading-relaxed">
-              Es un directorio gratuito y de acceso abierto que reúne a
+              Es un directorio de acceso abierto que reúne a
               facilitadores, terapeutas y guías de prácticas de bienestar. Cada
               perfil muestra sus actividades, su ubicación en el mapa y su
               contacto directo, para que quienes buscan puedan conectar sin
@@ -105,7 +105,7 @@ export default function AcercaPage() {
               ¿Sos facilitador o terapeuta?
             </h2>
             <p className="text-bark-700 mt-2 leading-relaxed">
-              Sumar tu perfil es gratuito. Escribinos por WhatsApp con tu
+              Sumar tu perfil es simple. Escribinos por WhatsApp con tu
               nombre, actividades, dirección y redes, y lo publicamos en la
               guía.
             </p>

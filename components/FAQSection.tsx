@@ -23,7 +23,7 @@ const faqs = [
   {
     pregunta: "¿Puedo publicar mi práctica de bienestar?",
     respuesta:
-      "¡Por supuesto! Si sos profesional de bienestar, escribinos para sumarte a la guía. Es gratuito y te ayuda a que más personas te encuentren.",
+      "¡Por supuesto! Si sos profesional de bienestar, escribinos para sumarte a la guía. Te ayuda a que más personas te encuentren.",
   },
   {
     pregunta: "¿Qué actividades puedo encontrar?",
