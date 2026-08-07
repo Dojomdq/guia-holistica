@@ -33,13 +33,15 @@ export default function ActividadPageInner({ slug }: { slug: string }) {
   const [esActividad, setEsActividad] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { ref, isVisible } = useScrollReveal();
 
 useEffect(() => {
     let cancelled = false;
     async function load() {
+      try {
       // Try as categoria
-      const { data: cat, error: catErr } = await supabase
+      const { data: cat } = await supabase
         .from("categorias")
         .select("id, nombre")
         .eq("slug", slug)
@@ -134,10 +136,24 @@ useEffect(() => {
         setDisplayName(slug.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()));
         setCargando(false);
       }
+      } catch (err: any) {
+        if (!cancelled) { setError(err.message || "Error"); setCargando(false); }
+      }
     }
     load();
     return () => { cancelled = true; };
   }, [slug]);
+
+  if (error) {
+    return (
+      <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
+        <div className="container-page py-16 text-center">
+          <p className="text-red-600 font-medium mb-2">Error al cargar</p>
+          <p className="text-bark-500 text-sm">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   if (cargando) {
     return (
