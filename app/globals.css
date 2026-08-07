@@ -146,7 +146,7 @@
   }
 
   .section-divider {
-    @apply w-full h-px bg-gradient-to-r from-transparent via-sage-200 to-transparent;
+    @apply w-full h-px bg-gradient-to-r from-transparent via-sage-200 dark:via-sage-800 to-transparent;
   }
 
   .section-padding {
@@ -288,7 +288,7 @@
 }
 
 :focus-visible {
-  @apply outline-none ring-2 ring-sage-700 ring-offset-2 ring-offset-cream-50;
+  @apply outline-none ring-2 ring-sage-700 ring-offset-2 ring-offset-cream-50 dark:ring-offset-bark-950;
 }
 
 .skip-link {
@@ -311,3 +311,36 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Global Dark Mode Overrides ── */
+.dark .bg-white { @apply bg-bark-900; }
+.dark .bg-cream-50 { @apply bg-bark-950; }
+.dark .bg-sand-100 { @apply bg-bark-900/60; }
+.dark .bg-cream-100 { @apply bg-bark-800; }
+.dark .bg-sage-50 { @apply bg-sage-900/30; }
+.dark .bg-cream-200\/60 { @apply bg-bark-700/60; }
+.dark .bg-cream-200\/40 { @apply bg-bark-700/40; }
+.dark .text-bark { @apply text-cream-100; }
+.dark .text-bark-600 { @apply text-cream-300; }
+.dark .text-bark-700 { @apply text-cream-200; }
+.dark .text-bark-500 { @apply text-cream-400; }
+.dark .text-bark-400 { @apply text-cream-500; }
+.dark .text-bark-800 { @apply text-cream-100; }
+.dark .text-bark-900 { @apply text-cream-100; }
+.dark .border-cream-200 { @apply border-bark-700; }
+.dark .border-cream-200\/60 { @apply border-bark-700/60; }
+.dark .border-cream-200\/80 { @apply border-bark-700/80; }
+.dark .border-cream-300\/60 { @apply border-bark-700/60; }
+.dark .border-cream-300\/50 { @apply border-bark-700/50; }
+.dark .border-cream-200\/50 { @apply border-bark-700/50; }
+.dark .divide-cream-200\/50 > :not([hidden]) ~ :not([hidden]) { @apply border-bark-700/50; }
+.dark .shadow-soft { box-shadow: none; }
+.dark .shadow-medium { box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.dark .shadow-lg { box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
+.dark .shadow-xl { box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+.dark .shadow-2xl { box-shadow: 0 16px 48px rgba(0,0,0,0.35); }
+.dark .from-cream-50 { --tw-gradient-from: #0F1B2D var(--tw-gradient-from-position); --tw-gradient-to: rgb(15 27 45 / 0) var(--tw-gradient-to-position); }
+.dark .to-cream-50 { --tw-gradient-to: #0F1B2D var(--tw-gradient-to-position); }
+.dark .via-sage-50\/20 { --tw-gradient-via: rgba(30,50,50,0.2) var(--tw-gradient-via-position); --tw-gradient-to: rgb(30 50 50 / 0) var(--tw-gradient-to-position); }
+.dark .bg-cream-50\/95 { @apply bg-bark-950/95; }
+.dark .animate-pulse .bg-cream-200 { @apply bg-bark-700; }

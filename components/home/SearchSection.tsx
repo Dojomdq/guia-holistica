@@ -43,7 +43,7 @@ export default function SearchSection() {
   const modoActual = MODOS.find((m) => m.id === modo) ?? MODOS[0];
 
   return (
-    <section className="py-12 sm:py-16 bg-cream-50 relative overflow-hidden">
+    <section className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950 relative overflow-hidden">
       <div className="container-wide">
         <form
           onSubmit={handleSearch}
@@ -71,7 +71,7 @@ export default function SearchSection() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-stretch gap-3">
-            <div className="flex-1 flex items-center bg-white rounded-2xl border border-cream-300/60 shadow-medium px-5 focus-within:border-sage-400 focus-within:ring-2 focus-within:ring-sage-200 transition-all duration-300">
+            <div className="flex-1 flex items-center bg-white dark:bg-bark-900 rounded-2xl border border-cream-300/60 dark:border-bark-700 shadow-medium px-5 focus-within:border-sage-400 dark:focus-within:border-sage-600 focus-within:ring-2 focus-within:ring-sage-200 dark:focus-within:ring-sage-800 transition-all duration-300">
               <Search className="h-5 w-5 text-bark-400 shrink-0" aria-hidden="true" />
               <input
                 type="text"

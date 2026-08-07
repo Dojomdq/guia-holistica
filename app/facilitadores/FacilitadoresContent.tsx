@@ -313,7 +313,7 @@ export default function FacilitadoresContent() {
                     onClick={() => track("facilitador", f.id)}
                   >
                     <div
-                      className={`bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-200 hover:scale-105 hover:shadow-lg hover:border-cream-300 h-full ${
+                      className={`bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-200 hover:scale-[1.02] hover:shadow-lg hover:border-cream-300 h-full ${
                         isVisible
                           ? "opacity-100 translate-y-0"
                           : "opacity-0 translate-y-4"
@@ -322,7 +322,7 @@ export default function FacilitadoresContent() {
                     >
                       <div className="flex items-start gap-4">
                         <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105"
+                          className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-[1.02]"
                           style={{ backgroundColor: `${markerColor}10` }}
                         >
                           <Icon
