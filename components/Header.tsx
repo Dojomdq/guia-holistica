@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, ArrowUpRight } from "lucide-react";
@@ -57,10 +58,13 @@ export default function Header() {
               className="flex items-center gap-2 group"
               aria-label="Guía de Bienestar - Inicio"
             >
-              <img
+              <Image
                 src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png"
                 alt="Guía de Bienestar"
+                width={200}
+                height={48}
                 className="h-9 lg:h-12 w-auto"
+                priority
               />
             </Link>
 
@@ -93,7 +97,7 @@ export default function Header() {
                 href="/mapa"
                 className="hidden sm:inline-flex btn text-[13px] px-5 py-2 bg-bark text-white hover:bg-bark/85 dark:bg-cream-100 dark:text-bark dark:hover:bg-cream-200"
               >
-                Explorar mapa
+                Explorá el mapa
                 <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
 
@@ -170,7 +174,7 @@ export default function Header() {
                 onClick={() => setMobileOpen(false)}
                 className="btn-sage w-full text-center"
               >
-                Explorar mapa
+                Explorá el mapa
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>

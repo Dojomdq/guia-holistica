@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "Accesibilidad | Guía de Bienestar",
   description:
     "Declaración de accesibilidad del sitio Guía de Bienestar: compromiso con WCAG 2.1 Nivel AA, estado de cumplimiento y contacto para reportar problemas.",
+  openGraph: {
+    title: "Accesibilidad | Guía de Bienestar",
+    description:
+      "Declaración de accesibilidad del sitio Guía de Bienestar. Compromiso con WCAG 2.1 Nivel AA.",
+  },
   alternates: {
     canonical: `${SITE_URL}/accesibilidad`,
   },

@@ -45,7 +45,7 @@ export default function FAQSection() {
           }`}
         >
           <span className="section-label justify-center">Preguntas</span>
-          <h2 className="heading-lg mt-4">FAQ</h2>
+          <h2 className="heading-lg mt-4">Preguntas frecuentes</h2>
         </div>
 
         <div className="max-w-2xl mx-auto space-y-3">

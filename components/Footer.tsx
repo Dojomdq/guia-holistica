@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, MessageCircle } from "lucide-react";
 import { WHATSAPP_LINK, CONTACT_EMAIL, INSTAGRAM_URL, INSTAGRAM_HANDLE } from "@/lib/constants";
 
@@ -14,11 +15,12 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Column 1 — Brand */}
             <div>
-              <Link href="/" className="group inline-block"
-                style={{ marginLeft: "-23px" }}>
-                <img
+              <Link href="/" className="group inline-block">
+                <Image
                   src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785382470/1200x_fcfaao.png"
                   alt="Guía de Bienestar"
+                  width={320}
+                  height={64}
                   className="w-64 sm:w-80 h-auto"
                 />
               </Link>

@@ -9,6 +9,11 @@ export const metadata: Metadata = {
   title: "Sobre Guía de Bienestar | Quiénes Somos",
   description:
     "Guía de Bienestar es un directorio gratuito que conecta a personas con terapeutas, guías y facilitadores de bienestar. Conocé cómo funciona y cómo sumarte.",
+  openGraph: {
+    title: "Sobre Guía de Bienestar | Quiénes Somos",
+    description:
+      "Guía de Bienestar es un directorio gratuito que conecta a personas con terapeutas, guías y facilitadores de bienestar.",
+  },
   alternates: {
     canonical: `${SITE_URL}/acerca`,
   },

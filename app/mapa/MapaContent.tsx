@@ -22,7 +22,7 @@ export default function MapaContent() {
       />
       <div className="container-page pt-16 sm:pt-20 lg:pt-24">
         <Breadcrumbs items={[{ label: "Mapa" }]} />
-        <h1 className="heading-lg text-bark mt-4">Mapa de facilitadores y profesionales de bienestar</h1>
+        <h1 className="heading-lg text-bark mt-4">Mapa de facilitadores y terapeutas</h1>
       </div>
       <Suspense
       fallback={

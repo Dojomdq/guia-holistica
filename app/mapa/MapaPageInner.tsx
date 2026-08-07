@@ -236,7 +236,7 @@ export default function MapaPageInner() {
                         setCiudadSeleccionada(isActive ? null : ciudad);
                         setFacilitadorSeleccionado(null);
                       }}
-                      className={`px-3 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
+                      className={`px-4 py-2.5 rounded-full text-[12px] font-medium whitespace-nowrap transition-all duration-200 ${
                         isActive
                           ? "bg-bark text-white shadow-sm"
                           : "bg-cream-200/60 text-bark-600 hover:text-bark-800 border border-cream-200 hover:border-cream-300"
@@ -341,7 +341,7 @@ export default function MapaPageInner() {
                         facilitadorSeleccionado === f.id ? null : f.id
                       )
                     }
-                    className={`w-full p-2.5 text-left hover:bg-cream-200/40 transition-all duration-200 ${
+                    className={`w-full p-3 text-left hover:bg-cream-200/40 transition-all duration-200 ${
                       facilitadorSeleccionado === f.id ? "bg-cream-200/40" : ""
                     }`}
                   >
