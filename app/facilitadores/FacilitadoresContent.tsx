@@ -61,7 +61,7 @@ export default function FacilitadoresContent() {
       ]);
 
       if (fRes.data) {
-        const ciudadesSet = new Set<string>(["Mar del Plata", "Bahía Blanca"]);
+        const ciudadesSet = new Set<string>();
         setFacilitadores(
           fRes.data.map((f: any) => {
             const ubi = f.ubicaciones || [];

@@ -18,6 +18,7 @@ interface SubActividad {
 export default function ActividadPageInner({ slug }: { slug: string }) {
   const [categoriaNombre, setCategoriaNombre] = useState("");
   const [subActividades, setSubActividades] = useState<SubActividad[]>([]);
+  const [totalFacilitadores, setTotalFacilitadores] = useState(0);
   const [cargando, setCargando] = useState(true);
   const { ref, isVisible } = useScrollReveal();
 
@@ -47,11 +48,13 @@ export default function ActividadPageInner({ slug }: { slug: string }) {
 
         const { data: fas } = await supabase
           .from("facilitador_actividades")
-          .select("actividad_id")
+          .select("actividad_id, facilitador_id")
           .in("actividad_id", actIds);
 
+        const facilitatorIds = new Set<string>();
         const countMap: Record<string, number> = {};
         (fas || []).forEach((f) => {
+          facilitatorIds.add(f.facilitador_id);
           countMap[f.actividad_id] = (countMap[f.actividad_id] || 0) + 1;
         });
 
@@ -64,6 +67,7 @@ export default function ActividadPageInner({ slug }: { slug: string }) {
         }));
 
         setSubActividades(items);
+        setTotalFacilitadores(facilitatorIds.size);
       }
 
       setCargando(false);
@@ -89,7 +93,7 @@ export default function ActividadPageInner({ slug }: { slug: string }) {
             {displayName}
           </h1>
           <p className="text-lg text-bark-600 mt-3 max-w-lg leading-relaxed">
-            {subActividades.length} {subActividades.length === 1 ? "especialidad" : "especialidades"} · {subActividades.reduce((sum, a) => sum + a.count, 0)} facilitadores
+            {subActividades.length} {subActividades.length === 1 ? "especialidad" : "especialidades"} · {totalFacilitadores} facilitador{totalFacilitadores !== 1 ? "es" : ""}
           </p>
         </div>
 

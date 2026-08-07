@@ -113,7 +113,7 @@ export default function MapaPageInner() {
         }));
         setTodosFacilitadores(mapped);
 
-        const ciudades = new Set<string>(["Mar del Plata", "Bahía Blanca"]);
+        const ciudades = new Set<string>();
         mapped.forEach((f) =>
           f.ubicaciones.forEach((u) => {
             if (u.ciudad) ciudades.add(u.ciudad);
@@ -188,7 +188,7 @@ export default function MapaPageInner() {
   const mostrarSelectorCiudad = ciudadesDisponibles.length > 1;
 
   return (
-    <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
+    <div className="relative bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
       <div
         className="relative flex flex-col md:flex-row h-[calc(100vh-6rem)] md:h-[calc(100vh-7rem)] shadow-2xl mx-0 sm:mx-4 lg:mx-6 my-0 sm:my-3"
       >

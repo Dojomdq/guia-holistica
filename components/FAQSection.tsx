@@ -82,7 +82,7 @@ export default function FAQSection() {
               <div
                 className={`overflow-hidden transition-all duration-500 ease-out ${
                   openIndex === i
-                    ? "max-h-40 opacity-100 mt-2"
+                    ? "max-h-96 opacity-100 mt-2"
                     : "max-h-0 opacity-0"
                 }`}
               >
