@@ -94,7 +94,7 @@ export default function SearchSection() {
 
         <div className="flex flex-wrap items-center justify-center gap-2.5 mt-6 max-w-3xl mx-auto">
           <span className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark-500 mr-1">
-            Rápido:
+            Búsquedas frecuentes:
           </span>
           {TAGS.map((tag) => (
             <button

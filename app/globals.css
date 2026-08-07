@@ -261,6 +261,18 @@
   background: #fff !important;
 }
 
+.dark .leaflet-popup-content-wrapper {
+  background: #1A2840 !important;
+  border-color: #3A4E73 !important;
+  color: #E2E6EC !important;
+}
+.dark .leaflet-popup-tip {
+  background: #1A2840 !important;
+}
+.dark .leaflet-popup-close-button {
+  color: #C5CCD9 !important;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 4px;

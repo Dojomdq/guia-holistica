@@ -54,7 +54,9 @@ export default function MapaPageInner() {
   const router = useRouter();
 
   const [busqueda, setBusqueda] = useState(searchParams.get("q") || "");
-  const [ciudadSeleccionada, setCiudadSeleccionada] = useState<string | null>(null);
+  const [ciudadSeleccionada, setCiudadSeleccionada] = useState<string | null>(
+    searchParams.get("ciudad") || null
+  );
   const [ciudadesDisponibles, setCiudadesDisponibles] = useState<string[]>([]);
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
   const [panelAbierto, setPanelAbierto] = useState(false);
@@ -233,8 +235,13 @@ export default function MapaPageInner() {
                     <button
                       key={ciudad}
                       onClick={() => {
-                        setCiudadSeleccionada(isActive ? null : ciudad);
+                        const nueva = isActive ? null : ciudad;
+                        setCiudadSeleccionada(nueva);
                         setFacilitadorSeleccionado(null);
+                        const p = new URLSearchParams();
+                        if (busqueda.trim()) p.set("q", busqueda.trim());
+                        if (nueva) p.set("ciudad", nueva);
+                        router.replace(`/mapa?${p.toString()}`, { scroll: false });
                       }}
                       className={`px-4 py-2.5 rounded-full text-[12px] font-medium whitespace-nowrap transition-all duration-200 ${
                         isActive
@@ -279,7 +286,7 @@ export default function MapaPageInner() {
                 onClick={limpiarBusqueda}
                 className="shrink-0 px-3 py-2 text-[11px] font-medium text-sage-600 hover:text-sage-700 hover:bg-sage-50 rounded-lg transition-colors"
               >
-                Volver
+                Limpiar
               </button>
             )}
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { MapPin, Loader2 } from "lucide-react";
 import { useScrollReveal } from "@/lib/useScrollReveal";
@@ -8,7 +8,7 @@ import { useScrollReveal } from "@/lib/useScrollReveal";
 const MiniMap = dynamic(() => import("@/components/MiniMap"), {
   ssr: false,
   loading: () => (
-    <div className="h-full bg-cream-200 flex items-center justify-center min-h-[320px]">
+    <div className="h-full bg-cream-200 dark:bg-bark-800 flex items-center justify-center min-h-[320px]">
       <Loader2 className="h-8 w-8 text-cream-400 animate-spin" />
     </div>
   ),
@@ -17,6 +17,23 @@ const MiniMap = dynamic(() => import("@/components/MiniMap"), {
 export default function MapSection() {
   const { ref, isVisible } = useScrollReveal();
   const [mapaCargado, setMapaCargado] = useState(false);
+  const observerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = observerRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setMapaCargado(true);
+          obs.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <section id="mapa" ref={ref} className="py-16 sm:py-24 bg-cream-50 overflow-hidden">
@@ -41,11 +58,12 @@ export default function MapSection() {
         >
           <div className="relative bg-white rounded-2xl shadow-2xl border border-cream-200/60 overflow-hidden">
             {mapaCargado ? (
-              <div className="h-[320px] sm:h-[400px]">
+              <div className="h-[320px] sm:h-[400px]" ref={observerRef}>
                 <MiniMap />
               </div>
             ) : (
               <div
+                ref={observerRef}
                 className="relative h-[320px] sm:h-[400px] flex items-center justify-center overflow-hidden"
                 style={{
                   background:
@@ -81,12 +99,6 @@ export default function MapSection() {
                   <h3 className="font-serif text-xl sm:text-2xl font-medium text-bark">
                     Descubrí a todos los profesionales en el mapa
                   </h3>
-                  <button
-                    onClick={() => setMapaCargado(true)}
-                    className="mt-6 inline-flex items-center gap-2 px-7 py-3.5 bg-sage-600 text-white rounded-full text-sm font-medium hover:bg-terracotta-600 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
-                  >
-                    Cargar mapa interactivo
-                  </button>
                 </div>
               </div>
             )}

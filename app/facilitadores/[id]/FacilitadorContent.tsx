@@ -235,9 +235,15 @@ export default function FacilitadorContent({
                 {f.nombre}
               </h1>
               <div className="flex flex-wrap gap-1.5 mb-4">
-                {f.actividades.map((a) => (
-                  <span key={a.id} className="badge">{a.nombre}</span>
-                ))}
+{f.actividades.map((a) => (
+                    <Link
+                      key={a.id}
+                      href={`/actividades/${a.slug}`}
+                      className="badge hover:bg-sage-100 dark:hover:bg-sage-800/50 transition-colors"
+                    >
+                      {a.nombre}
+                    </Link>
+                  ))}
               </div>
               {ubiPrincipal?.direccion && (
                 <p className="flex items-center gap-1.5 text-sm text-bark-600">
@@ -296,7 +302,7 @@ export default function FacilitadorContent({
         {/* Bio */}
         {f.bio && (
           <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm p-6 sm:p-8">
-            <h2 className="font-serif text-lg font-medium text-bark mb-3">Sobre mí</h2>
+            <h2 className="font-serif text-lg font-medium text-bark mb-3">Sobre el profesional</h2>
             <p className="text-bark-700 leading-relaxed">{f.bio}</p>
           </div>
         )}
