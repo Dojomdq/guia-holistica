@@ -238,7 +238,7 @@ export default function FacilitadorContent({
 {f.actividades.map((a) => (
                     <Link
                       key={a.id}
-                      href={`/actividades/${a.slug}`}
+                      href={`/mapa?q=${encodeURIComponent(a.slug)}`}
                       className="badge hover:bg-sage-100 dark:hover:bg-sage-800/50 transition-colors"
                     >
                       {a.nombre}
