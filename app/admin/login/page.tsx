@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Lock } from "lucide-react";
 
 const COOKIE_NAME = "admin_auth";
@@ -11,7 +11,6 @@ function LoginForm() {
   const [pass, setPass] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   async function handleSubmit(e: React.FormEvent) {
@@ -24,7 +23,7 @@ function LoginForm() {
       document.cookie = `${COOKIE_NAME}=${token}; path=/; max-age=86400; SameSite=Lax; Secure`;
 
       const from = searchParams.get("from") || "/admin";
-      setTimeout(() => router.replace(from), 100);
+      window.location.href = from;
     } catch {
       setError("Error al iniciar sesión");
     } finally {
