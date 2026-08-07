@@ -50,7 +50,7 @@ export default function SearchSection() {
           className="max-w-3xl mx-auto"
           role="search"
         >
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
+          <div className="flex flex-wrap justify-center gap-0 mb-5 border-b border-cream-200 dark:border-bark-700">
             {MODOS.map((m) => (
               <button
                 key={m.id}
@@ -59,10 +59,10 @@ export default function SearchSection() {
                   setModo(m.id);
                   setBusqueda("");
                 }}
-                className={`px-4 py-1.5 rounded-full text-[13px] font-medium transition-all duration-200 ${
+                className={`px-5 py-2.5 text-[14px] font-medium transition-all duration-200 relative -mb-px ${
                   modo === m.id
-                    ? "bg-bark text-white shadow-sm"
-                    : "bg-white text-bark-500 border border-cream-300/60 hover:text-bark hover:border-cream-400"
+                    ? "text-bark dark:text-cream-100 border-b-2 border-sage-600 dark:border-sage-400"
+                    : "text-bark-500 dark:text-cream-400 hover:text-bark-600 dark:hover:text-cream-300 border-b-2 border-transparent"
                 }`}
               >
                 {m.label}
