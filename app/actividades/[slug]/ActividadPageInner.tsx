@@ -35,47 +35,46 @@ export default function ActividadPageInner({ slug }: { slug: string }) {
   const [cargando, setCargando] = useState(true);
   const { ref, isVisible } = useScrollReveal();
 
-  useEffect(() => {
+useEffect(() => {
+    let cancelled = false;
     async function load() {
-      // Try as categoria first
-      const { data: cat } = await supabase
+      // Try as categoria
+      const { data: cat, error: catErr } = await supabase
         .from("categorias")
         .select("id, nombre")
         .eq("slug", slug)
-        .single();
+        .maybeSingle();
 
-      if (cat) {
+      if (!cancelled && cat) {
         setCategoriaNombre(cat.nombre);
         setDisplayName(cat.nombre);
         setEsActividad(false);
 
         const { data: acts } = await supabase
           .from("actividades")
-          .select("id, nombre, slug, descripcion")
+          .select("id, nombre, slug")
           .eq("categoria_id", cat.id)
           .order("nombre");
 
-        if (acts && acts.length > 0) {
+        if (!cancelled && acts && acts.length > 0) {
           const actIds = acts.map((a) => a.id);
           const { data: fas } = await supabase
             .from("facilitador_actividades")
             .select("actividad_id, facilitador_id")
             .in("actividad_id", actIds);
 
-          const facilitatorIds = new Set<string>();
-          const countMap: Record<string, number> = {};
-          (fas || []).forEach((f) => {
-            facilitatorIds.add(f.facilitador_id);
-            countMap[f.actividad_id] = (countMap[f.actividad_id] || 0) + 1;
-          });
-
-          setSubActividades(acts.map((a) => ({
-            id: a.id, nombre: a.nombre, slug: a.slug,
-            descripcion: a.descripcion, count: countMap[a.id] || 0,
-          })));
-          setTotalFacilitadores(facilitatorIds.size);
+          if (!cancelled) {
+            const facilitatorIds = new Set<string>();
+            const countMap: Record<string, number> = {};
+            (fas || []).forEach((f: any) => {
+              facilitatorIds.add(f.facilitador_id);
+              countMap[f.actividad_id] = (countMap[f.actividad_id] || 0) + 1;
+            });
+            setSubActividades(acts.map((a) => ({ id: a.id, nombre: a.nombre, slug: a.slug, descripcion: null, count: countMap[a.id] || 0 })));
+            setTotalFacilitadores(facilitatorIds.size);
+          }
         }
-        setCargando(false);
+        if (!cancelled) setCargando(false);
         return;
       }
 
@@ -84,9 +83,9 @@ export default function ActividadPageInner({ slug }: { slug: string }) {
         .from("actividades")
         .select("id, nombre")
         .eq("slug", slug)
-        .single();
+        .maybeSingle();
 
-      if (act) {
+      if (!cancelled && act) {
         setDisplayName(act.nombre);
         setEsActividad(true);
 
@@ -95,45 +94,49 @@ export default function ActividadPageInner({ slug }: { slug: string }) {
           .select("facilitador_id")
           .eq("actividad_id", act.id);
 
-        const facIds = (fas || []).map((f) => f.facilitador_id);
-        setTotalFacilitadores(facIds.length);
+        if (!cancelled) {
+          const facIds = (fas || []).map((f: any) => f.facilitador_id);
+          setTotalFacilitadores(facIds.length);
 
-        if (facIds.length > 0) {
-          const { data: facs } = await supabase
-            .from("facilitadores")
-            .select("id, nombre, bio, direccion, ciudad")
-            .in("id", facIds)
-            .eq("activo", true)
-            .order("nombre");
+          if (facIds.length > 0) {
+            const { data: facs } = await supabase
+              .from("facilitadores")
+              .select("id, nombre, bio, direccion, ciudad")
+              .in("id", facIds)
+              .eq("activo", true)
+              .order("nombre");
 
-          if (facs) {
-            // Get actividades for each facilitator
-            const { data: allFas } = await supabase
-              .from("facilitador_actividades")
-              .select("facilitador_id, actividades(nombre)")
-              .in("facilitador_id", facIds);
+            if (!cancelled && facs) {
+              const { data: allFas } = await supabase
+                .from("facilitador_actividades")
+                .select("facilitador_id, actividades(nombre)")
+                .in("facilitador_id", facIds);
 
-            const actsMap: Record<string, string[]> = {};
-            (allFas || []).forEach((fa: any) => {
-              if (!actsMap[fa.facilitador_id]) actsMap[fa.facilitador_id] = [];
-              if (fa.actividades?.nombre) actsMap[fa.facilitador_id].push(fa.actividades.nombre);
-            });
+              const actsMap: Record<string, string[]> = {};
+              (allFas || []).forEach((fa: any) => {
+                if (!actsMap[fa.facilitador_id]) actsMap[fa.facilitador_id] = [];
+                if (fa.actividades?.nombre) actsMap[fa.facilitador_id].push(fa.actividades.nombre);
+              });
 
-            setFacilitadores(facs.map((f) => ({
-              id: f.id, nombre: f.nombre, bio: f.bio,
-              direccion: f.direccion, ciudad: f.ciudad,
-              actividades: actsMap[f.id] || [],
-            })));
+              setFacilitadores(facs.map((f) => ({
+                id: f.id, nombre: f.nombre, bio: f.bio,
+                direccion: f.direccion, ciudad: f.ciudad,
+                actividades: actsMap[f.id] || [],
+              })));
+            }
           }
         }
-        setCargando(false);
+        if (!cancelled) setCargando(false);
         return;
       }
 
-      setDisplayName(slug.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()));
-      setCargando(false);
+      if (!cancelled) {
+        setDisplayName(slug.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase()));
+        setCargando(false);
+      }
     }
     load();
+    return () => { cancelled = true; };
   }, [slug]);
 
   if (cargando) {
