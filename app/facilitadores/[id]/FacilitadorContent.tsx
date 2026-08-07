@@ -308,34 +308,34 @@ export default function FacilitadorContent({
         )}
 
         {/* Horarios */}
-        <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm p-6 sm:p-8">
-          <h2 className="font-serif text-lg font-medium text-bark mb-3 flex items-center gap-2">
-            <Clock className="h-5 w-5" style={{ color }} />
-            Horarios y disponibilidad
-          </h2>
-          {f.horarios ? (
-            <p className="text-bark-700 leading-relaxed">{f.horarios}</p>
-          ) : f.whatsapp ? (
-            <div className="rounded-xl p-5 border text-center" style={{ backgroundColor: `${color}06`, borderColor: `${color}18` }}>
-              <p className="text-sm text-bark-600 mb-4">
-                Consultá disponibilidad y turnos directamente por WhatsApp.
-              </p>
-              <a
-                href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, quisiera consultar disponibilidad y turnos")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 text-white rounded-full text-sm font-medium transition-colors"
-                style={{ backgroundColor: color }}
-                onClick={() => track("whatsapp", f.id)}
-              >
-                <MessageCircle className="h-4 w-4" />
-                Consultar por WhatsApp
-              </a>
-            </div>
-          ) : (
-            <p className="text-sm text-bark-500">Atiende por turnos. Consultá disponibilidad por sus redes.</p>
-          )}
-        </div>
+{f.horarios || f.whatsapp ? (
+              <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm p-6 sm:p-8">
+                <h2 className="font-serif text-lg font-medium text-bark mb-3 flex items-center gap-2">
+                  <Clock className="h-5 w-5" style={{ color }} />
+                  Horarios y disponibilidad
+                </h2>
+                {f.horarios ? (
+                  <p className="text-bark-700 leading-relaxed">{f.horarios}</p>
+                ) : (
+                  <div className="rounded-xl p-5 border text-center" style={{ backgroundColor: `${color}06`, borderColor: `${color}18` }}>
+                    <p className="text-sm text-bark-600 mb-4">
+                      Consultá disponibilidad y turnos directamente por WhatsApp.
+                    </p>
+                    <a
+                      href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, quisiera consultar disponibilidad y turnos")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 text-white rounded-full text-sm font-medium transition-colors"
+                      style={{ backgroundColor: color }}
+                      onClick={() => track("whatsapp", f.id)}
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      Consultar por WhatsApp
+                    </a>
+                  </div>
+                )}
+              </div>
+            ) : null}
 
         {/* Ubicaciones */}
         {f.ubicaciones.length > 0 && (

@@ -53,7 +53,7 @@ export default function Footer() {
 
             {/* Column 2 — Enlaces */}
             <div>
-              <h3 className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-cream-200 mb-5">
+              <h3 className="text-xs font-mono font-medium tracking-[0.12em] uppercase text-cream-200 mb-5">
                 Enlaces
               </h3>
               <nav aria-label="Enlaces rápidos" className="flex flex-col gap-3">
@@ -77,7 +77,7 @@ export default function Footer() {
 
             {/* Column 3 — Contacto */}
             <div>
-              <h3 className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-cream-200 mb-5">
+              <h3 className="text-xs font-mono font-medium tracking-[0.12em] uppercase text-cream-200 mb-5">
                 Contacto
               </h3>
               <div className="flex flex-col gap-3.5">

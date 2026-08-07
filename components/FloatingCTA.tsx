@@ -7,14 +7,27 @@ import { WHATSAPP_LINK } from "@/lib/constants";
 
 export default function FloatingCTA() {
   const [visible, setVisible] = useState(false);
+  const [nearBottom, setNearBottom] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), 2000);
-    return () => clearTimeout(timer);
+
+    function onScroll() {
+      const scrollBottom = window.innerHeight + window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+      setNearBottom(scrollBottom >= docHeight - 200);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
-  if (pathname === "/mapa") return null;
+  if (pathname === "/mapa" || nearBottom) return null;
 
   return (
     <a
