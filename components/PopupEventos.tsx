@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { WHATSAPP_LINK } from "@/lib/constants";
 
 const STORAGE_KEY = "popup_eventos_visto";
 
@@ -164,7 +165,7 @@ export default function PopupEventos({ onClose }: Props) {
 
         <div className="px-5 py-4 flex items-center justify-between bg-white/60 backdrop-blur-sm border-t border-cream-200">
           <a
-            href="https://wa.me/5492235742540?text=Vengo%20del%20sitio%20Guiadebienestar%2C%20me%20gustaria%20mas%20informacion%20porque%20tengo%20interes%20en%20participar%20en%20el%20evento"
+            href={`${WHATSAPP_LINK}?text=${encodeURIComponent("Vengo del sitio Guía de Bienestar, me gustaría más información porque tengo interés en participar en el evento")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-semibold text-sage-600 hover:text-sage-700 transition"
