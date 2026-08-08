@@ -106,12 +106,7 @@ export default function FacilitadoresContent() {
             if (catIdToSlug[a.categoria_id]) map[a.slug] = catIdToSlug[a.categoria_id];
           });
           setActividadCategoriaMap(map);
-          console.log("actividadCategoriaMap built:", Object.keys(map).length, "entries", JSON.stringify(map).substring(0, 200));
-        } else {
-          console.log("aRes.data is null/empty");
         }
-      } else {
-        console.log("cRes.data is null/empty");
       }
 
       setCargando(false);

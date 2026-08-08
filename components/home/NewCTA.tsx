@@ -25,7 +25,7 @@ export default function NewCTA() {
               ¿Sos profesional? Sumá tu perfil y conectá con nuevos pacientes.
             </h2>
             <Link
-              href={WHATSAPP_LINK}
+              href={`${WHATSAPP_LINK}?text=${encodeURIComponent("Hola, quiero sumar mi perfil a la Guía de Bienestar")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white text-bark rounded-full text-base font-semibold hover:bg-cream-100 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 shrink-0 group"

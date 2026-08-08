@@ -90,8 +90,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${dmSans.variable} ${dmMono.variable}`}>
+    <html lang="es" className={`${dmSans.variable} ${dmMono.variable}`} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme:dark)").matches))document.documentElement.classList.add("dark")}catch(e){}` }} />
         <link rel="icon" type="image/png" href="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381416/favicon_web_wiy37z.png" />
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&display=swap" />
         <link
