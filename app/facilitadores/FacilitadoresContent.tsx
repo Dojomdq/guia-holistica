@@ -142,7 +142,7 @@ export default function FacilitadoresContent() {
     }
 
     return result;
-  }, [busqueda, filtroCategoria, filtroCiudad, facilitadores]);
+  }, [busqueda, filtroCategoria, filtroCiudad, facilitadores, actividadCategoriaMap]);
 
   return (
     <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
