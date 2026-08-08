@@ -39,6 +39,7 @@ export default function FacilitadoresContent() {
   const [filtroCiudad, setFiltroCiudad] = useState<string | null>(null);
   const [facilitadores, setFacilitadores] = useState<FacilitadorItem[]>([]);
   const [categorias, setCategoriaItems] = useState<CategoriaItem[]>([]);
+  const [actividadCategoriaMap, setActividadCategoriaMap] = useState<Record<string, string>>({});
   const [ciudades, setCiudades] = useState<string[]>([]);
   const [cargando, setCargando] = useState(true);
   const track = useClickTracker();
@@ -46,7 +47,7 @@ export default function FacilitadoresContent() {
 
   useEffect(() => {
     async function load() {
-      const [fRes, cRes] = await Promise.all([
+      const [fRes, cRes, aRes] = await Promise.all([
         supabase
           .from("facilitadores")
           .select(
@@ -56,8 +57,11 @@ export default function FacilitadoresContent() {
           .order("nombre"),
         supabase
           .from("categorias")
-          .select("slug, nombre, icono")
+          .select("id, slug, nombre")
           .order("nombre"),
+        supabase
+          .from("actividades")
+          .select("slug, categoria_id"),
       ]);
 
       if (fRes.data) {
@@ -88,12 +92,21 @@ export default function FacilitadoresContent() {
       }
 
       if (cRes.data) {
+        const catIdToSlug: Record<string, string> = {};
+        cRes.data.forEach((c: any) => { catIdToSlug[c.id] = c.slug; });
         setCategoriaItems(
           cRes.data.map((c: any) => ({
             slug: c.slug,
             nombre: c.nombre,
           }))
         );
+        if (aRes.data) {
+          const map: Record<string, string> = {};
+          aRes.data.forEach((a: any) => {
+            if (catIdToSlug[a.categoria_id]) map[a.slug] = catIdToSlug[a.categoria_id];
+          });
+          setActividadCategoriaMap(map);
+        }
       }
 
       setCargando(false);
@@ -120,7 +133,11 @@ export default function FacilitadoresContent() {
         (f) =>
           normalizeText(f.nombre).includes(q) ||
           f.actividades.some((a) => normalizeText(a).includes(q)) ||
-          (f.bio && normalizeText(f.bio).includes(q))
+          (f.bio && normalizeText(f.bio).includes(q)) ||
+          f.actividadSlugs.some((slug) => {
+            const catSlug = actividadCategoriaMap[slug];
+            return catSlug && normalizeText(catSlug.replace(/-/g, " ")).includes(q);
+          })
       );
     }
 
