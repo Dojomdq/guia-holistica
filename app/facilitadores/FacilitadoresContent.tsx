@@ -124,7 +124,7 @@ export default function FacilitadoresContent() {
 
     if (filtroCategoria) {
       result = result.filter((f) =>
-        f.actividadSlugs.some((slug) => slug.includes(filtroCategoria))
+        f.actividadSlugs.some((slug) => actividadCategoriaMap[slug] === filtroCategoria || slug.includes(filtroCategoria))
       );
     }
 
