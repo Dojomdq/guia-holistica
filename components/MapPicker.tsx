@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useId } from "react";
 import { MapPin } from "lucide-react";
 
 interface Props {
@@ -11,8 +11,14 @@ interface Props {
 
 export default function MapPicker({ lat, lng, onChange }: Props) {
   const [mapReady, setMapReady] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapId = useId().replace(/:/g, "");
 
   useEffect(() => {
+    if (!containerRef.current) return;
+    const container = containerRef.current;
+    container.id = `map-picker-${mapId}`;
+
     let map: any = null;
     let marker: any = null;
 
@@ -20,14 +26,14 @@ export default function MapPicker({ lat, lng, onChange }: Props) {
       const L = (await import("leaflet")).default;
       await import("leaflet/dist/leaflet.css");
 
-      map = L.map("map-picker", {
+      map = L.map(`map-picker-${mapId}`, {
         center: [lat, lng],
         zoom: 14,
         attributionControl: false,
       });
 
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; CARTO",
+        attribution: "&copy; OpenStreetMap",
       }).addTo(map);
 
       marker = L.marker([lat, lng], { draggable: true }).addTo(map);
@@ -56,7 +62,7 @@ export default function MapPicker({ lat, lng, onChange }: Props) {
 
   return (
     <div className="relative w-full rounded-xl overflow-hidden border border-cream-300">
-      <div id="map-picker" className="h-[250px] w-full" />
+      <div ref={containerRef} className="h-[250px] w-full" />
       {!mapReady && (
         <div className="absolute inset-0 bg-cream-100 flex items-center justify-center">
           <MapPin className="h-6 w-6 text-cream-400 animate-pulse" />
