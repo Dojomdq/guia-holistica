@@ -215,8 +215,8 @@ export default function FacilitadoresAdmin() {
     try {
       const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
       const data = await res.json();
-      if (!res.ok || !data.success) {
-        setError("Error: " + (data.error || res.statusText));
+      if (!res.ok || data.error) {
+        setError("Error (" + res.status + "): " + (data.error || res.statusText) + " | " + JSON.stringify(data));
         setGuardando(false);
         return;
       }
