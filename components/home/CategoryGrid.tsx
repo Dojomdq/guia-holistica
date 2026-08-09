@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 import { useScrollReveal } from "@/lib/useScrollReveal";
+import { getMarkerColor } from "@/lib/categories";
 
 const DEFAULT_EMOJIS: Record<string, string> = {
   yoga: "🧘", reiki: "🖐️", meditacion: "🧠", chamanismo: "🪶",
@@ -13,6 +14,8 @@ const DEFAULT_EMOJIS: Record<string, string> = {
   "flores-de-bach": "🌼", "sonidos-y-vibraciones": "🔔",
   numerologia: "🔢", pranoterapia: "🌀", "limpieza-energetica": "💫",
   "plantas-medicinales": "🌱", "masajes-terapeuticos": "💆",
+  solidarios: "🤝", "artes-marciales-no-competitivas": "🥋",
+  "terapias-holisticas-alternativas": "🌿",
 };
 
 interface CategoriaItem {
@@ -49,43 +52,36 @@ export default function CategoryGrid() {
   }, []);
 
   return (
-    <section ref={ref} className="py-24 sm:py-28 relative overflow-hidden bg-sage-50">
+    <section ref={ref} className="py-16 sm:py-20 relative overflow-hidden bg-sand-100">
       <div className="relative container-wide">
-        <div className={`text-center mb-16 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-          <span className="inline-flex items-center gap-3 px-5 py-2 bg-sage-600 text-white text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-6 shadow-glow">
-            <span className="w-1.5 h-1.5 bg-white/60 rounded-full" />
-            Actividades
-            <span className="w-1.5 h-1.5 bg-white/60 rounded-full" />
-          </span>
-          <h2 className="heading-lg text-bark max-w-2xl mx-auto">
-            Explorá actividades
-          </h2>
-          <p className="text-bark-600 mt-4 max-w-md mx-auto">
-            Hacé clic en lo que necesitás para ver los facilitadores disponibles.
-          </p>
+        <div className={`text-center mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          <span className="section-label justify-center">Categorías</span>
+          <h2 className="heading-lg text-bark mt-4">Explorá por categoría</h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 max-w-5xl mx-auto">
           {cargando
-            ? Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="bg-white rounded-2xl p-5 border border-cream-200/40 animate-pulse flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-cream-200 shrink-0" />
-                  <div className="h-4 bg-cream-200 rounded w-2/3" />
-                </div>
+            ? Array.from({ length: 12 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="h-12 rounded-full bg-white/70 border border-cream-300/40 animate-pulse"
+                />
               ))
             : categorias.map((cat, i) => (
                 <Link
                   key={cat.slug}
                   href={`/actividades/${cat.slug}`}
-                  className={`group relative flex items-center gap-4 p-5 rounded-2xl bg-white border border-cream-200/40 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-sage-300/60 cursor-pointer ${
+                  className={`group flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white border border-cream-300/50 hover:border-sage-300 hover:bg-sage-50 hover:shadow-md transition-all duration-300 ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                   }`}
-                  style={{ transitionDelay: `${Math.min(i * 50, 400)}ms` }}
+                  style={{
+                    borderLeftWidth: 3,
+                    borderLeftColor: getMarkerColor(cat.slug),
+                    transitionDelay: `${Math.min(i * 40, 400)}ms`,
+                  }}
                 >
-                  <div className="w-12 h-12 rounded-xl bg-sage-50 flex items-center justify-center transition-all duration-300 group-hover:bg-sage-100 group-hover:scale-110 text-xl shrink-0">
-                    {cat.emoji}
-                  </div>
-                  <span className="text-[14px] font-medium text-bark-600 group-hover:text-bark text-left leading-tight transition-colors duration-300">
+                  <span className="text-base leading-none" aria-hidden="true">{cat.emoji}</span>
+                  <span className="text-[13px] font-medium text-bark-600 group-hover:text-bark leading-tight transition-colors duration-300">
                     {cat.nombre}
                   </span>
                 </Link>

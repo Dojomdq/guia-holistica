@@ -4,17 +4,15 @@ import { useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
-  Marker,
-  Popup,
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import L from "leaflet";
 import Link from "next/link";
 
-import { getMarkerColor } from "@/lib/categories";
+import { getEmoji, getMarkerColor } from "@/lib/categories";
+import ClusteredMarkers from "@/components/ClusteredMarkers";
 import { useClickTracker } from "@/lib/useClickTracker";
-import { CITY_COORDS } from "@/lib/constants";
+import { CITY_COORDS, CITY_NAME } from "@/lib/constants";
 
 interface Actividad {
   id: string;
@@ -53,50 +51,7 @@ interface Props {
   ciudadSeleccionada?: string | null;
 }
 
-function createIcon(color: string, isSelected: boolean): L.DivIcon {
-  const size = isSelected ? 28 : 20;
-  const innerSize = isSelected ? 12 : 8;
-
-  return new L.DivIcon({
-    html: `<div style="
-      position: relative;
-      width: ${size}px;
-      height: ${size}px;
-    ">
-      <div style="
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: ${size}px;
-        height: ${size * 0.9}px;
-        background: ${color};
-        border-radius: 50% 50% 50% 0;
-        transform-origin: bottom left;
-        transform: translateX(-50%) rotate(-45deg);
-        box-shadow: ${isSelected ? `0 0 0 4px ${color}30, 0 4px 16px rgba(0,0,0,0.25)` : "0 2px 8px rgba(0,0,0,0.15)"};
-        border: 2.5px solid white;
-      "></div>
-      <div style="
-        position: absolute;
-        bottom: ${size * 0.23}px;
-        left: 50%;
-        transform: translate(-50%, 50%);
-        width: ${innerSize}px;
-        height: ${innerSize}px;
-        background: white;
-        border-radius: 50%;
-        z-index: 1;
-      "></div>
-    </div>`,
-    className: "",
-    iconSize: [size, size + 8],
-    iconAnchor: [size / 2, size + 8],
-    popupAnchor: [0, -(size + 4)],
-  });
-}
-
-const DEFAULT_CENTER: [number, number] = [-38.0055, -57.5426];
+const DEFAULT_CENTER: [number, number] = CITY_COORDS[CITY_NAME] ?? [-38, -57];
 
 function MapEvents({
   onSeleccionar,
@@ -123,6 +78,18 @@ function FocusMarkers({
     }
   }, [ciudad, map]);
 
+  useEffect(() => {
+    if (!selectedId) return;
+    const marker = markers.find((m) => m.facilitador.id === selectedId);
+    if (marker) {
+      map.flyTo(
+        [marker.ubicacion.latitud, marker.ubicacion.longitud],
+        16,
+        { duration: 0.6 }
+      );
+    }
+  }, [selectedId, markers, map]);
+
   return null;
 }
 
@@ -143,79 +110,85 @@ export default function MapaInteractivo({
       className="z-0"
     >
       <TileLayer
-        attribution='&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
       <MapEvents onSeleccionar={onSeleccionar} />
       <FocusMarkers markers={markers} selectedId={seleccionado} ciudad={ciudadSeleccionada} />
 
-      {markers.map((m, idx) => {
-        const isSelected = seleccionado === m.facilitador.id;
-        const color = getMarkerColor(
-          m.facilitador.actividades.length > 0
+      <ClusteredMarkers
+        items={markers.map((m) => {
+          const slug = m.facilitador.actividades.length > 0
             ? m.facilitador.actividades[0].slug
-            : ""
-        );
-        const icon = createIcon(color, isSelected);
-
-        return (
-          <Marker
-            key={`${m.facilitador.id}-${m.ubicacion.id || idx}`}
-            position={[m.ubicacion.latitud, m.ubicacion.longitud]}
-            icon={icon}
-            opacity={seleccionado && !isSelected ? 0.35 : 1}
-            eventHandlers={{
-              click: () => onSeleccionar(m.facilitador.id),
-            }}
-          >
-            <Popup closeButton={true} autoPan={false}>
-              <div className="p-2.5 min-w-[200px] max-w-[260px]">
-                <h3 className="font-serif font-medium text-bark text-sm mb-2 leading-tight">
-                  {m.facilitador.nombre}
-                </h3>
-                <div className="flex flex-wrap gap-1 mb-2">
-                  {m.facilitador.actividades.map((a) => (
-                    <span
-                      key={a.id}
-                      className="px-2 py-0.5 bg-cream-200/60 text-bark-600 text-[10px] font-medium rounded-full"
-                    >
-                      {a.nombre}
-                    </span>
-                  ))}
-                </div>
-                {m.facilitador.bio && (
-                  <p className="text-xs text-bark-600 mb-2 line-clamp-2 leading-relaxed">
-                    {m.facilitador.bio}
-                  </p>
-                )}
-                <p className="text-[11px] text-bark-500 mb-2.5">
-                  {m.ubicacion.direccion || "Ubicación sin dirección"}
-                </p>
-                <div className="flex gap-2">
-                  <Link
-                    href={`/facilitadores/${m.facilitador.id}`}
-                    className="text-xs px-3 py-1.5 rounded-full font-medium bg-bark popup-btn-white hover:opacity-90 transition-opacity"
-                    onClick={() => track("facilitador", m.facilitador.id)}
+            : "";
+          return {
+            id: m.facilitador.id,
+            lat: m.ubicacion.latitud,
+            lng: m.ubicacion.longitud,
+            emoji: getEmoji(slug),
+            nombre: m.facilitador.nombre,
+            color: getMarkerColor(slug),
+            data: m,
+          };
+        })}
+        selectedId={seleccionado}
+        onSelect={onSeleccionar}
+        dimOthers
+        renderPopup={(item) => {
+          const m = item.data as MarkerItem;
+          return (
+            <div className="p-2.5 min-w-[200px] max-w-[260px]">
+              <h3 className="font-serif font-medium text-bark text-sm mb-2 leading-tight">
+                {m.facilitador.nombre}
+              </h3>
+              <div className="flex flex-wrap gap-1 mb-2">
+                {m.facilitador.actividades.map((a) => (
+                  <span
+                    key={a.id}
+                    className="px-2 py-0.5 bg-cream-200/60 text-bark-600 text-[10px] font-medium rounded-full"
                   >
-                    Ver perfil
-                  </Link>
-                  {m.facilitador.whatsapp && (
-                    <a
-                      href={`https://wa.me/${m.facilitador.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs px-3 py-1.5 rounded-full font-medium bg-sage-600 popup-btn-white hover:opacity-90 transition-opacity"
-                    >
-                      WhatsApp
-                    </a>
-                  )}
-                </div>
+                    {a.nombre}
+                  </span>
+                ))}
               </div>
-            </Popup>
-          </Marker>
-        );
-      })}
+              {m.facilitador.bio && (
+                <p className="text-xs text-bark-600 mb-2 line-clamp-2 leading-relaxed">
+                  {m.facilitador.bio}
+                </p>
+              )}
+              <p className="text-[11px] text-bark-500 mb-2.5 flex items-baseline gap-1.5">
+    <span>{m.ubicacion.direccion || "Sin dirección"}</span>
+    {m.ubicacion.ciudad && (
+      <>
+        <span className="text-bark-300">·</span>
+        <span className="text-bark-400">{m.ubicacion.ciudad}</span>
+      </>
+    )}
+  </p>
+              <div className="flex gap-2">
+                <Link
+                  href={`/facilitadores/${m.facilitador.id}`}
+                  className="text-xs px-3 py-1.5 rounded-full font-medium bg-bark popup-btn-white hover:opacity-90 transition-opacity"
+                  onClick={() => track("facilitador", m.facilitador.id)}
+                >
+                  Ver perfil
+                </Link>
+                {m.facilitador.whatsapp && (
+                  <a
+                    href={`https://wa.me/${m.facilitador.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs px-3 py-1.5 rounded-full font-medium bg-sage-600 popup-btn-white hover:opacity-90 transition-opacity"
+                  >
+                    WhatsApp
+                  </a>
+                )}
+              </div>
+            </div>
+          );
+        }}
+      />
     </MapContainer>
   );
 }

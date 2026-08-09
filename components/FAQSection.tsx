@@ -13,7 +13,7 @@ const faqs = [
   {
     pregunta: "¿Cómo encuentro un facilitador cerca mío?",
     respuesta:
-      "Usá el mapa interactivo para ver todos los facilitadores en Mar del Plata. Podés filtrar por actividad y hacer clic en cada punto para ver el perfil completo con dirección, contacto y biografía.",
+      "Usá el mapa interactivo para ver todos los facilitadores. Podés filtrar por actividad y hacer clic en cada punto para ver el perfil completo con dirección, contacto y biografía.",
   },
   {
     pregunta: "¿Los facilitadores están verificados?",
@@ -21,14 +21,14 @@ const faqs = [
       "Sí, cada facilitador pasa por un proceso de verificación antes de ser publicado en la guía. Trabajamos para mantener la calidad y confiabilidad de la información.",
   },
   {
-    pregunta: "¿Puedo publicar mi práctica holística?",
+    pregunta: "¿Puedo publicar mi práctica de bienestar?",
     respuesta:
-      "¡Por supuesto! Si sos facilitador o terapeuta holístico, escribinos para sumarte a la guía. Es gratuito y te ayuda a que más personas te encuentren.",
+      "¡Por supuesto! Si sos profesional de bienestar, escribinos para sumarte a la guía. Te ayuda a que más personas te encuentren.",
   },
   {
     pregunta: "¿Qué actividades puedo encontrar?",
     respuesta:
-      "Tenemos 18 categorías incluyendo yoga, reiki, meditación, chamanismo, tarot, astrología, aromaterapia, masajes terapéuticos, sanación energética y muchas más.",
+      "Tenemos múltiples categorías incluyendo yoga, reiki, meditación, chamanismo, tarot, astrología, aromaterapia, masajes terapéuticos, sanación energética y muchas más.",
   },
 ];
 
@@ -45,7 +45,7 @@ export default function FAQSection() {
           }`}
         >
           <span className="section-label justify-center">Preguntas</span>
-          <h2 className="heading-lg mt-4">FAQ</h2>
+          <h2 className="heading-lg mt-4">Preguntas frecuentes</h2>
         </div>
 
         <div className="max-w-2xl mx-auto space-y-3">
@@ -82,7 +82,7 @@ export default function FAQSection() {
               <div
                 className={`overflow-hidden transition-all duration-500 ease-out ${
                   openIndex === i
-                    ? "max-h-40 opacity-100 mt-2"
+                    ? "max-h-96 opacity-100 mt-2"
                     : "max-h-0 opacity-0"
                 }`}
               >

@@ -25,7 +25,7 @@ export async function generateMetadata({
 
   const desc = data.bio
     ? `${data.nombre}: ${data.bio}`
-    : `${data.nombre} - Facilitador holístico en ${data.ciudad || "Mar del Plata"}. ${data.direccion ? "Ubicado en " + data.direccion + "." : ""} Descubrí sus servicios y actividades.`;
+    : `${data.nombre} - Profesional de bienestar${data.ciudad ? " en " + data.ciudad : ""}. ${data.direccion ? "Ubicado en " + data.direccion + "." : ""} Descubrí sus servicios y actividades.`;
 
   return {
     title: data.nombre,

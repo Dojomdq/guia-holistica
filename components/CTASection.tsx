@@ -40,7 +40,7 @@ export default function CTASection() {
             con quienes te buscan
           </h2>
           <p className="text-cream-100 text-lg mb-10 max-w-lg mx-auto leading-relaxed">
-            Miles de personas en Mar del Plata buscan tu ayuda.
+            Miles de personas en tu ciudad buscan tu ayuda.
             Aparecé en el directorio.
           </p>
           <a

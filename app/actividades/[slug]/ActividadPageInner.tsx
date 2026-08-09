@@ -134,7 +134,7 @@ export default function ActividadPageInner({ slug }: { slug: string }) {
             {subActividades.map((a, i) => (
               <Link
                 key={a.id}
-                href={`/mapa?q=${a.slug}`}
+                href={`/facilitadores?q=${a.slug}`}
                 className={`group bg-white rounded-2xl border border-cream-200/60 p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] ${
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}

@@ -1,22 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
-import { getMarkerColor } from "@/lib/categories";
+import { getEmoji, getMarkerColor } from "@/lib/categories";
+import { CITY_COORDS, CITY_NAME } from "@/lib/constants";
+import ClusteredMarkers from "@/components/ClusteredMarkers";
 
-const defaultPosition: [number, number] = [-38.0055, -57.5426];
-
-function createIcon(color: string): L.DivIcon {
-  return new L.DivIcon({
-    html: `<div style="background:${color};width:20px;height:20px;border-radius:50%;border:2.5px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.15)"></div>`,
-    className: "",
-    iconSize: [20, 20],
-    iconAnchor: [10, 10],
-  });
-}
+const defaultPosition: [number, number] = CITY_COORDS[CITY_NAME] ?? [-38, -57];
 
 export default function MiniMap() {
   const [facilitadores, setFacilitadores] = useState<
@@ -48,7 +40,7 @@ export default function MiniMap() {
             lat: f.latitud,
             lng: f.longitud,
             actividad:
-              f.facilitador_actividades?.[0]?.actividades?.nombre || "Holística",
+              f.facilitador_actividades?.[0]?.actividades?.nombre || "Profesional",
             slug: f.facilitador_actividades?.[0]?.actividades?.slug || "",
           }))
         );
@@ -67,36 +59,39 @@ export default function MiniMap() {
         dragging={false}
       >
         <TileLayer
-          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {facilitadores.map((f) => {
-          const color = getMarkerColor(f.slug);
-          return (
-            <Marker
-              key={f.id}
-              position={[f.lat, f.lng]}
-              icon={createIcon(color)}
-            >
-              <Popup>
-                <div className="text-center p-1">
-                  <p className="font-serif font-medium text-bark text-sm">
-                    {f.nombre}
-                  </p>
-                  <p className="text-xs text-bark-600 mt-0.5">
-                    {f.actividad}
-                  </p>
-                  <Link
-                    href={`/facilitadores/${f.id}`}
-                    className="text-xs text-sage-600 hover:text-sage-700 mt-1.5 inline-block font-medium"
-                  >
-                    Ver perfil
-                  </Link>
-                </div>
-              </Popup>
-            </Marker>
-          );
-        })}
+        <ClusteredMarkers
+          items={facilitadores.map((f) => ({
+            id: f.id,
+            lat: f.lat,
+            lng: f.lng,
+            emoji: getEmoji(f.slug),
+            nombre: f.nombre,
+            color: getMarkerColor(f.slug),
+            data: f,
+          }))}
+          renderPopup={(item) => {
+            const f = item.data as (typeof facilitadores)[number];
+            return (
+              <div className="text-center p-1">
+                <p className="font-serif font-medium text-bark text-sm">
+                  {f.nombre}
+                </p>
+                <p className="text-xs text-bark-600 mt-0.5">
+                  {f.actividad}
+                </p>
+                <Link
+                  href={`/facilitadores/${f.id}`}
+                  className="text-xs text-sage-600 hover:text-sage-700 mt-1.5 inline-block font-medium"
+                >
+                  Ver perfil
+                </Link>
+              </div>
+            );
+          }}
+        />
       </MapContainer>
     </div>
   );

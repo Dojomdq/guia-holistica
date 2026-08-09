@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Mail, MessageCircle } from "lucide-react";
 import { WHATSAPP_LINK, CONTACT_EMAIL, INSTAGRAM_URL, INSTAGRAM_HANDLE } from "@/lib/constants";
 
 export default function Footer() {
   return (
-    <footer className="bg-warmblack relative overflow-hidden">
+    <footer className="bg-warmblack dark:bg-bark-950 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay noise-overlay pointer-events-none" />
 
       <div className="relative container-wide py-12">
@@ -14,16 +15,17 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Column 1 — Brand */}
             <div>
-              <Link href="/" className="group inline-block"
-                style={{ marginLeft: "-23px" }}>
-                <img
+              <Link href="/" className="group inline-block">
+                <Image
                   src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785382470/1200x_fcfaao.png"
                   alt="Guía de Bienestar"
+                  width={320}
+                  height={64}
                   className="w-64 sm:w-80 h-auto"
                 />
               </Link>
               <p className="text-sm text-cream-100 mt-5 max-w-[300px] leading-relaxed">
-                Directorio de bienestar en Mar del Plata. Conectá con terapeutas, guías y facilitadores de tu zona.
+                Directorio de bienestar. Conectá con terapeutas, guías y facilitadores de tu zona.
               </p>
               <div className="flex items-center gap-3 mt-6">
                 <a
@@ -51,7 +53,7 @@ export default function Footer() {
 
             {/* Column 2 — Enlaces */}
             <div>
-              <h3 className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-cream-200 mb-5">
+              <h3 className="text-xs font-mono font-medium tracking-[0.12em] uppercase text-cream-200 mb-5">
                 Enlaces
               </h3>
               <nav aria-label="Enlaces rápidos" className="flex flex-col gap-3">
@@ -59,6 +61,8 @@ export default function Footer() {
                   { href: "/", label: "Inicio" },
                   { href: "/actividades", label: "Actividades" },
                   { href: "/mapa", label: "Mapa" },
+                  { href: "/acerca", label: "Sobre nosotros" },
+                  { href: "/accesibilidad", label: "Accesibilidad" },
                 ].map((link) => (
                   <Link
                     key={link.label}
@@ -73,7 +77,7 @@ export default function Footer() {
 
             {/* Column 3 — Contacto */}
             <div>
-              <h3 className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-cream-200 mb-5">
+              <h3 className="text-xs font-mono font-medium tracking-[0.12em] uppercase text-cream-200 mb-5">
                 Contacto
               </h3>
               <div className="flex flex-col gap-3.5">
@@ -83,14 +87,14 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 text-sm text-cream-100 hover:text-cream-100 transition-colors duration-300 w-fit"
                 >
-                  <MessageCircle className="h-4 w-4 shrink-0" />
+                  <MessageCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
                   WhatsApp
                 </a>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
                   className="flex items-center gap-2.5 text-sm text-cream-100 hover:text-cream-100 transition-colors duration-300 w-fit"
                 >
-                  <Mail className="h-4 w-4 shrink-0" />
+                  <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
                   {CONTACT_EMAIL}
                 </a>
                 <a
@@ -108,7 +112,7 @@ export default function Footer() {
 
           <div className="mt-12 pt-6 border-t border-cream-200/10 text-center">
             <span className="text-xs text-cream-200">
-              &copy; {new Date().getFullYear()} Guía de Bienestar · Mar del Plata
+              &copy; {new Date().getFullYear()} Guía de Bienestar
             </span>
           </div>
         </div>

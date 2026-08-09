@@ -1,0 +1,28 @@
+# Guía de Bienestar
+
+Directorio gratuito de facilitadores, terapeutas y guías holísticos en Mar del Plata, Argentina. El sitio reúne en un mapa interactivo profesionales de chamanismo, yoga, reiki, meditación, tarot, biodanza, flores de Bach, masajes y más, con su dirección, contacto de WhatsApp e Instagram.
+
+## Important URLs
+
+- [Inicio](https://guiadebienestar.com.ar/)
+- [Mapa interactivo de facilitadores](https://guiadebienestar.com.ar/mapa)
+- [Actividades holísticas disponibles](https://guiadebienestar.com.ar/actividades)
+- [Facilitadores y terapeutas](https://guiadebienestar.com.ar/facilitadores)
+- [Sobre Guía de Bienestar](https://guiadebienestar.com.ar/acerca)
+- [Declaración de accesibilidad](https://guiadebienestar.com.ar/accesibilidad)
+- [Sitemap XML completo](https://guiadebienestar.com.ar/sitemap.xml)
+
+## Estructura del sitio
+
+- **/mapa** — mapa interactivo con la ubicación de cada facilitador, filtrable por actividad.
+- **/actividades** — listado de categorías (yoga, reiki, chamanismo, meditación, tarot, etc.).
+- **/actividades/[slug]** — página por actividad con los facilitadores que la ofrecen.
+- **/facilitadores** — listado alfabético con búsqueda por nombre, actividad o ciudad.
+- **/facilitadores/[id]** — perfil de cada facilitador con bio, dirección, contacto y redes.
+
+## Datos de contacto
+
+- WhatsApp: https://wa.me/5492235742540
+- Instagram: https://www.instagram.com/guiadelbien
+
+Las páginas dinámicas de facilitadores y actividades no están listadas aquí porque se generan desde la base de datos; el sitemap XML las incluye todas.

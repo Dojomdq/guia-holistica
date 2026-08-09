@@ -4,7 +4,9 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
-import { SITE_URL } from "@/lib/constants";
+import FloatingCTA from "@/components/FloatingCTA";
+import ThemeProvider from "@/app/ThemeProvider";
+import { SITE_URL, CITY_NAME } from "@/lib/constants";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -28,15 +30,15 @@ export const metadata: Metadata = {
   description:
     "Encontrá facilitadores, terapeutas y guías cerca tuyo. Mapa interactivo con chamanismo, yoga, reiki, meditación, tarot y más.",
   keywords: [
-    "holístico Mar del Plata",
-    "chamanismo Mar del Plata",
-    "yoga Mar del Plata",
-    "reiki Mar del Plata",
-    "meditación Mar del Plata",
-    "terapias holísticas",
+    `bienestar ${CITY_NAME}`,
+    `chamanismo ${CITY_NAME}`,
+    `yoga ${CITY_NAME}`,
+    `reiki ${CITY_NAME}`,
+    `meditación ${CITY_NAME}`,
+    "terapias de bienestar",
     "sanación energética",
-    "facilitadores holísticos",
-    "tarot Mar del Plata",
+    "profesionales de bienestar",
+    `tarot ${CITY_NAME}`,
     "aromaterapia",
     "masajes terapéuticos",
   ],
@@ -56,7 +58,7 @@ export const metadata: Metadata = {
         url: "https://res.cloudinary.com/kmxmqr0t/image/upload/w_1200,h_630,c_fill/v1785019465/AF49F0FF-4A15-4EA3-AE9F-AC8F83C11FC0_hkigqu.jpg",
         width: 1200,
         height: 630,
-        alt: "Guía de Bienestar - Costa de Mar del Plata",
+        alt: "Guía de Bienestar",
       },
     ],
   },
@@ -88,8 +90,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${dmSans.variable} ${dmMono.variable}`}>
+    <html lang="es" className={`${dmSans.variable} ${dmMono.variable}`} suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme:dark)").matches))document.documentElement.classList.add("dark")}catch(e){}` }} />
         <link rel="icon" type="image/png" href="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381416/favicon_web_wiy37z.png" />
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&display=swap" />
         <link
@@ -100,6 +103,9 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans">
+        <a href="#main" className="skip-link">
+          Saltar al contenido principal
+        </a>
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
             <script async src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`} />
@@ -110,10 +116,13 @@ export default function RootLayout({
             />
           </>
         )}
+        <ThemeProvider>
         <Header />
-        <main>{children}</main>
+        <main id="main" tabIndex={-1}>{children}</main>
         <Footer />
         <ScrollToTop />
+        <FloatingCTA />
+      </ThemeProvider>
       </body>
     </html>
   );

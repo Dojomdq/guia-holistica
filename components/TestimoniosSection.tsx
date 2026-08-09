@@ -1,88 +1,72 @@
 "use client";
 
+import Link from "next/link";
+import { Star } from "lucide-react";
 import { useScrollReveal } from "@/lib/useScrollReveal";
+import { INSTAGRAM_URL } from "@/lib/constants";
 
-const testimonios = [
-  {
-    nombre: "María",
-    actividad: "Reiki",
-    texto:
-      "Gracias a la guía encontré a una profesional increíble que me ayudó en mi proceso de sanación. El mapa facilitó mucho la búsqueda.",
-  },
-  {
-    nombre: "Lucas",
-    actividad: "Yoga",
-    texto:
-      "Increíble poder ver todas las opciones de actividades holísticas en un solo lugar. Muy intuitivo y fácil de usar.",
-  },
-  {
-    nombre: "Camila",
-    actividad: "Meditación",
-    texto:
-      "La mejor plataforma para conectar con facilitadores en Mar del Plata. Profesional, moderna y muy completa.",
-  },
-];
+const testimonio = {
+  nombre: "María",
+  actividad: "Reiki",
+  iniciales: "M",
+  texto:
+    "Gracias a la guía encontré a una profesional increíble que me ayudó en mi proceso de sanación. El mapa facilitó mucho la búsqueda.",
+};
 
 export default function TestimoniosSection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-14 sm:py-20">
+    <section ref={ref} className="py-16 sm:py-24 bg-sand-100">
       <div className="container-page">
-        {/* Header — minimal */}
         <div
-          className={`mb-8 transition-all duration-700 ${
+          className={`max-w-2xl mx-auto transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="label">Testimonios</span>
-        </div>
+          <span className="label">Qué dicen</span>
 
-        {/* Large editorial quote — first testimonio */}
-        <div
-          className={`transition-all duration-700 delay-100 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
-          <div className="max-w-3xl">
-            <span className="font-serif text-6xl sm:text-7xl text-sage-200 leading-none select-none">
-              &ldquo;
-            </span>
-            <p className="font-serif text-2xl sm:text-3xl lg:text-4xl text-bark-900 leading-snug -mt-8 sm:-mt-10 ml-2">
-              {testimonios[0].texto}
-            </p>
-            <div className="mt-8 ml-2">
-              <p className="font-medium text-bark text-sm">
-                {testimonios[0].nombre}
-              </p>
-              <p className="text-xs text-bark-500 mt-0.5">
-                {testimonios[0].actividad}
-              </p>
+          <div className="mt-8 relative bg-white rounded-3xl border border-cream-200/60 shadow-lg p-8 sm:p-10 text-center">
+            <div className="flex justify-center mb-5 gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className="h-5 w-5 text-amber-400 fill-amber-400"
+                  aria-hidden="true"
+                />
+              ))}
+              <span className="sr-only">5 estrellas</span>
             </div>
-          </div>
-        </div>
 
-        {/* Two smaller quotes — side by side */}
-        <div
-          className={`grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12 pt-10 border-t border-cream-300/40 transition-all duration-700 delay-200 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-          }`}
-        >
-          {testimonios.slice(1).map((t) => (
-            <div key={t.nombre}>
-              <p className="text-bark-600 text-sm leading-relaxed italic">
-                &ldquo;{t.texto}&rdquo;
-              </p>
-              <div className="mt-4">
+            <p className="font-serif text-xl sm:text-2xl text-bark-800 leading-relaxed italic">
+              &ldquo;{testimonio.texto}&rdquo;
+            </p>
+
+            <div className="mt-7 flex flex-col items-center gap-2">
+              <div className="w-12 h-12 rounded-full bg-sage-100 border-2 border-white shadow-sm flex items-center justify-center">
+                <span className="font-serif text-base font-medium text-sage-700">
+                  {testimonio.iniciales}
+                </span>
+              </div>
+              <div>
                 <p className="font-medium text-bark text-sm">
-                  {t.nombre}
+                  {testimonio.nombre}
                 </p>
-                <p className="text-xs text-bark-500 mt-0.5">
-                  {t.actividad}
-                </p>
+                <p className="text-xs text-bark-500">{testimonio.actividad}</p>
               </div>
             </div>
-          ))}
+          </div>
+
+          <div className="mt-6 text-center">
+            <Link
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-sage-700 hover:text-terracotta-600 hover:gap-3 transition-all duration-300"
+            >
+              📖 Ver más opiniones de usuarios
+            </Link>
+          </div>
         </div>
       </div>
     </section>

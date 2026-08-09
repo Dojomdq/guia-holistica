@@ -1,46 +1,53 @@
 import {
-  Feather,
+  Wand2,
   Flower2,
-  Hand,
-  Flame,
+  HeartHandshake,
+  Brain,
   Eye,
   Star,
-  Sparkles,
+  Zap,
   Leaf,
-  Moon,
+  Users,
   Coffee,
-  Bell,
+  Flower,
+  Music,
   Droplets,
   Hash,
   Wind,
   Trees,
   Heart,
-  Sprout,
-  CircleDashed,
-  PersonStanding,
+  Sparkles,
+  Dumbbell,
   type LucideIcon,
 } from "lucide-react";
 
 export const CATEGORY_ICONS: Record<string, LucideIcon> = {
-  chamanismo: Feather,
+  chamanismo: Wand2,
   yoga: Flower2,
-  reiki: Hand,
-  meditacion: Flame,
+  reiki: HeartHandshake,
+  meditacion: Brain,
   tarot: Eye,
   astrologia: Star,
-  "sanacion-energetica": Sparkles,
+  "sanacion-energetica": Zap,
   "terapias-holisticas": Leaf,
-  "circulos-de-mujeres": Moon,
+  "circulos-de-mujeres": Users,
   "cacao-ceremonia": Coffee,
-  "flores-de-bach": Sprout,
-  "sonidos-y-vibraciones": Bell,
+  "flores-de-bach": Flower,
+  "sonidos-y-vibraciones": Music,
   aromaterapia: Droplets,
   numerologia: Hash,
   pranoterapia: Wind,
-  "limpieza-energetica": CircleDashed,
+  "limpieza-energetica": Sparkles,
   "plantas-medicinales": Trees,
   "masajes-terapeuticos": Heart,
-  biodanza: PersonStanding,
+  biodanza: Music,
+  solidarios: HeartHandshake,
+  "artes-marciales-no-competitivas": Dumbbell,
+  "terapias-holisticas-alternativas": Leaf,
+  kung: Dumbbell,
+  aikido: Dumbbell,
+  "pa-kua": Dumbbell,
+  tai: Dumbbell,
 };
 
 export const CATEGORY_COLORS: Record<string, string> = {
@@ -63,6 +70,9 @@ export const CATEGORY_COLORS: Record<string, string> = {
   "plantas-medicinales": "bg-lime-50 border-lime-200 text-lime-700",
   "masajes-terapeuticos": "bg-teal-50 border-teal-200 text-teal-700",
   biodanza: "bg-rose-50 border-rose-200 text-rose-700",
+  solidarios: "bg-amber-50 border-amber-200 text-amber-700",
+  "artes-marciales-no-competitivas": "bg-red-50 border-red-200 text-red-700",
+  "terapias-holisticas-alternativas": "bg-green-50 border-green-200 text-green-700",
 };
 
 export const CATEGORY_MARKER_COLORS: Record<string, string> = {
@@ -85,11 +95,13 @@ export const CATEGORY_MARKER_COLORS: Record<string, string> = {
   "plantas-medicinales": "#65a30d",
   "masajes-terapeuticos": "#0d9488",
   biodanza: "#e11d48",
+  solidarios: "#d97706",
+  "artes-marciales-no-competitivas": "#dc2626",
+  "terapias-holisticas-alternativas": "#15803d",
   kung: "#dc2626",
   aikido: "#dc2626",
   "pa-kua": "#dc2626",
   tai: "#dc2626",
-  solidarios: "#d97706",
 };
 
 export function getCategoryIcon(slug: string): LucideIcon {
@@ -111,4 +123,28 @@ export function getCategoryColor(slug: string): string {
     if (slug.includes(key)) return color;
   }
   return "bg-stone-50 border-stone-200 text-stone-700";
+}
+
+export const EMOJIS: Record<string, string> = {
+  yoga: "🧘", reiki: "🖐️", meditacion: "🧠", chamanismo: "🪶",
+  tarot: "🔮", astrologia: "⭐", "sanacion-energetica": "✨",
+  "terapias-holisticas": "🌿", biodanza: "💃", aromaterapia: "🌸",
+  "circulos-de-mujeres": "🌙", "cacao-ceremonia": "🍫",
+  "flores-de-bach": "🌼", "sonidos-y-vibraciones": "🔔",
+  numerologia: "🔢", pranoterapia: "🌀", "limpieza-energetica": "💫",
+  "plantas-medicinales": "🌱", "masajes-terapeuticos": "💆",
+  solidarios: "🤝",
+  "artes-marciales-no-competitivas": "🥋",
+  "terapias-holisticas-alternativas": "🌿",
+  kung: "🥋",
+  aikido: "🥋",
+  "pa-kua": "🥋",
+  tai: "🥋",
+};
+
+export function getEmoji(slug: string): string {
+  for (const [key, emoji] of Object.entries(EMOJIS)) {
+    if (slug.includes(key)) return emoji;
+  }
+  return "🌿";
 }

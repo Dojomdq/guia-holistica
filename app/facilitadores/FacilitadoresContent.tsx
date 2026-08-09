@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { MapPin, Search, X, ArrowUpRight } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
@@ -34,11 +35,13 @@ function normalizeText(text: string): string {
 }
 
 export default function FacilitadoresContent() {
-  const [busqueda, setBusqueda] = useState("");
+  const searchParams = useSearchParams();
+  const [busqueda, setBusqueda] = useState(searchParams.get("q") || "");
   const [filtroCategoria, setFiltroCategoria] = useState<string | null>(null);
   const [filtroCiudad, setFiltroCiudad] = useState<string | null>(null);
   const [facilitadores, setFacilitadores] = useState<FacilitadorItem[]>([]);
   const [categorias, setCategoriaItems] = useState<CategoriaItem[]>([]);
+  const [actividadCategoriaMap, setActividadCategoriaMap] = useState<Record<string, string>>({});
   const [ciudades, setCiudades] = useState<string[]>([]);
   const [cargando, setCargando] = useState(true);
   const track = useClickTracker();
@@ -46,7 +49,7 @@ export default function FacilitadoresContent() {
 
   useEffect(() => {
     async function load() {
-      const [fRes, cRes] = await Promise.all([
+      const [fRes, cRes, aRes] = await Promise.all([
         supabase
           .from("facilitadores")
           .select(
@@ -56,12 +59,15 @@ export default function FacilitadoresContent() {
           .order("nombre"),
         supabase
           .from("categorias")
-          .select("slug, nombre, icono")
+          .select("id, slug, nombre")
           .order("nombre"),
+        supabase
+          .from("actividades")
+          .select("slug, categoria_id"),
       ]);
 
       if (fRes.data) {
-        const ciudadesSet = new Set<string>(["Mar del Plata", "Bahía Blanca"]);
+        const ciudadesSet = new Set<string>();
         setFacilitadores(
           fRes.data.map((f: any) => {
             const ubi = f.ubicaciones || [];
@@ -88,12 +94,21 @@ export default function FacilitadoresContent() {
       }
 
       if (cRes.data) {
+        const catIdToSlug: Record<string, string> = {};
+        cRes.data.forEach((c: any) => { catIdToSlug[c.id] = c.slug; });
         setCategoriaItems(
           cRes.data.map((c: any) => ({
             slug: c.slug,
             nombre: c.nombre,
           }))
         );
+        if (aRes.data) {
+          const map: Record<string, string> = {};
+          aRes.data.forEach((a: any) => {
+            if (catIdToSlug[a.categoria_id]) map[a.slug] = catIdToSlug[a.categoria_id];
+          });
+          setActividadCategoriaMap(map);
+        }
       }
 
       setCargando(false);
@@ -101,12 +116,22 @@ export default function FacilitadoresContent() {
     load();
   }, []);
 
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (q && Object.keys(actividadCategoriaMap).length > 0 && actividadCategoriaMap[q]) {
+      setFiltroCategoria(actividadCategoriaMap[q]);
+    } else if (!q) {
+      setFiltroCategoria(null);
+    }
+    setBusqueda(q || "");
+  }, [searchParams, actividadCategoriaMap]);
+
   const filtered = useMemo(() => {
     let result = facilitadores;
 
     if (filtroCategoria) {
       result = result.filter((f) =>
-        f.actividadSlugs.some((slug) => slug.includes(filtroCategoria))
+        f.actividadSlugs.some((slug) => actividadCategoriaMap[slug] === filtroCategoria || slug.includes(filtroCategoria))
       );
     }
 
@@ -120,12 +145,16 @@ export default function FacilitadoresContent() {
         (f) =>
           normalizeText(f.nombre).includes(q) ||
           f.actividades.some((a) => normalizeText(a).includes(q)) ||
-          (f.bio && normalizeText(f.bio).includes(q))
+          (f.bio && normalizeText(f.bio).includes(q)) ||
+          f.actividadSlugs.some((slug) => {
+            const catSlug = actividadCategoriaMap[slug];
+            return catSlug && normalizeText(catSlug.replace(/-/g, " ")).includes(q);
+          })
       );
     }
 
     return result;
-  }, [busqueda, filtroCategoria, filtroCiudad, facilitadores]);
+  }, [busqueda, filtroCategoria, filtroCiudad, facilitadores, actividadCategoriaMap]);
 
   return (
     <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
@@ -142,6 +171,24 @@ export default function FacilitadoresContent() {
           }),
         }}
       />
+      {!cargando && facilitadores.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              name: "Facilitadores de bienestar",
+              itemListElement: facilitadores.map((f, i) => ({
+                "@type": "ListItem",
+                position: i + 1,
+                name: f.nombre,
+                url: `${SITE_URL}/facilitadores/${f.id}`,
+              })),
+            }),
+          }}
+        />
+      )}
       <div className="container-page py-16 sm:py-20 lg:py-24">
         <Breadcrumbs items={[{ label: "Facilitadores" }]} />
         <div
@@ -205,14 +252,16 @@ export default function FacilitadoresContent() {
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
               placeholder="Buscar por nombre o actividad..."
+              aria-label="Buscar por nombre o actividad"
               className="input-field pl-11 pr-10"
             />
             {busqueda && (
               <button
                 onClick={() => setBusqueda("")}
+                aria-label="Limpiar búsqueda"
                 className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200 transition-colors"
               >
-                <X className="h-4 w-4 text-bark-400" />
+                <X className="h-4 w-4 text-bark-400" aria-hidden="true" />
               </button>
             )}
           </div>
@@ -293,7 +342,7 @@ export default function FacilitadoresContent() {
                     onClick={() => track("facilitador", f.id)}
                   >
                     <div
-                      className={`bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-200 hover:scale-105 hover:shadow-lg hover:border-cream-300 h-full ${
+                      className={`bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-200 hover:scale-[1.02] hover:shadow-lg hover:border-cream-300 h-full ${
                         isVisible
                           ? "opacity-100 translate-y-0"
                           : "opacity-0 translate-y-4"
@@ -302,7 +351,7 @@ export default function FacilitadoresContent() {
                     >
                       <div className="flex items-start gap-4">
                         <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105"
+                          className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-[1.02]"
                           style={{ backgroundColor: `${markerColor}10` }}
                         >
                           <Icon
@@ -326,16 +375,16 @@ export default function FacilitadoresContent() {
                               </span>
                             ))}
                           </div>
-                          {f.direccion && (
-                            <span className="flex items-center gap-1 text-[12px] text-bark-500 mt-2.5">
-                              <MapPin className="h-3 w-3" />
-                              {f.direccion}
-                            </span>
-                          )}
-                          {!f.direccion && f.ciudad && (
+                          {f.ciudad && (
                             <span className="flex items-center gap-1 text-[12px] text-bark-500 mt-2.5">
                               <MapPin className="h-3 w-3" />
                               {f.ciudad}
+                            </span>
+                          )}
+                          {!f.ciudad && f.direccion && (
+                            <span className="flex items-center gap-1 text-[12px] text-bark-500 mt-2.5">
+                              <MapPin className="h-3 w-3" />
+                              {f.direccion}
                             </span>
                           )}
                         </div>

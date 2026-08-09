@@ -54,7 +54,9 @@ export default function MapaPageInner() {
   const router = useRouter();
 
   const [busqueda, setBusqueda] = useState(searchParams.get("q") || "");
-  const [ciudadSeleccionada, setCiudadSeleccionada] = useState<string | null>(null);
+  const [ciudadSeleccionada, setCiudadSeleccionada] = useState<string | null>(
+    searchParams.get("ciudad") || null
+  );
   const [ciudadesDisponibles, setCiudadesDisponibles] = useState<string[]>([]);
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
   const [panelAbierto, setPanelAbierto] = useState(false);
@@ -113,7 +115,7 @@ export default function MapaPageInner() {
         }));
         setTodosFacilitadores(mapped);
 
-        const ciudades = new Set<string>(["Mar del Plata", "Bahía Blanca"]);
+        const ciudades = new Set<string>();
         mapped.forEach((f) =>
           f.ubicaciones.forEach((u) => {
             if (u.ciudad) ciudades.add(u.ciudad);
@@ -140,12 +142,15 @@ export default function MapaPageInner() {
 
     if (busqueda.trim()) {
       const q = normalizeText(busqueda.trim());
-      results = results.filter((f) =>
-        f.actividades.some(
-          (a) =>
-            normalizeText(a.nombre).includes(q) ||
-            normalizeText(a.slug).includes(q)
-        )
+      results = results.filter(
+        (f) =>
+          normalizeText(f.nombre).includes(q) ||
+          f.actividades.some(
+            (a) =>
+              normalizeText(a.nombre).includes(q) ||
+              normalizeText(a.slug).includes(q)
+          ) ||
+          f.ubicaciones.some((u) => normalizeText(u.ciudad).includes(q))
       );
     }
 
@@ -185,21 +190,21 @@ export default function MapaPageInner() {
   const mostrarSelectorCiudad = ciudadesDisponibles.length > 1;
 
   return (
-    <div className="bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
+    <div className="relative bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen">
       <div
         className="relative flex flex-col md:flex-row h-[calc(100vh-6rem)] md:h-[calc(100vh-7rem)] shadow-2xl mx-0 sm:mx-4 lg:mx-6 my-0 sm:my-3"
       >
         {/* Sidebar — overlay on mobile, side panel on desktop */}
         <div
-          className={`md:relative md:w-[300px] md:flex-shrink-0 md:border-r md:rounded-none md:translate-y-0 absolute bottom-0 left-0 right-0 z-20 max-h-[60vh] rounded-t-2xl bg-cream-100 border border-cream-200 flex flex-col transition-all duration-500 ease-out-expo overflow-hidden ${
+          className={`md:relative md:w-[300px] md:flex-shrink-0 md:border-r md:rounded-none md:translate-y-0 absolute bottom-0 left-0 right-0 z-20 max-h-[40vh] rounded-t-2xl bg-cream-100 border border-cream-200 flex flex-col transition-all duration-500 ease-out-expo overflow-hidden ${
             panelAbierto
               ? "translate-y-0"
               : "translate-y-full md:w-0 md:border-r-0"
           }`}
         >
           <div className="md:hidden w-10 h-1.5 bg-cream-300 rounded-full mx-auto mt-3 mb-1" />
-          <div className="p-4 border-b border-cream-200/60">
-            <div className="flex items-center justify-between mb-3">
+          <div className="p-3 border-b border-cream-200/60">
+            <div className="flex items-center justify-between mb-2">
               <h2 className="font-serif text-base font-medium text-bark tracking-tight">
                 Actividades
               </h2>
@@ -217,10 +222,10 @@ export default function MapaPageInner() {
             )}
           </div>
 
-          {/* City selector */}
+           {/* City selector */}
           {mostrarSelectorCiudad && (
-            <div className="mb-3">
-              <label className="text-[11px] font-mono font-medium tracking-[0.14em] uppercase text-bark-500 mb-1.5 block">
+            <div className="mb-2">
+              <label className="text-[10px] font-mono font-medium tracking-[0.14em] uppercase text-bark-500 mb-1 block">
                 Ciudad
               </label>
               <div className="flex flex-wrap gap-1.5">
@@ -230,10 +235,15 @@ export default function MapaPageInner() {
                     <button
                       key={ciudad}
                       onClick={() => {
-                        setCiudadSeleccionada(isActive ? null : ciudad);
+                        const nueva = isActive ? null : ciudad;
+                        setCiudadSeleccionada(nueva);
                         setFacilitadorSeleccionado(null);
+                        const p = new URLSearchParams();
+                        if (busqueda.trim()) p.set("q", busqueda.trim());
+                        if (nueva) p.set("ciudad", nueva);
+                        router.replace(`/mapa?${p.toString()}`, { scroll: false });
                       }}
-                      className={`px-3 py-1.5 rounded-full text-[11px] font-medium whitespace-nowrap transition-all duration-200 ${
+                      className={`px-4 py-2.5 rounded-full text-[12px] font-medium whitespace-nowrap transition-all duration-200 ${
                         isActive
                           ? "bg-bark text-white shadow-sm"
                           : "bg-cream-200/60 text-bark-600 hover:text-bark-800 border border-cream-200 hover:border-cream-300"
@@ -260,7 +270,6 @@ export default function MapaPageInner() {
                 onChange={(e) => handleBusqueda(e.target.value)}
                 placeholder="Buscá una actividad..."
                 className="input-field pl-10 pr-10 py-2.5 text-[13px] w-full"
-                disabled={!ciudadSeleccionada && mostrarSelectorCiudad}
               />
               {busqueda && (
                 <button
@@ -277,15 +286,10 @@ export default function MapaPageInner() {
                 onClick={limpiarBusqueda}
                 className="shrink-0 px-3 py-2 text-[11px] font-medium text-sage-600 hover:text-sage-700 hover:bg-sage-50 rounded-lg transition-colors"
               >
-                Volver
+                Limpiar
               </button>
             )}
           </div>
-          {!ciudadSeleccionada && mostrarSelectorCiudad && (
-            <p className="text-[11px] text-bark-400 mt-2 text-center">
-              Seleccioná una ciudad para explorar actividades
-            </p>
-          )}
         </div>
 
         {/* List */}
@@ -344,23 +348,23 @@ export default function MapaPageInner() {
                         facilitadorSeleccionado === f.id ? null : f.id
                       )
                     }
-                    className={`w-full p-3.5 text-left hover:bg-cream-200/40 transition-all duration-200 ${
+                    className={`w-full p-3 text-left hover:bg-cream-200/40 transition-all duration-200 ${
                       facilitadorSeleccionado === f.id ? "bg-cream-200/40" : ""
                     }`}
                   >
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-2.5">
                       <div
-                        className="flex h-9 w-9 items-center justify-center rounded-lg shrink-0"
+                        className="flex h-7 w-7 items-center justify-center rounded-md shrink-0"
                         style={{ backgroundColor: `${color}08` }}
                       >
                         <Icon
-                          className="h-4 w-4"
+                          className="h-3.5 w-3.5"
                           style={{ color }}
                           strokeWidth={1.5}
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap gap-1 mb-1">
+                        <div className="flex flex-wrap gap-0.5 mb-0.5">
                           {f.actividades.map((a) => (
                             <span
                               key={a.id}
@@ -370,7 +374,7 @@ export default function MapaPageInner() {
                             </span>
                           ))}
                         </div>
-                        <h3 className="font-medium text-bark text-[13px]">
+                        <h3 className="font-medium text-bark text-[12px]">
                           {f.nombre}
                         </h3>
                         {f.ubicaciones.map((u, i) => (
