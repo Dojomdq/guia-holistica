@@ -69,11 +69,11 @@ export const metadata: Metadata = {
       "Encontrá facilitadores, terapeutas y guías cerca tuyo. Mapa interactivo con chamanismo, yoga, reiki y más.",
   },
   robots: {
-    index: true,
-    follow: true,
+    index: !process.env.VERCEL_ENV || process.env.VERCEL_ENV === "production",
+    follow: !process.env.VERCEL_ENV || process.env.VERCEL_ENV === "production",
     googleBot: {
-      index: true,
-      follow: true,
+      index: !process.env.VERCEL_ENV || process.env.VERCEL_ENV === "production",
+      follow: !process.env.VERCEL_ENV || process.env.VERCEL_ENV === "production",
       "max-video-preview": -1,
       "max-image-preview": "large",
       "max-snippet": -1,
