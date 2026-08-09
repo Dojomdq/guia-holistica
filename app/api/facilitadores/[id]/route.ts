@@ -18,7 +18,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     const body = await req.json();
     const supabase = getAdminClient();
 
-    const { actividad_ids, ...facData } = body;
+    const { actividad_ids, ubicaciones, ...facData } = body;
 
     const updates: Record<string, any> = {};
     if (facData.nombre !== undefined) updates.nombre = facData.nombre;
@@ -54,6 +54,20 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         }));
         const { error: insErr } = await supabase.from("facilitador_actividades").insert(rels);
         if (insErr) return NextResponse.json({ success: false, error: insErr.message }, { status: 500 });
+      }
+    }
+
+    if (ubicaciones !== undefined) {
+      await supabase.from("ubicaciones").delete().eq("facilitador_id", params.id);
+      if (ubicaciones.length) {
+        const ubis = ubicaciones.map((u: any) => ({
+          facilitador_id: params.id,
+          direccion: u.direccion || null,
+          latitud: parseFloat(u.latitud) || -38.0055,
+          longitud: parseFloat(u.longitud) || -57.5426,
+          ciudad: u.ciudad || "Mar del Plata",
+        }));
+        await supabase.from("ubicaciones").insert(ubis);
       }
     }
 

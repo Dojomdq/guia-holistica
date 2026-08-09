@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const supabase = getAdminClient();
 
-    const { actividad_ids, ...facData } = body;
+    const { actividad_ids, ubicaciones, ...facData } = body;
 
     const lat = body.latitud || -38.0055;
     const lng = body.longitud || -57.5426;
@@ -51,6 +51,17 @@ export async function POST(req: NextRequest) {
       }));
       const { error: relErr } = await supabase.from("facilitador_actividades").insert(rels);
       if (relErr) return NextResponse.json({ success: false, error: relErr.message }, { status: 500 });
+    }
+
+    if (ubicaciones?.length) {
+      const ubis = ubicaciones.map((u: any) => ({
+        facilitador_id: fac.id,
+        direccion: u.direccion || null,
+        latitud: parseFloat(u.latitud) || -38.0055,
+        longitud: parseFloat(u.longitud) || -57.5426,
+        ciudad: u.ciudad || "Mar del Plata",
+      }));
+      await supabase.from("ubicaciones").insert(ubis);
     }
 
     return NextResponse.json({ success: true, data: fac }, { status: 201 });

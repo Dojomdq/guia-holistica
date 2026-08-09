@@ -40,7 +40,7 @@ interface FacilitadorData {
   sitio_web: string | null;
   foto_url: string | null;
   horarios: string | null;
-  actividades: { id: string; nombre: string; slug: string }[];
+  actividades: { id: string; nombre: string; slug: string; categoria_id: string }[];
   ubicaciones: Ubicacion[];
 }
 
@@ -59,17 +59,27 @@ export default function FacilitadorContent({
   params: { id: string };
 }) {
   const [f, setF] = useState<FacilitadorData | null>(null);
+  const [categoriaMap, setCategoriaMap] = useState<Record<string, string>>({});
   const [cargando, setCargando] = useState(true);
   const [noExiste, setNoExiste] = useState(false);
   const track = useClickTracker();
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from("facilitadores")
-        .select("*, facilitador_actividades(actividades(id, nombre, slug)), ubicaciones(*)")
-        .eq("id", params.id)
-        .single();
+      const [{ data }, { data: cats }] = await Promise.all([
+        supabase
+          .from("facilitadores")
+          .select("*, facilitador_actividades(actividades(id, nombre, slug, categoria_id)), ubicaciones(*)")
+          .eq("id", params.id)
+          .single(),
+        supabase.from("categorias").select("id, nombre"),
+      ]);
+
+      if (cats) {
+        const map: Record<string, string> = {};
+        cats.forEach((c: any) => { map[c.id] = c.nombre; });
+        setCategoriaMap(map);
+      }
 
       if (data) {
         setF({
@@ -87,6 +97,7 @@ export default function FacilitadorContent({
             id: fa.actividades.id,
             nombre: fa.actividades.nombre,
             slug: fa.actividades.slug,
+            categoria_id: fa.actividades.categoria_id,
           })),
           ubicaciones: (data.ubicaciones || []).map((u: any) => ({
             id: u.id,
@@ -234,17 +245,30 @@ export default function FacilitadorContent({
               <h1 className="font-serif text-2xl sm:text-3xl font-medium text-bark mb-2">
                 {f.nombre}
               </h1>
-              <div className="flex flex-wrap gap-1.5 mb-4">
-{f.actividades.map((a) => (
-                    <Link
-                      key={a.id}
-                      href={`/mapa?q=${encodeURIComponent(a.slug)}`}
-                      className="badge hover:bg-sage-100 dark:hover:bg-sage-800/50 transition-colors"
-                    >
-                      {a.nombre}
-                    </Link>
-                  ))}
-              </div>
+<div className="flex flex-wrap gap-1.5 mb-4">
+                  {(() => {
+                    const grouped: Record<string, typeof f.actividades> = {};
+                    f.actividades.forEach((a) => {
+                      const cat = categoriaMap[a.categoria_id] || "Otras";
+                      if (!grouped[cat]) grouped[cat] = [];
+                      grouped[cat].push(a);
+                    });
+                    return Object.entries(grouped).map(([cat, acts]) => (
+                      <span key={cat} className="inline-flex items-center gap-1.5">
+                        <span className="text-[10px] font-mono uppercase text-bark-400 dark:text-cream-500 tracking-wider">{cat}</span>
+                        {acts.map((a) => (
+                          <Link
+                            key={a.id}
+                            href={`/mapa?q=${encodeURIComponent(a.slug)}`}
+                            className="badge hover:bg-sage-100 dark:hover:bg-sage-800/50 transition-colors"
+                          >
+                            {a.nombre}
+                          </Link>
+                        ))}
+                      </span>
+                    ));
+                  })()}
+                </div>
               {ubiPrincipal?.direccion && (
                 <p className="flex items-center gap-1.5 text-sm text-bark-600">
                   <MapPin className="h-4 w-4 text-sage-500 shrink-0" />
