@@ -108,6 +108,8 @@ export default function FacilitadoresContent() {
             if (catIdToSlug[a.categoria_id]) map[a.slug] = catIdToSlug[a.categoria_id];
           });
           setActividadCategoriaMap(map);
+          const q = searchParams.get("q");
+          if (q && map[q]) setFiltroCategoria(map[q]);
         }
       }
 
