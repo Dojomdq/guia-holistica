@@ -186,7 +186,7 @@ export default function FacilitadoresAdmin() {
   async function handleSave() {
     setGuardando(true);
     setError(null);
-    const payload = {
+    const payload: any = {
       nombre: form.nombre,
       email: form.email || `facilitador-${Date.now()}@guia-de-bienestar.local`,
       telefono: form.telefono || null,
@@ -197,72 +197,31 @@ export default function FacilitadoresAdmin() {
       activo: form.activo,
       latitud: parseFloat(form.ubicaciones[0]?.latitud || "-38.0055"),
       longitud: parseFloat(form.ubicaciones[0]?.longitud || "-57.5426"),
+      direccion: form.ubicaciones[0]?.direccion || null,
+      actividad_ids: form.actividad_ids,
+      ubicaciones: form.ubicaciones.filter((u) => u.direccion.trim() || u.latitud.trim() || u.longitud.trim()).map((u) => ({
+        direccion: u.direccion || null,
+        latitud: u.latitud,
+        longitud: u.longitud,
+        ciudad: u.ciudad || "Mar del Plata",
+      })),
     };
 
-    if (editando) {
-      const { error: updErr } = await supabase
-        .from("facilitadores")
-        .update(payload)
-        .eq("id", editando);
+    const url = editando ? `/api/facilitadores/${editando}` : "/api/facilitadores";
+    const method = editando ? "PUT" : "POST";
 
-      if (updErr) {
-        setError("Error al guardar: " + updErr.message);
+    try {
+      const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setError("Error: " + (data.error || res.statusText));
         setGuardando(false);
         return;
       }
-
-      await supabase.from("facilitador_actividades").delete().eq("facilitador_id", editando);
-      if (form.actividad_ids.length) {
-        await supabase.from("facilitador_actividades").insert(
-          form.actividad_ids.map((aid) => ({ facilitador_id: editando, actividad_id: aid }))
-        );
-      }
-
-      await supabase.from("ubicaciones").delete().eq("facilitador_id", editando);
-      const ubiData = form.ubicaciones
-        .filter((u) => u.direccion.trim() || u.latitud.trim() || u.longitud.trim())
-        .map((u) => ({
-          facilitador_id: editando,
-          direccion: u.direccion || null,
-          latitud: parseFloat(u.latitud) || -38.0055,
-          longitud: parseFloat(u.longitud) || -57.5426,
-          ciudad: u.ciudad || "Mar del Plata",
-        }));
-      if (ubiData.length) {
-        const { error: ubiErr } = await supabase.from("ubicaciones").insert(ubiData);
-        if (ubiErr) { setError("Error al guardar ubicaciones: " + ubiErr.message); setGuardando(false); return; }
-      }
-    } else {
-      const { data: newFac, error: insErr } = await supabase
-        .from("facilitadores")
-        .insert(payload)
-        .select()
-        .single();
-
-      if (insErr) {
-        setError("Error al crear: " + insErr.message);
-        setGuardando(false);
-        return;
-      }
-
-      if (form.actividad_ids.length && newFac) {
-        await supabase.from("facilitador_actividades").insert(
-          form.actividad_ids.map((aid) => ({ facilitador_id: newFac.id, actividad_id: aid }))
-        );
-      }
-
-      const ubiData = form.ubicaciones
-        .filter((u) => u.direccion.trim() || u.latitud.trim() || u.longitud.trim())
-        .map((u) => ({
-          facilitador_id: newFac.id,
-          direccion: u.direccion || null,
-          latitud: parseFloat(u.latitud) || -38.0055,
-          longitud: parseFloat(u.longitud) || -57.5426,
-          ciudad: u.ciudad || "Mar del Plata",
-        }));
-      if (ubiData.length) {
-        await supabase.from("ubicaciones").insert(ubiData);
-      }
+    } catch (err: any) {
+      setError("Error de red: " + err.message);
+      setGuardando(false);
+      return;
     }
 
     setShowForm(false);
@@ -272,12 +231,10 @@ export default function FacilitadoresAdmin() {
     setGuardando(false);
   }
 
-  async function handleDelete(id: string, nombre: string) {
+async function handleDelete(id: string, nombre: string) {
     if (!confirm(`¿Eliminar a "${nombre}"?`)) return;
-    await supabase.from("facilitador_actividades").delete().eq("facilitador_id", id);
-    await supabase.from("ubicaciones").delete().eq("facilitador_id", id);
-    const { error } = await supabase.from("facilitadores").delete().eq("id", id);
-    if (!error) await load();
+    await fetch(`/api/facilitadores/${id}`, { method: "DELETE" });
+    await load();
   }
 
   return (
