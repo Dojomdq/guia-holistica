@@ -129,6 +129,15 @@ export default function MapaPageInner() {
     cargar();
   }, []);
 
+  // Auto-select city if search query matches a city name
+  useEffect(() => {
+    if (!cargando && busqueda.trim() && ciudadesDisponibles.length > 0 && !ciudadSeleccionada) {
+      const q = normalizeText(busqueda.trim());
+      const match = ciudadesDisponibles.find((c) => normalizeText(c).includes(q) || normalizeText(q).includes(normalizeText(c)));
+      if (match) setCiudadSeleccionada(match);
+    }
+  }, [cargando, busqueda, ciudadesDisponibles, ciudadSeleccionada]);
+
   const facilitadoresFiltrados = useMemo(() => {
     let results = todosFacilitadores;
 

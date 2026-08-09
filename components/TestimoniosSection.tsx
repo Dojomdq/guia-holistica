@@ -5,68 +5,83 @@ import { Star } from "lucide-react";
 import { useScrollReveal } from "@/lib/useScrollReveal";
 import { INSTAGRAM_URL } from "@/lib/constants";
 
-const testimonio = {
-  nombre: "María",
-  actividad: "Reiki",
-  iniciales: "M",
-  texto:
-    "Gracias a la guía encontré a una profesional increíble que me ayudó en mi proceso de sanación. El mapa facilitó mucho la búsqueda.",
-};
+const testimonios = [
+  {
+    nombre: "María",
+    actividad: "Reiki",
+    iniciales: "M",
+    texto: "Gracias a la guía encontré a una profesional increíble que me ayudó en mi proceso de sanación. El mapa facilitó mucho la búsqueda.",
+  },
+  {
+    nombre: "Lucas",
+    actividad: "Yoga",
+    iniciales: "L",
+    texto: "Increíble poder ver todas las opciones de actividades en un solo lugar. Muy intuitivo y fácil de usar.",
+  },
+  {
+    nombre: "Camila",
+    actividad: "Meditación",
+    iniciales: "C",
+    texto: "La mejor plataforma para conectar con facilitadores en la zona. Profesional, moderna y muy completa.",
+  },
+];
 
 export default function TestimoniosSection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-16 sm:py-24 bg-sand-100">
+    <section ref={ref} className="py-16 sm:py-24 bg-sand-100 dark:bg-bark-900/60">
       <div className="container-page">
         <div
-          className={`max-w-2xl mx-auto transition-all duration-700 ${
+          className={`text-center mb-10 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
           <span className="label">Qué dicen</span>
+          <h2 className="font-serif text-2xl sm:text-3xl font-medium text-bark dark:text-cream-100 mt-3">
+            Nuestra comunidad
+          </h2>
+        </div>
 
-          <div className="mt-8 relative bg-white rounded-3xl border border-cream-200/60 shadow-lg p-8 sm:p-10 text-center">
-            <div className="flex justify-center mb-5 gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className="h-5 w-5 text-amber-400 fill-amber-400"
-                  aria-hidden="true"
-                />
-              ))}
-              <span className="sr-only">5 estrellas</span>
-            </div>
-
-            <p className="font-serif text-xl sm:text-2xl text-bark-800 leading-relaxed italic">
-              &ldquo;{testimonio.texto}&rdquo;
-            </p>
-
-            <div className="mt-7 flex flex-col items-center gap-2">
-              <div className="w-12 h-12 rounded-full bg-sage-100 border-2 border-white shadow-sm flex items-center justify-center">
-                <span className="font-serif text-base font-medium text-sage-700">
-                  {testimonio.iniciales}
-                </span>
-              </div>
-              <div>
-                <p className="font-medium text-bark text-sm">
-                  {testimonio.nombre}
-                </p>
-                <p className="text-xs text-bark-500">{testimonio.actividad}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-6 text-center">
-            <Link
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-sage-700 hover:text-terracotta-600 hover:gap-3 transition-all duration-300"
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-4xl mx-auto">
+          {testimonios.map((t, i) => (
+            <div
+              key={t.nombre}
+              className={`bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 p-6 transition-all duration-500 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              }`}
+              style={{ transitionDelay: `${i * 100}ms` }}
             >
-              📖 Ver más opiniones de usuarios
-            </Link>
-          </div>
+              <div className="flex gap-1 mb-4">
+                {[...Array(5)].map((_, j) => (
+                  <Star key={j} className="h-4 w-4 text-amber-400 fill-amber-400" aria-hidden="true" />
+                ))}
+              </div>
+              <p className="text-sm text-bark-600 dark:text-cream-300 leading-relaxed mb-5">
+                &ldquo;{t.texto}&rdquo;
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-sage-100 dark:bg-sage-900/40 border-2 border-white dark:border-bark-800 flex items-center justify-center">
+                  <span className="font-serif text-xs font-medium text-sage-700 dark:text-sage-300">{t.iniciales}</span>
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-bark dark:text-cream-100">{t.nombre}</p>
+                  <p className="text-xs text-bark-500 dark:text-cream-400">{t.actividad}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <Link
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-medium text-sage-700 dark:text-sage-400 hover:text-terracotta-600 transition-colors"
+          >
+            📖 <span aria-hidden="true" /> Ver más opiniones en Instagram
+          </Link>
         </div>
       </div>
     </section>
