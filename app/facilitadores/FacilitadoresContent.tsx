@@ -108,8 +108,6 @@ export default function FacilitadoresContent() {
             if (catIdToSlug[a.categoria_id]) map[a.slug] = catIdToSlug[a.categoria_id];
           });
           setActividadCategoriaMap(map);
-          const q = searchParams.get("q");
-          if (q && map[q]) setFiltroCategoria(map[q]);
         }
       }
 
@@ -117,6 +115,13 @@ export default function FacilitadoresContent() {
     }
     load();
   }, []);
+
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (q && Object.keys(actividadCategoriaMap).length > 0 && actividadCategoriaMap[q]) {
+      setFiltroCategoria(actividadCategoriaMap[q]);
+    }
+  }, [searchParams, actividadCategoriaMap]);
 
   const filtered = useMemo(() => {
     let result = facilitadores;
