@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import FacilitadoresContent from "./FacilitadoresContent";
 import { SITE_URL } from "@/lib/constants";
 
@@ -18,8 +19,8 @@ export const metadata: Metadata = {
 
 export default function FacilitadoresPage() {
   return (
-    <>
+    <Suspense fallback={<div className="min-h-screen bg-cream-50 dark:bg-bark-950" />}>
       <FacilitadoresContent />
-    </>
+    </Suspense>
   );
 }

@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { MapPin, Search, X, ArrowUpRight } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
@@ -34,7 +35,8 @@ function normalizeText(text: string): string {
 }
 
 export default function FacilitadoresContent() {
-  const [busqueda, setBusqueda] = useState("");
+  const searchParams = useSearchParams();
+  const [busqueda, setBusqueda] = useState(searchParams.get("q") || "");
   const [filtroCategoria, setFiltroCategoria] = useState<string | null>(null);
   const [filtroCiudad, setFiltroCiudad] = useState<string | null>(null);
   const [facilitadores, setFacilitadores] = useState<FacilitadorItem[]>([]);
