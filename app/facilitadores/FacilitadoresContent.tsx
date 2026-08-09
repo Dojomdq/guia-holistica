@@ -120,7 +120,10 @@ export default function FacilitadoresContent() {
     const q = searchParams.get("q");
     if (q && Object.keys(actividadCategoriaMap).length > 0 && actividadCategoriaMap[q]) {
       setFiltroCategoria(actividadCategoriaMap[q]);
+    } else if (!q) {
+      setFiltroCategoria(null);
     }
+    setBusqueda(q || "");
   }, [searchParams, actividadCategoriaMap]);
 
   const filtered = useMemo(() => {
