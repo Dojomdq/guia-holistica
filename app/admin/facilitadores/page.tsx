@@ -229,7 +229,8 @@ export default function FacilitadoresAdmin() {
           ciudad: u.ciudad || "Mar del Plata",
         }));
       if (ubiData.length) {
-        await supabase.from("ubicaciones").insert(ubiData);
+        const { error: ubiErr } = await supabase.from("ubicaciones").insert(ubiData);
+        if (ubiErr) { setError("Error al guardar ubicaciones: " + ubiErr.message); setGuardando(false); return; }
       }
     } else {
       const { data: newFac, error: insErr } = await supabase
