@@ -29,9 +29,10 @@ interface UbicacionForm {
   latitud: string;
   longitud: string;
   ciudad: string;
+  descripcion: string;
 }
 
-const EMPTY_UBI: UbicacionForm = { direccion: "", latitud: "-38.0055", longitud: "-57.5426", ciudad: "Mar del Plata" };
+const EMPTY_UBI: UbicacionForm = { direccion: "", latitud: "-38.0055", longitud: "-57.5426", ciudad: "Mar del Plata", descripcion: "" };
 
 const EMPTY_FORM = {
   nombre: "", email: "", telefono: "", whatsapp: "", bio: "",
@@ -204,6 +205,7 @@ export default function FacilitadoresAdmin() {
         latitud: u.latitud,
         longitud: u.longitud,
         ciudad: u.ciudad || "Mar del Plata",
+        descripcion: u.descripcion || null,
       })),
     };
 
@@ -307,6 +309,8 @@ async function handleDelete(id: string, nombre: string) {
                       <input type="text" value={ubi.ciudad} onChange={(e) => updateUbi(idx, "ciudad", e.target.value)}
                         className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Ciudad" />
                     </div>
+                    <textarea value={ubi.descripcion} onChange={(e) => updateUbi(idx, "descripcion", e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Descripción (horarios, referencias...)" rows={2} />
                     <div className="flex items-center gap-2">
                       <input type="text" value={ubi.latitud} onChange={(e) => updateUbi(idx, "latitud", e.target.value)}
                         className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Latitud" />

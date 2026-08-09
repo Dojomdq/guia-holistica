@@ -66,6 +66,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
           latitud: parseFloat(u.latitud) || -38.0055,
           longitud: parseFloat(u.longitud) || -57.5426,
           ciudad: u.ciudad || "Mar del Plata",
+          descripcion: u.descripcion || null,
         }));
         await supabase.from("ubicaciones").insert(ubis);
       }
