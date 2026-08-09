@@ -37,7 +37,7 @@ export default function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  return new NextResponse("No autorizado", { status: 401 });
+  return new NextResponse(JSON.stringify({ error: "No autorizado" }), { status: 401, headers: { "Content-Type": "application/json" } });
 }
 
 export const config = {
