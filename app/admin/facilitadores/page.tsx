@@ -16,7 +16,7 @@ interface FacilitadorAdmin {
   sitio_web: string | null;
   activo: boolean;
   actividad_ids: string[];
-  ubicaciones: { id: string; direccion: string | null; latitud: number; longitud: number; ciudad: string }[];
+  ubicaciones: { id: string; direccion: string | null; latitud: number; longitud: number; ciudad: string; descripcion: string | null }[];
 }
 
 interface ActividadOption {
@@ -86,6 +86,7 @@ export default function FacilitadoresAdmin() {
             latitud: u.latitud,
             longitud: u.longitud,
             ciudad: u.ciudad,
+            descripcion: u.descripcion || "",
           })),
         }))
       );
@@ -124,6 +125,7 @@ export default function FacilitadoresAdmin() {
             latitud: String(u.latitud),
             longitud: String(u.longitud),
             ciudad: u.ciudad,
+            descripcion: u.descripcion || "",
           }))
         : [{ ...EMPTY_UBI }],
     });
