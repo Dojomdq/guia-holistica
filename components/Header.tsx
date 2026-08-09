@@ -63,7 +63,7 @@ export default function Header() {
                 alt="Guía de Bienestar"
                 width={200}
                 height={48}
-                className="h-9 lg:h-12 w-auto"
+                className="h-9 lg:h-12 w-auto dark:brightness-0 dark:invert"
                 priority
               />
             </Link>
