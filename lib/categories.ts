@@ -18,6 +18,7 @@ import {
   Heart,
   Sparkles,
   Dumbbell,
+  Camera,
   type LucideIcon,
 } from "lucide-react";
 
@@ -44,6 +45,7 @@ export const CATEGORY_ICONS: Record<string, LucideIcon> = {
   solidarios: HeartHandshake,
   "artes-marciales-no-competitivas": Dumbbell,
   "terapias-holisticas-alternativas": Leaf,
+  servicios: Camera,
   kung: Dumbbell,
   aikido: Dumbbell,
   "pa-kua": Dumbbell,
@@ -73,6 +75,7 @@ export const CATEGORY_COLORS: Record<string, string> = {
   solidarios: "bg-amber-50 border-amber-200 text-amber-700",
   "artes-marciales-no-competitivas": "bg-red-50 border-red-200 text-red-700",
   "terapias-holisticas-alternativas": "bg-green-50 border-green-200 text-green-700",
+  servicios: "bg-stone-50 border-stone-200 text-stone-700",
 };
 
 export const CATEGORY_MARKER_COLORS: Record<string, string> = {
@@ -98,6 +101,7 @@ export const CATEGORY_MARKER_COLORS: Record<string, string> = {
   solidarios: "#d97706",
   "artes-marciales-no-competitivas": "#dc2626",
   "terapias-holisticas-alternativas": "#15803d",
+  servicios: "#78716c",
   kung: "#dc2626",
   aikido: "#dc2626",
   "pa-kua": "#dc2626",
@@ -136,6 +140,7 @@ export const EMOJIS: Record<string, string> = {
   solidarios: "🤝",
   "artes-marciales-no-competitivas": "🥋",
   "terapias-holisticas-alternativas": "🌿",
+  servicios: "📸",
   kung: "🥋",
   aikido: "🥋",
   "pa-kua": "🥋",
