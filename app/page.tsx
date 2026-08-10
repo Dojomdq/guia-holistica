@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import NewHero from "@/components/home/NewHero";
 import SearchSection from "@/components/home/SearchSection";
 import MapSection from "@/components/home/MapSection";
+import EventosSection from "@/components/home/EventosSection";
 import TestimoniosSection from "@/components/TestimoniosSection";
 import NewCTA from "@/components/home/NewCTA";
 import FAQSection from "@/components/FAQSection";
@@ -119,6 +120,8 @@ export default function Home() {
       <SearchSection />
       <div className="section-divider" />
       <MapSection />
+      <div className="section-divider" />
+      <EventosSection />
       <div className="section-divider" />
       <TestimoniosSection />
       <div className="section-divider" />
