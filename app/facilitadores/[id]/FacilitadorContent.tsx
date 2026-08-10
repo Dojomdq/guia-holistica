@@ -40,6 +40,7 @@ interface FacilitadorData {
   sitio_web: string | null;
   foto_url: string | null;
   horarios: string | null;
+  reel_url: string | null;
   actividades: { id: string; nombre: string; slug: string; categoria_id: string }[];
   ubicaciones: Ubicacion[];
 }
@@ -93,6 +94,7 @@ export default function FacilitadorContent({
           sitio_web: data.sitio_web,
           foto_url: data.foto_url,
           horarios: data.horarios || null,
+          reel_url: data.reel_url || null,
           actividades: (data.facilitador_actividades || []).map((fa: any) => ({
             id: fa.actividades.id,
             nombre: fa.actividades.nombre,
@@ -333,7 +335,27 @@ export default function FacilitadorContent({
         )}
 
         {/* Horarios */}
-{f.horarios && (
+{f.reel_url && (
+          <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm overflow-hidden">
+            <div className="p-5 sm:p-6">
+              <h2 className="font-serif text-lg font-medium text-bark mb-3 flex items-center gap-2">
+                📹 Contenido destacado
+              </h2>
+              <div className="rounded-xl overflow-hidden" style={{ maxWidth: 400, margin: "0 auto" }}>
+                <iframe
+                  src={f.reel_url}
+                  width="100%"
+                  height="480"
+                  style={{ border: "none", overflow: "hidden" }}
+                  scrolling="no"
+                  allowTransparency
+                  allow="encrypted-media"
+                  title="Contenido de Instagram"
+                />
+              </div>
+            </div>
+          </div>
+        )}
           <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm p-6 sm:p-8">
             <h2 className="font-serif text-lg font-medium text-bark mb-3 flex items-center gap-2">
               <Clock className="h-5 w-5" style={{ color }} />
