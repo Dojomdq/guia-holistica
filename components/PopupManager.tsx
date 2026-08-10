@@ -8,7 +8,7 @@ export default function PopupManager() {
     <>
       <PopupFacilitadores onClose={() => {}} />
       <PopupReel
-        reelUrl="https://www.instagram.com/reel/REEMPLAZAR_CON_TU_REEL/embed/"
+        reelUrl="https://www.instagram.com/reel/DaxfX2MK3Ih/embed/"
         titulo="🎥 Conocé nuestro trabajo"
       />
     </>
