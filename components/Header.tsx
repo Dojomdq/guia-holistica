@@ -12,6 +12,8 @@ const navLinks = [
   { href: "/mapa", label: "Mapa" },
   { href: "/actividades", label: "Actividades" },
   { href: "/facilitadores", label: "Facilitadores" },
+  { href: "/alquiler-espacios", label: "Alquiler de espacios" },
+  { href: "/eventos", label: "Próximos eventos" },
 ];
 
 function isActive(href: string, pathname: string): boolean {

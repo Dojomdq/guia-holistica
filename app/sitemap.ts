@@ -10,6 +10,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/mapa`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${base}/actividades`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/facilitadores`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
+    { url: `${base}/alquiler-espacios`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
+    { url: `${base}/eventos`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
   ];
 
   let dynamicPages: MetadataRoute.Sitemap = [];
@@ -32,12 +34,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: "monthly" as const,
           priority: 0.6,
         })),
-        ...(categorias || []).map((c) => ({
-          url: `${base}/actividades/${c.slug}`,
-          lastModified: c.created_at ? new Date(c.created_at) : new Date(),
-          changeFrequency: "weekly" as const,
-          priority: 0.7,
-        })),
+        ...(categorias || [])
+          .filter((c) => c.slug !== "alquiler-espacios")
+          .map((c) => ({
+            url: `${base}/actividades/${c.slug}`,
+            lastModified: c.created_at ? new Date(c.created_at) : new Date(),
+            changeFrequency: "weekly" as const,
+            priority: 0.7,
+          })),
       ];
     }
   } catch {

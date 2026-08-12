@@ -53,11 +53,13 @@ export default function ActividadesContent() {
         }
       }
 
-      const result: ActividadItem[] = cats.map((cat) => ({
-        slug: cat.slug,
-        nombre: cat.nombre,
-        count: actCategoriaMap[cat.id] || 0,
-      }));
+      const result: ActividadItem[] = cats
+        .filter((cat) => cat.slug !== "alquiler-espacios")
+        .map((cat) => ({
+          slug: cat.slug,
+          nombre: cat.nombre,
+          count: actCategoriaMap[cat.id] || 0,
+        }));
 
       setActividades(result);
       setCargando(false);
