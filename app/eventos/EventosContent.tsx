@@ -70,7 +70,15 @@ export default function EventosContent() {
               <a key={e.id} href={e.link || "#"} target={e.link ? "_blank" : undefined} rel={e.link ? "noopener noreferrer" : undefined}
                 className="group bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
               >
-                {e.imagen_url && <div className="aspect-[4/5] overflow-hidden"><img src={e.imagen_url} alt={e.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" /></div>}
+                {e.imagen_url && (
+                  <div className="aspect-[4/5] overflow-hidden bg-cream-100">
+                    {/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? (
+                      <video src={e.imagen_url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" autoPlay muted loop playsInline />
+                    ) : (
+                      <img src={e.imagen_url} alt={e.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    )}
+                  </div>
+                )}
                 <div className="p-5">
                   {e.fecha && <p className="text-xs font-medium text-terracotta-600 dark:text-terracotta-400 flex items-center gap-1.5 mb-2"><Calendar className="h-3.5 w-3.5" />{e.fecha}</p>}
                   <h3 className="font-serif text-lg font-medium text-bark dark:text-cream-100 group-hover:text-sage-700 transition-colors flex items-center gap-2">{e.titulo}{e.link && <ArrowUpRight className="h-4 w-4 opacity-0 group-hover:opacity-60 transition-opacity" />}</h3>

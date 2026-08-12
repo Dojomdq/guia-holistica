@@ -52,8 +52,19 @@ export default function EventosSection() {
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               {e.imagen_url && (
-                <div className="aspect-[4/5] overflow-hidden">
-                  <img src={e.imagen_url} alt={e.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="aspect-[4/5] overflow-hidden bg-cream-100">
+                  {/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? (
+                    <video
+                      src={e.imagen_url}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    />
+                  ) : (
+                    <img src={e.imagen_url} alt={e.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  )}
                 </div>
               )}
               <div className="p-5">
