@@ -60,6 +60,8 @@ export default function Footer() {
                 {[
                   { href: "/", label: "Inicio" },
                   { href: "/actividades", label: "Actividades" },
+                  { href: "/alquiler-espacios", label: "Alquiler de espacios" },
+                  { href: "/eventos", label: "Próximos eventos" },
                   { href: "/mapa", label: "Mapa" },
                   { href: "/acerca", label: "Sobre nosotros" },
                   { href: "/accesibilidad", label: "Accesibilidad" },
