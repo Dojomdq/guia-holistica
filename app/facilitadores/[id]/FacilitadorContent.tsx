@@ -335,7 +335,18 @@ export default function FacilitadorContent({
         )}
 
         {/* Horarios */}
-{f.reel_url && (
+        {f.horarios && (
+          <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm p-6 sm:p-8">
+            <h2 className="font-serif text-lg font-medium text-bark mb-3 flex items-center gap-2">
+              <Clock className="h-5 w-5" style={{ color }} />
+              Horarios
+            </h2>
+            <p className="text-bark-700 leading-relaxed">{f.horarios}</p>
+          </div>
+        )}
+
+        {/* Contenido destacado */}
+        {f.reel_url && (
           <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm overflow-hidden">
             <div className="p-5 sm:p-6">
               <h2 className="font-serif text-lg font-medium text-bark mb-3 flex items-center gap-2">
@@ -354,14 +365,6 @@ export default function FacilitadorContent({
                 />
               </div>
             </div>
-          </div>
-        )}
-          <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm p-6 sm:p-8">
-            <h2 className="font-serif text-lg font-medium text-bark mb-3 flex items-center gap-2">
-              <Clock className="h-5 w-5" style={{ color }} />
-              Horarios
-            </h2>
-            <p className="text-bark-700 leading-relaxed">{f.horarios}</p>
           </div>
         )}
 
