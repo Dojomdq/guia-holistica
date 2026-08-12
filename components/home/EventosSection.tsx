@@ -52,7 +52,7 @@ export default function EventosSection() {
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               {e.imagen_url && (
-                <div className="aspect-[16/10] overflow-hidden">
+                <div className="aspect-[4/5] overflow-hidden">
                   <img src={e.imagen_url} alt={e.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
               )}
