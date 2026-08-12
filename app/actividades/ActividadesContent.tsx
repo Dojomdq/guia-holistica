@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Users, ArrowUpRight } from "lucide-react";
+import { Users, ArrowUpRight, Home } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import {
   getCategoryIcon,
