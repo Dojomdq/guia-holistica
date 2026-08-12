@@ -50,12 +50,12 @@ export default function MiniMap() {
   }, []);
 
   return (
-    <div className="rounded-3xl overflow-hidden shadow-medium border border-cream-300/40">
+    <div className="rounded-3xl overflow-hidden shadow-medium border border-cream-300/40 h-full">
       <MapContainer
         center={defaultPosition}
         zoom={13}
         scrollWheelZoom={false}
-        style={{ height: "280px", width: "100%" }}
+        style={{ height: "100%", width: "100%" }}
         dragging={false}
       >
         <TileLayer
