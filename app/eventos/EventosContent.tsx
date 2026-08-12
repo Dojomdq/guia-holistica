@@ -71,7 +71,7 @@ export default function EventosContent() {
                 className="group bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
               >
                 {e.imagen_url && (
-                  <div className="aspect-[4/5] overflow-hidden bg-cream-100">
+                  <div className={`${/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? "aspect-[9/16]" : "aspect-[4/5]"} overflow-hidden bg-cream-100`}>
                     {/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? (
                       <video src={e.imagen_url} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" autoPlay muted loop playsInline />
                     ) : (

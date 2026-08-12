@@ -5,7 +5,7 @@ import { SITE_URL } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "Alquiler de Espacios | Guía de Bienestar",
   description:
-    "Salones, quintas, estudios, consultorios y espacios para talleres disponibles para alquilar.",
+    "Salones disponibles para alquilar en tu ciudad. Consultá disponibilidad directo con el responsable.",
   openGraph: {
     title: "Alquiler de Espacios | Guía de Bienestar",
     description:

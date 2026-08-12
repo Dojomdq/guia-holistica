@@ -52,7 +52,7 @@ export default function EventosSection() {
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               {e.imagen_url && (
-                <div className="aspect-[4/5] overflow-hidden bg-cream-100">
+                <div className={`${/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? "aspect-[9/16]" : "aspect-[4/5]"} overflow-hidden bg-cream-100`}>
                   {/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? (
                     <video
                       src={e.imagen_url}
