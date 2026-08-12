@@ -52,7 +52,7 @@ export default function AlquilerEspaciosContent() {
 
       const { data: facilitadores } = await supabase
         .from("facilitadores")
-        .select("id, nombre, bio, whatsapp, telefono, direccion, ciudad")
+        .select("id, nombre, bio, whatsapp, telefono, direccion, ciudad, ubicaciones(descripcion)")
         .in("id", ids)
         .eq("activo", true)
         .order("nombre");
@@ -61,7 +61,8 @@ export default function AlquilerEspaciosContent() {
         (facilitadores || []).map((f) => ({
           id: f.id,
           nombre: f.nombre,
-          descripcion: f.bio,
+          descripcion:
+            (f.ubicaciones && f.ubicaciones[0]?.descripcion) || f.bio,
           whatsapp: f.whatsapp,
           telefono: f.telefono,
           direccion: f.direccion,
