@@ -26,13 +26,32 @@ export default function DestacadosSection() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from("destacados")
-        .select("id, facilitador_id, facilitadores(id, nombre, bio, foto_url, slug, facilitador_actividades(actividades(nombre, slug)))")
-        .eq("tipo", "sitio")
-        .eq("activo", true);
+      const [manualRes, premiumRes] = await Promise.all([
+        supabase
+          .from("destacados")
+          .select("id, facilitador_id, facilitadores(id, nombre, bio, foto_url, slug, facilitador_actividades(actividades(nombre, slug)))")
+          .eq("tipo", "sitio")
+          .eq("activo", true),
+        supabase
+          .from("facilitador_planes")
+          .select("facilitador_id, planes(perfil_destacado), facilitadores(id, nombre, bio, foto_url, slug, activo, facilitador_actividades(actividades(nombre, slug)))")
+          .eq("estado", "activo"),
+      ]);
 
-      if (data) setDestacados(data as Destacado[]);
+      const manuales = (manualRes.data || []) as Destacado[];
+      const idsManuales = new Set(manuales.map((d) => d.facilitador_id));
+
+      // Premium (perfil destacado) auto-incluidos
+      const premium: Destacado[] = (premiumRes.data || [])
+        .filter((p: any) => p.planes?.perfil_destacado && p.facilitadores?.activo)
+        .filter((p: any) => !idsManuales.has(p.facilitador_id))
+        .map((p: any) => ({
+          id: p.facilitador_id,
+          facilitador_id: p.facilitador_id,
+          facilitadores: p.facilitadores,
+        }));
+
+      setDestacados([...manuales, ...premium]);
     }
     load();
   }, []);
