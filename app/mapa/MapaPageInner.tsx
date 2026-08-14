@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Search, X, MapPin, ChevronRight } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
+import { useClickTracker } from "@/lib/useClickTracker";
 import type { FacilitadorConActividades, Ubicacion } from "@/lib/types";
 
 const MapaInteractivo = dynamic(() => import("@/components/MapaInteractivo"), {
@@ -63,6 +64,26 @@ export default function MapaPageInner() {
   const [todosFacilitadores, setTodosFacilitadores] = useState<FacilitadorConUbi[]>([]);
   const [cargando, setCargando] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const track = useClickTracker();
+  const busquedaDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (busquedaDebounceRef.current) clearTimeout(busquedaDebounceRef.current);
+    if (busqueda.trim()) {
+      busquedaDebounceRef.current = setTimeout(() => {
+        track("busqueda", busqueda.trim().toLowerCase());
+      }, 1200);
+    }
+    return () => {
+      if (busquedaDebounceRef.current) clearTimeout(busquedaDebounceRef.current);
+    };
+  }, [busqueda, track]);
+
+  useEffect(() => {
+    if (!cargando && busqueda.trim() && facilitadoresFiltrados.length === 0) {
+      track("busqueda_sin_resultado", busqueda.trim().toLowerCase());
+    }
+  }, [cargando, busqueda, facilitadoresFiltrados.length, track]);
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
