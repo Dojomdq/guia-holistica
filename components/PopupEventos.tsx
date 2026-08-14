@@ -1,27 +1,21 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Calendar, MapPin } from "lucide-react";
 import { WHATSAPP_LINK } from "@/lib/constants";
+import { supabase } from "@/lib/supabase/client";
 
 const STORAGE_KEY = "popup_eventos_visto";
 
-const SLIDES = [
-  {
-    tipo: "imagen" as const,
-    fuente: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785554110/WhatsApp_Image_2026-07-31_at_12.40.42_dcmzog.jpg",
-    titulo: "Próximo evento",
-    descripcion: "Retiro de yoga y meditación en la costa",
-    fecha: "15 de agosto",
-  },
-  {
-    tipo: "video" as const,
-    fuente: "https://res.cloudinary.com/kmxmqr0t/video/upload/v1785554212/WhatsApp_Video_2026-07-31_at_12.11.30_vwohj9.mp4",
-    titulo: "Taller",
-    descripcion: "Ceremonia de cacao y sanación sonora",
-    fecha: "22 de agosto",
-  },
-];
+interface EventoSolidario {
+  id: string;
+  titulo: string;
+  descripcion: string | null;
+  fecha: string | null;
+  imagen_url: string | null;
+  link: string | null;
+  ciudad: string | null;
+}
 
 interface Props {
   onClose: () => void;
@@ -29,11 +23,25 @@ interface Props {
 }
 
 export default function PopupEventos({ onClose }: Props) {
+  const [slides, setSlides] = useState<EventoSolidario[]>([]);
   const [current, setCurrent] = useState(0);
   const [visible, setVisible] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    supabase
+      .from("eventos")
+      .select("id, titulo, descripcion, fecha, imagen_url, link, ciudad")
+      .eq("activo", true)
+      .eq("solidario", true)
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        if (data && data.length > 0) setSlides(data as EventoSolidario[]);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (slides.length === 0) return;
     const yaVisto = sessionStorage.getItem(STORAGE_KEY);
     if (yaVisto) return;
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
@@ -42,15 +50,15 @@ export default function PopupEventos({ onClose }: Props) {
       sessionStorage.setItem(STORAGE_KEY, "1");
     }, 3000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [slides]);
 
   const handleClose = useCallback(() => {
     setVisible(false);
     onClose();
   }, [onClose]);
 
-  const prev = useCallback(() => setCurrent((c) => (c === 0 ? SLIDES.length - 1 : c - 1)), []);
-  const next = useCallback(() => setCurrent((c) => (c === SLIDES.length - 1 ? 0 : c + 1)), []);
+  const prev = useCallback(() => setCurrent((c) => (c === 0 ? slides.length - 1 : c - 1)), [slides.length]);
+  const next = useCallback(() => setCurrent((c) => (c === slides.length - 1 ? 0 : c + 1)), [slides.length]);
 
   useEffect(() => {
     if (!visible) return;
@@ -82,14 +90,16 @@ export default function PopupEventos({ onClose }: Props) {
     return () => overlay.removeEventListener("keydown", onKey);
   }, [visible, handleClose, prev, next]);
 
-  if (!visible) return null;
+  if (!visible || slides.length === 0) return null;
+
+  const esVideo = (url: string | null) => /\.(mp4|webm|mov|ogg)(\?|$)/i.test(url || "");
 
   return (
     <div
       ref={overlayRef}
       role="dialog"
       aria-modal="true"
-      aria-label="Próximos eventos de la Guía de Bienestar"
+      aria-label="Próximos eventos solidarios"
       className="fixed inset-0 bg-bark/80 backdrop-blur-sm flex items-center justify-center z-50 px-4"
     >
       <div className="bg-cream-50 rounded-2xl max-w-md w-full shadow-2xl border border-cream-200 relative overflow-hidden">
@@ -102,17 +112,17 @@ export default function PopupEventos({ onClose }: Props) {
         </button>
 
         <div className="relative overflow-hidden bg-bark/5 flex items-center justify-center" style={{ height: "50vh", minHeight: "320px", maxHeight: "70vh" }}>
-          {SLIDES.map((slide, i) => (
+          {slides.map((slide, i) => (
             <div
-              key={i}
+              key={slide.id}
               className={`absolute inset-0 transition-opacity duration-500 ${
                 i === current ? "opacity-100" : "opacity-0 pointer-events-none"
               }`}
               aria-hidden={i !== current}
             >
-              {slide.tipo === "video" ? (
+              {slide.imagen_url && esVideo(slide.imagen_url) ? (
                 <video
-                  src={slide.fuente}
+                  src={slide.imagen_url}
                   controls
                   autoPlay
                   muted
@@ -121,29 +131,38 @@ export default function PopupEventos({ onClose }: Props) {
                   aria-label={slide.titulo}
                   className="w-full h-full object-contain"
                 />
-              ) : (
+              ) : slide.imagen_url ? (
                 <img
-                  src={slide.fuente}
+                  src={slide.imagen_url}
                   alt={slide.titulo}
                   className="w-full h-full object-contain"
                 />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <Calendar className="h-16 w-16 text-cream-300" />
+                </div>
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-bark/60 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
               <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                <p className="text-xs font-semibold uppercase tracking-wider text-sand-300 mb-1">
-                  {slide.fecha}
+                <p className="text-xs font-semibold uppercase tracking-wider text-sand-300 mb-1 flex items-center gap-1.5">
+                  <Calendar className="h-3 w-3" /> {slide.fecha || "Próximamente"}
                 </p>
                 <h3 className="font-serif text-xl font-semibold leading-tight">
                   {slide.titulo}
                 </h3>
-                <p className="text-sm text-cream-100 mt-1">
-                  {slide.descripcion}
-                </p>
+                {slide.descripcion && (
+                  <p className="text-sm text-cream-100 mt-1">{slide.descripcion}</p>
+                )}
+                {slide.ciudad && (
+                  <p className="text-xs text-cream-200 mt-1 flex items-center gap-1">
+                    <MapPin className="h-3 w-3" /> {slide.ciudad}
+                  </p>
+                )}
               </div>
             </div>
           ))}
 
-          {SLIDES.length > 1 && (
+          {slides.length > 1 && (
             <>
               <button
                 onClick={prev}
@@ -165,7 +184,7 @@ export default function PopupEventos({ onClose }: Props) {
 
         <div className="px-5 py-4 flex items-center justify-between bg-white/60 backdrop-blur-sm border-t border-cream-200">
           <a
-            href={`${WHATSAPP_LINK}?text=${encodeURIComponent("Vengo del sitio Guía de Bienestar, me gustaría más información porque tengo interés en participar en el evento")}`}
+            href={`${WHATSAPP_LINK}?text=${encodeURIComponent("Vengo del sitio Guía de Bienestar, me gustaría más información sobre el evento solidario")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-semibold text-sage-600 hover:text-sage-700 transition"
@@ -173,7 +192,7 @@ export default function PopupEventos({ onClose }: Props) {
             Quiero participar
           </a>
           <div className="flex gap-1.5">
-            {SLIDES.map((_, i) => (
+            {slides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrent(i)}

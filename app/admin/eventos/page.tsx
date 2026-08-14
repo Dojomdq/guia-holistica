@@ -16,9 +16,10 @@ interface Evento {
   ciudad: string | null;
   latitud: number | null;
   longitud: number | null;
+  solidario: boolean;
 }
 
-const EMPTY = { titulo: "", descripcion: "", fecha: "", imagen_url: "", link: "", activo: true, ciudad: "", latitud: null as number | null, longitud: null as number | null };
+const EMPTY = { titulo: "", descripcion: "", fecha: "", imagen_url: "", link: "", activo: true, ciudad: "", latitud: null as number | null, longitud: null as number | null, solidario: false };
 
 export default function AdminEventosPage() {
   const [eventos, setEventos] = useState<Evento[]>([]);
@@ -90,6 +91,9 @@ export default function AdminEventosPage() {
           <label className="flex items-center gap-2 text-sm text-bark-600">
             <input type="checkbox" checked={form.activo} onChange={e => setForm({ ...form, activo: e.target.checked })} /> Activo
           </label>
+          <label className="flex items-center gap-2 text-sm text-bark-600">
+            <input type="checkbox" checked={form.solidario} onChange={e => setForm({ ...form, solidario: e.target.checked })} /> Evento solidario
+          </label>
           {error && <p className="text-red-600 text-sm">{error}</p>}
           <button onClick={handleSave} disabled={guardando} className="btn-sage w-full">
             {guardando ? "Guardando..." : (editando ? "Actualizar" : "Crear evento")}
@@ -107,9 +111,10 @@ export default function AdminEventosPage() {
               {e.fecha && <p className="text-xs text-bark-500 mt-0.5 flex items-center gap-1"><Calendar className="h-3 w-3" />{e.fecha}</p>}
               {e.descripcion && <p className="text-sm text-bark-600 mt-1 line-clamp-2">{e.descripcion}</p>}
               <span className={`text-[10px] px-1.5 py-0.5 rounded mt-1.5 inline-block ${e.activo ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"}`}>{e.activo ? "Activo" : "Inactivo"}</span>
+              {e.solidario && <span className="text-[10px] px-1.5 py-0.5 rounded mt-1.5 inline-block bg-rose-50 text-rose-700 ml-1">Solidario</span>}
             </div>
             <div className="flex gap-1 shrink-0">
-              <button onClick={() => { setForm({ titulo: e.titulo, descripcion: e.descripcion || "", fecha: e.fecha || "", imagen_url: e.imagen_url || "", link: e.link || "", activo: e.activo, ciudad: e.ciudad || "", latitud: e.latitud, longitud: e.longitud }); setEditando(e.id); setShowForm(true); }} className="p-1.5 rounded-lg hover:bg-cream-100 transition"><Pencil className="h-4 w-4 text-bark-500" /></button>
+              <button onClick={() => { setForm({ titulo: e.titulo, descripcion: e.descripcion || "", fecha: e.fecha || "", imagen_url: e.imagen_url || "", link: e.link || "", activo: e.activo, ciudad: e.ciudad || "", latitud: e.latitud, longitud: e.longitud, solidario: e.solidario }); setEditando(e.id); setShowForm(true); }} className="p-1.5 rounded-lg hover:bg-cream-100 transition"><Pencil className="h-4 w-4 text-bark-500" /></button>
               <button onClick={() => handleDelete(e.id)} className="p-1.5 rounded-lg hover:bg-red-50 transition"><Trash2 className="h-4 w-4 text-red-500" /></button>
             </div>
           </div>
