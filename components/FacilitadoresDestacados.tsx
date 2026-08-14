@@ -15,6 +15,7 @@ interface FacilitadorDestacado {
   bio: string | null;
   direccion: string | null;
   slug: string;
+  facSlug: string | null;
 }
 
 export default function FacilitadoresDestacados() {
@@ -27,7 +28,7 @@ export default function FacilitadoresDestacados() {
       const { data } = await supabase
         .from("facilitadores")
         .select(
-          "id, nombre, bio, direccion, facilitador_actividades(actividades(nombre, slug))"
+          "id, slug, nombre, bio, direccion, facilitador_actividades(actividades(nombre, slug))"
         )
         .eq("activo", true)
         .limit(3);
@@ -43,6 +44,7 @@ export default function FacilitadoresDestacados() {
               bio: f.bio,
               direccion: f.direccion,
               slug: act?.slug || "",
+              facSlug: f.slug || null,
             };
           })
         );
@@ -88,7 +90,7 @@ export default function FacilitadoresDestacados() {
         >
           {/* Large card */}
           <Link
-            href={`/facilitadores/${first.id}`}
+            href={`/facilitadores/${first.facSlug || first.id}`}
             className="md:col-span-3 group"
             onClick={() => track("facilitador", first.id)}
           >
@@ -145,7 +147,7 @@ export default function FacilitadoresDestacados() {
               return (
                 <Link
                   key={f.id}
-                  href={`/facilitadores/${f.id}`}
+                  href={`/facilitadores/${f.facSlug || f.id}`}
                   className="group flex-1"
                   onClick={() => track("facilitador", f.id)}
                 >

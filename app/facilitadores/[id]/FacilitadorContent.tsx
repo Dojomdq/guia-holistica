@@ -87,14 +87,19 @@ export default function FacilitadorContent({
 
   useEffect(() => {
     async function load() {
-      const [{ data }, { data: cats }] = await Promise.all([
-        supabase
-          .from("facilitadores")
-          .select("*, facilitador_actividades(actividades(id, nombre, slug, categoria_id)), ubicaciones(*)")
-          .eq("id", params.id)
-          .single(),
-        supabase.from("categorias").select("id, nombre"),
-      ]);
+      const esUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(params.id);
+
+      const query = supabase
+        .from("facilitadores")
+        .select("*, facilitador_actividades(actividades(id, nombre, slug, categoria_id)), ubicaciones(*)")
+        .limit(1);
+
+      const res = esUuid
+        ? await query.eq("id", params.id).single()
+        : await query.eq("slug", params.id).single();
+
+      const { data } = res;
+      const { data: cats } = await supabase.from("categorias").select("id, nombre");
 
       if (cats) {
         const map: Record<string, string> = {};

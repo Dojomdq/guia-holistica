@@ -13,6 +13,7 @@ import { SITE_URL } from "@/lib/constants";
 
 interface FacilitadorItem {
   id: string;
+  slug: string | null;
   nombre: string;
   bio: string | null;
   direccion: string | null;
@@ -53,7 +54,7 @@ export default function FacilitadoresContent() {
         supabase
           .from("facilitadores")
           .select(
-            "id, nombre, bio, direccion, instagram, ubicaciones(ciudad), facilitador_actividades(actividades(nombre, slug))"
+            "id, slug, nombre, bio, direccion, instagram, ubicaciones(ciudad), facilitador_actividades(actividades(nombre, slug))"
           )
           .eq("activo", true)
           .order("nombre"),
@@ -76,6 +77,7 @@ export default function FacilitadoresContent() {
             const acts = f.facilitador_actividades || [];
             return {
               id: f.id,
+              slug: f.slug || null,
               nombre: f.nombre,
               bio: f.bio,
               direccion: f.direccion,
@@ -337,7 +339,7 @@ export default function FacilitadoresContent() {
                 return (
                   <Link
                     key={f.id}
-                    href={`/facilitadores/${f.id}`}
+                    href={`/facilitadores/${f.slug || f.id}`}
                     className="group"
                     onClick={() => track("facilitador", f.id)}
                   >

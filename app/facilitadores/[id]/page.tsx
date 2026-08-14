@@ -13,11 +13,16 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const { data } = await supabase
+  const esUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(params.id);
+
+  const query = supabase
     .from("facilitadores")
     .select("nombre, bio, direccion, instagram, ciudad")
-    .eq("id", params.id)
-    .single();
+    .limit(1);
+
+  const { data } = esUuid
+    ? await query.eq("id", params.id).single()
+    : await query.eq("slug", params.id).single();
 
   if (!data) {
     return { title: "Facilitador no encontrado" };

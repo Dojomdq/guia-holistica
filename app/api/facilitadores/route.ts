@@ -22,11 +22,35 @@ export async function POST(req: NextRequest) {
     const lat = body.latitud || -38.0055;
     const lng = body.longitud || -57.5426;
 
+    function makeSlug(nombre: string): string {
+      return nombre
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    const slugBase = facData.slug || makeSlug(facData.nombre || "facilitador");
+    let slug = slugBase;
+    let counter = 1;
+    while (true) {
+      const { data: existente } = await supabase
+        .from("facilitadores")
+        .select("id")
+        .eq("slug", slug)
+        .maybeSingle();
+      if (!existente) break;
+      counter += 1;
+      slug = `${slugBase}-${counter}`;
+    }
+
     const { data: fac, error: facErr } = await supabase
       .from("facilitadores")
       .insert({
         nombre: facData.nombre,
         email: facData.email,
+        slug,
         telefono: facData.telefono || null,
         whatsapp: facData.whatsapp || null,
         foto_url: facData.foto_url || null,
