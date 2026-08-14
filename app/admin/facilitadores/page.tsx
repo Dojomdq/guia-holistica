@@ -692,9 +692,9 @@ async function handleDelete(id: string, nombre: string) {
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
                       <button onClick={() => handleRegistrarPago(f)} title="Registrar pago"
-                        className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-sage-600 text-white text-xs font-semibold hover:bg-sage-700 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
+                        className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-lg bg-sage-600 text-white text-xs font-semibold hover:bg-sage-700 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
                         <Banknote className="h-4 w-4" />
-                        Cobrar
+                        <span className="hidden sm:inline">Cobrar</span>
                       </button>
                       <button onClick={() => openEdit(f)} className="p-1.5 text-bark-500 hover:text-bark-700 hover:bg-cream-200 rounded-lg transition-colors"><Pencil className="h-4 w-4" /></button>
                       <button onClick={() => handleDelete(f.id, f.nombre)} className="p-1.5 text-bark-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="h-4 w-4" /></button>
