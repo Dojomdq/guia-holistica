@@ -52,6 +52,8 @@ export default function AdminDashboard() {
   const [desde, setDesde] = useState("");
   const [hasta, setHasta] = useState("");
   const [reseteando, setReseteando] = useState(false);
+  const [planesAsignados, setPlanesAsignados] = useState<any[]>([]);
+  const [planesNombres, setPlanesNombres] = useState<Record<string, string>>({});
 
   useEffect(() => {
     async function load() {
@@ -63,6 +65,19 @@ export default function AdminDashboard() {
       setTotalFacilitadores(f.count || 0);
       setTotalActividades(a.count || 0);
       setTotalCategorias(c.count || 0);
+
+      try {
+        const [planRes, fpRes] = await Promise.all([
+          fetch("/api/planes").then((r) => r.json()),
+          fetch("/api/facilitador-planes").then((r) => r.json()),
+        ]);
+        if (Array.isArray(planRes)) {
+          const map: Record<string, string> = {};
+          for (const p of planRes) map[p.id] = p.nombre;
+          setPlanesNombres(map);
+        }
+        if (Array.isArray(fpRes)) setPlanesAsignados(fpRes);
+      } catch {}
 
       try {
         const comRes = await fetch("/api/comisiones");
@@ -261,6 +276,33 @@ export default function AdminDashboard() {
             <p className="text-xs text-bark-500 mt-0.5">Ingreso neto Guía</p>
           </div>
         </div>
+      </div>
+
+      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60 mb-8">
+        <div className="flex items-center gap-2 mb-5">
+          <Users className="h-5 w-5 text-bark-500" />
+          <h2 className="font-serif font-medium text-bark text-lg">Profesionales por plan</h2>
+        </div>
+        {planesAsignados.length === 0 ? (
+          <p className="text-sm text-bark-500">Sin planes asignados aún</p>
+        ) : (
+          <div className="flex flex-wrap gap-2">
+            {(() => {
+              const conteo: Record<string, number> = {};
+              for (const p of planesAsignados) {
+                if (p.plan_id) {
+                  const nombre = planesNombres[p.plan_id] || "Plan";
+                  conteo[nombre] = (conteo[nombre] || 0) + 1;
+                }
+              }
+              return Object.entries(conteo).map(([nombre, count]) => (
+                <span key={nombre} className="px-3 py-1.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-200/60">
+                  {nombre}: {count}
+                </span>
+              ));
+            })()}
+          </div>
+        )}
       </div>
 
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60 mb-8">
