@@ -13,7 +13,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
-  if (tipo !== "actividad" && tipo !== "facilitador") {
+  const tiposValidos = [
+    "actividad",
+    "facilitador",
+    "whatsapp",
+    "instagram",
+    "telefono",
+    "sitio_web",
+    "como_llegar",
+    "busqueda",
+    "busqueda_sin_resultado",
+  ];
+
+  if (!tiposValidos.includes(tipo)) {
     return NextResponse.json({ error: "Invalid tipo" }, { status: 400 });
   }
 

@@ -9,6 +9,9 @@ import {
   MousePointerClick,
   TrendingUp,
   Percent,
+  CalendarRange,
+  Trash2,
+  BarChart3,
 } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
@@ -16,6 +19,12 @@ import { supabase } from "@/lib/supabase/client";
 interface ClickStat {
   referencia_id: string;
   count: number;
+}
+
+interface ClickRaw {
+  tipo: string;
+  referencia_id: string;
+  created_at: string;
 }
 
 interface ComisionStat {
@@ -30,9 +39,7 @@ export default function AdminDashboard() {
   const [totalFacilitadores, setTotalFacilitadores] = useState(0);
   const [totalActividades, setTotalActividades] = useState(0);
   const [totalCategorias, setTotalCategorias] = useState(0);
-  const [totalClicks, setTotalClicks] = useState(0);
-  const [topActividades, setTopActividades] = useState<ClickStat[]>([]);
-  const [topFacilitadores, setTopFacilitadores] = useState<ClickStat[]>([]);
+  const [clicksRaw, setClicksRaw] = useState<ClickRaw[]>([]);
   const [actividadNames, setActividadNames] = useState<Record<string, string>>({});
   const [facilitadorNames, setFacilitadorNames] = useState<Record<string, string>>({});
   const [comisionStats, setComisionStats] = useState<ComisionStat>({
@@ -42,6 +49,9 @@ export default function AdminDashboard() {
     ingresoBruto: 0,
     ingresoNeto: 0,
   });
+  const [desde, setDesde] = useState("");
+  const [hasta, setHasta] = useState("");
+  const [reseteando, setReseteando] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -72,34 +82,12 @@ export default function AdminDashboard() {
         }
       } catch {}
 
-      const { data: clicks } = await supabase.from("clicks").select("tipo, referencia_id");
+      const { data: clicks } = await supabase
+        .from("clicks")
+        .select("tipo, referencia_id, created_at");
 
       if (clicks) {
-        setTotalClicks(clicks.length);
-
-        const actClicks: Record<string, number> = {};
-        const fasClicks: Record<string, number> = {};
-        for (const click of clicks) {
-          if (click.tipo === "actividad") {
-            actClicks[click.referencia_id] = (actClicks[click.referencia_id] || 0) + 1;
-          } else {
-            fasClicks[click.referencia_id] = (fasClicks[click.referencia_id] || 0) + 1;
-          }
-        }
-
-        setTopActividades(
-          Object.entries(actClicks)
-            .map(([id, count]) => ({ referencia_id: id, count }))
-            .sort((a, b) => b.count - a.count)
-            .slice(0, 10)
-        );
-
-        setTopFacilitadores(
-          Object.entries(fasClicks)
-            .map(([id, count]) => ({ referencia_id: id, count }))
-            .sort((a, b) => b.count - a.count)
-            .slice(0, 10)
-        );
+        setClicksRaw(clicks as ClickRaw[]);
 
         const [actsRes, fasRes] = await Promise.all([
           supabase.from("actividades").select("slug, nombre"),
@@ -121,6 +109,42 @@ export default function AdminDashboard() {
     load();
   }, []);
 
+  const filteredClicks = clicksRaw.filter((click) => {
+    const fecha = click.created_at ? click.created_at.slice(0, 10) : "";
+    if (desde && fecha < desde) return false;
+    if (hasta && fecha > hasta) return false;
+    return true;
+  });
+
+  const totalClicks = filteredClicks.length;
+
+  const actClicks: Record<string, number> = {};
+  const fasClicks: Record<string, number> = {};
+  for (const click of filteredClicks) {
+    if (click.tipo === "actividad") {
+      actClicks[click.referencia_id] = (actClicks[click.referencia_id] || 0) + 1;
+    } else {
+      fasClicks[click.referencia_id] = (fasClicks[click.referencia_id] || 0) + 1;
+    }
+  }
+
+  const topActividades = Object.entries(actClicks)
+    .map(([id, count]) => ({ referencia_id: id, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  const topFacilitadores = Object.entries(fasClicks)
+    .map(([id, count]) => ({ referencia_id: id, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
+  const clicksPorDia: Record<string, number> = {};
+  for (const click of filteredClicks) {
+    const dia = click.created_at ? click.created_at.slice(0, 10) : "sin fecha";
+    clicksPorDia[dia] = (clicksPorDia[dia] || 0) + 1;
+  }
+  const diasOrdenados = Object.entries(clicksPorDia).sort((a, b) => a[0].localeCompare(b[0]));
+
   const stats = [
     { label: "Facilitadores", value: totalFacilitadores, icon: Users, href: "/admin/facilitadores" },
     { label: "Actividades", value: totalActividades, icon: Activity, href: "/admin/actividades" },
@@ -130,11 +154,61 @@ export default function AdminDashboard() {
 
   const formatPesos = (v: number) => v.toLocaleString("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 });
 
+  async function handleReset() {
+    if (!confirm("¿Borrar TODOS los clicks registrados? Esta acción no se puede deshacer.")) return;
+    setReseteando(true);
+    const query = new URLSearchParams();
+    if (desde) query.set("desde", desde);
+    if (hasta) query.set("hasta", hasta);
+    const res = await fetch(`/api/clicks-admin?${query.toString()}`, { method: "DELETE" });
+    const data = await res.json();
+    setReseteando(false);
+    if (res.ok) {
+      alert(`Borrados ${data.deleted || 0} clicks.`);
+      window.location.reload();
+    } else {
+      alert("Error al borrar: " + (data.error || res.statusText));
+    }
+  }
+
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="font-serif text-2xl sm:text-3xl font-medium text-bark">Dashboard</h1>
-        <p className="text-small mt-1">Resumen de tu directorio de bienestar</p>
+      <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
+        <div>
+          <h1 className="font-serif text-2xl sm:text-3xl font-medium text-bark">Dashboard</h1>
+          <p className="text-small mt-1">Resumen de tu directorio de bienestar</p>
+        </div>
+        <button
+          onClick={handleReset}
+          disabled={reseteando}
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 transition-all duration-300 text-sm font-medium"
+        >
+          <Trash2 className="h-4 w-4" />
+          {reseteando ? "Borrando..." : "Resetear clicks"}
+        </button>
+      </div>
+
+      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-cream-300/60 mb-8">
+        <div className="flex items-center gap-2 mb-3">
+          <CalendarRange className="h-5 w-5 text-bark-500" />
+          <h2 className="font-serif font-medium text-bark text-base">Filtrar por fecha</h2>
+        </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <div>
+            <label className="block text-xs font-medium text-bark-600 mb-1">Desde</label>
+            <input type="date" value={desde} onChange={(e) => setDesde(e.target.value)} className="px-3 py-2 rounded-xl border border-cream-300 text-sm text-bark bg-white focus:outline-none focus:ring-2 focus:ring-sage-400/40" />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-bark-600 mb-1">Hasta</label>
+            <input type="date" value={hasta} onChange={(e) => setHasta(e.target.value)} className="px-3 py-2 rounded-xl border border-cream-300 text-sm text-bark bg-white focus:outline-none focus:ring-2 focus:ring-sage-400/40" />
+          </div>
+          {(desde || hasta) && (
+            <button onClick={() => { setDesde(""); setHasta(""); }} className="mt-5 text-xs text-sage-600 hover:text-sage-700 font-medium">Limpiar filtro</button>
+          )}
+          {(desde || hasta) && (
+            <span className="mt-5 text-xs text-bark-500">Mostrando {totalClicks} clicks</span>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -187,6 +261,32 @@ export default function AdminDashboard() {
             <p className="text-xs text-bark-500 mt-0.5">Ingreso neto Guía</p>
           </div>
         </div>
+      </div>
+
+      <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60 mb-8">
+        <div className="flex items-center gap-2 mb-5">
+          <BarChart3 className="h-5 w-5 text-bark-500" />
+          <h2 className="font-serif font-medium text-bark text-lg">Tracción por día</h2>
+        </div>
+        {diasOrdenados.length === 0 ? (
+          <p className="text-sm text-bark-500">Sin datos aún</p>
+        ) : (
+          <div className="space-y-2">
+            {diasOrdenados.map(([dia, count]) => {
+              const max = Math.max(...diasOrdenados.map((d) => d[1]));
+              const pct = Math.round((count / max) * 100);
+              return (
+                <div key={dia} className="flex items-center gap-3">
+                  <span className="text-xs text-bark-500 w-24 shrink-0">{dia}</span>
+                  <div className="flex-1 h-5 bg-cream-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-sage-500 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+                  </div>
+                  <span className="text-xs font-medium text-bark-600 w-8 text-right">{count}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
