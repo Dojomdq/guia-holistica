@@ -41,5 +41,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*", "/api/actividades", "/api/actividades/:path*", "/api/categorias", "/api/categorias/:path*", "/api/facilitadores", "/api/facilitadores/:path*", "/api/planes", "/api/planes/:path*", "/api/facilitador-planes", "/api/facilitador-planes/:path*", "/api/representantes", "/api/representantes/:path*", "/api/comisiones", "/api/comisiones/:path*", "/api/clicks-admin", "/api/clicks-admin/:path*"],
+  matcher: ["/admin", "/admin/:path*", "/api/actividades", "/api/actividades/:path*", "/api/categorias", "/api/categorias/:path*", "/api/facilitadores", "/api/facilitadores/:path*", "/api/planes", "/api/planes/:path*", "/api/facilitador-planes", "/api/facilitador-planes/:path*", "/api/representantes", "/api/representantes/:path*", "/api/comisiones", "/api/comisiones/:path*", "/api/clicks-admin", "/api/clicks-admin/:path*", "/api/destacados", "/api/destacados/:path*"],
 };

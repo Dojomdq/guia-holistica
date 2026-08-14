@@ -3,6 +3,7 @@ import NewHero from "@/components/home/NewHero";
 import SearchSection from "@/components/home/SearchSection";
 import MapSection from "@/components/home/MapSection";
 import EventosSection from "@/components/home/EventosSection";
+import DestacadosSection from "@/components/home/DestacadosSection";
 import TestimoniosSection from "@/components/TestimoniosSection";
 import NewCTA from "@/components/home/NewCTA";
 import FAQSection from "@/components/FAQSection";
@@ -122,6 +123,8 @@ export default function Home() {
       <MapSection />
       <div className="section-divider" />
       <EventosSection />
+      <div className="section-divider" />
+      <DestacadosSection />
       <div className="section-divider" />
       <TestimoniosSection />
       <div className="section-divider" />

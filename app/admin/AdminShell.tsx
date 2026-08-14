@@ -16,6 +16,7 @@ import {
   UserPlus,
   Percent,
   BarChart3,
+  Star,
 } from "lucide-react";
 
 const adminLinks = [
@@ -27,6 +28,7 @@ const adminLinks = [
   { href: "/admin/planes", label: "Planes", icon: CreditCard },
   { href: "/admin/representantes", label: "Representantes", icon: UserPlus },
   { href: "/admin/comisiones", label: "Comisiones", icon: Percent },
+  { href: "/admin/destacados", label: "Destacados", icon: Star },
   { href: "/admin/estadisticas", label: "Estadísticas", icon: BarChart3 },
 ];
 
