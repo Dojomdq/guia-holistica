@@ -1,19 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase/admin";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const supabase = getAdminClient();
-  const { searchParams } = new URL(req.url);
-  const facilitadorId = searchParams.get("facilitador_id");
-
-  let query = supabase
-    .from("facilitador_planes")
-    .select("*, planes(nombre, slug)")
+  const { data, error } = await supabase
+    .from("comisiones")
+    .select("*, facilitadores(nombre), representantes(nombre), planes(nombre)")
     .order("created_at", { ascending: false });
 
-  if (facilitadorId) query = query.eq("facilitador_id", facilitadorId);
-
-  const { data, error } = await query;
   if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   return NextResponse.json(data);
 }
@@ -23,19 +17,26 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const supabase = getAdminClient();
 
+    const importeCobrado = body.importe_cobrado ?? 0;
+    const porcentaje = body.comision_porcentaje ?? 0;
+    const importeComision = Math.round((importeCobrado * porcentaje) / 100);
+    const importeNeto = importeCobrado - importeComision;
+
     const { data, error } = await supabase
-      .from("facilitador_planes")
+      .from("comisiones")
       .insert({
-        facilitador_id: body.facilitador_id,
-        plan_id: body.plan_id || null,
-        ciudad: body.ciudad || "Mar del Plata",
+        facilitador_id: body.facilitador_id || null,
         representante_id: body.representante_id || null,
-        fundador: !!body.fundador,
-        estado: body.estado || "activo",
-        precio_contratado: body.precio_contratado ?? null,
-        fecha_inicio: body.fecha_inicio || null,
-        fecha_vencimiento: body.fecha_vencimiento || null,
-        proxima_fecha_pago: body.proxima_fecha_pago || null,
+        plan_id: body.plan_id || null,
+        ciudad: body.ciudad || null,
+        periodo: body.periodo || null,
+        importe_cobrado: importeCobrado,
+        comision_porcentaje: porcentaje,
+        importe_comision: importeComision,
+        importe_neto: importeNeto,
+        estado: body.estado || "pendiente",
+        fecha_generacion: body.fecha_generacion || null,
+        fecha_pago: body.fecha_pago || null,
         observaciones: body.observaciones || null,
       })
       .select()

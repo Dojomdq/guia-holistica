@@ -8,6 +8,7 @@ import {
   ExternalLink,
   MousePointerClick,
   TrendingUp,
+  Percent,
 } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
@@ -15,6 +16,14 @@ import { supabase } from "@/lib/supabase/client";
 interface ClickStat {
   referencia_id: string;
   count: number;
+}
+
+interface ComisionStat {
+  totalComisiones: number;
+  comisionesPendientes: number;
+  comisionesPagadas: number;
+  ingresoBruto: number;
+  ingresoNeto: number;
 }
 
 export default function AdminDashboard() {
@@ -26,6 +35,13 @@ export default function AdminDashboard() {
   const [topFacilitadores, setTopFacilitadores] = useState<ClickStat[]>([]);
   const [actividadNames, setActividadNames] = useState<Record<string, string>>({});
   const [facilitadorNames, setFacilitadorNames] = useState<Record<string, string>>({});
+  const [comisionStats, setComisionStats] = useState<ComisionStat>({
+    totalComisiones: 0,
+    comisionesPendientes: 0,
+    comisionesPagadas: 0,
+    ingresoBruto: 0,
+    ingresoNeto: 0,
+  });
 
   useEffect(() => {
     async function load() {
@@ -37,6 +53,24 @@ export default function AdminDashboard() {
       setTotalFacilitadores(f.count || 0);
       setTotalActividades(a.count || 0);
       setTotalCategorias(c.count || 0);
+
+      try {
+        const comRes = await fetch("/api/comisiones");
+        const comData = await comRes.json();
+        if (Array.isArray(comData)) {
+          const pendientes = comData.filter((x: any) => x.estado === "pendiente").reduce((s: number, x: any) => s + (Number(x.importe_comision) || 0), 0);
+          const pagadas = comData.filter((x: any) => x.estado === "pagada").reduce((s: number, x: any) => s + (Number(x.importe_comision) || 0), 0);
+          const brutos = comData.reduce((s: number, x: any) => s + (Number(x.importe_cobrado) || 0), 0);
+          const netos = comData.reduce((s: number, x: any) => s + (Number(x.importe_neto) || 0), 0);
+          setComisionStats({
+            totalComisiones: comData.reduce((s: number, x: any) => s + (Number(x.importe_comision) || 0), 0),
+            comisionesPendientes: pendientes,
+            comisionesPagadas: pagadas,
+            ingresoBruto: brutos,
+            ingresoNeto: netos,
+          });
+        }
+      } catch {}
 
       const { data: clicks } = await supabase.from("clicks").select("tipo, referencia_id");
 
@@ -94,6 +128,8 @@ export default function AdminDashboard() {
     { label: "Total Clicks", value: totalClicks, icon: MousePointerClick, href: null as string | null },
   ];
 
+  const formatPesos = (v: number) => v.toLocaleString("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 });
+
   return (
     <div>
       <div className="mb-8">
@@ -122,6 +158,35 @@ export default function AdminDashboard() {
             </Link>
           );
         })}
+      </div>
+
+      <div className="mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <Percent className="h-5 w-5 text-bark-500" />
+          <h2 className="font-serif font-medium text-bark text-lg">Comisiones de representantes</h2>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="bg-white/70 rounded-2xl p-4 border border-cream-300/60 text-center">
+            <p className="text-xl font-serif font-medium text-bark">{formatPesos(comisionStats.ingresoBruto)}</p>
+            <p className="text-xs text-bark-500 mt-0.5">Ingreso bruto</p>
+          </div>
+          <div className="bg-white/70 rounded-2xl p-4 border border-cream-300/60 text-center">
+            <p className="text-xl font-serif font-medium text-amber-700">{formatPesos(comisionStats.totalComisiones)}</p>
+            <p className="text-xs text-bark-500 mt-0.5">Comisiones generadas</p>
+          </div>
+          <div className="bg-white/70 rounded-2xl p-4 border border-cream-300/60 text-center">
+            <p className="text-xl font-serif font-medium text-amber-700">{formatPesos(comisionStats.comisionesPendientes)}</p>
+            <p className="text-xs text-bark-500 mt-0.5">Pendientes</p>
+          </div>
+          <div className="bg-white/70 rounded-2xl p-4 border border-cream-300/60 text-center">
+            <p className="text-xl font-serif font-medium text-sage-700">{formatPesos(comisionStats.comisionesPagadas)}</p>
+            <p className="text-xs text-bark-500 mt-0.5">Pagadas</p>
+          </div>
+          <div className="bg-white/70 rounded-2xl p-4 border border-cream-300/60 text-center">
+            <p className="text-xl font-serif font-medium text-sage-700">{formatPesos(comisionStats.ingresoNeto)}</p>
+            <p className="text-xs text-bark-500 mt-0.5">Ingreso neto Guía</p>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">

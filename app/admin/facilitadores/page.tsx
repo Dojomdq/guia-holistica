@@ -29,9 +29,15 @@ interface PlanOption {
   nombre: string;
 }
 
+interface RepresentanteOption {
+  id: string;
+  nombre: string;
+}
+
 interface PlanAsignacion {
   id: string | null;
   plan_id: string | null;
+  representante_id: string | null;
   fundador: boolean;
   estado: string;
   precio_contratado: string;
@@ -54,6 +60,7 @@ const EMPTY_UBI: UbicacionForm = { direccion: "", latitud: "-38.0055", longitud:
 const EMPTY_PLAN: PlanAsignacion = {
   id: null,
   plan_id: null,
+  representante_id: null,
   fundador: false,
   estado: "activo",
   precio_contratado: "",
@@ -76,6 +83,7 @@ export default function FacilitadoresAdmin() {
   const [facilitadores, setFacilitadores] = useState<FacilitadorAdmin[]>([]);
   const [actividades, setActividades] = useState<ActividadOption[]>([]);
   const [planes, setPlanes] = useState<PlanOption[]>([]);
+  const [representantes, setRepresentantes] = useState<RepresentanteOption[]>([]);
   const [planesMap, setPlanesMap] = useState<Record<string, PlanAsignacion>>({});
   const [form, setForm] = useState(EMPTY_FORM);
   const [planForm, setPlanForm] = useState<PlanAsignacion>(EMPTY_PLAN);
@@ -135,6 +143,12 @@ export default function FacilitadoresAdmin() {
         setPlanes(planesData.map((p: any) => ({ id: p.id, nombre: p.nombre })));
       }
 
+      const repsRes = await fetch("/api/representantes");
+      const repsData = await repsRes.json();
+      if (repsRes.ok && Array.isArray(repsData)) {
+        setRepresentantes(repsData.map((r: any) => ({ id: r.id, nombre: r.nombre })));
+      }
+
       const asignRes = await fetch("/api/facilitador-planes");
       const asignData = await asignRes.json();
       if (asignRes.ok && Array.isArray(asignData)) {
@@ -144,6 +158,7 @@ export default function FacilitadoresAdmin() {
             map[a.facilitador_id] = {
               id: a.id,
               plan_id: a.plan_id,
+              representante_id: a.representante_id,
               fundador: a.fundador,
               estado: a.estado || "activo",
               precio_contratado: a.precio_contratado != null ? String(a.precio_contratado) : "",
@@ -300,6 +315,7 @@ export default function FacilitadoresAdmin() {
     if (facilitadorId && (planForm.plan_id || planForm.id || planForm.fundador || planForm.observaciones)) {
       const planPayload = {
         plan_id: planForm.plan_id || null,
+        representante_id: planForm.representante_id || null,
         fundador: planForm.fundador,
         estado: planForm.estado,
         precio_contratado: planForm.precio_contratado === "" ? null : parseFloat(planForm.precio_contratado),
@@ -489,6 +505,16 @@ async function handleDelete(id: string, nombre: string) {
                 </select>
               </div>
               <div>
+                <label className="block text-sm font-medium text-bark-800 mb-1">Representante / Comercial</label>
+                <select value={planForm.representante_id || ""} onChange={(e) => setPlanForm({ ...planForm, representante_id: e.target.value || null })}
+                  className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all">
+                  <option value="">Sin representante</option>
+                  {representantes.map((r) => (
+                    <option key={r.id} value={r.id}>{r.nombre}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
                 <label className="block text-sm font-medium text-bark-800 mb-1">Estado</label>
                 <select value={planForm.estado} onChange={(e) => setPlanForm({ ...planForm, estado: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all">
@@ -592,6 +618,7 @@ async function handleDelete(id: string, nombre: string) {
                         return <span className="text-xs text-bark-400">—</span>;
                       }
                       const plan = planes.find((p) => p.id === asign.plan_id);
+                      const rep = representantes.find((r) => r.id === asign.representante_id);
                       return (
                         <div>
                           <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-200/60">
@@ -601,6 +628,9 @@ async function handleDelete(id: string, nombre: string) {
                             <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200/60 ml-1">
                               Fundador
                             </span>
+                          )}
+                          {rep && (
+                            <p className="text-[11px] text-bark-500 mt-1">Rep: {rep.nombre}</p>
                           )}
                         </div>
                       );

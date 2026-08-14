@@ -13,6 +13,8 @@ import {
   X,
   Calendar,
   CreditCard,
+  UserPlus,
+  Percent,
 } from "lucide-react";
 
 const adminLinks = [
@@ -22,6 +24,8 @@ const adminLinks = [
   { href: "/admin/categorias", label: "Categorías", icon: Tag },
   { href: "/admin/eventos", label: "Eventos", icon: Calendar },
   { href: "/admin/planes", label: "Planes", icon: CreditCard },
+  { href: "/admin/representantes", label: "Representantes", icon: UserPlus },
+  { href: "/admin/comisiones", label: "Comisiones", icon: Percent },
 ];
 
 export default function AdminShell({
