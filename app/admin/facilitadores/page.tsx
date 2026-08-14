@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, Search, MapPin, X, Crosshair, AlertCircle } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, MapPin, X, Crosshair, AlertCircle, CheckCircle2 } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import MapPicker from "@/components/MapPicker";
 
@@ -32,12 +32,14 @@ interface PlanOption {
 interface RepresentanteOption {
   id: string;
   nombre: string;
+  comision_porcentaje: number | null;
 }
 
 interface PlanAsignacion {
   id: string | null;
   plan_id: string | null;
   representante_id: string | null;
+  ciudad: string | null;
   fundador: boolean;
   estado: string;
   precio_contratado: string;
@@ -61,6 +63,7 @@ const EMPTY_PLAN: PlanAsignacion = {
   id: null,
   plan_id: null,
   representante_id: null,
+  ciudad: null,
   fundador: false,
   estado: "activo",
   precio_contratado: "",
@@ -146,7 +149,7 @@ export default function FacilitadoresAdmin() {
       const repsRes = await fetch("/api/representantes");
       const repsData = await repsRes.json();
       if (repsRes.ok && Array.isArray(repsData)) {
-        setRepresentantes(repsData.map((r: any) => ({ id: r.id, nombre: r.nombre })));
+        setRepresentantes(repsData.map((r: any) => ({ id: r.id, nombre: r.nombre, comision_porcentaje: r.comision_porcentaje ?? null })));
       }
 
       const asignRes = await fetch("/api/facilitador-planes");
@@ -159,6 +162,7 @@ export default function FacilitadoresAdmin() {
               id: a.id,
               plan_id: a.plan_id,
               representante_id: a.representante_id,
+              ciudad: a.ciudad || null,
               fundador: a.fundador,
               estado: a.estado || "activo",
               precio_contratado: a.precio_contratado != null ? String(a.precio_contratado) : "",
@@ -353,6 +357,50 @@ export default function FacilitadoresAdmin() {
 async function handleDelete(id: string, nombre: string) {
     if (!confirm(`¿Eliminar a "${nombre}"?`)) return;
     await fetch(`/api/facilitadores/${id}`, { method: "DELETE" });
+    await load();
+  }
+
+  async function handleRegistrarPago(f: FacilitadorAdmin) {
+    const asign = planesMap[f.id];
+    const precio = asign?.precio_contratado ? parseFloat(asign.precio_contratado) : 0;
+    const rep = asign?.representante_id ? representantes.find((r) => r.id === asign.representante_id) : null;
+    const porcentaje = rep?.comision_porcentaje ?? 0;
+
+    if (!asign || !asign.plan_id || precio <= 0) {
+      alert("Este profesional no tiene plan contratado o precio definido. Editá su plan primero.");
+      return;
+    }
+
+    const periodo = new Date().toISOString().slice(0, 7);
+
+    const confirmMsg = rep
+      ? `Registrar pago de ${f.nombre}:\n\nBruto: $${precio}\nRepresentante: ${rep.nombre} (${porcentaje}%)\nComisión: $${Math.round((precio * porcentaje) / 100)}\nIngreso Guía: $${precio - Math.round((precio * porcentaje) / 100)}`
+      : `Registrar pago de ${f.nombre}:\n\nBruto: $${precio}\nSin representante (ingreso directo Guía).`;
+
+    if (!confirm(confirmMsg)) return;
+
+    const res = await fetch("/api/comisiones", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        facilitador_id: f.id,
+        representante_id: rep?.id || null,
+        plan_id: asign.plan_id,
+        ciudad: asign.ciudad || null,
+        periodo,
+        importe_cobrado: precio,
+        comision_porcentaje: porcentaje,
+        estado: "pendiente",
+        fecha_generacion: new Date().toISOString().slice(0, 10),
+      }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      alert("Error al registrar pago: " + (data.error || res.statusText));
+      return;
+    }
+    alert("Pago registrado correctamente.");
     await load();
   }
 
@@ -643,6 +691,7 @@ async function handleDelete(id: string, nombre: string) {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
+                      <button onClick={() => handleRegistrarPago(f)} title="Registrar pago" className="p-1.5 text-bark-500 hover:text-sage-700 hover:bg-sage-50 rounded-lg transition-colors"><CheckCircle2 className="h-4 w-4" /></button>
                       <button onClick={() => openEdit(f)} className="p-1.5 text-bark-500 hover:text-bark-700 hover:bg-cream-200 rounded-lg transition-colors"><Pencil className="h-4 w-4" /></button>
                       <button onClick={() => handleDelete(f.id, f.nombre)} className="p-1.5 text-bark-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="h-4 w-4" /></button>
                     </div>
