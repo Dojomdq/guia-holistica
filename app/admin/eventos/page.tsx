@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Calendar } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
+import MapPicker from "@/components/MapPicker";
 
 interface Evento {
   id: string;
@@ -78,9 +79,13 @@ export default function AdminEventosPage() {
           <input value={form.imagen_url} onChange={e => setForm({ ...form, imagen_url: e.target.value })} placeholder="URL de la imagen (Cloudinary)" className="input-field" />
           <input value={form.link} onChange={e => setForm({ ...form, link: e.target.value })} placeholder="Link (WhatsApp, Instagram...)" className="input-field" />
           <input value={form.ciudad || ""} onChange={e => setForm({ ...form, ciudad: e.target.value })} placeholder="Ciudad" className="input-field" />
-          <div className="flex gap-2">
-            <input value={form.latitud ?? ""} onChange={e => setForm({ ...form, latitud: e.target.value ? parseFloat(e.target.value) : null })} placeholder="Latitud" className="input-field" />
-            <input value={form.longitud ?? ""} onChange={e => setForm({ ...form, longitud: e.target.value ? parseFloat(e.target.value) : null })} placeholder="Longitud" className="input-field" />
+          <div>
+            <label className="block text-sm font-medium text-bark-800 mb-1">Ubicación (clic en el mapa)</label>
+            <MapPicker
+              lat={form.latitud ?? -38.0055}
+              lng={form.longitud ?? -57.5426}
+              onChange={(lat, lng) => setForm({ ...form, latitud: lat, longitud: lng })}
+            />
           </div>
           <label className="flex items-center gap-2 text-sm text-bark-600">
             <input type="checkbox" checked={form.activo} onChange={e => setForm({ ...form, activo: e.target.checked })} /> Activo

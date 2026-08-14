@@ -12,6 +12,7 @@ import {
   Menu,
   X,
   Calendar,
+  CreditCard,
 } from "lucide-react";
 
 const adminLinks = [
@@ -20,6 +21,7 @@ const adminLinks = [
   { href: "/admin/actividades", label: "Actividades", icon: Activity },
   { href: "/admin/categorias", label: "Categorías", icon: Tag },
   { href: "/admin/eventos", label: "Eventos", icon: Calendar },
+  { href: "/admin/planes", label: "Planes", icon: CreditCard },
 ];
 
 export default function AdminShell({
