@@ -52,7 +52,7 @@ export default function EventosSection() {
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               {e.imagen_url && (
-                <div className={`${/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? "aspect-[9/16] sm:aspect-[4/5]" : "aspect-[4/5]"} overflow-hidden bg-cream-100`}>
+                <div className={`${/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? "aspect-[9/16] sm:aspect-[4/5] sm:max-h-[280px]" : "aspect-[4/5] sm:max-h-[280px]"} w-full overflow-hidden bg-cream-100`}>
                   {/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? (
                     <video
                       src={e.imagen_url}
@@ -61,6 +61,7 @@ export default function EventosSection() {
                       muted
                       loop
                       playsInline
+                      preload="metadata"
                     />
                   ) : (
                     <img src={e.imagen_url} alt={e.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
