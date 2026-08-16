@@ -9,7 +9,7 @@ export default function NewCTA() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-16 sm:py-20" aria-labelledby="cta-titulo">
+    <section ref={ref} className="py-12 sm:py-16" aria-labelledby="cta-titulo">
       <div className="container-wide">
         <div
           className={`relative overflow-hidden rounded-3xl bg-gradient-to-br from-sage-700 via-sage-600 to-terracotta-500 px-6 py-14 sm:px-12 sm:py-16 shadow-xl transition-all duration-700 ${

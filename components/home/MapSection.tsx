@@ -36,7 +36,7 @@ export default function MapSection() {
   }, []);
 
   return (
-    <section id="mapa" ref={ref} className="py-16 sm:py-24 bg-cream-50 overflow-hidden">
+    <section id="mapa" ref={ref} className="py-12 sm:py-16 bg-cream-50 overflow-hidden">
       <div className="relative container-wide">
         <div
           className={`text-center mb-10 transition-all duration-700 ${

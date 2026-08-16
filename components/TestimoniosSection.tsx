@@ -30,7 +30,7 @@ export default function TestimoniosSection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-16 sm:py-24 bg-sand-100 dark:bg-bark-900/60">
+    <section ref={ref} className="py-12 sm:py-16 bg-sand-100 dark:bg-bark-900/60">
       <div className="container-page">
         <div
           className={`text-center mb-10 transition-all duration-700 ${

@@ -59,7 +59,7 @@ export default function DestacadosSection() {
   if (destacados.length === 0) return null;
 
   return (
-    <section ref={ref} className="py-16 sm:py-20 bg-cream-50 dark:bg-bark-950">
+    <section ref={ref} className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950">
       <div className="container-page">
         <div className="text-center mb-10">
           <span className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-4">

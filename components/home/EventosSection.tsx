@@ -32,7 +32,7 @@ export default function EventosSection() {
   if (eventos.length === 0) return null;
 
   return (
-    <section ref={ref} className="py-16 sm:py-20 bg-cream-50 dark:bg-bark-950">
+    <section ref={ref} className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950">
       <div className="container-page">
         <div className={`text-center mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
           <span className="inline-flex items-center gap-2 px-3 py-1 bg-terracotta-100 dark:bg-terracotta-900/30 text-terracotta-700 dark:text-terracotta-300 text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-4">
