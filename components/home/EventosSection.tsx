@@ -38,7 +38,7 @@ export default function EventosSection() {
           <span className="inline-flex items-center gap-2 px-3 py-1 bg-terracotta-100 dark:bg-terracotta-900/30 text-terracotta-700 dark:text-terracotta-300 text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-4">
             <Calendar className="h-3 w-3" /> Próximos
           </span>
-          <h2 className="font-serif text-2xl sm:text-3xl font-medium text-bark dark:text-cream-100">Eventos y talleres</h2>
+          <h2 className="font-serif text-2xl sm:text-3xl font-medium text-bark dark:text-cream-100">Próximos eventos</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
@@ -52,11 +52,11 @@ export default function EventosSection() {
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               {e.imagen_url && (
-                <div className={`${/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? "aspect-[9/16] sm:aspect-[4/5] sm:max-h-[280px]" : "aspect-[4/5] sm:max-h-[280px]"} w-full overflow-hidden bg-cream-100`}>
+                <div className="w-full overflow-hidden bg-cream-100">
                   {/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? (
                     <video
                       src={e.imagen_url}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full object-cover group-hover:scale-105 transition-transform duration-500 aspect-[9/16] sm:aspect-[16/10] sm:max-h-[240px]"
                       autoPlay
                       muted
                       loop
@@ -64,7 +64,7 @@ export default function EventosSection() {
                       preload="metadata"
                     />
                   ) : (
-                    <img src={e.imagen_url} alt={e.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={e.imagen_url} alt={e.titulo} className="w-full object-cover group-hover:scale-105 transition-transform duration-500 aspect-[4/5] sm:max-h-[240px]" />
                   )}
                 </div>
               )}

@@ -3,7 +3,7 @@ import EventosContent from "./EventosContent";
 import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Próximos Eventos y Talleres | Guía de Bienestar",
+  title: "Próximos Eventos | Guía de Bienestar",
   description: "Descubrí eventos, talleres y encuentros de bienestar. Filtrá por ciudad y encontrá el más cercano.",
   openGraph: {
     title: "Eventos | Guía de Bienestar",
