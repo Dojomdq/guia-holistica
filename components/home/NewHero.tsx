@@ -44,14 +44,16 @@ export default function NewHero() {
             </span>
           </div>
 
-          <h1 className={`heading-xl text-white mb-5 text-balance transition-all duration-1000 ease-out ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            Encontrá terapeutas y guías de{" "}
-            <span className="text-sage-100">bienestar</span>{" "}
-            en Mar del Plata
+          <h1 className={`heading-xl text-white mb-4 text-balance transition-all duration-1000 ease-out ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+            Guía de Bienestar en Mar del Plata
           </h1>
 
-          <p className={`text-cream-100/90 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10 transition-all duration-700 delay-300 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            Conectá con profesionales verificados de Mar del Plata de forma rápida, directa y confiable.
+          <p className={`text-xl sm:text-2xl font-medium text-cream-100 max-w-2xl mx-auto mb-4 transition-all duration-700 delay-150 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+            Encontrá facilitadores de bienestar en el mapa interactivo de tu ciudad.
+          </p>
+
+          <p className={`text-cream-100/90 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-10 transition-all duration-700 delay-300 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+            Conectá directo con terapeutas, coaches y guías holísticos. Todos los perfiles son verificados para que elijas con confianza.
           </p>
 
           <div className={`grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto mb-10 transition-all duration-700 delay-500 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
