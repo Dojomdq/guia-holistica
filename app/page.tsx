@@ -11,13 +11,13 @@ import PopupManager from "@/components/PopupManager";
 import { SITE_URL, INSTAGRAM_URL, WHATSAPP_LINK, CITY_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Guía de Bienestar | Encontrá Terapeutas, Yoga y Reiki",
+  title: "Guía de Bienestar en Mar del Plata | Facilitadores holísticos",
   description:
-    "Encontrá terapeutas, facilitadores y guías cerca tuyo. Mapa interactivo con chamanismo, yoga, reiki, meditación y más.",
+    "Encontrá terapeutas, facilitadores y guías holísticos en Mar del Plata. Mapa interactivo con yoga, reiki, meditación, chamanismo y más.",
   openGraph: {
-    title: "Guía de Bienestar | Encontrá Terapeutas, Yoga y Reiki",
+    title: "Guía de Bienestar en Mar del Plata | Facilitadores holísticos",
     description:
-      "Encontrá terapeutas, facilitadores y guías cerca tuyo. Mapa interactivo con chamanismo, yoga, reiki, meditación y más.",
+      "Encontrá terapeutas, facilitadores y guías holísticos en Mar del Plata. Mapa interactivo con yoga, reiki, meditación, chamanismo y más.",
   },
   alternates: {
     canonical: SITE_URL,

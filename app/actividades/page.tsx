@@ -3,11 +3,11 @@ import ActividadesContent from "./ActividadesContent";
 import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Yoga, Reiki, Meditación y más | Guía de Bienestar",
+  title: "Yoga, Reiki y más en Mar del Plata | Guía de Bienestar",
   description:
-    "Explorá todas las actividades disponibles: chamanismo, yoga, reiki, meditación, tarot, astrología, sanación energética y más. Encontrá la que necesitás.",
+    "Explorá todas las actividades holísticas en Mar del Plata: yoga, reiki, meditación, chamanismo, tarot, astrología, sanación energética y más.",
   openGraph: {
-    title: "Actividades | Guía de Bienestar",
+    title: "Yoga, Reiki y más en Mar del Plata | Guía de Bienestar",
     description:
       "Explorá todas las actividades holísticas disponibles en Mar del Plata: chamanismo, yoga, reiki, meditación, tarot y más.",
   },
