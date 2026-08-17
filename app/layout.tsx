@@ -8,6 +8,8 @@ import FloatingCTA from "@/components/FloatingCTA";
 import ThemeProvider from "@/app/ThemeProvider";
 import { SITE_URL, CITY_NAME } from "@/lib/constants";
 
+// Layout raíz: estructura compartida de todas las páginas
+
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",

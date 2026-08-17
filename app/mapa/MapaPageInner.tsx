@@ -80,12 +80,6 @@ export default function MapaPageInner() {
   }, [busqueda, track]);
 
   useEffect(() => {
-    if (!cargando && busqueda.trim() && facilitadoresFiltrados.length === 0) {
-      track("busqueda_sin_resultado", busqueda.trim().toLowerCase());
-    }
-  }, [cargando, busqueda, facilitadoresFiltrados.length, track]);
-
-  useEffect(() => {
     setIsMobile(window.innerWidth < 768);
     const onResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", onResize);
@@ -186,6 +180,12 @@ export default function MapaPageInner() {
 
     return results.sort((a, b) => a.nombre.localeCompare(b.nombre));
   }, [busqueda, ciudadSeleccionada, todosFacilitadores]);
+
+  useEffect(() => {
+    if (!cargando && busqueda.trim() && facilitadoresFiltrados.length === 0) {
+      track("busqueda_sin_resultado", busqueda.trim().toLowerCase());
+    }
+  }, [cargando, busqueda, facilitadoresFiltrados.length, track]);
 
   const markers: MarkerItem[] = useMemo(() => {
     const items: MarkerItem[] = [];
