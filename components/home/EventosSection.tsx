@@ -24,6 +24,7 @@ export default function EventosSection() {
       .from("eventos")
       .select("id, titulo, descripcion, fecha, imagen_url, link")
       .eq("activo", true)
+      .or("solidario.is.null,solidario.eq.false")
       .order("created_at", { ascending: false })
       .limit(3)
       .then(({ data }) => { if (data) setEventos(data); });
