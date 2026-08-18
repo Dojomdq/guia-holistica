@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Star, ArrowUpRight, MapPin } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
-import { useScrollReveal } from "@/lib/useScrollReveal";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 
 interface Destacado {
@@ -22,7 +21,6 @@ interface Destacado {
 
 export default function DestacadosSection() {
   const [destacados, setDestacados] = useState<Destacado[]>([]);
-  const { ref, isVisible } = useScrollReveal();
 
   useEffect(() => {
     async function load() {
@@ -59,7 +57,7 @@ export default function DestacadosSection() {
   if (destacados.length === 0) return null;
 
   return (
-    <section ref={ref} className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950">
+    <section className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950">
       <div className="container-page">
         <div className="text-center mb-10">
           <span className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-4">
@@ -79,10 +77,7 @@ export default function DestacadosSection() {
               <Link
                 key={d.id}
                 href={`/facilitadores/${f.slug || f.id}`}
-                className={`group bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                }`}
-                style={{ transitionDelay: `${i * 100}ms` }}
+                className="group bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div
