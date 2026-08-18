@@ -13,6 +13,7 @@ import {
   Trash2,
   BarChart3,
   Download,
+  DollarSign,
 } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
@@ -56,6 +57,9 @@ export default function AdminDashboard() {
   const [reseteando, setReseteando] = useState(false);
   const [planesAsignados, setPlanesAsignados] = useState<any[]>([]);
   const [planesNombres, setPlanesNombres] = useState<Record<string, string>>({});
+  const [pagosTotal, setPagosTotal] = useState(0);
+  const [pagosMes, setPagosMes] = useState(0);
+  const [pagosCount, setPagosCount] = useState(0);
 
   useEffect(() => {
     async function load() {
@@ -96,6 +100,17 @@ export default function AdminDashboard() {
             ingresoBruto: brutos,
             ingresoNeto: netos,
           });
+        }
+      } catch {}
+
+      try {
+        const pagRes = await fetch("/api/pagos");
+        const pagData = await pagRes.json();
+        if (Array.isArray(pagData)) {
+          const mesActual = new Date().toISOString().slice(0, 7);
+          setPagosTotal(pagData.reduce((s: number, x: any) => s + (Number(x.monto) || 0), 0));
+          setPagosMes(pagData.filter((x: any) => x.fecha_pago?.startsWith(mesActual)).reduce((s: number, x: any) => s + (Number(x.monto) || 0), 0));
+          setPagosCount(pagData.length);
         }
       } catch {}
 
@@ -294,6 +309,27 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
+
+      <Link href="/admin/pagos" className="block bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60 mb-8 hover:border-sage-300/60 hover:shadow-medium transition-all duration-300">
+        <div className="flex items-center gap-2 mb-5">
+          <DollarSign className="h-5 w-5 text-bark-500" />
+          <h2 className="font-serif font-medium text-bark text-lg">Pagos</h2>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="text-center">
+            <p className="text-xl font-serif font-medium text-bark">{formatPesos(pagosMes)}</p>
+            <p className="text-xs text-bark-500 mt-0.5">Este mes</p>
+          </div>
+          <div className="text-center">
+            <p className="text-xl font-serif font-medium text-sage-700">{formatPesos(pagosTotal)}</p>
+            <p className="text-xs text-bark-500 mt-0.5">Total histórico</p>
+          </div>
+          <div className="text-center">
+            <p className="text-xl font-serif font-medium text-bark">{pagosCount}</p>
+            <p className="text-xs text-bark-500 mt-0.5">Pagos registrados</p>
+          </div>
+        </div>
+      </Link>
 
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60 mb-8">
         <div className="flex items-center gap-2 mb-5">
