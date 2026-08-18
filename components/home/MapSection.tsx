@@ -36,7 +36,7 @@ export default function MapSection() {
   }, []);
 
   return (
-    <section id="mapa" ref={ref} className="py-12 sm:py-16 bg-cream-50 overflow-hidden">
+    <section id="mapa" ref={ref} className="py-16 sm:py-24 bg-cream-50 overflow-hidden">
       <div className="relative container-wide">
         <div
           className={`text-center mb-10 transition-all duration-700 ${
@@ -58,7 +58,7 @@ export default function MapSection() {
         >
           <div className="relative bg-white rounded-2xl shadow-2xl border border-cream-200/60 overflow-hidden">
             {mapaCargado ? (
-              <div ref={observerRef}>
+              <div className="h-[320px] sm:h-[400px]" ref={observerRef}>
                 <MiniMap />
               </div>
             ) : (

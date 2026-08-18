@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 import { getEmoji, getMarkerColor } from "@/lib/categories";
@@ -9,15 +9,6 @@ import { CITY_COORDS, CITY_NAME } from "@/lib/constants";
 import ClusteredMarkers from "@/components/ClusteredMarkers";
 
 const defaultPosition: [number, number] = CITY_COORDS[CITY_NAME] ?? [-38, -57];
-
-function InvalidateOnMount() {
-  const map = useMap();
-  useEffect(() => {
-    const t = setTimeout(() => map.invalidateSize(), 250);
-    return () => clearTimeout(t);
-  }, [map]);
-  return null;
-}
 
 export default function MiniMap() {
   const [facilitadores, setFacilitadores] = useState<
@@ -59,7 +50,7 @@ export default function MiniMap() {
   }, []);
 
   return (
-    <div className="w-full h-[320px] sm:h-[400px] overflow-hidden">
+    <div className="rounded-3xl overflow-hidden shadow-medium border border-cream-300/40 h-full">
       <MapContainer
         center={defaultPosition}
         zoom={13}
@@ -67,7 +58,6 @@ export default function MiniMap() {
         style={{ height: "100%", width: "100%" }}
         dragging={false}
       >
-        <InvalidateOnMount />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
