@@ -14,8 +14,10 @@ import {
   Navigation,
   Eye,
   SearchX,
+  Download,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
+import { downloadCSV } from "@/lib/csv";
 
 interface ClickRaw {
   tipo: string;
@@ -146,9 +148,26 @@ export default function EstadisticasAdmin() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="font-serif text-2xl sm:text-3xl font-medium text-bark">Estadísticas</h1>
-        <p className="text-sm text-bark-500 mt-1">Actividad de la plataforma filtrable por fecha.</p>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="font-serif text-2xl sm:text-3xl font-medium text-bark">Estadísticas</h1>
+          <p className="text-sm text-bark-500 mt-1">Actividad de la plataforma filtrable por fecha.</p>
+        </div>
+        {filtered.length > 0 && (
+          <button
+            onClick={() => downloadCSV(filtered.map((c) => ({
+              fecha: c.created_at?.slice(0, 10) || "",
+              hora: c.created_at?.slice(11, 19) || "",
+              tipo: TIPOS_LABEL[c.tipo] || c.tipo,
+              referencia: c.tipo === "actividad" ? (actividadNames[c.referencia_id] || c.referencia_id)
+                : c.tipo === "facilitador" ? (facilitadorNames[c.referencia_id] || c.referencia_id)
+                : c.referencia_id,
+            })), `estadisticas_${new Date().toISOString().slice(0, 10)}.csv`)}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-sage-50 text-sage-700 border border-sage-200 hover:bg-sage-100 transition-all duration-300 text-sm font-medium"
+          >
+            <Download className="h-4 w-4" /> Descargar CSV
+          </button>
+        )}
       </div>
 
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 border border-cream-300/60 mb-6">

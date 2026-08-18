@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, X, Check, Ban } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Check, Ban, Download } from "lucide-react";
+import { downloadCSV } from "@/lib/csv";
 
 interface Comision {
   id: string;
@@ -190,9 +191,33 @@ export default function ComisionesAdmin() {
           <h1 className="text-2xl font-serif font-semibold text-bark">Comisiones</h1>
           <p className="text-sm text-bark-500 mt-1">Seguimiento de comisiones por representante.</p>
         </div>
-        <button onClick={openNew} className="inline-flex items-center gap-2 bg-bark text-white px-4 py-2.5 rounded-xl hover:bg-bark/85 transition-all duration-300 text-sm font-medium hover:-translate-y-0.5">
-          <Plus className="h-4 w-4" /> Nueva Comisión
-        </button>
+        <div className="flex items-center gap-2">
+          {filtradas.length > 0 && (
+            <button
+              onClick={() => downloadCSV(filtradas.map((c) => ({
+                profesional: c.facilitadores?.nombre || "",
+                representante: c.representantes?.nombre || "",
+                plan: c.planes?.nombre || "",
+                ciudad: c.ciudad || "",
+                periodo: c.periodo || "",
+                bruto: c.importe_cobrado,
+                comision_pct: c.comision_porcentaje,
+                comision: c.importe_comision,
+                neto: c.importe_neto,
+                estado: c.estado,
+                fecha_generacion: c.fecha_generacion || "",
+                fecha_pago: c.fecha_pago || "",
+                observaciones: c.observaciones || "",
+              })), `comisiones_${new Date().toISOString().slice(0, 10)}.csv`)}
+              className="inline-flex items-center gap-2 bg-sage-50 text-sage-700 border border-sage-200 px-4 py-2.5 rounded-xl hover:bg-sage-100 transition-all duration-300 text-sm font-medium"
+            >
+              <Download className="h-4 w-4" /> Descargar
+            </button>
+          )}
+          <button onClick={openNew} className="inline-flex items-center gap-2 bg-bark text-white px-4 py-2.5 rounded-xl hover:bg-bark/85 transition-all duration-300 text-sm font-medium hover:-translate-y-0.5">
+            <Plus className="h-4 w-4" /> Nueva Comisión
+          </button>
+        </div>
       </div>
 
       {error && (

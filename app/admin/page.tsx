@@ -12,9 +12,11 @@ import {
   CalendarRange,
   Trash2,
   BarChart3,
+  Download,
 } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
+import { downloadCSV } from "@/lib/csv";
 
 interface ClickStat {
   referencia_id: string;
@@ -194,6 +196,21 @@ export default function AdminDashboard() {
           <p className="text-small mt-1">Resumen de tu directorio de bienestar</p>
         </div>
         <button
+          onClick={() => {
+            const rows = filteredClicks.map((c) => ({
+              fecha: c.created_at?.slice(0, 10) || "",
+              tipo: c.tipo,
+              referencia: actividadNames[c.referencia_id] || facilitadorNames[c.referencia_id] || c.referencia_id,
+              hora: c.created_at?.slice(11, 19) || "",
+            }));
+            downloadCSV(rows, `clicks_${new Date().toISOString().slice(0, 10)}.csv`);
+          }}
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-sage-50 text-sage-700 border border-sage-200 hover:bg-sage-100 transition-all duration-300 text-sm font-medium"
+        >
+          <Download className="h-4 w-4" />
+          Descargar clicks
+        </button>
+        <button
           onClick={handleReset}
           disabled={reseteando}
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 transition-all duration-300 text-sm font-medium"
@@ -306,9 +323,19 @@ export default function AdminDashboard() {
       </div>
 
       <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60 mb-8">
-        <div className="flex items-center gap-2 mb-5">
-          <BarChart3 className="h-5 w-5 text-bark-500" />
-          <h2 className="font-serif font-medium text-bark text-lg">Tracción por día</h2>
+        <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2">
+            <BarChart3 className="h-5 w-5 text-bark-500" />
+            <h2 className="font-serif font-medium text-bark text-lg">Tracción por día</h2>
+          </div>
+          {diasOrdenados.length > 0 && (
+            <button
+              onClick={() => downloadCSV(diasOrdenados.map(([dia, count]) => ({ fecha: dia, clicks: count })), `traccion_por_dia_${new Date().toISOString().slice(0, 10)}.csv`)}
+              className="inline-flex items-center gap-1.5 text-xs text-sage-600 hover:text-sage-700 font-medium"
+            >
+              <Download className="h-3.5 w-3.5" /> CSV
+            </button>
+          )}
         </div>
         {diasOrdenados.length === 0 ? (
           <p className="text-sm text-bark-500">Sin datos aún</p>
@@ -333,9 +360,19 @@ export default function AdminDashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60">
-          <div className="flex items-center gap-2 mb-5">
-            <TrendingUp className="h-5 w-5 text-bark-500" />
-            <h2 className="font-serif font-medium text-bark text-lg">Actividades mas clickeadas</h2>
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-bark-500" />
+              <h2 className="font-serif font-medium text-bark text-lg">Actividades mas clickeadas</h2>
+            </div>
+            {topActividades.length > 0 && (
+              <button
+                onClick={() => downloadCSV(topActividades.map((item) => ({ actividad: actividadNames[item.referencia_id] || item.referencia_id, clicks: item.count })), `top_actividades_${new Date().toISOString().slice(0, 10)}.csv`)}
+                className="inline-flex items-center gap-1.5 text-xs text-sage-600 hover:text-sage-700 font-medium"
+              >
+                <Download className="h-3.5 w-3.5" /> CSV
+              </button>
+            )}
           </div>
           {topActividades.length === 0 ? (
             <p className="text-sm text-bark-500">Sin datos aun</p>
@@ -366,9 +403,19 @@ export default function AdminDashboard() {
         </div>
 
         <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 border border-cream-300/60">
-          <div className="flex items-center gap-2 mb-5">
-            <TrendingUp className="h-5 w-5 text-bark-500" />
-            <h2 className="font-serif font-medium text-bark text-lg">Facilitadores mas clickeados</h2>
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-bark-500" />
+              <h2 className="font-serif font-medium text-bark text-lg">Facilitadores mas clickeados</h2>
+            </div>
+            {topFacilitadores.length > 0 && (
+              <button
+                onClick={() => downloadCSV(topFacilitadores.map((item) => ({ facilitador: facilitadorNames[item.referencia_id] || item.referencia_id, clicks: item.count })), `top_facilitadores_${new Date().toISOString().slice(0, 10)}.csv`)}
+                className="inline-flex items-center gap-1.5 text-xs text-sage-600 hover:text-sage-700 font-medium"
+              >
+                <Download className="h-3.5 w-3.5" /> CSV
+              </button>
+            )}
           </div>
           {topFacilitadores.length === 0 ? (
             <p className="text-sm text-bark-500">Sin datos aun</p>
