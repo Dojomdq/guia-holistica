@@ -142,23 +142,6 @@ export default function PopupEventos({ onClose }: Props) {
                   <Calendar className="h-16 w-16 text-cream-300" />
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-bark/60 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
-              <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                <p className="text-xs font-semibold uppercase tracking-wider text-sand-300 mb-1 flex items-center gap-1.5">
-                  <Calendar className="h-3 w-3" /> {slide.fecha || "Próximamente"}
-                </p>
-                <h3 className="font-serif text-xl font-semibold leading-tight">
-                  {slide.titulo}
-                </h3>
-                {slide.descripcion && (
-                  <p className="text-sm text-cream-100 mt-1">{slide.descripcion}</p>
-                )}
-                {slide.ciudad && (
-                  <p className="text-xs text-cream-200 mt-1 flex items-center gap-1">
-                    <MapPin className="h-3 w-3" /> {slide.ciudad}
-                  </p>
-                )}
-              </div>
             </div>
           ))}
 
@@ -179,6 +162,23 @@ export default function PopupEventos({ onClose }: Props) {
                 <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </button>
             </>
+          )}
+        </div>
+
+        <div className="px-5 py-4">
+          <p className="text-xs font-semibold uppercase tracking-wider text-terracotta-600 mb-1 flex items-center gap-1.5">
+            <Calendar className="h-3 w-3" /> {slides[current]?.fecha || "Próximamente"}
+          </p>
+          <h3 className="font-serif text-xl font-semibold text-bark leading-tight">
+            {slides[current]?.titulo}
+          </h3>
+          {slides[current]?.descripcion && (
+            <p className="text-sm text-bark-600 mt-1">{slides[current]?.descripcion}</p>
+          )}
+          {slides[current]?.ciudad && (
+            <p className="text-xs text-bark-500 mt-1 flex items-center gap-1">
+              <MapPin className="h-3 w-3" /> {slides[current]?.ciudad}
+            </p>
           )}
         </div>
 
