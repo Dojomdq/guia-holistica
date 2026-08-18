@@ -59,7 +59,7 @@ export default function MiniMap() {
   }, []);
 
   return (
-    <div className="rounded-3xl overflow-hidden shadow-medium border border-cream-300/40 h-full">
+    <div className="w-full h-[320px] sm:h-[400px] overflow-hidden">
       <MapContainer
         center={defaultPosition}
         zoom={13}

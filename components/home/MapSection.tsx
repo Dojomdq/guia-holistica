@@ -58,7 +58,7 @@ export default function MapSection() {
         >
           <div className="relative bg-white rounded-2xl shadow-2xl border border-cream-200/60 overflow-hidden">
             {mapaCargado ? (
-              <div className="h-[320px] sm:h-[400px]" ref={observerRef}>
+              <div ref={observerRef}>
                 <MiniMap />
               </div>
             ) : (
