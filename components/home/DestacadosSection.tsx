@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Star, ArrowUpRight, MapPin } from "lucide-react";
+import Image from "next/image";
+import { Star, ArrowUpRight, MessageCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
+import InstagramIcon from "@/components/ui/InstagramIcon";
 
 interface Destacado {
   id: string;
@@ -15,6 +17,8 @@ interface Destacado {
     bio: string | null;
     foto_url: string | null;
     slug: string | null;
+    instagram: string | null;
+    whatsapp: string | null;
     facilitador_actividades: { actividades: { nombre: string; slug: string } | null }[] | null;
   } | null;
 }
@@ -27,12 +31,12 @@ export default function DestacadosSection() {
       const [manualRes, premiumRes] = await Promise.all([
         supabase
           .from("destacados")
-          .select("id, facilitador_id, facilitadores(id, nombre, bio, foto_url, slug, facilitador_actividades(actividades(nombre, slug)))")
+          .select("id, facilitador_id, facilitadores(id, nombre, bio, foto_url, slug, instagram, whatsapp, facilitador_actividades(actividades(nombre, slug)))")
           .eq("tipo", "sitio")
           .eq("activo", true),
         supabase
           .from("facilitador_planes")
-          .select("facilitador_id, planes(perfil_destacado), facilitadores(id, nombre, bio, foto_url, slug, activo, facilitador_actividades(actividades(nombre, slug)))")
+          .select("facilitador_id, planes(perfil_destacado), facilitadores(id, nombre, bio, foto_url, slug, instagram, whatsapp, activo, facilitador_actividades(actividades(nombre, slug)))")
           .eq("estado", "activo"),
       ]);
 
@@ -67,36 +71,71 @@ export default function DestacadosSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
-          {destacados.map((d, i) => {
+          {destacados.map((d) => {
             const f = d.facilitadores;
             if (!f) return null;
             const act = f.facilitador_actividades?.[0]?.actividades;
             const Icon = getCategoryIcon(act?.slug || "");
             const color = CATEGORY_MARKER_COLORS[act?.slug || ""] || "#5d8a6e";
+            const waLink = f.whatsapp
+              ? `https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}`
+              : null;
+            const igLink = f.instagram
+              ? `https://instagram.com/${f.instagram.replace("@", "")}`
+              : null;
             return (
-              <Link
+              <div
                 key={d.id}
-                href={`/facilitadores/${f.slug || f.id}`}
-                className="group bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                className="group bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: `${color}12` }}
-                  >
-                    <Icon className="h-6 w-6" style={{ color }} strokeWidth={1.5} />
-                  </div>
-                  <div className="min-w-0">
+                <div className="aspect-[4/3] overflow-hidden bg-cream-100 relative">
+                  {f.foto_url ? (
+                    <Image
+                      src={f.foto_url}
+                      alt={f.nombre}
+                      width={400}
+                      height={300}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: `${color}12` }}>
+                      <Icon className="h-16 w-16" style={{ color }} strokeWidth={1} />
+                    </div>
+                  )}
+                </div>
+                <div className="p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-2.5 mb-1">
+                    <div
+                      className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: `${color}12` }}
+                    >
+                      <Icon className="h-4 w-4" style={{ color }} strokeWidth={1.5} />
+                    </div>
                     <h3 className="font-serif text-lg font-medium text-bark dark:text-cream-100 truncate">{f.nombre}</h3>
-                    {act && <p className="text-xs text-bark-500 truncate">{act.nombre}</p>}
+                  </div>
+                  {act && <p className="text-xs text-bark-500 mb-3">{act.nombre}</p>}
+
+                  <div className="flex items-center gap-2 mt-auto">
+                    <Link
+                      href={`/facilitadores/${f.slug || f.id}`}
+                      className="inline-flex items-center gap-1 text-[13px] font-medium text-sage-600 hover:text-sage-700 transition-colors"
+                    >
+                      Ver perfil
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </Link>
+                    {waLink && (
+                      <a href={waLink} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="ml-auto p-2 rounded-full bg-sage-50 hover:bg-sage-100 text-sage-600 transition-colors">
+                        <MessageCircle className="h-4 w-4" />
+                      </a>
+                    )}
+                    {igLink && (
+                      <a href={igLink} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 rounded-full bg-cream-100 hover:bg-cream-200 text-bark-600 transition-colors">
+                        <InstagramIcon className="h-4 w-4" />
+                      </a>
+                    )}
                   </div>
                 </div>
-                {f.bio && <p className="text-sm text-bark-600 dark:text-cream-300 line-clamp-2 leading-relaxed">{f.bio}</p>}
-                <span className="inline-flex items-center gap-1 text-[13px] font-medium text-sage-600 mt-3">
-                  Ver perfil
-                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </span>
-              </Link>
+              </div>
             );
           })}
         </div>
