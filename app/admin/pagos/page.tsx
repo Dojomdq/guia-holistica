@@ -20,6 +20,13 @@ interface Pago {
 
 interface Facilitador { id: string; nombre: string; }
 interface Plan { id: string; nombre: string; precio: number; }
+interface Representante { id: string; nombre: string; comision_porcentaje: number; }
+interface AsignacionInfo {
+  plan_nombre: string;
+  precio_contratado: number;
+  representante_nombre: string | null;
+  comision_porcentaje: number;
+}
 
 const METODOS: Record<string, string> = {
   efectivo: "Efectivo",
@@ -36,6 +43,8 @@ export default function PagosAdmin() {
   const [pagos, setPagos] = useState<Pago[]>([]);
   const [facilitadores, setFacilitadores] = useState<Facilitador[]>([]);
   const [planes, setPlanes] = useState<Plan[]>([]);
+  const [representantes, setRepresentantes] = useState<Representante[]>([]);
+  const [asignacionInfo, setAsignacionInfo] = useState<AsignacionInfo | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editando, setEditando] = useState<string | null>(null);
   const [cargando, setCargando] = useState(true);
@@ -58,10 +67,11 @@ export default function PagosAdmin() {
 
   async function load() {
     setError(null);
-    const [pagosRes, facRes, planRes] = await Promise.all([
+    const [pagosRes, facRes, planRes, repRes] = await Promise.all([
       fetch("/api/pagos").then((r) => r.json()),
       fetch("/api/facilitadores").then((r) => r.json()),
       fetch("/api/planes").then((r) => r.json()),
+      fetch("/api/representantes").then((r) => r.json()),
     ]);
 
     if (Array.isArray(pagosRes)) setPagos(pagosRes);
@@ -69,11 +79,33 @@ export default function PagosAdmin() {
 
     if (Array.isArray(facRes)) setFacilitadores(facRes.map((f: any) => ({ id: f.id, nombre: f.nombre })));
     if (Array.isArray(planRes)) setPlanes(planRes.map((p: any) => ({ id: p.id, nombre: p.nombre, precio: p.precio })));
+    if (Array.isArray(repRes)) setRepresentantes(repRes.map((r: any) => ({ id: r.id, nombre: r.nombre, comision_porcentaje: r.comision_porcentaje })));
 
     setCargando(false);
   }
 
   useEffect(() => { load(); }, []);
+
+  async function fetchAsignacion(facilitadorId: string) {
+    if (!facilitadorId) { setAsignacionInfo(null); return; }
+    try {
+      const res = await fetch("/api/facilitador-planes");
+      const data = await res.json();
+      if (!Array.isArray(data)) return;
+      const asign = data.find((a: any) => a.facilitador_id === facilitadorId && a.estado === "activo");
+      if (!asign) { setAsignacionInfo(null); return; }
+      const rep = asign.representante_id ? representantes.find((r) => r.id === asign.representante_id) : null;
+      const plan = planes.find((p) => p.id === asign.plan_id);
+      setAsignacionInfo({
+        plan_nombre: plan?.nombre || "Sin plan",
+        precio_contratado: parseFloat(asign.precio_contratado) || 0,
+        representante_nombre: rep?.nombre || null,
+        comision_porcentaje: rep?.comision_porcentaje ?? 0,
+      });
+    } catch {
+      setAsignacionInfo(null);
+    }
+  }
 
   function openNew() {
     setForm({
@@ -85,6 +117,7 @@ export default function PagosAdmin() {
       periodo: "",
       observaciones: "",
     });
+    setAsignacionInfo(null);
     setEditando(null);
     setShowForm(true);
   }
@@ -99,6 +132,7 @@ export default function PagosAdmin() {
       periodo: p.periodo || "",
       observaciones: p.observaciones || "",
     });
+    fetchAsignacion(p.facilitador_id);
     setEditando(p.id);
     setShowForm(true);
   }
@@ -268,7 +302,7 @@ export default function PagosAdmin() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-bark-800 mb-1">Profesional</label>
-              <select value={form.facilitador_id} onChange={(e) => setForm({ ...form, facilitador_id: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all">
+              <select value={form.facilitador_id} onChange={(e) => { setForm({ ...form, facilitador_id: e.target.value }); fetchAsignacion(e.target.value); }} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all">
                 <option value="">Seleccionar...</option>
                 {facilitadores.map((f) => <option key={f.id} value={f.id}>{f.nombre}</option>)}
               </select>
@@ -304,9 +338,40 @@ export default function PagosAdmin() {
             </div>
           </div>
 
-          <div className="bg-sage-50 border border-sage-200 rounded-xl px-4 py-3 mt-4 text-sm text-sage-700">
-            Si el profesional tiene representante asignado, la comisión se genera automáticamente.
-          </div>
+          {asignacionInfo && (
+            <div className="bg-cream-50 border border-cream-200 rounded-xl p-4 mt-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+                <div>
+                  <p className="text-[11px] text-bark-500">Plan contratado</p>
+                  <p className="text-sm font-medium text-bark">{asignacionInfo.plan_nombre}</p>
+                </div>
+                <div>
+                  <p className="text-[11px] text-bark-500">Precio</p>
+                  <p className="text-sm font-medium text-bark">{formatPesos(asignacionInfo.precio_contratado)}</p>
+                </div>
+                <div>
+                  <p className="text-[11px] text-bark-500">Representante</p>
+                  <p className="text-sm font-medium text-bark">{asignacionInfo.representante_nombre || "Sin representante"}</p>
+                </div>
+                <div>
+                  <p className="text-[11px] text-bark-500">Comisión ({asignacionInfo.comision_porcentaje}%)</p>
+                  <p className="text-sm font-semibold text-amber-700">{formatPesos(Math.round((parseFloat(form.monto || "0") * asignacionInfo.comision_porcentaje) / 100))}</p>
+                </div>
+              </div>
+              {asignacionInfo.representante_nombre && (
+                <div className="flex justify-between mt-3 pt-3 border-t border-cream-200 text-sm">
+                  <span className="text-bark-500">Ingreso Guía</span>
+                  <span className="font-semibold text-sage-700">{formatPesos(Math.round(parseFloat(form.monto || "0") - (parseFloat(form.monto || "0") * asignacionInfo.comision_porcentaje) / 100))}</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {!asignacionInfo && form.facilitador_id && (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mt-4 text-sm text-amber-700">
+              Este profesional no tiene plan contratado. Editá su plan en Facilitadores primero.
+            </div>
+          )}
 
           <div className="flex gap-3 mt-4">
             <button onClick={handleSave} disabled={guardando || !form.facilitador_id || !form.monto} className="bg-bark text-white px-6 py-2.5 rounded-xl hover:bg-bark/85 transition-all duration-300 text-sm font-medium disabled:opacity-50 hover:-translate-y-0.5">
