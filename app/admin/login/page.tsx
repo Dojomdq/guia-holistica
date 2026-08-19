@@ -6,6 +6,19 @@ import { Lock } from "lucide-react";
 
 const COOKIE_NAME = "admin_auth";
 
+async function loginWithApi(user: string, pass: string) {
+  const res = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ user, pass }),
+  });
+  const data = await res.json();
+
+  if (!res.ok || !data.success) {
+    throw new Error(data.error || "Error al iniciar sesión");
+  }
+}
+
 function LoginForm() {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
@@ -19,13 +32,13 @@ function LoginForm() {
     setError("");
 
     try {
-      const token = btoa(`${user}:${pass}`);
-      document.cookie = `${COOKIE_NAME}=${token}; path=/; max-age=86400; SameSite=Lax; Secure`;
+      await loginWithApi(user, pass);
+      // La cookie httpOnly se setea automáticamente en la respuesta
 
       const from = searchParams.get("from") || "/admin";
       window.location.href = from;
-    } catch {
-      setError("Error al iniciar sesión");
+    } catch (err: any) {
+      setError(err.message || "Error al iniciar sesión");
     } finally {
       setLoading(false);
     }
