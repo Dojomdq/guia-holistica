@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, Search, MapPin, X, Crosshair, AlertCircle, Banknote } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, MapPin, X, Crosshair, AlertCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import MapPicker from "@/components/MapPicker";
 
@@ -360,50 +360,6 @@ async function handleDelete(id: string, nombre: string) {
     await load();
   }
 
-  async function handleRegistrarPago(f: FacilitadorAdmin) {
-    const asign = planesMap[f.id];
-    const precio = asign?.precio_contratado ? parseFloat(asign.precio_contratado) : 0;
-    const rep = asign?.representante_id ? representantes.find((r) => r.id === asign.representante_id) : null;
-    const porcentaje = rep?.comision_porcentaje ?? 0;
-
-    if (!asign || !asign.plan_id || precio <= 0) {
-      alert("Este profesional no tiene plan contratado o precio definido. Editá su plan primero.");
-      return;
-    }
-
-    const periodo = new Date().toISOString().slice(0, 7);
-
-    const confirmMsg = rep
-      ? `Registrar pago de ${f.nombre}:\n\nBruto: $${precio}\nRepresentante: ${rep.nombre} (${porcentaje}%)\nComisión: $${Math.round((precio * porcentaje) / 100)}\nIngreso Guía: $${precio - Math.round((precio * porcentaje) / 100)}`
-      : `Registrar pago de ${f.nombre}:\n\nBruto: $${precio}\nSin representante (ingreso directo Guía).`;
-
-    if (!confirm(confirmMsg)) return;
-
-    const res = await fetch("/api/comisiones", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        facilitador_id: f.id,
-        representante_id: rep?.id || null,
-        plan_id: asign.plan_id,
-        ciudad: asign.ciudad || null,
-        periodo,
-        importe_cobrado: precio,
-        comision_porcentaje: porcentaje,
-        estado: "pendiente",
-        fecha_generacion: new Date().toISOString().slice(0, 10),
-      }),
-    });
-
-    const data = await res.json();
-    if (!res.ok) {
-      alert("Error al registrar pago: " + (data.error || res.statusText));
-      return;
-    }
-    alert("Pago registrado correctamente.");
-    await load();
-  }
-
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
@@ -691,11 +647,6 @@ async function handleDelete(id: string, nombre: string) {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <button onClick={() => handleRegistrarPago(f)} title="Registrar pago"
-                        className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-lg bg-sage-600 text-white text-xs font-semibold hover:bg-sage-700 transition-all duration-200 hover:-translate-y-0.5 shadow-sm">
-                        <Banknote className="h-4 w-4" />
-                        <span className="hidden sm:inline">Cobrar</span>
-                      </button>
                       <button onClick={() => openEdit(f)} className="p-1.5 text-bark-500 hover:text-bark-700 hover:bg-cream-200 rounded-lg transition-colors"><Pencil className="h-4 w-4" /></button>
                       <button onClick={() => handleDelete(f.id, f.nombre)} className="p-1.5 text-bark-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="h-4 w-4" /></button>
                     </div>

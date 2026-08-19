@@ -304,7 +304,11 @@ export default function PagosAdmin() {
             </div>
           </div>
 
-          <div className="flex gap-3 mt-5">
+          <div className="bg-sage-50 border border-sage-200 rounded-xl px-4 py-3 mt-4 text-sm text-sage-700">
+            Si el profesional tiene representante asignado, la comisión se genera automáticamente.
+          </div>
+
+          <div className="flex gap-3 mt-4">
             <button onClick={handleSave} disabled={guardando || !form.facilitador_id || !form.monto} className="bg-bark text-white px-6 py-2.5 rounded-xl hover:bg-bark/85 transition-all duration-300 text-sm font-medium disabled:opacity-50 hover:-translate-y-0.5">
               {guardando ? "Guardando..." : "Guardar"}
             </button>
