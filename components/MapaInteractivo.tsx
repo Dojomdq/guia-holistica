@@ -98,10 +98,21 @@ function FocusMarkers({
 }) {
   const map = useMap();
   useEffect(() => {
-    if (ciudad && CITY_COORDS[ciudad]) {
+    if (!ciudad) return;
+
+    const cityMarkers = markers.filter(
+      (m) => m.ubicacion.ciudad === ciudad && m.ubicacion.latitud && m.ubicacion.longitud
+    );
+
+    if (cityMarkers.length > 0) {
+      const avgLat = cityMarkers.reduce((s, m) => s + m.ubicacion.latitud, 0) / cityMarkers.length;
+      const avgLng = cityMarkers.reduce((s, m) => s + m.ubicacion.longitud, 0) / cityMarkers.length;
+      const zoom = cityMarkers.length === 1 ? 15 : 13;
+      map.flyTo([avgLat, avgLng], zoom, { duration: 0.8 });
+    } else if (CITY_COORDS[ciudad]) {
       map.flyTo(CITY_COORDS[ciudad], 14, { duration: 0.8 });
     }
-  }, [ciudad, map]);
+  }, [ciudad, markers, map]);
 
   useEffect(() => {
     if (!selectedId) return;
