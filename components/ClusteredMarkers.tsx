@@ -59,30 +59,18 @@ const LOGO_URL = "https://res.cloudinary.com/kmxmqr0t/image/upload/v1787258150/N
 
 function createLogoIcon(isSelected: boolean): L.DivIcon {
   const size = isSelected ? 44 : 36;
-  const shadow = isSelected
-    ? `0 4px 14px rgba(0,0,0,0.30), 0 0 0 3px rgba(255,255,255,0.95)`
-    : `0 2px 8px rgba(0,0,0,0.18), 0 0 0 2px rgba(255,255,255,0.85)`;
 
   return new L.DivIcon({
-    html: `<div style="
+    html: `<img src="${LOGO_URL}" style="
       width: ${size}px;
       height: ${size}px;
-      background-color: #8BA888;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid white;
-      box-shadow: ${shadow};
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      transform: ${isSelected ? "scale(1.1)" : "scale(1)"};
-    "><img src="${LOGO_URL}" style="
-      width: 24px;
-      height: 24px;
       object-fit: contain;
       pointer-events: none;
-    " /></div>`,
+      cursor: pointer;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+      transition: transform 0.2s ease;
+      transform: ${isSelected ? "scale(1.1)" : "scale(1)"};
+    " />`,
     className: "",
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
