@@ -3,9 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, MessageCircle } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { WHATSAPP_LINK, CONTACT_EMAIL, INSTAGRAM_URL, INSTAGRAM_HANDLE } from "@/lib/constants";
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname === "/mapa") return null;
+
   return (
     <footer className="bg-warmblack dark:bg-bark-950 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.04] mix-blend-overlay noise-overlay pointer-events-none" />

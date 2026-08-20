@@ -7,13 +7,13 @@ import {
   Search,
   X,
   MapPin,
-  ChevronRight,
-  SlidersHorizontal,
   Clock,
   Navigation,
   Globe,
   Phone,
   ExternalLink,
+  MessageCircle,
+  ChevronDown,
 } from "lucide-react";
 
 function Instagram({ className }: { className?: string }) {
@@ -30,7 +30,6 @@ import { supabase } from "@/lib/supabase/client";
 import {
   getCategoryIcon,
   CATEGORY_MARKER_COLORS,
-  getCategoryIconSVG,
 } from "@/lib/categories";
 import { useClickTracker } from "@/lib/useClickTracker";
 import type { FacilitadorConActividades, Ubicacion } from "@/lib/types";
@@ -91,12 +90,10 @@ export default function MapaPageInner() {
   const [actividadSeleccionada, setActividadSeleccionada] = useState<string | null>(null);
   const [ciudadesDisponibles, setCiudadesDisponibles] = useState<string[]>([]);
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
-  const [panelAbierto, setPanelAbierto] = useState(false);
   const [todosFacilitadores, setTodosFacilitadores] = useState<FacilitadorConUbi[]>([]);
   const [cargando, setCargando] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
   const [bottomSheetMarker, setBottomSheetMarker] = useState<MarkerItem | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
   const track = useClickTracker();
   const busquedaDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -111,24 +108,6 @@ export default function MapaPageInner() {
       if (busquedaDebounceRef.current) clearTimeout(busquedaDebounceRef.current);
     };
   }, [busqueda, track]);
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  useEffect(() => {
-    if (!isMobile) setPanelAbierto(true);
-    if (busqueda.trim()) setPanelAbierto(true);
-  }, [isMobile, busqueda]);
-
-  useEffect(() => {
-    if (isMobile && ciudadSeleccionada) {
-      setPanelAbierto(false);
-    }
-  }, [ciudadSeleccionada, isMobile]);
 
   useEffect(() => {
     async function cargar() {
@@ -271,6 +250,7 @@ export default function MapaPageInner() {
       setBusqueda(value);
       setFacilitadorSeleccionado(null);
       setBottomSheetMarker(null);
+      setShowBottomSheet(false);
       const params = new URLSearchParams();
       if (value.trim()) params.set("q", value.trim());
       router.replace(`/mapa?${params.toString()}`, { scroll: false });
@@ -284,50 +264,54 @@ export default function MapaPageInner() {
     setActividadSeleccionada(null);
     setFacilitadorSeleccionado(null);
     setBottomSheetMarker(null);
+    setShowBottomSheet(false);
     router.replace("/mapa", { scroll: false });
   };
 
   const handleOpenBottomSheet = (marker: MarkerItem) => {
-    if (isMobile) {
-      setBottomSheetMarker(marker);
-    }
+    setBottomSheetMarker(marker);
+    setShowBottomSheet(true);
   };
 
   const mostrarSelectorCiudad = ciudadesDisponibles.length > 1;
   const hasActiveFilters = !!(busqueda.trim() || ciudadSeleccionada || actividadSeleccionada);
 
   return (
-    <div className="relative bg-gradient-to-b from-cream-50 via-sage-50/20 to-cream-50 min-h-screen md:min-h-screen">
-      {/* Mobile: fullscreen map with floating UI */}
-      <div className="md:hidden fixed inset-0 z-0">
+    <div className="h-screen w-screen relative overflow-hidden bg-cream-100">
+      {/* Fullscreen map */}
+      <div className="absolute inset-0 z-0">
         <MapaInteractivo
           markers={markers}
           seleccionado={facilitadorSeleccionado}
           onSeleccionar={(id) => {
             setFacilitadorSeleccionado(id);
-            if (!id) setBottomSheetMarker(null);
+            if (!id) {
+              setBottomSheetMarker(null);
+              setShowBottomSheet(false);
+            }
           }}
           ciudadSeleccionada={ciudadSeleccionada}
           onOpenBottomSheet={handleOpenBottomSheet}
         />
       </div>
 
-      {/* Mobile: floating search bar */}
-      <div className="md:hidden fixed top-3 left-3 right-3 z-30">
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-lg border border-cream-200/80 px-3 py-2.5">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-bark-400" />
+      {/* Floating search + filters — top left */}
+      <div className="absolute top-20 left-3 sm:left-4 z-20 w-[calc(100%-1.5rem)] sm:w-[calc(100%-2rem)] sm:max-w-[420px]">
+        <div className="bg-white rounded-2xl shadow-lg border border-cream-200/80 overflow-hidden">
+          {/* Search input */}
+          <div className="relative px-3 py-2.5">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-bark-400" />
             <input
               type="text"
               value={busqueda}
               onChange={(e) => handleBusqueda(e.target.value)}
-              placeholder="Buscar actividad o nombre..."
+              placeholder="Buscar actividad, facilitador o lugar..."
               className="w-full pl-10 pr-10 py-2.5 text-[13px] rounded-xl bg-cream-50 border border-cream-200 text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all"
             />
             {busqueda && (
               <button
                 onClick={limpiarBusqueda}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg hover:bg-cream-200/80 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-cream-200/80 transition-colors"
                 aria-label="Limpiar búsqueda"
               >
                 <X className="h-4 w-4 text-bark-400" />
@@ -335,145 +319,45 @@ export default function MapaPageInner() {
             )}
           </div>
 
-          {/* Floating activity chips */}
-          <div className="flex gap-1.5 overflow-x-auto pb-1 pt-2 scrollbar-none">
-            <button
-              onClick={() => setActividadSeleccionada(null)}
-              className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-medium transition-all duration-200 border ${
-                !actividadSeleccionada
-                  ? "bg-bark text-white border-bark shadow-sm"
-                  : "bg-white text-bark-600 border-cream-200"
-              }`}
-            >
-              Todas
-            </button>
-            {allActividades.map((act) => {
-              const Icon = getCategoryIcon(act.slug);
-              const isActive = actividadSeleccionada === act.slug;
-              return (
-                <button
-                  key={act.slug}
-                  onClick={() =>
-                    setActividadSeleccionada(isActive ? null : act.slug)
-                  }
-                  className={`shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-medium transition-all duration-200 border ${
-                    isActive
-                      ? "bg-sage-600 text-white border-sage-600 shadow-sm"
-                      : "bg-white text-bark-600 border-cream-200"
-                  }`}
-                >
-                  <Icon className="h-2.5 w-2.5" strokeWidth={2} />
-                  {act.nombre}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile: active filter indicator */}
-      {hasActiveFilters && (
-        <div className="md:hidden fixed top-[120px] left-3 right-3 z-30">
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-xl shadow border border-cream-200/80 text-[11px]">
-            <span className="text-bark-600 truncate">
-              {ciudadSeleccionada && <span className="font-medium">{ciudadSeleccionada}</span>}
-              {busqueda.trim() && ciudadSeleccionada && " · "}
-              {busqueda.trim() && <span>{busqueda}</span>}
-              {actividadSeleccionada && (
-                <>
-                  {(busqueda.trim() || ciudadSeleccionada) && " · "}
-                  <span className="font-medium capitalize">{actividadSeleccionada.replace(/-/g, " ")}</span>
-                </>
-              )}
-            </span>
-            <button onClick={limpiarBusqueda} className="shrink-0 ml-auto p-0.5 rounded hover:bg-cream-200 transition-colors" aria-label="Limpiar filtros">
-              <X className="h-3.5 w-3.5 text-bark-400" />
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Mobile: floating list toggle */}
-      {!panelAbierto && (
-        <button
-          onClick={() => setPanelAbierto(true)}
-          className="md:hidden fixed bottom-24 right-3 z-30 flex items-center justify-center w-12 h-12 bg-bark text-white rounded-full shadow-lg"
-          aria-label="Ver lista"
-        >
-          <Search className="h-5 w-5" />
-        </button>
-      )}
-
-      {/* Mobile: sliding list panel from bottom */}
-      {panelAbierto && (
-        <div className="md:hidden fixed inset-x-0 bottom-0 z-40 max-h-[55vh] bg-cream-50 rounded-t-2xl shadow-2xl flex flex-col overflow-hidden border-t border-cream-200">
-          <div className="w-10 h-1.5 bg-cream-300 rounded-full mx-auto mt-3 mb-1 shrink-0" />
-          <div className="flex items-center justify-between px-4 py-2 border-b border-cream-200/60 shrink-0">
-            <h2 className="font-serif text-sm font-medium text-bark">
-              {facilitadoresFiltrados.length} resultados
-            </h2>
-            <button onClick={() => setPanelAbierto(false)} className="p-1 rounded-lg hover:bg-cream-200 transition-colors" aria-label="Cerrar lista">
-              <X className="h-4 w-4 text-bark-400" />
-            </button>
-          </div>
-          <div className="flex-1 overflow-y-auto">
-            {facilitadoresFiltrados.length === 0 ? (
-              <div className="p-8 text-center">
-                <p className="text-bark-400 text-[13px]">No se encontraron resultados</p>
-                <button onClick={limpiarBusqueda} className="mt-2 text-sage-600 text-[13px] font-medium hover:text-sage-700 transition-colors">
-                  Limpiar búsqueda
-                </button>
-              </div>
-            ) : (
-              <div className="divide-y divide-cream-200/50">
-                {facilitadoresFiltrados.map((f) => {
-                  const primarySlug = f.actividades.length > 0 ? f.actividades[0].slug : "";
-                  const color = CATEGORY_MARKER_COLORS[primarySlug] || "#5d8a6e";
+          {/* City selector */}
+          {mostrarSelectorCiudad && (
+            <div className="px-3 pb-2">
+              <div className="flex gap-1.5 overflow-x-auto scrollbar-none">
+                {ciudadesDisponibles.map((ciudad) => {
+                  const isActive = ciudadSeleccionada === ciudad;
                   return (
                     <button
-                      key={f.id}
+                      key={ciudad}
                       onClick={() => {
-                        const marker = markers.find((m) => m.facilitador.id === f.id);
-                        if (marker) setBottomSheetMarker(marker);
-                        setPanelAbierto(false);
+                        const nueva = isActive ? null : ciudad;
+                        setCiudadSeleccionada(nueva);
+                        setFacilitadorSeleccionado(null);
+                        setBottomSheetMarker(null);
+                        setShowBottomSheet(false);
                       }}
-                      className="w-full p-3 text-left hover:bg-cream-200/40 transition-all duration-200"
+                      className={`shrink-0 px-3 py-1 rounded-full text-[11px] font-medium transition-all duration-200 border ${
+                        isActive
+                          ? "bg-bark text-white border-bark shadow-sm"
+                          : "bg-white text-bark-600 border-cream-200 hover:border-cream-300"
+                      }`}
                     >
-                      <h3 className="font-medium text-bark text-[13px]">{f.nombre}</h3>
-                      <div className="flex flex-wrap gap-1 mt-1">
-                        {f.actividades.map((a) => (
-                          <span key={a.id} className="px-1.5 py-0.5 bg-bark/10 text-bark-700 text-[10px] font-semibold rounded">
-                            {a.nombre}
-                          </span>
-                        ))}
-                      </div>
-                      {f.ubicaciones[0]?.direccion && (
-                        <p className="text-[11px] text-bark-400 mt-1 flex items-center gap-1">
-                          <MapPin className="h-2.5 w-2.5 shrink-0" />
-                          <span className="truncate">{f.ubicaciones[0].direccion}</span>
-                        </p>
-                      )}
+                      {ciudad}
                     </button>
                   );
                 })}
               </div>
-            )}
-          </div>
-        </div>
-      )}
+            </div>
+          )}
 
-      {/* Desktop: standard layout */}
-      <div className="hidden md:block">
-        {/* Activity filter chips - desktop */}
-        <div className="px-4 sm:px-6 lg:px-8 pt-3">
-          <div className="relative">
-            <div className="flex gap-2 overflow-x-auto pb-2 pt-2 md:pt-0 scrollbar-none">
+          {/* Activity chips */}
+          <div className="px-3 pb-2.5">
+            <div className="flex gap-1.5 overflow-x-auto scrollbar-none">
               <button
                 onClick={() => setActividadSeleccionada(null)}
-                className={`shrink-0 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border ${
+                className={`shrink-0 px-2.5 py-1 rounded-full text-[10px] font-medium transition-all duration-200 border ${
                   !actividadSeleccionada
-                    ? "bg-bark text-white border-bark shadow-sm"
-                    : "bg-white text-bark-600 border-cream-200 hover:border-cream-300 hover:text-bark-800"
+                    ? "bg-sage-600 text-white border-sage-600 shadow-sm"
+                    : "bg-white text-bark-600 border-cream-200 hover:border-cream-300"
                 }`}
               >
                 Todas
@@ -484,16 +368,17 @@ export default function MapaPageInner() {
                 return (
                   <button
                     key={act.slug}
-                    onClick={() => setActividadSeleccionada(isActive ? null : act.slug)}
-                    className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border ${
+                    onClick={() =>
+                      setActividadSeleccionada(isActive ? null : act.slug)
+                    }
+                    className={`shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-medium transition-all duration-200 border ${
                       isActive
                         ? "bg-sage-600 text-white border-sage-600 shadow-sm"
-                        : "bg-white text-bark-600 border-cream-200 hover:border-cream-300 hover:text-bark-800"
+                        : "bg-white text-bark-600 border-cream-200 hover:border-cream-300"
                     }`}
                   >
-                    <Icon className="h-3 w-3" strokeWidth={2} />
+                    <Icon className="h-2.5 w-2.5" strokeWidth={2} />
                     {act.nombre}
-                    <span className={`text-[9px] ${isActive ? "text-white/70" : "text-bark-400"}`}>{act.count}</span>
                   </button>
                 );
               })}
@@ -501,151 +386,36 @@ export default function MapaPageInner() {
           </div>
         </div>
 
-        <div className="relative flex flex-row h-[calc(100vh-11rem)] shadow-2xl mx-4 lg:mx-6 my-3">
-          {/* Desktop Sidebar */}
-          <div className="relative w-[300px] flex-shrink-0 border-r rounded-none bg-cream-100 border border-cream-200 flex flex-col overflow-hidden">
-            <div className="p-3 border-b border-cream-200/60">
-              <div className="flex items-center justify-between mb-2">
-                <h2 className="font-serif text-base font-medium text-bark tracking-tight">Actividades</h2>
-                {ciudadSeleccionada && (
-                  <span className="text-[11px] text-bark-400 font-mono">{cargando ? "..." : `${facilitadoresFiltrados.length}`}</span>
-                )}
-              </div>
-              {mostrarSelectorCiudad && (
-                <div className="mb-2">
-                  <label className="text-[10px] font-mono font-medium tracking-[0.14em] uppercase text-bark-500 mb-1 block">Ciudad</label>
-                  <div className="flex flex-wrap gap-1.5">
-                    {ciudadesDisponibles.map((ciudad) => {
-                      const isActive = ciudadSeleccionada === ciudad;
-                      return (
-                        <button
-                          key={ciudad}
-                          onClick={() => {
-                            const nueva = isActive ? null : ciudad;
-                            setCiudadSeleccionada(nueva);
-                            setFacilitadorSeleccionado(null);
-                            setBottomSheetMarker(null);
-                          }}
-                          className={`px-4 py-2.5 rounded-full text-[12px] font-medium whitespace-nowrap transition-all duration-200 ${
-                            isActive ? "bg-bark text-white shadow-sm" : "bg-cream-200/60 text-bark-600 hover:text-bark-800 border border-cream-200 hover:border-cream-300"
-                          }`}
-                        >
-                          {ciudad}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+        {/* Active filter indicator */}
+        {hasActiveFilters && (
+          <div className="mt-2 flex items-center gap-2 px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-xl shadow border border-cream-200/80 text-[11px]">
+            <span className="text-bark-600 truncate">
+              {ciudadSeleccionada && <span className="font-medium">{ciudadSeleccionada}</span>}
+              {busqueda.trim() && ciudadSeleccionada && " · "}
+              {busqueda.trim() && <span>{busqueda}</span>}
+              {actividadSeleccionada && (
+                <>
+                  {(busqueda.trim() || ciudadSeleccionada) && " · "}
+                  <span className="font-medium capitalize">{actividadSeleccionada.replace(/-/g, " ")}</span>
+                </>
               )}
-              <div className="flex items-center gap-2">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-bark-300" />
-                  <input
-                    type="text"
-                    value={busqueda}
-                    onChange={(e) => handleBusqueda(e.target.value)}
-                    placeholder="Buscá una actividad..."
-                    className="input-field pl-10 pr-10 py-2.5 text-[13px] w-full"
-                  />
-                  {busqueda && (
-                    <button onClick={limpiarBusqueda} className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-lg hover:bg-cream-200/80 transition-colors" aria-label="Limpiar búsqueda">
-                      <X className="h-4 w-4 text-bark-400" />
-                    </button>
-                  )}
-                </div>
-                {hasActiveFilters && (
-                  <button onClick={limpiarBusqueda} className="shrink-0 px-3 py-2 text-[11px] font-medium text-sage-600 hover:text-sage-700 hover:bg-sage-50 rounded-lg transition-colors">
-                    Limpiar
-                  </button>
-                )}
-              </div>
-            </div>
-            <div className="flex-1 overflow-y-auto">
-              {cargando ? (
-                <div className="p-4 animate-pulse space-y-2">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <div key={i} className="flex items-center gap-3 p-3 rounded-xl">
-                      <div className="h-9 w-9 rounded-lg bg-cream-200 shrink-0" />
-                      <div className="flex-1 space-y-2">
-                        <div className="h-3 bg-cream-200 rounded w-2/3" />
-                        <div className="h-2 bg-cream-200 rounded w-1/2" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : !busqueda.trim() && !actividadSeleccionada && !ciudadSeleccionada ? (
-                <div className="p-8 text-center">
-                  <MapPin className="h-8 w-8 text-bark-300 mx-auto mb-3" />
-                  <p className="text-bark-400 text-[13px] leading-relaxed">Buscá una actividad o seleccioná filtros para ver resultados</p>
-                </div>
-              ) : facilitadoresFiltrados.length === 0 ? (
-                <div className="p-8 text-center">
-                  <p className="text-bark-400 text-[13px] mb-3">No se encontraron resultados</p>
-                  <button onClick={limpiarBusqueda} className="text-sage-600 text-[13px] font-medium hover:text-sage-700 transition-colors">Limpiar búsqueda</button>
-                </div>
-              ) : (
-                <div className="divide-y divide-cream-200/50">
-                  {facilitadoresFiltrados.map((f) => {
-                    const primarySlug = f.actividades.length > 0 ? f.actividades[0].slug : "";
-                    const color = CATEGORY_MARKER_COLORS[primarySlug] || "#5d8a6e";
-                    const tieneMultiplesUbi = f.ubicaciones.filter((u) => u.latitud && u.longitud).length > 1;
-                    return (
-                      <button
-                        key={f.id}
-                        onClick={() => {
-                          const nuevo = facilitadorSeleccionado === f.id ? null : f.id;
-                          setFacilitadorSeleccionado(nuevo);
-                          setBottomSheetMarker(null);
-                        }}
-                        className={`w-full p-3 text-left hover:bg-cream-200/40 transition-all duration-200 ${facilitadorSeleccionado === f.id ? "bg-cream-200/40" : ""}`}
-                      >
-                        <div className="flex items-start gap-2.5">
-                          <div className="flex-1 min-w-0">
-                            <div className="flex flex-wrap gap-0.5 mb-0.5">
-                              {f.actividades.map((a) => (
-                                <span key={a.id} className="px-1.5 py-0.5 bg-bark/10 text-bark-700 text-[10px] font-semibold rounded">{a.nombre}</span>
-                              ))}
-                            </div>
-                            <h3 className="font-medium text-bark text-[12px]">{f.nombre}</h3>
-                            {f.ubicaciones.map((u, i) => (
-                              <p key={u.id} className="text-[11px] text-bark-400 mt-0.5 flex items-center gap-1">
-                                <MapPin className="h-2.5 w-2.5 shrink-0" />
-                                {tieneMultiplesUbi && <span className="text-bark-300 font-mono text-[10px] mr-0.5">{i + 1}.</span>}
-                                <span className="truncate">{u.direccion}</span>
-                              </p>
-                            ))}
-                          </div>
-                          <ChevronRight className="h-3.5 w-3.5 text-bark-300 shrink-0 mt-1" />
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
+              <span className="text-bark-400 ml-1">({markers.length})</span>
+            </span>
+            <button onClick={limpiarBusqueda} className="shrink-0 ml-auto p-0.5 rounded hover:bg-cream-200 transition-colors" aria-label="Limpiar filtros">
+              <X className="h-3.5 w-3.5 text-bark-400" />
+            </button>
           </div>
-
-          {/* Desktop Map */}
-          <div className="flex-1 relative min-h-0">
-            <MapaInteractivo
-              markers={markers}
-              seleccionado={facilitadorSeleccionado}
-              onSeleccionar={(id) => {
-                setFacilitadorSeleccionado(id);
-                if (!id) setBottomSheetMarker(null);
-              }}
-              ciudadSeleccionada={ciudadSeleccionada}
-              onOpenBottomSheet={handleOpenBottomSheet}
-            />
-          </div>
-        </div>
+        )}
       </div>
 
-      {/* Mobile bottom sheet */}
-      {isMobile && bottomSheetMarker && (
+      {/* Bottom sheet — marker detail */}
+      {showBottomSheet && bottomSheetMarker && (
         <div
-          className="fixed inset-0 z-50 md:hidden"
-          onClick={() => setBottomSheetMarker(null)}
+          className="fixed inset-0 z-50"
+          onClick={() => {
+            setShowBottomSheet(false);
+            setBottomSheetMarker(null);
+          }}
         >
           <div className="absolute inset-0 bg-black/30" />
           <div
@@ -749,42 +519,55 @@ function PopupContentInternal({ marker }: { marker: MarkerItem }) {
         )}
       </div>
 
-      <div className="flex items-center gap-3 pt-3 border-t border-cream-200/60">
-        {f.instagram && (
-          <a
-            href={`https://www.instagram.com/${f.instagram.replace("@", "")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-lg bg-cream-200/40 text-bark-500 hover:text-bark-700 transition-colors"
+      <div className="pt-3 border-t border-cream-200/60">
+        <p className="text-[10px] text-bark-400/60 font-medium tracking-wide uppercase mb-2">Redes</p>
+        <div className="flex items-center gap-2 flex-wrap">
+          {f.instagram && (
+            <a
+              href={`https://www.instagram.com/${f.instagram.replace("@", "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-sage-50 rounded-full p-1.5 text-bark-500 hover:text-clay transition-colors"
+            >
+              <Instagram className="h-4 w-4" />
+            </a>
+          )}
+          {f.whatsapp && (
+            <a
+              href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-sage-50 rounded-full p-1.5 text-bark-500 hover:text-clay transition-colors"
+            >
+              <MessageCircle className="h-4 w-4" />
+            </a>
+          )}
+          {f.sitio_web && (
+            <a
+              href={f.sitio_web.startsWith("http") ? f.sitio_web : `https://${f.sitio_web}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-sage-50 rounded-full p-1.5 text-bark-500 hover:text-clay transition-colors"
+            >
+              <Globe className="h-4 w-4" />
+            </a>
+          )}
+          {f.telefono && (
+            <a
+              href={`tel:${f.telefono}`}
+              className="bg-sage-50 rounded-full p-1.5 text-bark-500 hover:text-clay transition-colors"
+            >
+              <Phone className="h-4 w-4" />
+            </a>
+          )}
+          <Link
+            href={`/facilitadores/${f.id}`}
+            className="ml-auto text-[12px] font-medium text-sage-600 hover:text-sage-700 transition-colors flex items-center gap-1"
           >
-            <Instagram className="h-4 w-4" />
-          </a>
-        )}
-        {f.sitio_web && (
-          <a
-            href={f.sitio_web.startsWith("http") ? f.sitio_web : `https://${f.sitio_web}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-lg bg-cream-200/40 text-bark-500 hover:text-bark-700 transition-colors"
-          >
-            <Globe className="h-4 w-4" />
-          </a>
-        )}
-        {f.telefono && (
-          <a
-            href={`tel:${f.telefono}`}
-            className="p-2 rounded-lg bg-cream-200/40 text-bark-500 hover:text-bark-700 transition-colors"
-          >
-            <Phone className="h-4 w-4" />
-          </a>
-        )}
-        <Link
-          href={`/facilitadores/${f.id}`}
-          className="ml-auto text-[12px] font-medium text-sage-600 hover:text-sage-700 transition-colors flex items-center gap-1"
-        >
-          Ver perfil
-          <ExternalLink className="h-3.5 w-3.5" />
-        </Link>
+            Ver perfil
+            <ExternalLink className="h-3.5 w-3.5" />
+          </Link>
+        </div>
       </div>
     </div>
   );
