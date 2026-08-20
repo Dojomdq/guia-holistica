@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Plus, Pencil, Trash2, Search, MapPin, X, Crosshair, AlertCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import MapPicker from "@/components/MapPicker";
@@ -95,6 +95,15 @@ export default function FacilitadoresAdmin() {
   const [guardando, setGuardando] = useState(false);
   const [buscandoDir, setBuscandoDir] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const geocodeTimersRef = useRef<Record<number, ReturnType<typeof setTimeout>>>({});
+  const formRef = useRef(form);
+  formRef.current = form;
+
+  useEffect(() => {
+    return () => {
+      Object.values(geocodeTimersRef.current).forEach(clearTimeout);
+    };
+  }, []);
 
   async function load() {
     setError(null);
@@ -234,6 +243,34 @@ export default function FacilitadoresAdmin() {
       ubi[idx] = { ...ubi[idx], [field]: value };
       return { ...prev, ubicaciones: ubi };
     });
+
+    if ((field === "direccion" || field === "ciudad") && value.trim()) {
+      if (geocodeTimersRef.current[idx]) clearTimeout(geocodeTimersRef.current[idx]);
+      geocodeTimersRef.current[idx] = setTimeout(() => {
+        autoGeocode(idx);
+      }, 800);
+    }
+  }
+
+  async function autoGeocode(idx: number) {
+    const ubi = formRef.current.ubicaciones[idx];
+    if (!ubi || !ubi.direccion.trim()) return;
+    setBuscandoDir(idx);
+    try {
+      const query = encodeURIComponent(`${ubi.direccion}, ${ubi.ciudad}, Argentina`);
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`, {
+        headers: { "Accept-Language": "es", "User-Agent": "GuiaDeBienestar/1.0" },
+      });
+      const data = await res.json();
+      if (data.length > 0) {
+        setForm((prev) => {
+          const updated = [...prev.ubicaciones];
+          updated[idx] = { ...updated[idx], latitud: parseFloat(data[0].lat).toFixed(6), longitud: parseFloat(data[0].lon).toFixed(6) };
+          return { ...prev, ubicaciones: updated };
+        });
+      }
+    } catch {}
+    setBuscandoDir(null);
   }
 
   function addUbi() {
@@ -436,15 +473,20 @@ async function handleDelete(id: string, nombre: string) {
                     </div>
                     <textarea value={ubi.descripcion} onChange={(e) => updateUbi(idx, "descripcion", e.target.value)}
                       className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Descripción (horarios, referencias...)" rows={2} />
-                    <div className="flex items-center gap-2">
-                      <input type="text" value={ubi.latitud} onChange={(e) => updateUbi(idx, "latitud", e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Latitud" />
-                      <input type="text" value={ubi.longitud} onChange={(e) => updateUbi(idx, "longitud", e.target.value)}
-                        className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Longitud" />
-                      <button type="button" onClick={() => buscarDireccion(idx)} disabled={buscandoDir === idx || !ubi.direccion.trim()}
-                        className="shrink-0 inline-flex items-center gap-1 text-xs font-medium text-bark-600 hover:text-bark-800 bg-cream-200 hover:bg-cream-300 px-2 py-2 rounded-lg transition-colors disabled:opacity-50">
-                        <Crosshair className="h-3 w-3" />
-                      </button>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <input type="text" value={ubi.latitud} onChange={(e) => updateUbi(idx, "latitud", e.target.value)}
+                          className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Latitud" />
+                        <input type="text" value={ubi.longitud} onChange={(e) => updateUbi(idx, "longitud", e.target.value)}
+                          className="w-full px-3 py-2 rounded-lg border border-cream-300 text-sm text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Longitud" />
+                        <button type="button" onClick={() => buscarDireccion(idx)} disabled={buscandoDir === idx || !ubi.direccion.trim()}
+                          className="shrink-0 inline-flex items-center gap-1 text-xs font-medium text-bark-600 hover:text-bark-800 bg-cream-200 hover:bg-cream-300 px-2 py-2 rounded-lg transition-colors disabled:opacity-50">
+                          <Crosshair className="h-3 w-3" />
+                        </button>
+                      </div>
+                      {buscandoDir === idx && (
+                        <p className="text-[10px] text-sage-600 mt-1 animate-pulse">Buscando ubicación...</p>
+                      )}
                     </div>
                     <MapPicker
                       lat={parseFloat(ubi.latitud) || -38.0055}
