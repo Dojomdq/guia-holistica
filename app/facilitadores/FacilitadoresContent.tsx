@@ -356,10 +356,12 @@ export default function FacilitadoresContent() {
                           className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-[1.02]"
                           style={{ backgroundColor: `${markerColor}10` }}
                         >
-                          <Icon
-                            className="h-5 w-5"
-                            style={{ color: markerColor }}
-                            strokeWidth={1.5}
+                          <img
+                            src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1787258150/Nagi_dojo_sin_fondo_qlpjeh.png"
+                            alt=""
+                            width={20}
+                            height={20}
+                            className="shrink-0"
                           />
                         </div>
                         <div className="flex-1 min-w-0">
