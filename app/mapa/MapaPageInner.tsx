@@ -523,18 +523,6 @@ export default function MapaPageInner() {
                       }`}
                     >
                       <div className="flex items-start gap-2.5">
-                        <div
-                          className="flex h-7 w-7 items-center justify-center rounded-md shrink-0"
-                          style={{ backgroundColor: `${color}08` }}
-                        >
-                          <img
-                            src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1787258150/Nagi_dojo_sin_fondo_qlpjeh.png"
-                            alt=""
-                            width={20}
-                            height={20}
-                            className="shrink-0"
-                          />
-                        </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex flex-wrap gap-0.5 mb-0.5">
                             {f.actividades.map((a) => (

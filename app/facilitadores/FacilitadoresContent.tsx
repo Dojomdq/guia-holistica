@@ -352,18 +352,6 @@ export default function FacilitadoresContent() {
                       style={{ transitionDelay: `${i * 30}ms` }}
                     >
                       <div className="flex items-start gap-4">
-                        <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-[1.02]"
-                          style={{ backgroundColor: `${markerColor}10` }}
-                        >
-                          <img
-                            src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1787258150/Nagi_dojo_sin_fondo_qlpjeh.png"
-                            alt=""
-                            width={20}
-                            height={20}
-                            className="shrink-0"
-                          />
-                        </div>
                         <div className="flex-1 min-w-0">
                           <h3 className="text-[15px] font-medium text-bark group-hover:text-sage-700 transition-colors duration-200 flex items-center gap-1.5">
                             {f.nombre}
