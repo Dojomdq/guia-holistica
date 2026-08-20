@@ -16,6 +16,7 @@ import {
   Globe,
   Phone,
   ExternalLink,
+  MessageCircle,
 } from "lucide-react";
 
 function Instagram({ className }: { className?: string }) {
@@ -243,46 +244,65 @@ export function PopupContent({
       </div>
 
       <div className="flex items-center gap-2 pt-2 border-t border-cream-200/60">
-        {f.instagram && (
-          <a
-            href={`https://www.instagram.com/${f.instagram.replace("@", "")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-1.5 rounded-lg hover:bg-cream-200/60 text-bark-400 hover:text-bark-600 transition-colors"
-            onClick={() => track("instagram", f.id)}
-          >
-            <Instagram className="h-3.5 w-3.5" />
-          </a>
-        )}
-        {f.sitio_web && (
-          <a
-            href={f.sitio_web.startsWith("http") ? f.sitio_web : `https://${f.sitio_web}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-1.5 rounded-lg hover:bg-cream-200/60 text-bark-400 hover:text-bark-600 transition-colors"
-            onClick={() => track("sitio_web", f.id)}
-          >
-            <Globe className="h-3.5 w-3.5" />
-          </a>
-        )}
-        {f.telefono && (
-          <a
-            href={`tel:${f.telefono}`}
-            className="p-1.5 rounded-lg hover:bg-cream-200/60 text-bark-400 hover:text-bark-600 transition-colors"
-            onClick={() => track("telefono", f.id)}
-          >
-            <Phone className="h-3.5 w-3.5" />
-          </a>
-        )}
         <Link
           href={`/facilitadores/${f.id}`}
-          className="ml-auto inline-flex items-center gap-1 text-[10px] font-medium text-sage-600 hover:text-sage-700 transition-colors"
+          className="inline-flex items-center gap-1 text-[10px] font-medium text-sage-600 hover:text-sage-700 transition-colors"
           onClick={() => track("facilitador", f.id)}
         >
           Ver perfil
           <ExternalLink className="h-3 w-3" />
         </Link>
       </div>
+
+      {(f.instagram || f.whatsapp || f.sitio_web || f.telefono) && (
+        <div className="pt-2.5 mt-2.5 border-t border-cream-200/60">
+          <p className="text-[10px] text-bark-400/60 font-medium tracking-wide uppercase mb-2">Redes</p>
+          <div className="flex items-center gap-2">
+            {f.instagram && (
+              <a
+                href={`https://www.instagram.com/${f.instagram.replace("@", "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors"
+                onClick={() => track("instagram", f.id)}
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+            )}
+            {f.whatsapp && (
+              <a
+                href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors"
+                onClick={() => track("whatsapp", f.id)}
+              >
+                <MessageCircle className="h-4 w-4" />
+              </a>
+            )}
+            {f.sitio_web && (
+              <a
+                href={f.sitio_web.startsWith("http") ? f.sitio_web : `https://${f.sitio_web}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors"
+                onClick={() => track("sitio_web", f.id)}
+              >
+                <Globe className="h-4 w-4" />
+              </a>
+            )}
+            {f.telefono && (
+              <a
+                href={`tel:${f.telefono}`}
+                className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors"
+                onClick={() => track("telefono", f.id)}
+              >
+                <Phone className="h-4 w-4" />
+              </a>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
