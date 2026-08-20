@@ -58,11 +58,11 @@ function createActivityIcon(
 const LOGO_URL = "https://res.cloudinary.com/kmxmqr0t/image/upload/v1787258150/Nagi_dojo_sin_fondo_qlpjeh.png";
 
 function createLogoIcon(isSelected: boolean): L.DivIcon {
-  const size = isSelected ? 48 : 40;
+  const size = isSelected ? 42 : 36;
   const shadow = isSelected
     ? `0 4px 14px rgba(0,0,0,0.30), 0 0 0 3px rgba(255,255,255,0.95)`
     : `0 2px 8px rgba(0,0,0,0.18), 0 0 0 2px rgba(255,255,255,0.85)`;
-  const imgSize = isSelected ? 28 : 24;
+  const imgSize = size - 10;
 
   return new L.DivIcon({
     html: `<div style="
@@ -77,8 +77,7 @@ function createLogoIcon(isSelected: boolean): L.DivIcon {
       justify-content: center;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       transform: ${isSelected ? "scale(1.1)" : "scale(1)"};
-      padding: 4px;
-    "><img src="${LOGO_URL}" width="${imgSize}" height="${imgSize}" style="pointer-events:none;object-fit:contain;" /></div>`,
+    "><img src="${LOGO_URL}" width="${imgSize}" height="${imgSize}" style="pointer-events:none;border-radius:50%;" /></div>`,
     className: "",
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
