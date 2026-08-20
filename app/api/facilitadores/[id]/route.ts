@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase/admin";
+import { geocodeAddress, isDefaultCoordinates, DEFAULT_LAT, DEFAULT_LNG } from "@/lib/geocode";
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
   const supabase = getAdminClient();
@@ -28,13 +29,30 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     if (facData.foto_url !== undefined) updates.foto_url = facData.foto_url;
     if (facData.bio !== undefined) updates.bio = facData.bio;
     if (facData.ciudad !== undefined) updates.ciudad = facData.ciudad;
-    if (facData.latitud !== undefined) updates.latitud = facData.latitud;
-    if (facData.longitud !== undefined) updates.longitud = facData.longitud;
     if (facData.direccion !== undefined) updates.direccion = facData.direccion;
     if (facData.instagram !== undefined) updates.instagram = facData.instagram;
     if (facData.sitio_web !== undefined) updates.sitio_web = facData.sitio_web;
     if (facData.logo_url !== undefined) updates.logo_url = facData.logo_url;
     if (facData.activo !== undefined) updates.activo = facData.activo;
+
+    if (facData.latitud !== undefined) updates.latitud = facData.latitud;
+    if (facData.longitud !== undefined) updates.longitud = facData.longitud;
+
+    if (
+      facData.direccion !== undefined &&
+      updates.latitud === undefined &&
+      updates.longitud === undefined
+    ) {
+      const currentLat = updates.latitud ?? DEFAULT_LAT;
+      const currentLng = updates.longitud ?? DEFAULT_LNG;
+      if (isDefaultCoordinates(currentLat, currentLng) && facData.direccion) {
+        const geo = await geocodeAddress(facData.direccion, facData.ciudad || "Mar del Plata");
+        if (geo) {
+          updates.latitud = geo.lat;
+          updates.longitud = geo.lng;
+        }
+      }
+    }
 
     const { data, error } = await supabase
       .from("facilitadores")
@@ -61,14 +79,29 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     if (ubicaciones !== undefined) {
       await supabase.from("ubicaciones").delete().eq("facilitador_id", params.id);
       if (ubicaciones.length) {
-        const ubis = ubicaciones.map((u: any) => ({
-          facilitador_id: params.id,
-          direccion: u.direccion || null,
-          latitud: parseFloat(u.latitud) || -38.0055,
-          longitud: parseFloat(u.longitud) || -57.5426,
-          ciudad: u.ciudad || "Mar del Plata",
-          descripcion: u.descripcion || null,
-        }));
+        const ubis = await Promise.all(
+          ubicaciones.map(async (u: any) => {
+            let uLat = parseFloat(u.latitud) || DEFAULT_LAT;
+            let uLng = parseFloat(u.longitud) || DEFAULT_LNG;
+
+            if (isDefaultCoordinates(uLat, uLng) && u.direccion) {
+              const geo = await geocodeAddress(u.direccion, u.ciudad || "Mar del Plata");
+              if (geo) {
+                uLat = geo.lat;
+                uLng = geo.lng;
+              }
+            }
+
+            return {
+              facilitador_id: params.id,
+              direccion: u.direccion || null,
+              latitud: uLat,
+              longitud: uLng,
+              ciudad: u.ciudad || "Mar del Plata",
+              descripcion: u.descripcion || null,
+            };
+          })
+        );
         await supabase.from("ubicaciones").insert(ubis);
       }
     }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase/admin";
+import { geocodeAddress, isDefaultCoordinates, DEFAULT_LAT, DEFAULT_LNG } from "@/lib/geocode";
 
 export async function GET() {
   const supabase = getAdminClient();
@@ -19,8 +20,16 @@ export async function POST(req: NextRequest) {
 
     const { actividad_ids, ubicaciones, ...facData } = body;
 
-    const lat = body.latitud || -38.0055;
-    const lng = body.longitud || -57.5426;
+    let lat = parseFloat(body.latitud) || DEFAULT_LAT;
+    let lng = parseFloat(body.longitud) || DEFAULT_LNG;
+
+    if (isDefaultCoordinates(lat, lng) && facData.direccion) {
+      const geo = await geocodeAddress(facData.direccion, facData.ciudad || "Mar del Plata");
+      if (geo) {
+        lat = geo.lat;
+        lng = geo.lng;
+      }
+    }
 
     function makeSlug(nombre: string): string {
       return nombre
@@ -79,14 +88,29 @@ export async function POST(req: NextRequest) {
     }
 
     if (ubicaciones?.length) {
-      const ubis = ubicaciones.map((u: any) => ({
-        facilitador_id: fac.id,
-        direccion: u.direccion || null,
-        latitud: parseFloat(u.latitud) || -38.0055,
-        longitud: parseFloat(u.longitud) || -57.5426,
-        ciudad: u.ciudad || "Mar del Plata",
-        descripcion: u.descripcion || null,
-      }));
+      const ubis = await Promise.all(
+        ubicaciones.map(async (u: any) => {
+          let uLat = parseFloat(u.latitud) || DEFAULT_LAT;
+          let uLng = parseFloat(u.longitud) || DEFAULT_LNG;
+
+          if (isDefaultCoordinates(uLat, uLng) && u.direccion) {
+            const geo = await geocodeAddress(u.direccion, u.ciudad || "Mar del Plata");
+            if (geo) {
+              uLat = geo.lat;
+              uLng = geo.lng;
+            }
+          }
+
+          return {
+            facilitador_id: fac.id,
+            direccion: u.direccion || null,
+            latitud: uLat,
+            longitud: uLng,
+            ciudad: u.ciudad || "Mar del Plata",
+            descripcion: u.descripcion || null,
+          };
+        })
+      );
       await supabase.from("ubicaciones").insert(ubis);
     }
 
