@@ -68,8 +68,8 @@ export default function FacilitadoresDestacados() {
           }`}
         >
           <div>
-            <span className="label">Comunidad</span>
-            <h2 className="heading-lg mt-3">
+            <span className="label mb-4 block">Comunidad</span>
+            <h2 className="heading-lg">
               Facilitadores
             </h2>
           </div>

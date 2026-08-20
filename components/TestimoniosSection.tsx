@@ -37,8 +37,8 @@ export default function TestimoniosSection() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="label">Qué dicen</span>
-          <h2 className="font-serif text-2xl sm:text-3xl font-medium text-bark dark:text-cream-100 mt-3">
+          <span className="label mb-4 block">Qué dicen</span>
+          <h2 className="font-serif text-2xl sm:text-3xl font-medium text-bark dark:text-cream-100">
             Nuestra comunidad
           </h2>
         </div>

@@ -90,11 +90,11 @@ export default function ActividadesContent() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
-          <span className="label">Explorá</span>
-          <h1 className="heading-lg text-bark mt-4">
+          <span className="label mb-5 block">Explorá</span>
+          <h1 className="heading-lg text-bark">
             Actividades
           </h1>
-          <p className="text-lg text-bark-700 mt-4 max-w-lg">
+          <p className="text-lg text-bark-700 mt-5 max-w-lg">
             Encontrá la que necesitás. Cada una tiene facilitadores verificados.
           </p>
         </div>

@@ -71,8 +71,8 @@ export default function CategoriasPopulares() {
           }`}
         >
           <div>
-            <span className="label">Explorá</span>
-            <h2 className="heading-lg mt-3">
+            <span className="label mb-4 block">Explorá</span>
+            <h2 className="heading-lg">
               Caminos
             </h2>
           </div>

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, X, Download, DollarSign, Calendar, CreditCard, Check, Ban, Percent } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Download, DollarSign, Calendar, CreditCard, Check, Ban, Percent, ChevronLeft, ChevronRight } from "lucide-react";
 import { downloadCSV } from "@/lib/csv";
+import { ChartIngresosPorMes, ChartComisionesPorMes, ChartMetodosPago, ChartComisionesPorRep } from "@/components/admin/Charts";
 
 interface Pago {
   id: string;
@@ -41,6 +42,13 @@ interface Comision {
 interface Facilitador { id: string; nombre: string; }
 interface Plan { id: string; nombre: string; precio: number; }
 interface Representante { id: string; nombre: string; comision_porcentaje: number; }
+interface Asignacion {
+  facilitador_id: string;
+  plan_id: string | null;
+  representante_id: string | null;
+  precio_contratado: number;
+  ciudad: string | null;
+}
 interface AsignacionInfo {
   plan_nombre: string;
   precio_contratado: number;
@@ -59,6 +67,23 @@ function formatPesos(v: number): string {
   return v.toLocaleString("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 });
 }
 
+const MESES_ES = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+function formatMes(mes: string): string {
+  const [y, m] = mes.split("-");
+  return `${MESES_ES[parseInt(m) - 1]} ${y}`;
+}
+
+function mesAnterior(mes: string): string {
+  const d = new Date(parseInt(mes.split("-")[0]), parseInt(mes.split("-")[1]) - 2, 1);
+  return d.toISOString().slice(0, 7);
+}
+
+function mesSiguiente(mes: string): string {
+  const d = new Date(parseInt(mes.split("-")[0]), parseInt(mes.split("-")[1]), 1);
+  return d.toISOString().slice(0, 7);
+}
+
 export default function PagosAdmin() {
   const [tab, setTab] = useState<"pagos" | "comisiones">("pagos");
 
@@ -67,6 +92,7 @@ export default function PagosAdmin() {
   const [facilitadores, setFacilitadores] = useState<Facilitador[]>([]);
   const [planes, setPlanes] = useState<Plan[]>([]);
   const [representantes, setRepresentantes] = useState<Representante[]>([]);
+  const [asignaciones, setAsignaciones] = useState<Asignacion[]>([]);
   const [asignacionInfo, setAsignacionInfo] = useState<AsignacionInfo | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [editando, setEditando] = useState<string | null>(null);
@@ -74,6 +100,7 @@ export default function PagosAdmin() {
   const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [seleccionado, setSeleccionado] = useState(false);
+  const [mesSeleccionado, setMesSeleccionado] = useState(new Date().toISOString().slice(0, 7));
 
   const [filtroFacilitador, setFiltroFacilitador] = useState("");
   const [filtroMetodo, setFiltroMetodo] = useState("");
@@ -93,12 +120,13 @@ export default function PagosAdmin() {
 
   async function load() {
     setError(null);
-    const [pagosRes, facRes, planRes, repRes, comRes] = await Promise.all([
+    const [pagosRes, facRes, planRes, repRes, comRes, asignRes] = await Promise.all([
       fetch("/api/pagos").then((r) => r.json()),
       fetch("/api/facilitadores").then((r) => r.json()),
       fetch("/api/planes").then((r) => r.json()),
       fetch("/api/representantes").then((r) => r.json()),
       fetch("/api/comisiones").then((r) => r.json()),
+      fetch("/api/facilitador-planes").then((r) => r.json()),
     ]);
 
     if (Array.isArray(pagosRes)) setPagos(pagosRes);
@@ -107,6 +135,13 @@ export default function PagosAdmin() {
     if (Array.isArray(facRes)) setFacilitadores(facRes.map((f: any) => ({ id: f.id, nombre: f.nombre })));
     if (Array.isArray(planRes)) setPlanes(planRes.map((p: any) => ({ id: p.id, nombre: p.nombre, precio: p.precio })));
     if (Array.isArray(repRes)) setRepresentantes(repRes.map((r: any) => ({ id: r.id, nombre: r.nombre, comision_porcentaje: r.comision_porcentaje })));
+    if (Array.isArray(asignRes)) setAsignaciones(asignRes.filter((a: any) => a.estado === "activo").map((a: any) => ({
+      facilitador_id: a.facilitador_id,
+      plan_id: a.plan_id,
+      representante_id: a.representante_id,
+      precio_contratado: parseFloat(a.precio_contratado) || 0,
+      ciudad: a.ciudad || null,
+    })));
 
     setCargando(false);
   }
@@ -116,13 +151,18 @@ export default function PagosAdmin() {
   async function fetchAsignacion(facilitadorId: string) {
     if (!facilitadorId) { setAsignacionInfo(null); return; }
     try {
-      const res = await fetch("/api/facilitador-planes");
-      const data = await res.json();
-      if (!Array.isArray(data)) return;
-      const asign = data.find((a: any) => a.facilitador_id === facilitadorId && a.estado === "activo");
+      const [asignRes, repRes, planRes] = await Promise.all([
+        fetch("/api/facilitador-planes").then((r) => r.json()),
+        representantes.length ? Promise.resolve(representantes) : fetch("/api/representantes").then((r) => r.json()),
+        planes.length ? Promise.resolve(planes) : fetch("/api/planes").then((r) => r.json()),
+      ]);
+      if (!Array.isArray(asignRes)) return;
+      const asign = asignRes.find((a: any) => a.facilitador_id === facilitadorId && a.estado === "activo");
       if (!asign) { setAsignacionInfo(null); return; }
-      const rep = asign.representante_id ? representantes.find((r) => r.id === asign.representante_id) : null;
-      const plan = planes.find((p) => p.id === asign.plan_id);
+      const reps = Array.isArray(repRes) ? repRes.map((r: any) => ({ id: r.id, nombre: r.nombre, comision_porcentaje: r.comision_porcentaje })) : representantes;
+      const pls = Array.isArray(planRes) ? planRes.map((p: any) => ({ id: p.id, nombre: p.nombre, precio: p.precio })) : planes;
+      const rep = asign.representante_id ? reps.find((r: any) => r.id === asign.representante_id) : null;
+      const plan = pls.find((p: any) => p.id === asign.plan_id);
       setAsignacionInfo({
         plan_nombre: plan?.nombre || "Sin plan",
         precio_contratado: parseFloat(asign.precio_contratado) || 0,
@@ -132,6 +172,14 @@ export default function PagosAdmin() {
     } catch {
       setAsignacionInfo(null);
     }
+  }
+
+  function getRepForFacilitador(facilitadorId: string): { nombre: string; porcentaje: number } | null {
+    const asign = asignaciones.find((a) => a.facilitador_id === facilitadorId);
+    if (!asign?.representante_id) return null;
+    const rep = representantes.find((r) => r.id === asign.representante_id);
+    if (!rep) return null;
+    return { nombre: rep.nombre, porcentaje: rep.comision_porcentaje };
   }
 
   function openNew() {
@@ -252,6 +300,33 @@ export default function PagosAdmin() {
   const totalComision = comFiltradas.reduce((s, c) => s + (Number(c.importe_comision) || 0), 0);
   const totalComNeto = comFiltradas.reduce((s, c) => s + (Number(c.importe_neto) || 0), 0);
 
+  const pagosMes = pagos.filter((p) => p.fecha_pago?.startsWith(mesSeleccionado));
+  const totalMes = pagosMes.reduce((s, p) => s + (Number(p.monto) || 0), 0);
+  const comisionesMes = comisiones.filter((c) => c.fecha_generacion?.startsWith(mesSeleccionado));
+  const comisionMes = comisionesMes.reduce((s, c) => s + (Number(c.importe_comision) || 0), 0);
+  const netoMes = totalMes - comisionMes;
+
+  const porRepMes: Record<string, { nombre: string; total: number; comision: number; count: number }> = {};
+  for (const c of comisionesMes) {
+    const rid = c.representante_id || "none";
+    if (!porRepMes[rid]) porRepMes[rid] = { nombre: c.representantes?.nombre || "Sin representante", total: 0, comision: 0, count: 0 };
+    porRepMes[rid].total += Number(c.importe_cobrado) || 0;
+    porRepMes[rid].comision += Number(c.importe_comision) || 0;
+    porRepMes[rid].count++;
+  }
+
+  const chartMeses = mesesGrafico.map(([mes, ingresos]) => {
+    const comMes = comisiones.filter((c) => c.fecha_generacion?.startsWith(mes)).reduce((s, c) => s + (Number(c.importe_comision) || 0), 0);
+    const [y, m] = mes.split("-");
+    return { mes, label: `${MESES_ES[parseInt(m) - 1]?.slice(0, 3)} ${y.slice(2)}`, ingresos, comisiones: comMes, neto: ingresos - comMes };
+  });
+
+  const porMetodo: Record<string, number> = {};
+  for (const p of pagosMes) porMetodo[p.metodo_pago] = (porMetodo[p.metodo_pago] || 0) + (Number(p.monto) || 0);
+  const chartMetodos = Object.entries(porMetodo).map(([k, v]) => ({ name: METODOS[k] || k, value: v }));
+
+  const chartReps = Object.values(porRepMes).map((d) => ({ nombre: d.nombre, comision: d.comision, ingresos: d.total }));
+
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -308,25 +383,70 @@ export default function PagosAdmin() {
             </div>
           </div>
 
-          {mesesGrafico.length > 0 && (
-            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-cream-300/60 mb-6">
-              <h2 className="font-serif font-medium text-bark text-base mb-4">Ingresos por mes</h2>
-              <div className="space-y-2">
-                {mesesGrafico.map(([mes, total]) => {
-                  const pct = Math.round((total / maxMes) * 100);
-                  return (
-                    <div key={mes} className="flex items-center gap-3">
-                      <span className="text-xs text-bark-500 w-20 shrink-0">{mes}</span>
-                      <div className="flex-1 h-4 bg-cream-100 rounded-full overflow-hidden">
-                        <div className="h-full bg-sage-500 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
-                      </div>
-                      <span className="text-xs font-medium text-bark-600 w-28 text-right">{formatPesos(total)}</span>
-                    </div>
-                  );
-                })}
+          {/* Navegación mes a mes + resumen del mes */}
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-cream-300/60 mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <button onClick={() => setMesSeleccionado(mesAnterior(mesSeleccionado))} className="p-2 rounded-lg hover:bg-cream-100 text-bark-500 hover:text-bark-700 transition-colors">
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <div className="text-center">
+                <h2 className="font-serif font-medium text-bark text-lg">{formatMes(mesSeleccionado)}</h2>
+                <p className="text-xs text-bark-500">{pagosMes.length} pago{pagosMes.length !== 1 ? "s" : ""}</p>
+              </div>
+              <button onClick={() => setMesSeleccionado(mesSiguiente(mesSeleccionado))} className="p-2 rounded-lg hover:bg-cream-100 text-bark-500 hover:text-bark-700 transition-colors">
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="grid grid-cols-3 gap-3 text-center">
+              <div className="bg-cream-50 rounded-xl p-3">
+                <p className="text-[11px] text-bark-500">Ingresos</p>
+                <p className="text-sm font-semibold text-bark">{formatPesos(totalMes)}</p>
+              </div>
+              <div className="bg-amber-50 rounded-xl p-3">
+                <p className="text-[11px] text-amber-600">Comisiones</p>
+                <p className="text-sm font-semibold text-amber-700">{formatPesos(comisionMes)}</p>
+              </div>
+              <div className="bg-sage-50 rounded-xl p-3">
+                <p className="text-[11px] text-sage-600">Neto Guía</p>
+                <p className="text-sm font-semibold text-sage-700">{formatPesos(netoMes)}</p>
               </div>
             </div>
+          </div>
+
+          {/* Gráfico de barras por mes */}
+          {chartMeses.length > 0 && (
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-cream-300/60 mb-6">
+              <h2 className="font-serif font-medium text-bark text-base mb-4">Ingresos por mes</h2>
+              <ChartIngresosPorMes data={chartMeses} mesSeleccionado={mesSeleccionado} onSelect={setMesSeleccionado} />
+            </div>
           )}
+
+          {/* Gráfico de tendencia ingresos vs comisiones */}
+          {chartMeses.length > 1 && (
+            <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-cream-300/60 mb-6">
+              <h2 className="font-serif font-medium text-bark text-base mb-4">Tendencia ingresos vs comisiones</h2>
+              <ChartComisionesPorMes data={chartMeses} mesSeleccionado={mesSeleccionado} />
+            </div>
+          )}
+
+          {/* Métodos de pago + Comisiones por representante */}
+          {(chartMetodos.length > 0 || chartReps.length > 0) && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+              {chartMetodos.length > 0 && (
+                <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-cream-300/60">
+                  <h2 className="font-serif font-medium text-bark text-base mb-4">Métodos de pago — {formatMes(mesSeleccionado)}</h2>
+                  <ChartMetodosPago data={chartMetodos} />
+                </div>
+              )}
+              {chartReps.length > 0 && (
+                <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-5 border border-cream-300/60">
+                  <h2 className="font-serif font-medium text-bark text-base mb-4">Comisiones por representante — {formatMes(mesSeleccionado)}</h2>
+                  <ChartComisionesPorRep data={chartReps} />
+                </div>
+              )}
+            </div>
+          )}
+
 
           {showForm && (
             <div className="bg-white rounded-2xl p-6 shadow-soft border border-cream-300/60 mb-6">
@@ -368,28 +488,47 @@ export default function PagosAdmin() {
 
               {asignacionInfo && (
                 <div className="bg-cream-50 border border-cream-200 rounded-xl p-4 mt-4">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-center">
                     <div>
                       <p className="text-[11px] text-bark-500">Plan</p>
                       <p className="text-sm font-medium text-bark">{asignacionInfo.plan_nombre}</p>
                     </div>
                     <div>
-                      <p className="text-[11px] text-bark-500">Precio</p>
+                      <p className="text-[11px] text-bark-500">Precio contratado</p>
                       <p className="text-sm font-medium text-bark">{formatPesos(asignacionInfo.precio_contratado)}</p>
                     </div>
                     <div>
-                      <p className="text-[11px] text-bark-500">Representante</p>
-                      <p className="text-sm font-medium text-bark">{asignacionInfo.representante_nombre || "Sin representante"}</p>
-                    </div>
-                    <div>
-                      <p className="text-[11px] text-bark-500">Comisión ({asignacionInfo.comision_porcentaje}%)</p>
-                      <p className="text-sm font-semibold text-amber-700">{formatPesos(Math.round((parseFloat(form.monto || "0") * asignacionInfo.comision_porcentaje) / 100))}</p>
+                      <p className="text-[11px] text-bark-500">Monto a cobrar</p>
+                      <p className="text-sm font-semibold text-bark">{formatPesos(parseFloat(form.monto || "0"))}</p>
                     </div>
                   </div>
-                  {asignacionInfo.representante_nombre && (
-                    <div className="flex justify-between mt-3 pt-3 border-t border-cream-200 text-sm">
-                      <span className="text-bark-500">Ingreso Guía</span>
-                      <span className="font-semibold text-sage-700">{formatPesos(Math.round(parseFloat(form.monto || "0") - (parseFloat(form.monto || "0") * asignacionInfo.comision_porcentaje) / 100))}</span>
+
+                  {asignacionInfo.representante_nombre ? (
+                    <div className="mt-3 pt-3 border-t border-cream-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-amber-700 bg-amber-50 border border-amber-200/60 rounded-full px-2.5 py-1">
+                          <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                          Delegado: {asignacionInfo.representante_nombre}
+                        </span>
+                        <span className="inline-flex items-center text-xs font-medium text-amber-600 bg-amber-50 border border-amber-200/60 rounded-full px-2.5 py-1">
+                          <svg className="h-3 w-3 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                          {asignacionInfo.comision_porcentaje}%
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div className="flex justify-between items-center bg-amber-50/60 rounded-lg px-3 py-2">
+                          <span className="text-amber-700">Comisión ({asignacionInfo.comision_porcentaje}%)</span>
+                          <span className="font-semibold text-amber-800">{formatPesos(Math.round((parseFloat(form.monto || "0") * asignacionInfo.comision_porcentaje) / 100))}</span>
+                        </div>
+                        <div className="flex justify-between items-center bg-sage-50/60 rounded-lg px-3 py-2">
+                          <span className="text-sage-700">Ingreso Guía</span>
+                          <span className="font-semibold text-sage-800">{formatPesos(Math.round(parseFloat(form.monto || "0") - (parseFloat(form.monto || "0") * asignacionInfo.comision_porcentaje) / 100))}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="mt-3 pt-3 border-t border-cream-200 text-sm text-bark-500 text-center">
+                      Sin delegado asignado — el 100% es para el Guía
                     </div>
                   )}
                 </div>
@@ -433,7 +572,9 @@ export default function PagosAdmin() {
           ) : (
             <div className="space-y-2">
               {pagosFiltrados.length === 0 && <p className="text-bark-500 text-center py-8">No hay pagos registrados.</p>}
-              {pagosFiltrados.map((p) => (
+              {pagosFiltrados.map((p) => {
+                const rep = getRepForFacilitador(p.facilitador_id);
+                return (
                 <div key={p.id} className="bg-white rounded-xl border border-cream-200 p-4 flex items-center gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -443,6 +584,16 @@ export default function PagosAdmin() {
                       <span className="text-xs text-bark-500">{METODOS[p.metodo_pago] || p.metodo_pago}</span>
                       {p.periodo && <span className="text-xs text-bark-400">{p.periodo}</span>}
                     </div>
+                    {rep && (
+                      <div className="flex items-center gap-2 mt-1.5">
+                        <span className="inline-flex items-center gap-1 text-[11px] text-amber-700 bg-amber-50 border border-amber-200/50 rounded-full px-2 py-0.5">
+                          <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                          {rep.nombre}
+                        </span>
+                        <span className="text-[11px] text-amber-600">→ {rep.porcentaje}% = {formatPesos(Math.round((Number(p.monto) * rep.porcentaje) / 100))}</span>
+                        <span className="text-[11px] text-sage-600">Guía: {formatPesos(Math.round(Number(p.monto) - (Number(p.monto) * rep.porcentaje) / 100))}</span>
+                      </div>
+                    )}
                     {p.observaciones && <p className="text-xs text-bark-400 mt-1 truncate">{p.observaciones}</p>}
                   </div>
                   <span className="text-lg font-serif font-semibold text-sage-700 shrink-0">{formatPesos(p.monto)}</span>
@@ -451,7 +602,8 @@ export default function PagosAdmin() {
                     <button onClick={() => handleDelete(p.id)} className="p-1.5 text-bark-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="h-4 w-4" /></button>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </>

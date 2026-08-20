@@ -199,11 +199,11 @@ export default function FacilitadoresContent() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
-          <span className="label">Comunidad</span>
-          <h1 className="heading-lg text-bark mt-4">
+          <span className="label mb-5 block">Comunidad</span>
+          <h1 className="heading-lg text-bark">
             Facilitadores
           </h1>
-          <p className="text-lg text-bark-700 mt-4 max-w-lg">
+          <p className="text-lg text-bark-700 mt-5 max-w-lg">
             Conocé a los profesionales de nuestra comunidad
           </p>
         </div>
