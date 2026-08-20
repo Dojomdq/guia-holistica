@@ -55,13 +55,11 @@ function createActivityIcon(
   });
 }
 
-const LOGO_URL = "https://res.cloudinary.com/kmxmqr0t/image/upload/v1787258150/Nagi_dojo_sin_fondo_qlpjeh.png";
-
-function createLogoIcon(isSelected: boolean): L.DivIcon {
+function createLogoIcon(isSelected: boolean, logoUrl: string): L.DivIcon {
   const size = isSelected ? 44 : 36;
 
   return new L.DivIcon({
-    html: `<img src="${LOGO_URL}" style="
+    html: `<img src="${logoUrl}" style="
       width: ${size}px;
       height: ${size}px;
       object-fit: contain;
@@ -119,10 +117,9 @@ export default function ClusteredMarkers({
     <>
       {spreadItems.map((item) => {
         const isSelected = selectedId === item.id;
-        const isEduardoPalermo =
-          (item.data as any)?.facilitador?.nombre === "Eduardo Palermo";
-        const icon = isEduardoPalermo
-          ? createLogoIcon(isSelected)
+        const logoUrl = (item.data as any)?.facilitador?.logo_url as string | null | undefined;
+        const icon = logoUrl
+          ? createLogoIcon(isSelected, logoUrl)
           : createActivityIcon(item.color, item.iconSvg, isSelected);
         return (
           <Marker

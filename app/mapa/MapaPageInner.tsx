@@ -63,6 +63,7 @@ interface FacilitadorConUbi {
   horarios: string | null;
   sitio_web: string | null;
   telefono: string | null;
+  logo_url: string | null;
   actividades: Actividad[];
   ubicaciones: Ubicacion[];
 }
@@ -150,6 +151,7 @@ export default function MapaPageInner() {
           horarios: row.horarios,
           sitio_web: row.sitio_web,
           telefono: row.telefono,
+          logo_url: row.logo_url || null,
           actividades: (row.facilitador_actividades || []).map((fa: any) => ({
             id: fa.actividades.id,
             nombre: fa.actividades.nombre,

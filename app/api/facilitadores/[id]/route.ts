@@ -33,6 +33,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     if (facData.direccion !== undefined) updates.direccion = facData.direccion;
     if (facData.instagram !== undefined) updates.instagram = facData.instagram;
     if (facData.sitio_web !== undefined) updates.sitio_web = facData.sitio_web;
+    if (facData.logo_url !== undefined) updates.logo_url = facData.logo_url;
     if (facData.activo !== undefined) updates.activo = facData.activo;
 
     const { data, error } = await supabase

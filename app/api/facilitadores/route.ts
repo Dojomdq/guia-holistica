@@ -61,6 +61,7 @@ export async function POST(req: NextRequest) {
         direccion: facData.direccion || null,
         instagram: facData.instagram || null,
         sitio_web: facData.sitio_web || null,
+        logo_url: facData.logo_url || null,
         activo: facData.activo !== false,
       })
       .select()

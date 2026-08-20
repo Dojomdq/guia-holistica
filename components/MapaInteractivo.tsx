@@ -58,6 +58,7 @@ interface FacilitadorMarker {
   horarios: string | null;
   sitio_web: string | null;
   telefono: string | null;
+  logo_url: string | null;
   actividades: Actividad[];
 }
 
