@@ -58,26 +58,31 @@ function createActivityIcon(
 const LOGO_URL = "https://res.cloudinary.com/kmxmqr0t/image/upload/v1787258150/Nagi_dojo_sin_fondo_qlpjeh.png";
 
 function createLogoIcon(isSelected: boolean): L.DivIcon {
-  const size = isSelected ? 42 : 36;
+  const size = isSelected ? 44 : 36;
   const shadow = isSelected
     ? `0 4px 14px rgba(0,0,0,0.30), 0 0 0 3px rgba(255,255,255,0.95)`
     : `0 2px 8px rgba(0,0,0,0.18), 0 0 0 2px rgba(255,255,255,0.85)`;
-  const imgSize = size - 10;
 
   return new L.DivIcon({
     html: `<div style="
       width: ${size}px;
       height: ${size}px;
-      background: #5d8a6e;
+      background-color: #8BA888;
       border-radius: 50%;
-      box-shadow: ${shadow};
-      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 2px solid white;
+      box-shadow: ${shadow};
+      cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       transform: ${isSelected ? "scale(1.1)" : "scale(1)"};
-    "><img src="${LOGO_URL}" width="${imgSize}" height="${imgSize}" style="pointer-events:none;border-radius:50%;" /></div>`,
+    "><img src="${LOGO_URL}" style="
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      pointer-events: none;
+    " /></div>`,
     className: "",
     iconSize: [size, size],
     iconAnchor: [size / 2, size / 2],
