@@ -55,6 +55,37 @@ function createActivityIcon(
   });
 }
 
+const LOGO_URL = "https://res.cloudinary.com/kmxmqr0t/image/upload/v1787258150/Nagi_dojo_sin_fondo_qlpjeh.png";
+
+function createLogoIcon(isSelected: boolean): L.DivIcon {
+  const size = isSelected ? 48 : 40;
+  const shadow = isSelected
+    ? `0 4px 14px rgba(0,0,0,0.30), 0 0 0 3px rgba(255,255,255,0.95)`
+    : `0 2px 8px rgba(0,0,0,0.18), 0 0 0 2px rgba(255,255,255,0.85)`;
+  const imgSize = isSelected ? 28 : 24;
+
+  return new L.DivIcon({
+    html: `<div style="
+      width: ${size}px;
+      height: ${size}px;
+      background: #5d8a6e;
+      border-radius: 50%;
+      box-shadow: ${shadow};
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transform: ${isSelected ? "scale(1.1)" : "scale(1)"};
+      padding: 4px;
+    "><img src="${LOGO_URL}" width="${imgSize}" height="${imgSize}" style="pointer-events:none;object-fit:contain;" /></div>`,
+    className: "",
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+    popupAnchor: [0, -(size / 2 + 2)],
+  });
+}
+
 function spreadCoords(items: ClusterMarkerItem[]): ClusterMarkerItem[] {
   const groups = new Map<string, ClusterMarkerItem[]>();
   for (const item of items) {
@@ -96,7 +127,11 @@ export default function ClusteredMarkers({
     <>
       {spreadItems.map((item) => {
         const isSelected = selectedId === item.id;
-        const icon = createActivityIcon(item.color, item.iconSvg, isSelected);
+        const isEduardoPalermo =
+          (item.data as any)?.facilitador?.nombre === "Eduardo Palermo";
+        const icon = isEduardoPalermo
+          ? createLogoIcon(isSelected)
+          : createActivityIcon(item.color, item.iconSvg, isSelected);
         return (
           <Marker
             key={`${item.id}|${item.lat.toFixed(6)}|${item.lng.toFixed(6)}`}
