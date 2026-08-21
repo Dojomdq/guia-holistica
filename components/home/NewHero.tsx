@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Sparkles, ArrowRight } from "lucide-react";
 import { CITY_NAME } from "@/lib/constants";
@@ -14,8 +15,17 @@ export default function NewHero() {
 
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 hero-animated-gradient" />
-      <div className="absolute inset-0 bg-bark/40" />
+      <div className="absolute inset-0">
+        <Image
+          src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/AF49F0FF-4A15-4EA3-AE9F-AC8F83C11FC0_hkigqu.jpg"
+          alt="Guía de Bienestar - Terapeutas y facilitadores holísticos en Mar del Plata"
+          fill
+          className="object-cover scale-105"
+          priority
+        />
+        <div className="absolute inset-0 hero-animated-gradient opacity-40 mix-blend-overlay" />
+        <div className="absolute inset-0 bg-bark/35" />
+      </div>
 
       <div className="relative z-10 w-full px-6 py-20">
         <div className="max-w-4xl mx-auto text-center">
