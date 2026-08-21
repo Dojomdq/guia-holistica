@@ -274,21 +274,6 @@
   );
 }
 
-/* ── Hero Cursor Glow (Feature 2) ── */
-.hero-cursor-glow::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    500px circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
-    rgba(255, 255, 255, 0.08),
-    transparent 45%
-  );
-  pointer-events: none;
-  z-index: 1;
-  transition: background 0.1s ease-out;
-}
-
 /* ── Button Ripple Effect (Feature 3) ── */
 .ripple-container {
   position: relative;

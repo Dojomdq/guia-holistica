@@ -369,7 +369,8 @@ export default function MapaInteractivo({
             data: m,
           };
         })}
-        selectedId={seleccionado}
+        selectedId={ubicacionSeleccionada}
+        selectedFacilitadorId={seleccionado}
         onSelect={(id) => {
           const marker = markers.find((m) => m.ubicacion.id === id);
           onUbicacionSeleccionada?.(id);
