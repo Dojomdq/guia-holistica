@@ -16,9 +16,16 @@ interface Destacado {
   facilitadores: { nombre: string } | null;
 }
 
+interface PremiumDestacado {
+  facilitador_id: string;
+  facilitadores: { nombre: string; activo: boolean } | null;
+  planes: { nombre: string; perfil_destacado: boolean } | null;
+}
+
 export default function DestacadosAdmin() {
   const [destacadosSitio, setDestacadosSitio] = useState<Destacado[]>([]);
   const [destacadosInstagram, setDestacadosInstagram] = useState<Destacado[]>([]);
+  const [premiumDestacados, setPremiumDestacados] = useState<PremiumDestacado[]>([]);
   const [facilitadores, setFacilitadores] = useState<Facilitador[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ facilitador_id: "", tipo: "sitio" });
@@ -28,15 +35,20 @@ export default function DestacadosAdmin() {
 
   async function load() {
     setError(null);
-    const [sitioRes, igRes, facRes] = await Promise.all([
+    const [sitioRes, igRes, facRes, planesRes] = await Promise.all([
       fetch("/api/destacados?tipo=sitio").then((r) => r.json()),
       fetch("/api/destacados?tipo=instagram").then((r) => r.json()),
       fetch("/api/facilitadores").then((r) => r.json()),
+      fetch("/api/facilitador-planes").then((r) => r.json()),
     ]);
 
     if (Array.isArray(sitioRes)) setDestacadosSitio(sitioRes);
     if (Array.isArray(igRes)) setDestacadosInstagram(igRes);
     if (Array.isArray(facRes)) setFacilitadores(facRes.map((f: any) => ({ id: f.id, nombre: f.nombre })));
+    if (Array.isArray(planesRes)) {
+      const premium = planesRes.filter((p: any) => p.planes?.perfil_destacado && p.estado === "activo" && p.facilitadores?.activo);
+      setPremiumDestacados(premium);
+    }
     setCargando(false);
   }
 
@@ -151,9 +163,32 @@ export default function DestacadosAdmin() {
       {cargando ? (
         <div className="p-8 text-center text-bark-500">Cargando...</div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Lista titulo="Destacados del sitio web" items={destacadosSitio} icono="🌐" />
-          <Lista titulo="Destacados de Instagram" items={destacadosInstagram} icono="📸" />
+        <div className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <Lista titulo="Destacados del sitio web" items={destacadosSitio} icono="🌐" />
+            <Lista titulo="Destacados de Instagram" items={destacadosInstagram} icono="📸" />
+          </div>
+
+          <div className="bg-white rounded-2xl p-5 shadow-soft border border-cream-300/60">
+            <h2 className="font-serif font-semibold text-bark mb-1 flex items-center gap-2">
+              <Star className="h-5 w-5 text-amber-500" /> Destacados por plan premium
+            </h2>
+            <p className="text-xs text-bark-400 mb-4">Aparecen automáticamente en el sitio. Se gestionan desde la sección de Planes.</p>
+            {premiumDestacados.length === 0 ? (
+              <p className="text-sm text-bark-500">Sin destacados premium</p>
+            ) : (
+              <div className="space-y-2">
+                {premiumDestacados.map((p) => (
+                  <div key={p.facilitador_id} className="flex items-center justify-between bg-cream-50 rounded-xl px-3 py-2">
+                    <div>
+                      <span className="text-sm text-bark">{p.facilitadores?.nombre || "—"}</span>
+                      <span className="text-xs text-bark-400 ml-2">({p.planes?.nombre})</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
