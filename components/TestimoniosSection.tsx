@@ -34,7 +34,7 @@ export default function TestimoniosSection() {
       <div className="container-page relative z-10">
         <div
           className={`text-center mb-10 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
           <span className="label mb-4 block">Qué dicen</span>
@@ -47,8 +47,8 @@ export default function TestimoniosSection() {
           {testimonios.map((t, i) => (
             <div
               key={t.nombre}
-              className={`bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 p-6 transition-all duration-500 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+              className={`bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 p-6 transition-interactive ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
               }`}
               style={{ transitionDelay: `${i * 100}ms` }}
             >

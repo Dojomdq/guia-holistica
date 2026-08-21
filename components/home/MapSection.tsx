@@ -36,11 +36,11 @@ export default function MapSection() {
   }, []);
 
   return (
-    <section id="mapa" ref={ref} className="py-16 sm:py-24 bg-cream-50 overflow-hidden">
+    <section id="mapa" ref={ref} className="py-16 sm:py-24 bg-cream-50 overflow-hidden section-gradient-sage">
       <div className="relative container-wide">
         <div
           className={`text-center mb-10 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
           <span className="section-label">Mapa</span>
@@ -52,7 +52,7 @@ export default function MapSection() {
 
         <div
           className={`max-w-5xl mx-auto transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
           style={{ transitionDelay: "150ms" }}
         >

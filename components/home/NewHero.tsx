@@ -5,9 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Sparkles, ArrowRight } from "lucide-react";
 import { CITY_NAME } from "@/lib/constants";
+import HeroParticles from "@/components/HeroParticles";
+import { useRipple } from "@/lib/useRipple";
 
 export default function NewHero() {
   const [loaded, setLoaded] = useState(false);
+  const createRipple = useRipple("rgba(209, 214, 209, 0.4)");
 
   useEffect(() => {
     setLoaded(true);
@@ -26,6 +29,7 @@ export default function NewHero() {
         <div className="absolute inset-0 hero-animated-gradient opacity-40 mix-blend-overlay" />
         <div className="absolute inset-0 bg-bark/35" />
       </div>
+      <HeroParticles />
 
       <div className="relative z-10 w-full px-6 py-20">
         <div className="max-w-4xl mx-auto text-center">
@@ -50,7 +54,8 @@ export default function NewHero() {
           <div className={`transition-all duration-700 delay-500 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             <Link
               href="/mapa"
-              className="group inline-flex items-center gap-3 px-9 py-4 bg-sage-500 text-white rounded-full text-base font-semibold hover:bg-terracotta-600 hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
+              onClick={createRipple}
+              className="group ripple-container inline-flex items-center gap-3 px-9 py-4 bg-sage-500 text-white rounded-full text-base font-semibold hover:bg-terracotta-600 hover:shadow-xl hover:scale-[1.02] transition-interactive"
             >
               Explorá el mapa
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
