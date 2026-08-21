@@ -297,7 +297,7 @@ export default function MapaPageInner() {
 
       {/* Floating search + filters — top left (hidden on mobile when bottom sheet is open) */}
       <div className={`absolute top-20 left-3 sm:left-4 z-20 w-[calc(100%-1.5rem)] sm:w-[calc(100%-2rem)] sm:max-w-[420px] ${showBottomSheet ? "hidden sm:block" : ""}`}>
-        <div className="bg-white rounded-2xl shadow-lg border border-cream-200/80 overflow-hidden">
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-cream-200/60 overflow-hidden">
           {/* Search input */}
           <div className="relative px-3 py-2.5">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-bark-400" />

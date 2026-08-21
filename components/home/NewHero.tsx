@@ -25,7 +25,7 @@ export default function NewHero() {
       <div className="absolute inset-0">
         <Image
           src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/AF49F0FF-4A15-4EA3-AE9F-AC8F83C11FC0_hkigqu.jpg"
-          alt=""
+          alt="Guía de Bienestar - Terapeutas y facilitadores holísticos en Mar del Plata"
           fill
           className="object-cover scale-105"
           priority
