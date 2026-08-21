@@ -13,7 +13,7 @@ import {
   Phone,
   ExternalLink,
   MessageCircle,
-  ChevronDown,
+  Share2,
 } from "lucide-react";
 
 function Instagram({ className }: { className?: string }) {
@@ -419,10 +419,10 @@ export default function MapaPageInner() {
         >
           <div className="absolute inset-0 bg-black/30" />
           <div
-            className="absolute bottom-0 left-0 right-0 bg-cream-50 rounded-t-2xl shadow-2xl max-h-[70vh] overflow-y-auto bottom-sheet-animate"
+            className="absolute bottom-0 left-0 right-0 bg-cream-50 rounded-t-2xl shadow-2xl max-h-[60vh] overflow-y-auto bottom-sheet-animate"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="w-10 h-1.5 bg-cream-300 rounded-full mx-auto mt-3 mb-1" />
+            <div className="w-10 h-1 bg-cream-300 rounded-full mx-auto mt-2.5 mb-0.5" />
             <PopupContentInternal marker={bottomSheetMarker} />
           </div>
         </div>
@@ -440,135 +440,99 @@ function PopupContentInternal({ marker }: { marker: MarkerItem }) {
       ? `https://www.google.com/maps/dir/?api=1&destination=${marker.ubicacion.latitud},${marker.ubicacion.longitud}`
       : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(marker.ubicacion.direccion || "")}`;
 
+  async function handleShare() {
+    const url = `${window.location.origin}/facilitadores/${f.id}`;
+    if (navigator.share) {
+      try { await navigator.share({ title: f.nombre, url }); } catch {}
+    } else {
+      await navigator.clipboard.writeText(url);
+    }
+  }
+
   return (
-    <div className="p-4 pb-8">
-      <div className="flex items-start gap-3 mb-3">
+    <div className="p-3">
+      <div className="flex items-start gap-3 mb-2">
         {f.foto_url ? (
-          <img
-            src={f.foto_url}
-            alt={f.nombre}
-            className="w-14 h-14 rounded-xl object-cover shrink-0 border border-cream-200"
-          />
+          <img src={f.foto_url} alt={f.nombre} className="w-11 h-11 rounded-xl object-cover shrink-0 border border-cream-200" />
         ) : (
-          <div
-            className="w-14 h-14 rounded-xl flex items-center justify-center shrink-0 text-white font-serif font-medium text-lg"
-            style={{ backgroundColor: color }}
-          >
-            {f.nombre
-              .split(" ")
-              .slice(0, 2)
-              .map((w) => w[0])
-              .join("")}
+          <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-white font-serif font-medium text-sm" style={{ backgroundColor: color }}>
+            {f.nombre.split(" ").slice(0, 2).map((w) => w[0]).join("")}
           </div>
         )}
-        <div className="min-w-0 flex-1">
-          <h3 className="font-serif font-medium text-bark text-base leading-tight">
-            {f.nombre}
-          </h3>
-          <div className="flex flex-wrap gap-1 mt-1.5">
+        <div className="min-w-0">
+          <h3 className="font-serif font-medium text-bark text-sm leading-tight truncate">{f.nombre}</h3>
+          <div className="flex flex-wrap gap-1 mt-1">
             {f.actividades.map((a) => (
-              <span
-                key={a.id}
-                className="px-2 py-0.5 bg-cream-200/60 text-bark-600 text-[11px] font-medium rounded-full"
-              >
-                {a.nombre}
-              </span>
+              <span key={a.id} className="px-1.5 py-0.5 bg-cream-200/60 text-bark-600 text-[10px] font-medium rounded-full">{a.nombre}</span>
             ))}
           </div>
         </div>
       </div>
 
-      <p className="text-[12px] text-bark-500 flex items-center gap-1.5 mb-2">
-        <MapPin className="h-3.5 w-3.5 shrink-0" />
-        {marker.ubicacion.direccion || "Sin dirección"}
-        {marker.ubicacion.ciudad ? `, ${marker.ubicacion.ciudad}` : ""}
+      <p className="text-[11px] text-bark-500 flex items-center gap-1 mb-1.5">
+        <MapPin className="h-3 w-3 shrink-0" />
+        <span className="truncate">{marker.ubicacion.direccion || "Sin dirección"}{marker.ubicacion.ciudad ? `, ${marker.ubicacion.ciudad}` : ""}</span>
       </p>
 
-      {f.bio && (
-        <p className="text-[12px] text-bark-600 mb-3 leading-relaxed">
-          {f.bio}
-        </p>
-      )}
+      {f.bio && <p className="text-[11px] text-bark-600 mb-2 leading-relaxed line-clamp-2">{f.bio}</p>}
 
       {f.horarios && (
-        <p className="text-[12px] text-bark-500 flex items-center gap-1.5 mb-3">
-          <Clock className="h-3.5 w-3.5 shrink-0" />
-          {f.horarios}
+        <p className="text-[11px] text-bark-500 flex items-center gap-1 mb-2">
+          <Clock className="h-3 w-3 shrink-0" />
+          <span className="truncate">{f.horarios}</span>
         </p>
       )}
 
-      <div className="grid grid-cols-2 gap-2 mb-4">
-        <a
-          href={gmapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-[12px] font-medium bg-bark text-white hover:bg-bark/85 transition-colors"
-        >
-          <Navigation className="h-3.5 w-3.5" />
+      <div className="flex flex-wrap gap-1.5 mb-2.5">
+        <a href={gmapsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-full font-medium bg-cream-200/60 text-bark-700 hover:bg-cream-200 transition-colors">
+          <Navigation className="h-3 w-3" />
           Cómo llegar
         </a>
         {f.whatsapp && (
-          <a
-            href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-[12px] font-medium bg-sage-600 text-white hover:bg-sage-700 transition-colors"
-          >
+          <a href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-full font-medium bg-sage-600 text-white hover:bg-sage-700 transition-colors">
             WhatsApp
           </a>
         )}
+        <button className="inline-flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-full font-medium bg-cream-200/60 text-bark-700 hover:bg-cream-200 transition-colors" onClick={handleShare}>
+          <Share2 className="h-3 w-3" />
+          Compartir
+        </button>
       </div>
 
-      <div className="pt-3 border-t border-cream-200/60">
-        <p className="text-[10px] text-bark-400/60 font-medium tracking-wide uppercase mb-2">Redes</p>
-        <div className="flex items-center gap-2 flex-wrap">
-          {f.instagram && (
-            <a
-              href={`https://www.instagram.com/${f.instagram.replace("@", "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-sage-50 rounded-full p-1.5 text-bark-500 hover:text-clay transition-colors"
-            >
-              <Instagram className="h-4 w-4" />
-            </a>
-          )}
-          {f.whatsapp && (
-            <a
-              href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-sage-50 rounded-full p-1.5 text-bark-500 hover:text-clay transition-colors"
-            >
-              <MessageCircle className="h-4 w-4" />
-            </a>
-          )}
-          {f.sitio_web && (
-            <a
-              href={f.sitio_web.startsWith("http") ? f.sitio_web : `https://${f.sitio_web}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-sage-50 rounded-full p-1.5 text-bark-500 hover:text-clay transition-colors"
-            >
-              <Globe className="h-4 w-4" />
-            </a>
-          )}
-          {f.telefono && (
-            <a
-              href={`tel:${f.telefono}`}
-              className="bg-sage-50 rounded-full p-1.5 text-bark-500 hover:text-clay transition-colors"
-            >
-              <Phone className="h-4 w-4" />
-            </a>
-          )}
-          <Link
-            href={`/facilitadores/${f.id}`}
-            className="ml-auto text-[12px] font-medium text-sage-600 hover:text-sage-700 transition-colors flex items-center gap-1"
-          >
-            Ver perfil
-            <ExternalLink className="h-3.5 w-3.5" />
-          </Link>
-        </div>
+      <div className="flex items-center gap-2 pt-2 border-t border-cream-200/60">
+        <Link href={`/facilitadores/${f.id}`} className="inline-flex items-center gap-1 text-[10px] font-medium text-sage-600 hover:text-sage-700 transition-colors">
+          Ver perfil
+          <ExternalLink className="h-3 w-3" />
+        </Link>
       </div>
+
+      {(f.instagram || f.whatsapp || f.sitio_web || f.telefono) && (
+        <div className="pt-2.5 mt-2.5 border-t border-cream-200/60">
+          <p className="text-[10px] text-bark-400/60 font-medium tracking-wide uppercase mb-2">Redes</p>
+          <div className="flex items-center gap-2">
+            {f.instagram && (
+              <a href={`https://www.instagram.com/${f.instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors">
+                <Instagram className="h-4 w-4" />
+              </a>
+            )}
+            {f.whatsapp && (
+              <a href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors">
+                <MessageCircle className="h-4 w-4" />
+              </a>
+            )}
+            {f.sitio_web && (
+              <a href={f.sitio_web.startsWith("http") ? f.sitio_web : `https://${f.sitio_web}`} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors">
+                <Globe className="h-4 w-4" />
+              </a>
+            )}
+            {f.telefono && (
+              <a href={`tel:${f.telefono}`} className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors">
+                <Phone className="h-4 w-4" />
+              </a>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
