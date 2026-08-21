@@ -184,14 +184,36 @@
   }
 }
 
-/* Animated gradient for hero */
+/* Animated gradient for hero — rotates through cream, sage, clay, warmblack */
 @keyframes heroGradient {
-  0%, 100% {
-    background-position: 0% 50%;
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 100% 100%;
   }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.hero-animated-gradient {
+  background: linear-gradient(
+    135deg,
+    #F8FAFC 0%,
+    #5A8F8F 25%,
+    #B5654F 50%,
+    #3B5E5E 75%,
+    #F8FAFC 100%
+  );
+  background-size: 400% 400%;
+  animation: heroGradient 15s ease-in-out infinite;
 }
 
 @keyframes blob {
