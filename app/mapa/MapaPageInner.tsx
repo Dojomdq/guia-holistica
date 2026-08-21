@@ -257,7 +257,6 @@ export default function MapaPageInner() {
           seleccionado={facilitadorSeleccionado}
           onSeleccionar={(id) => {
             setFacilitadorSeleccionado(id);
-            setUbicacionSeleccionada(null);
           }}
           ciudadSeleccionada={ciudadSeleccionada}
           ubicacionSeleccionada={ubicacionSeleccionada}
