@@ -44,7 +44,10 @@ export default function SearchSection() {
 
   return (
     <section className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950 relative overflow-hidden">
-      <div className="container-wide">
+      <div className="absolute inset-0 opacity-[0.03] noise-overlay pointer-events-none" />
+      <div className="absolute -top-24 -right-24 w-80 h-80 bg-sage-200/30 rounded-full blur-3xl pointer-events-none animate-blob" />
+      <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-terracotta-200/20 rounded-full blur-3xl pointer-events-none animate-blob animation-delay-4000" />
+      <div className="container-wide relative z-10">
         <form
           onSubmit={handleSearch}
           className="max-w-3xl mx-auto"

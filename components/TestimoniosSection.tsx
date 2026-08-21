@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { Star } from "lucide-react";
 import { useScrollReveal } from "@/lib/useScrollReveal";
-import { INSTAGRAM_URL } from "@/lib/constants";
 
 const testimonios = [
   {
@@ -30,8 +28,10 @@ export default function TestimoniosSection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-12 sm:py-16 bg-sand-100 dark:bg-bark-900/60">
-      <div className="container-page">
+    <section ref={ref} className="py-12 sm:py-16 bg-sand-100 dark:bg-bark-900/60 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.03] noise-overlay pointer-events-none" />
+      <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-96 h-96 bg-sage-100/30 rounded-full blur-3xl pointer-events-none" />
+      <div className="container-page relative z-10">
         <div
           className={`text-center mb-10 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
@@ -71,17 +71,6 @@ export default function TestimoniosSection() {
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="mt-8 text-center">
-          <Link
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-medium text-sage-700 dark:text-sage-400 hover:text-terracotta-600 transition-colors"
-          >
-            📖 <span aria-hidden="true" /> Ver más opiniones en Instagram
-          </Link>
         </div>
       </div>
     </section>

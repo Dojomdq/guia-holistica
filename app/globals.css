@@ -115,6 +115,23 @@
     background-size: 200px 200px;
   }
 
+  .grid-pattern {
+    background-image:
+      linear-gradient(rgba(184,166,139,0.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,166,139,0.12) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .animate-blob {
+    animation: blob 12s ease-in-out infinite;
+  }
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
   .section-padding {
     @apply py-14 sm:py-20;
   }

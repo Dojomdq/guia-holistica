@@ -37,8 +37,10 @@ export default function FAQSection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="section-padding">
-      <div className="container-page">
+    <section ref={ref} className="section-padding relative overflow-hidden">
+      <div className="absolute top-0 -left-20 w-72 h-72 bg-sage-100/30 rounded-full blur-3xl pointer-events-none animate-blob" />
+      <div className="absolute bottom-0 -right-20 w-80 h-80 bg-terracotta-100/20 rounded-full blur-3xl pointer-events-none animate-blob animation-delay-4000" />
+      <div className="container-page relative z-10">
         <div
           className={`text-center mb-10 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"

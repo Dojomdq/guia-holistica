@@ -61,8 +61,10 @@ export default function DestacadosSection() {
   if (destacados.length === 0) return null;
 
   return (
-    <section className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950">
-      <div className="container-page">
+    <section className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950 relative overflow-hidden">
+      <div className="absolute top-1/2 -left-32 w-72 h-72 bg-amber-100/30 rounded-full blur-3xl pointer-events-none animate-blob" />
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-sage-100/30 rounded-full blur-3xl pointer-events-none animate-blob animation-delay-2000" />
+      <div className="container-page relative z-10">
         <div className="text-center mb-10">
           <span className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-4">
             <Star className="h-3 w-3" /> Del mes
