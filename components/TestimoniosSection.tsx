@@ -1,9 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { Star } from "lucide-react";
 import { useScrollReveal } from "@/lib/useScrollReveal";
-import { INSTAGRAM_URL } from "@/lib/constants";
 
 const testimonios = [
   {
@@ -73,17 +71,6 @@ export default function TestimoniosSection() {
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="mt-8 text-center">
-          <Link
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-medium text-sage-700 dark:text-sage-400 hover:text-terracotta-600 transition-colors"
-          >
-            📖 <span aria-hidden="true" /> Ver más opiniones en Instagram
-          </Link>
         </div>
       </div>
     </section>
