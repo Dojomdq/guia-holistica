@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -79,14 +79,27 @@ interface Props {
 }
 
 const DEFAULT_CENTER: [number, number] = CITY_COORDS[CITY_NAME] ?? [-38, -57];
+const markerClickRef = { current: false };
 
 function MapEvents({
   onSeleccionar,
 }: {
   onSeleccionar: (id: string | null) => void;
 }) {
-  useMapEvents({ click: () => onSeleccionar(null) });
+  useMapEvents({
+    click: () => {
+      if (markerClickRef.current) {
+        markerClickRef.current = false;
+        return;
+      }
+      onSeleccionar(null);
+    },
+  });
   return null;
+}
+
+function fireMarkerClick() {
+  markerClickRef.current = true;
 }
 
 function FocusMarkers({
@@ -349,7 +362,7 @@ export default function MapaInteractivo({
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      <MapEvents onSeleccionar={(id) => { onSeleccionar(id); onUbicacionSeleccionada?.(null); }} />
+      <MapEvents onSeleccionar={(id) => { onSeleccionar(id); if (!id) onUbicacionSeleccionada?.(null); }} />
       <FocusMarkers markers={markers} selectedId={seleccionado} ciudad={ciudadSeleccionada} ubicacionId={ubicacionSeleccionada} />
 
       <ClusteredMarkers
@@ -372,6 +385,7 @@ export default function MapaInteractivo({
         selectedId={ubicacionSeleccionada}
         selectedFacilitadorId={seleccionado}
         onSelect={(id) => {
+          fireMarkerClick();
           const marker = markers.find((m) => m.ubicacion.id === id);
           onUbicacionSeleccionada?.(id);
           onSeleccionar(marker?.facilitador.id || id);
