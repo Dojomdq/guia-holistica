@@ -13,6 +13,9 @@ import {
   Clock,
   Sparkles,
   User,
+  Share2,
+  Navigation,
+  Phone,
 } from "lucide-react";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import { supabase } from "@/lib/supabase/client";
@@ -65,16 +68,38 @@ export default function FacilitadorContent({
   const [noExiste, setNoExiste] = useState(false);
   const track = useClickTracker();
 
+  async function compartirPerfil() {
+    const url = `${SITE_URL}/facilitadores/${params.id}`;
+    const titulo = `${f?.nombre} | Guía de Bienestar`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: titulo, url });
+        return;
+      }
+    } catch {}
+    try {
+      await navigator.clipboard.writeText(url);
+      alert("Enlace copiado al portapapeles");
+    } catch {
+      prompt("Copiá este enlace:", url);
+    }
+  }
+
   useEffect(() => {
     async function load() {
-      const [{ data }, { data: cats }] = await Promise.all([
-        supabase
-          .from("facilitadores")
-          .select("*, facilitador_actividades(actividades(id, nombre, slug, categoria_id)), ubicaciones(*)")
-          .eq("id", params.id)
-          .single(),
-        supabase.from("categorias").select("id, nombre"),
-      ]);
+      const esUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(params.id);
+
+      const query = supabase
+        .from("facilitadores")
+        .select("*, facilitador_actividades(actividades(id, nombre, slug, categoria_id)), ubicaciones(*)")
+        .limit(1);
+
+      const res = esUuid
+        ? await query.eq("id", params.id).single()
+        : await query.eq("slug", params.id).single();
+
+      const { data } = res;
+      const { data: cats } = await supabase.from("categorias").select("id, nombre");
 
       if (cats) {
         const map: Record<string, string> = {};
@@ -151,7 +176,7 @@ export default function FacilitadorContent({
   const color = CATEGORY_MARKER_COLORS[f.actividades[0]?.slug || ""] || "#5d8a6e";
   const ubiPrincipal = f.ubicaciones[0];
   const iniciales = getIniciales(f.nombre);
-  const tieneRedes = f.whatsapp || f.instagram || f.email || f.sitio_web;
+  const tieneRedes = f.whatsapp || f.telefono || f.instagram || f.email || f.sitio_web;
 
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ background: `linear-gradient(180deg, ${color}06 0%, #FAF6EE 30%, #FAF6EE 70%, ${color}04 100%)` }}>
@@ -223,6 +248,14 @@ export default function FacilitadorContent({
             <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
             Volver
           </Link>
+          <button
+            onClick={compartirPerfil}
+            className="inline-flex items-center gap-1.5 text-bark-500 hover:text-bark-700 text-[13px] my-5 ml-4 transition-colors"
+            type="button"
+          >
+            <Share2 className="h-4 w-4" />
+            Compartir
+          </button>
 
           <div className="flex flex-col sm:flex-row items-start gap-5 sm:gap-6">
             {f.foto_url ? (
@@ -295,12 +328,22 @@ export default function FacilitadorContent({
                   <MessageCircle className="h-4 w-4" /> WhatsApp
                 </a>
               )}
+              {f.telefono && (
+                <a
+                  href={`tel:${f.telefono.replace(/[^0-9+]/g, "")}`}
+                  className="btn-outline text-[13px]"
+                  onClick={() => track("telefono", f.id)}
+                >
+                  <Phone className="h-4 w-4" /> {f.telefono}
+                </a>
+              )}
               {f.instagram && (
                 <a
                   href={`https://instagram.com/${f.instagram.replace("@", "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-outline text-[13px]"
+                  onClick={() => track("instagram", f.id)}
                 >
                   <InstagramIcon className="h-4 w-4" /> Instagram
                 </a>
@@ -316,8 +359,20 @@ export default function FacilitadorContent({
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-outline text-[13px]"
+                  onClick={() => track("sitio_web", f.id)}
                 >
                   <ExternalLink className="h-4 w-4" /> Sitio Web
+                </a>
+              )}
+              {ubiPrincipal?.direccion && (
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${ubiPrincipal.direccion}, ${ubiPrincipal.ciudad || ""}`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-outline text-[13px]"
+                  onClick={() => track("como_llegar", f.id)}
+                >
+                  <Navigation className="h-4 w-4" /> Cómo llegar
                 </a>
               )}
             </div>

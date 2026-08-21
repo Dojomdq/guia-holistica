@@ -1,45 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
+import { verifyJWT } from "@/lib/jwt";
 
-const AUTH_COOKIE = "admin_auth";
-const ADMIN_USER = process.env.ADMIN_USER || "admin";
-const ADMIN_PASS = process.env.ADMIN_PASS || "guia2026";
+const JWT_SECRET = process.env.JWT_SECRET || "";
 
-function checkAuth(request: NextRequest): string | null {
-  return request.cookies.get(AUTH_COOKIE)?.value || null;
-}
-
-export default function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  if (pathname === "/admin/login") {
+  if (pathname === "/admin/login" || pathname === "/") {
     return NextResponse.next();
   }
 
-  if (!pathname.startsWith("/admin") && !pathname.startsWith("/api")) {
-    return NextResponse.next();
+  const token = request.cookies.get("admin_auth")?.value;
+
+  if (!token) {
+    if (pathname.startsWith("/admin")) {
+      const loginUrl = new URL("/admin/login", request.url);
+      loginUrl.searchParams.set("from", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    return new NextResponse(JSON.stringify({ error: "No autorizado" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
-  const token = checkAuth(request);
+  const payload = await verifyJWT(token, JWT_SECRET);
 
-  if (token) {
-    try {
-      const decoded = atob(token);
-      const [u, p] = decoded.split(":");
-      if (u === ADMIN_USER && p === ADMIN_PASS) {
-        return NextResponse.next();
-      }
-    } catch {}
+  if (!payload) {
+    if (pathname.startsWith("/admin")) {
+      const loginUrl = new URL("/admin/login", request.url);
+      loginUrl.searchParams.set("from", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    return new NextResponse(JSON.stringify({ error: "Token inválido" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
-  if (pathname.startsWith("/admin")) {
-    const loginUrl = new URL("/admin/login", request.url);
-    loginUrl.searchParams.set("from", pathname);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  return new NextResponse(JSON.stringify({ error: "No autorizado" }), { status: 401, headers: { "Content-Type": "application/json" } });
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*", "/api/actividades", "/api/actividades/:path*", "/api/categorias", "/api/categorias/:path*", "/api/facilitadores", "/api/facilitadores/:path*"],
+  matcher: [
+    "/admin",
+    "/admin/:path*",
+    "/api/pagos",
+    "/api/pagos/:path*",
+    "/api/comisiones",
+    "/api/comisiones/:path*",
+    "/api/planes",
+    "/api/planes/:path*",
+    "/api/facilitador-planes",
+    "/api/facilitador-planes/:path*",
+    "/api/representantes",
+    "/api/representantes/:path*",
+    "/api/clicks-admin",
+    "/api/clicks-admin/:path*",
+  ],
 };

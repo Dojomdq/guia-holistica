@@ -3,13 +3,13 @@ import MapaContent from "./MapaContent";
 import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Mapa de Facilitadores y Profesionales de Bienestar | Encontrá el más cercano",
+  title: "Mapa de bienestar en Mar del Plata | Encontrá facilitadores cerca",
   description:
-    "Explorá el mapa interactivo de facilitadores y profesionales de bienestar. Encontrá chamanismo, yoga, reiki, meditación y más cerca tuyo.",
+    "Explorá el mapa interactivo de facilitadores y profesionales de bienestar en Mar del Plata. Encontrá yoga, reiki, meditación, chamanismo y más cerca tuyo.",
   openGraph: {
-    title: "Mapa de Facilitadores | Guía de Bienestar",
+    title: "Mapa de bienestar en Mar del Plata | Encontrá facilitadores cerca",
     description:
-      "Explorá el mapa interactivo de facilitadores y profesionales de bienestar. Encontrá lo que necesitás cerca tuyo.",
+      "Explorá el mapa interactivo de facilitadores y profesionales de bienestar en Mar del Plata. Encontrá lo que necesitás cerca tuyo.",
   },
   alternates: {
     canonical: `${SITE_URL}/mapa`,

@@ -10,7 +10,7 @@ export const CITY_COORDS: Record<string, [number, number]> = {
 export const WHATSAPP_NUMBER = "5492235742540";
 export const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 
-export const CONTACT_EMAIL = "info@bienestarmdp.com";
+export const CONTACT_EMAIL = "guiadelbien@gmail.com";
 
-export const INSTAGRAM_URL = "https://www.instagram.com/guiadelbien";
-export const INSTAGRAM_HANDLE = "@guiadelbien";
+export const INSTAGRAM_URL = "https://www.instagram.com/guia.debienestar";
+export const INSTAGRAM_HANDLE = "@guia.debienestar";

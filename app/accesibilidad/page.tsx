@@ -43,23 +43,25 @@ export default function AccesibilidadPage() {
         <Breadcrumbs items={[{ label: "Accesibilidad" }]} />
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-bark-600 hover:text-bark text-[13px] mb-8 transition-colors group"
+          className="inline-flex items-center gap-1.5 text-bark-600 hover:text-bark text-[13px] mb-16 transition-colors group"
         >
           <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
           Volver al inicio
         </Link>
 
-        <span className="label">Accesibilidad</span>
-        <h1 className="heading-lg text-bark mt-4">
-          Compromiso con la accesibilidad
-        </h1>
-        <p className="text-lg text-bark-700 mt-4 max-w-xl leading-relaxed">
+        <div className="mb-12">
+          <span className="label mb-5 block">Accesibilidad</span>
+          <h1 className="heading-lg text-bark">
+            Compromiso con la accesibilidad
+          </h1>
+        </div>
+        <p className="text-lg text-bark-700 max-w-xl leading-relaxed">
           En Guía de Bienestar trabajamos para que todas las personas, incluyendo
           quienes tienen discapacidades visuales, motoras, auditivas o cognitivas,
           puedan usar nuestro sitio de forma autónoma.
         </p>
 
-        <div className="mt-10 space-y-8">
+        <div className="mt-14 space-y-10">
           <section aria-labelledby="estado">
             <h2 id="estado" className="heading-sm text-bark">
               Estado de cumplimiento

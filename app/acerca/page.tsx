@@ -53,22 +53,24 @@ export default function AcercaPage() {
         <Breadcrumbs items={[{ label: "Sobre nosotros" }]} />
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-bark-600 hover:text-bark text-[13px] mb-8 transition-colors group"
+          className="inline-flex items-center gap-1.5 text-bark-600 hover:text-bark text-[13px] mb-16 transition-colors group"
         >
           <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
           Volver al inicio
         </Link>
 
-        <span className="label">Sobre nosotros</span>
-        <h1 className="heading-lg text-bark mt-4">
-          Quiénes somos
-        </h1>
-        <p className="text-lg text-bark-700 mt-4 max-w-xl leading-relaxed">
+        <div className="mb-12">
+          <span className="label mb-5 block">Sobre nosotros</span>
+          <h1 className="heading-lg text-bark">
+            Quiénes somos
+          </h1>
+        </div>
+        <p className="text-lg text-bark-700 max-w-xl leading-relaxed">
           Somos una guía local que acerca a las personas con quienes pueden
           acompañarlas en su bienestar, en {CITY_NAME} y alrededores.
         </p>
 
-        <div className="mt-10 space-y-8">
+        <div className="mt-14 space-y-10">
           <section aria-labelledby="que-es">
             <h2 id="que-es" className="heading-sm text-bark">
               ¿Qué es Guía de Bienestar?

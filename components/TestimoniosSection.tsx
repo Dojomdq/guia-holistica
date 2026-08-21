@@ -30,15 +30,15 @@ export default function TestimoniosSection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-16 sm:py-24 bg-sand-100 dark:bg-bark-900/60">
+    <section ref={ref} className="py-12 sm:py-16 bg-sand-100 dark:bg-bark-900/60">
       <div className="container-page">
         <div
           className={`text-center mb-10 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="label">Qué dicen</span>
-          <h2 className="font-serif text-2xl sm:text-3xl font-medium text-bark dark:text-cream-100 mt-3">
+          <span className="label mb-4 block">Qué dicen</span>
+          <h2 className="font-serif text-2xl sm:text-3xl font-medium text-bark dark:text-cream-100">
             Nuestra comunidad
           </h2>
         </div>

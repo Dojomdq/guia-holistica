@@ -13,6 +13,7 @@ import { SITE_URL } from "@/lib/constants";
 
 interface FacilitadorItem {
   id: string;
+  slug: string | null;
   nombre: string;
   bio: string | null;
   direccion: string | null;
@@ -53,7 +54,7 @@ export default function FacilitadoresContent() {
         supabase
           .from("facilitadores")
           .select(
-            "id, nombre, bio, direccion, instagram, ubicaciones(ciudad), facilitador_actividades(actividades(nombre, slug))"
+            "id, slug, nombre, bio, direccion, instagram, ubicaciones(ciudad), facilitador_actividades(actividades(nombre, slug))"
           )
           .eq("activo", true)
           .order("nombre"),
@@ -76,6 +77,7 @@ export default function FacilitadoresContent() {
             const acts = f.facilitador_actividades || [];
             return {
               id: f.id,
+              slug: f.slug || null,
               nombre: f.nombre,
               bio: f.bio,
               direccion: f.direccion,
@@ -197,11 +199,11 @@ export default function FacilitadoresContent() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
-          <span className="label">Comunidad</span>
-          <h1 className="heading-lg text-bark mt-4">
+          <span className="label mb-5 block">Comunidad</span>
+          <h1 className="heading-lg text-bark">
             Facilitadores
           </h1>
-          <p className="text-lg text-bark-700 mt-4 max-w-lg">
+          <p className="text-lg text-bark-700 mt-5 max-w-lg">
             Conocé a los profesionales de nuestra comunidad
           </p>
         </div>
@@ -337,7 +339,7 @@ export default function FacilitadoresContent() {
                 return (
                   <Link
                     key={f.id}
-                    href={`/facilitadores/${f.id}`}
+                    href={`/facilitadores/${f.slug || f.id}`}
                     className="group"
                     onClick={() => track("facilitador", f.id)}
                   >
@@ -350,16 +352,6 @@ export default function FacilitadoresContent() {
                       style={{ transitionDelay: `${i * 30}ms` }}
                     >
                       <div className="flex items-start gap-4">
-                        <div
-                          className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-[1.02]"
-                          style={{ backgroundColor: `${markerColor}10` }}
-                        >
-                          <Icon
-                            className="h-5 w-5"
-                            style={{ color: markerColor }}
-                            strokeWidth={1.5}
-                          />
-                        </div>
                         <div className="flex-1 min-w-0">
                           <h3 className="text-[15px] font-medium text-bark group-hover:text-sage-700 transition-colors duration-200 flex items-center gap-1.5">
                             {f.nombre}

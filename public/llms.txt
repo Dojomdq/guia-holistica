@@ -23,6 +23,6 @@ Directorio gratuito de facilitadores, terapeutas y guías holísticos en Mar del
 ## Datos de contacto
 
 - WhatsApp: https://wa.me/5492235742540
-- Instagram: https://www.instagram.com/guiadelbien
+- Instagram: https://www.instagram.com/guia.debienestar
 
 Las páginas dinámicas de facilitadores y actividades no están listadas aquí porque se generan desde la base de datos; el sitemap XML las incluye todas.

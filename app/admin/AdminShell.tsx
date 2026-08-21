@@ -12,6 +12,11 @@ import {
   Menu,
   X,
   Calendar,
+  CreditCard,
+  UserPlus,
+  BarChart3,
+  Star,
+  DollarSign,
 } from "lucide-react";
 
 const adminLinks = [
@@ -20,6 +25,11 @@ const adminLinks = [
   { href: "/admin/actividades", label: "Actividades", icon: Activity },
   { href: "/admin/categorias", label: "Categorías", icon: Tag },
   { href: "/admin/eventos", label: "Eventos", icon: Calendar },
+  { href: "/admin/planes", label: "Planes", icon: CreditCard },
+  { href: "/admin/representantes", label: "Representantes", icon: UserPlus },
+  { href: "/admin/pagos", label: "Pagos y Comisiones", icon: DollarSign },
+  { href: "/admin/destacados", label: "Destacados", icon: Star },
+  { href: "/admin/estadisticas", label: "Estadísticas", icon: BarChart3 },
 ];
 
 export default function AdminShell({

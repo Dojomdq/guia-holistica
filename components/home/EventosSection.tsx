@@ -24,6 +24,7 @@ export default function EventosSection() {
       .from("eventos")
       .select("id, titulo, descripcion, fecha, imagen_url, link")
       .eq("activo", true)
+      .or("solidario.is.null,solidario.eq.false")
       .order("created_at", { ascending: false })
       .limit(3)
       .then(({ data }) => { if (data) setEventos(data); });
@@ -32,13 +33,13 @@ export default function EventosSection() {
   if (eventos.length === 0) return null;
 
   return (
-    <section ref={ref} className="py-16 sm:py-20 bg-cream-50 dark:bg-bark-950">
+    <section ref={ref} className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950">
       <div className="container-page">
         <div className={`text-center mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
           <span className="inline-flex items-center gap-2 px-3 py-1 bg-terracotta-100 dark:bg-terracotta-900/30 text-terracotta-700 dark:text-terracotta-300 text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-4">
             <Calendar className="h-3 w-3" /> Próximos
           </span>
-          <h2 className="font-serif text-2xl sm:text-3xl font-medium text-bark dark:text-cream-100">Eventos y talleres</h2>
+          <h2 className="font-serif text-2xl sm:text-3xl font-medium text-bark dark:text-cream-100">Próximos eventos</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
@@ -52,18 +53,19 @@ export default function EventosSection() {
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               {e.imagen_url && (
-                <div className={`${/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? "aspect-[9/16]" : "aspect-[4/5]"} overflow-hidden bg-cream-100`}>
+                <div className="w-full overflow-hidden bg-cream-100">
                   {/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? (
                     <video
                       src={e.imagen_url}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full object-cover group-hover:scale-105 transition-transform duration-500 aspect-[9/16] sm:aspect-[16/10] sm:max-h-[240px]"
                       autoPlay
                       muted
                       loop
                       playsInline
+                      preload="metadata"
                     />
                   ) : (
-                    <img src={e.imagen_url} alt={e.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={e.imagen_url} alt={e.titulo} className="w-full object-cover group-hover:scale-105 transition-transform duration-500 aspect-[4/5] sm:max-h-[240px]" />
                   )}
                 </div>
               )}

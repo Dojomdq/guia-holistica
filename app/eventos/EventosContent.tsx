@@ -40,7 +40,7 @@ export default function EventosContent() {
           <span className="inline-flex items-center gap-2 px-3 py-1 bg-terracotta-100 dark:bg-terracotta-900/30 text-terracotta-700 dark:text-terracotta-300 text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-4">
             <Calendar className="h-3 w-3" /> Próximos
           </span>
-          <h1 className="heading-lg text-bark dark:text-cream-100">Eventos y talleres</h1>
+          <h1 className="heading-lg text-bark dark:text-cream-100">Próximos eventos</h1>
           <p className="text-bark-600 dark:text-cream-300 mt-3 max-w-lg mx-auto">Descubrí los próximos encuentros de bienestar.</p>
         </div>
 
