@@ -1,23 +1,37 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MapPin, Sparkles, ArrowRight } from "lucide-react";
 import { CITY_NAME } from "@/lib/constants";
-import HeroParticles from "@/components/HeroParticles";
 import { useRipple } from "@/lib/useRipple";
 
 export default function NewHero() {
   const [loaded, setLoaded] = useState(false);
   const createRipple = useRipple("rgba(209, 214, 209, 0.4)");
+  const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setLoaded(true);
   }, []);
 
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const hero = heroRef.current;
+    if (!hero) return;
+    const rect = hero.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    hero.style.setProperty("--cursor-x", `${x}px`);
+    hero.style.setProperty("--cursor-y", `${y}px`);
+  }, []);
+
   return (
-    <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+    <section
+      ref={heroRef}
+      onMouseMove={handleMouseMove}
+      className="relative min-h-[70vh] flex items-center justify-center overflow-hidden hero-cursor-glow"
+    >
       <div className="absolute inset-0">
         <Image
           src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/AF49F0FF-4A15-4EA3-AE9F-AC8F83C11FC0_hkigqu.jpg"
@@ -29,7 +43,6 @@ export default function NewHero() {
         <div className="absolute inset-0 hero-animated-gradient opacity-40 mix-blend-overlay" />
         <div className="absolute inset-0 bg-bark/35" />
       </div>
-      <HeroParticles />
 
       <div className="relative z-10 w-full px-6 py-20">
         <div className="max-w-4xl mx-auto text-center">

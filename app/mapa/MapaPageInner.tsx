@@ -72,6 +72,7 @@ export default function MapaPageInner() {
   const [actividadSeleccionada, setActividadSeleccionada] = useState<string | null>(null);
   const [ciudadesDisponibles, setCiudadesDisponibles] = useState<string[]>([]);
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
+  const [ubicacionSeleccionada, setUbicacionSeleccionada] = useState<string | null>(null);
   const [todosFacilitadores, setTodosFacilitadores] = useState<FacilitadorConUbi[]>([]);
   const [cargando, setCargando] = useState(true);
   const track = useClickTracker();
@@ -256,8 +257,11 @@ export default function MapaPageInner() {
           seleccionado={facilitadorSeleccionado}
           onSeleccionar={(id) => {
             setFacilitadorSeleccionado(id);
+            setUbicacionSeleccionada(null);
           }}
           ciudadSeleccionada={ciudadSeleccionada}
+          ubicacionSeleccionada={ubicacionSeleccionada}
+          onUbicacionSeleccionada={setUbicacionSeleccionada}
         />
       </div>
 

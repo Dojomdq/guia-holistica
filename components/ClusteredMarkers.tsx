@@ -130,7 +130,7 @@ export default function ClusteredMarkers({
             eventHandlers={{ click: () => onSelect?.(item.id) }}
           >
             {renderPopup && (
-              <Popup closeButton autoPan={false} maxWidth={320}>
+              <Popup closeButton autoPan padding={[40, 40]} maxWidth={320}>
                 {renderPopup(item)}
               </Popup>
             )}
