@@ -363,10 +363,6 @@ export default function MapaInteractivo({
         selectedId={seleccionado}
         onSelect={(id) => {
           onSeleccionar(id);
-          if (onOpenBottomSheet && window.innerWidth < 768) {
-            const marker = markers.find((m) => m.facilitador.id === id);
-            if (marker) onOpenBottomSheet(marker);
-          }
         }}
         dimOthers
         renderPopup={(item) => {

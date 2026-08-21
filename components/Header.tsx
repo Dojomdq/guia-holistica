@@ -54,7 +54,7 @@ export default function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
           isMapa
-            ? "bg-transparent border-b-0 shadow-none"
+            ? "bg-cream-50/70 dark:bg-bark-950/70 backdrop-blur-md border-b border-cream-200/30 dark:border-bark-800/30"
             : "bg-cream-50/95 dark:bg-bark-950/95 backdrop-blur-xl border-b border-cream-200/50 dark:border-bark-800/50 shadow-soft"
         }`}
       >

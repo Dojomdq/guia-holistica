@@ -232,12 +232,6 @@
   z-index: 0;
 }
 
-@media (max-width: 767px) {
-  .leaflet-popup {
-    display: none !important;
-  }
-}
-
 .leaflet-popup-content-wrapper {
   border-radius: 1rem;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08), 0 12px 40px rgba(0,0,0,0.06);

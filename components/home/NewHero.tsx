@@ -6,13 +6,6 @@ import Link from "next/link";
 import { MapPin, Sparkles, ArrowRight } from "lucide-react";
 import { CITY_NAME } from "@/lib/constants";
 
-const BENEFICIOS = [
-  { emoji: "🔍", texto: "Búsqueda rápida" },
-  { emoji: "🤝", texto: "Contacto directo" },
-  { emoji: "✅", texto: "Calidad y confianza" },
-  { emoji: "📍", texto: "Cerca tuyo" },
-];
-
 export default function NewHero() {
   const [loaded, setLoaded] = useState(false);
 
@@ -54,19 +47,7 @@ export default function NewHero() {
             Conectá con profesionales verificados de forma rápida, directa y confiable.
           </p>
 
-          <div className={`grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto mb-10 transition-all duration-700 delay-500 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            {BENEFICIOS.map((b) => (
-              <div
-                key={b.texto}
-                className="flex items-center justify-center gap-2 px-3 py-3 bg-white/10 backdrop-blur-sm rounded-full border border-white/10"
-              >
-                <span className="text-lg leading-none" aria-hidden="true">{b.emoji}</span>
-                <span className="text-[13px] font-medium text-cream-100">{b.texto}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className={`transition-all duration-700 delay-[700ms] ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+          <div className={`transition-all duration-700 delay-500 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             <Link
               href="/mapa"
               className="group inline-flex items-center gap-3 px-9 py-4 bg-sage-500 text-white rounded-full text-base font-semibold hover:bg-terracotta-600 hover:shadow-xl hover:scale-[1.02] transition-all duration-300"

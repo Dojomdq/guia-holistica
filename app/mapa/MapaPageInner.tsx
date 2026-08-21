@@ -7,29 +7,11 @@ import {
   Search,
   X,
   MapPin,
-  Clock,
-  Navigation,
-  Globe,
-  Phone,
-  ExternalLink,
-  MessageCircle,
-  Share2,
 } from "lucide-react";
 
-function Instagram({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-    </svg>
-  );
-}
-import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 import {
   getCategoryIcon,
-  CATEGORY_MARKER_COLORS,
 } from "@/lib/categories";
 import { useClickTracker } from "@/lib/useClickTracker";
 import type { FacilitadorConActividades, Ubicacion } from "@/lib/types";
@@ -92,8 +74,6 @@ export default function MapaPageInner() {
   const [facilitadorSeleccionado, setFacilitadorSeleccionado] = useState<string | null>(null);
   const [todosFacilitadores, setTodosFacilitadores] = useState<FacilitadorConUbi[]>([]);
   const [cargando, setCargando] = useState(true);
-  const [bottomSheetMarker, setBottomSheetMarker] = useState<MarkerItem | null>(null);
-  const [showBottomSheet, setShowBottomSheet] = useState(false);
   const track = useClickTracker();
   const busquedaDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -249,8 +229,6 @@ export default function MapaPageInner() {
     (value: string) => {
       setBusqueda(value);
       setFacilitadorSeleccionado(null);
-      setBottomSheetMarker(null);
-      setShowBottomSheet(false);
       const params = new URLSearchParams();
       if (value.trim()) params.set("q", value.trim());
       router.replace(`/mapa?${params.toString()}`, { scroll: false });
@@ -263,14 +241,7 @@ export default function MapaPageInner() {
     setCiudadSeleccionada(null);
     setActividadSeleccionada(null);
     setFacilitadorSeleccionado(null);
-    setBottomSheetMarker(null);
-    setShowBottomSheet(false);
     router.replace("/mapa", { scroll: false });
-  };
-
-  const handleOpenBottomSheet = (marker: MarkerItem) => {
-    setBottomSheetMarker(marker);
-    setShowBottomSheet(true);
   };
 
   const mostrarSelectorCiudad = ciudadesDisponibles.length > 1;
@@ -285,18 +256,13 @@ export default function MapaPageInner() {
           seleccionado={facilitadorSeleccionado}
           onSeleccionar={(id) => {
             setFacilitadorSeleccionado(id);
-            if (!id) {
-              setBottomSheetMarker(null);
-              setShowBottomSheet(false);
-            }
           }}
           ciudadSeleccionada={ciudadSeleccionada}
-          onOpenBottomSheet={handleOpenBottomSheet}
         />
       </div>
 
       {/* Floating search + filters — top left (hidden on mobile when bottom sheet is open) */}
-      <div className={`absolute top-20 left-3 sm:left-4 z-20 w-[calc(100%-1.5rem)] sm:w-[calc(100%-2rem)] sm:max-w-[420px] ${showBottomSheet ? "hidden sm:block" : ""}`}>
+      <div className="absolute top-20 left-3 sm:left-4 z-20 w-[calc(100%-1.5rem)] sm:w-[calc(100%-2rem)] sm:max-w-[420px]">
         <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-cream-200/60 overflow-hidden">
           {/* Search input */}
           <div className="relative px-3 py-2.5">
@@ -332,8 +298,6 @@ export default function MapaPageInner() {
                         const nueva = isActive ? null : ciudad;
                         setCiudadSeleccionada(nueva);
                         setFacilitadorSeleccionado(null);
-                        setBottomSheetMarker(null);
-                        setShowBottomSheet(false);
                       }}
                       className={`shrink-0 px-3 py-1 rounded-full text-[11px] font-medium transition-all duration-200 border ${
                         isActive
@@ -408,131 +372,6 @@ export default function MapaPageInner() {
         )}
       </div>
 
-      {/* Bottom sheet — marker detail */}
-      {showBottomSheet && bottomSheetMarker && (
-        <div
-          className="fixed inset-0 z-50"
-          onClick={() => {
-            setShowBottomSheet(false);
-            setBottomSheetMarker(null);
-          }}
-        >
-          <div className="absolute inset-0 bg-black/30" />
-          <div
-            className="absolute bottom-0 left-0 right-0 bg-cream-50 rounded-t-2xl shadow-2xl max-h-[60vh] overflow-y-auto bottom-sheet-animate"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="w-10 h-1 bg-cream-300 rounded-full mx-auto mt-2.5 mb-0.5" />
-            <PopupContentInternal marker={bottomSheetMarker} />
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function PopupContentInternal({ marker }: { marker: MarkerItem }) {
-  const f = marker.facilitador;
-  const primarySlug = f.actividades.length > 0 ? f.actividades[0].slug : "";
-  const color = CATEGORY_MARKER_COLORS[primarySlug] || "#5d8a6e";
-  const gmapsUrl =
-    marker.ubicacion.latitud && marker.ubicacion.longitud
-      ? `https://www.google.com/maps/dir/?api=1&destination=${marker.ubicacion.latitud},${marker.ubicacion.longitud}`
-      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(marker.ubicacion.direccion || "")}`;
-
-  async function handleShare() {
-    const url = `${window.location.origin}/facilitadores/${f.id}`;
-    if (navigator.share) {
-      try { await navigator.share({ title: f.nombre, url }); } catch {}
-    } else {
-      await navigator.clipboard.writeText(url);
-    }
-  }
-
-  return (
-    <div className="p-3">
-      <div className="flex items-start gap-3 mb-2">
-        {f.foto_url ? (
-          <img src={f.foto_url} alt={f.nombre} className="w-11 h-11 rounded-xl object-cover shrink-0 border border-cream-200" />
-        ) : (
-          <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 text-white font-serif font-medium text-sm" style={{ backgroundColor: color }}>
-            {f.nombre.split(" ").slice(0, 2).map((w) => w[0]).join("")}
-          </div>
-        )}
-        <div className="min-w-0">
-          <h3 className="font-serif font-medium text-bark text-sm leading-tight truncate">{f.nombre}</h3>
-          <div className="flex flex-wrap gap-1 mt-1">
-            {f.actividades.map((a) => (
-              <span key={a.id} className="px-1.5 py-0.5 bg-cream-200/60 text-bark-600 text-[10px] font-medium rounded-full">{a.nombre}</span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <p className="text-[11px] text-bark-500 flex items-center gap-1 mb-1.5">
-        <MapPin className="h-3 w-3 shrink-0" />
-        <span className="truncate">{marker.ubicacion.direccion || "Sin dirección"}{marker.ubicacion.ciudad ? `, ${marker.ubicacion.ciudad}` : ""}</span>
-      </p>
-
-      {f.bio && <p className="text-[11px] text-bark-600 mb-2 leading-relaxed line-clamp-2">{f.bio}</p>}
-
-      {f.horarios && (
-        <p className="text-[11px] text-bark-500 flex items-center gap-1 mb-2">
-          <Clock className="h-3 w-3 shrink-0" />
-          <span className="truncate">{f.horarios}</span>
-        </p>
-      )}
-
-      <div className="flex flex-wrap gap-1.5 mb-2.5">
-        <a href={gmapsUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-full font-medium bg-cream-200/60 text-bark-700 hover:bg-cream-200 transition-colors">
-          <Navigation className="h-3 w-3" />
-          Cómo llegar
-        </a>
-        {f.whatsapp && (
-          <a href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-full font-medium bg-sage-600 text-white hover:bg-sage-700 transition-colors">
-            WhatsApp
-          </a>
-        )}
-        <button className="inline-flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-full font-medium bg-cream-200/60 text-bark-700 hover:bg-cream-200 transition-colors" onClick={handleShare}>
-          <Share2 className="h-3 w-3" />
-          Compartir
-        </button>
-      </div>
-
-      <div className="flex items-center gap-2 pt-2 border-t border-cream-200/60">
-        <Link href={`/facilitadores/${f.id}`} className="inline-flex items-center gap-1 text-[10px] font-medium text-sage-600 hover:text-sage-700 transition-colors">
-          Ver perfil
-          <ExternalLink className="h-3 w-3" />
-        </Link>
-      </div>
-
-      {(f.instagram || f.whatsapp || f.sitio_web || f.telefono) && (
-        <div className="pt-2.5 mt-2.5 border-t border-cream-200/60">
-          <p className="text-[10px] text-bark-400/60 font-medium tracking-wide uppercase mb-2">Redes</p>
-          <div className="flex items-center gap-2">
-            {f.instagram && (
-              <a href={`https://www.instagram.com/${f.instagram.replace("@", "")}`} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors">
-                <Instagram className="h-4 w-4" />
-              </a>
-            )}
-            {f.whatsapp && (
-              <a href={`https://wa.me/${f.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent("Hola, te contacto desde la Guía de Bienestar")}`} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors">
-                <MessageCircle className="h-4 w-4" />
-              </a>
-            )}
-            {f.sitio_web && (
-              <a href={f.sitio_web.startsWith("http") ? f.sitio_web : `https://${f.sitio_web}`} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors">
-                <Globe className="h-4 w-4" />
-              </a>
-            )}
-            {f.telefono && (
-              <a href={`tel:${f.telefono}`} className="p-1.5 rounded-full bg-sage-50 text-bark-400 hover:text-clay hover:bg-sage-100 transition-colors">
-                <Phone className="h-4 w-4" />
-              </a>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
