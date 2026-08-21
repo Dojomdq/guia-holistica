@@ -72,7 +72,7 @@ export default function CategoryGrid() {
                 <CardWithGlow key={cat.slug} className="rounded-full">
                   <Link
                     href={`/actividades/${cat.slug}`}
-                    className={`group flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white border border-cream-300/50 hover:border-sage-300 hover:bg-sage-50 hover:shadow-md transition-interactive ${
+                    className={`group flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white border border-cream-300/50 hover:border-sage-300 hover:bg-sage-50 hover:shadow-lg hover:scale-[1.02] transition-interactive ${
                       isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
                     }`}
                     style={{

@@ -22,7 +22,7 @@ export default function HeroParticles() {
 
     let raf: number;
     let particles: Particle[] = [];
-    const COUNT = 40;
+    const COUNT = 60;
 
     function resize() {
       if (!canvas) return;
@@ -37,10 +37,10 @@ export default function HeroParticles() {
       particles = Array.from({ length: COUNT }, () => ({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.25,
-        r: 2 + Math.random() * 2,
-        opacity: 0.08 + Math.random() * 0.12,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.4,
+        r: 3 + Math.random() * 3,
+        opacity: 0.25 + Math.random() * 0.2,
       }));
     }
 
@@ -59,7 +59,7 @@ export default function HeroParticles() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(209, 214, 209, ${p.opacity})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
         ctx.fill();
       }
 

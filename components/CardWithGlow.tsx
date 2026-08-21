@@ -26,7 +26,7 @@ export default function CardWithGlow({ children, className = "" }: CardWithGlowP
       onMouseMove={handleMouseMove}
       className={`relative overflow-hidden group ${className}`}
     >
-      <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-[1] card-glow-effect" />
+      <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[1] card-glow-effect" />
       <div className="relative z-[2]">{children}</div>
     </div>
   );
