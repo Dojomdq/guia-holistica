@@ -18,6 +18,7 @@ export interface ClusterMarkerItem {
 interface Props {
   items: ClusterMarkerItem[];
   selectedId?: string | null;
+  selectedFacilitadorId?: string | null;
   onSelect?: (id: string) => void;
   renderPopup?: (item: ClusterMarkerItem) => React.ReactNode;
   dimOthers?: boolean;
@@ -107,6 +108,7 @@ function spreadCoords(items: ClusterMarkerItem[]): ClusterMarkerItem[] {
 export default function ClusteredMarkers({
   items,
   selectedId,
+  selectedFacilitadorId,
   onSelect,
   renderPopup,
   dimOthers,
@@ -117,6 +119,9 @@ export default function ClusteredMarkers({
     <>
       {spreadItems.map((item) => {
         const isSelected = selectedId === item.id;
+        const isSameFacilitador = selectedFacilitadorId
+          ? (item.data as any)?.facilitador?.id === selectedFacilitadorId
+          : false;
         const logoUrl = (item.data as any)?.facilitador?.logo_url as string | null | undefined;
         const icon = logoUrl
           ? createLogoIcon(isSelected, logoUrl)
@@ -126,7 +131,7 @@ export default function ClusteredMarkers({
             key={`${item.id}|${item.lat.toFixed(6)}|${item.lng.toFixed(6)}`}
             position={[item.lat, item.lng]}
             icon={icon}
-            opacity={dimOthers && selectedId && !isSelected ? 0.35 : 1}
+            opacity={dimOthers && selectedFacilitadorId && !isSameFacilitador ? 0.35 : 1}
             eventHandlers={{ click: () => onSelect?.(item.id) }}
           >
             {renderPopup && (

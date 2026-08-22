@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
+import { useRipple } from "@/lib/useRipple";
 
 type SearchMode = "actividad" | "ciudad" | "nombre";
 
@@ -30,6 +31,7 @@ export default function SearchSection() {
   const [busqueda, setBusqueda] = useState("");
   const [modo, setModo] = useState<SearchMode>("actividad");
   const router = useRouter();
+  const createRipple = useRipple("rgba(90, 143, 143, 0.35)");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,7 +89,8 @@ export default function SearchSection() {
             </div>
             <button
               type="submit"
-              className="flex items-center justify-center gap-2 px-8 py-4 bg-sage-600 text-white rounded-2xl text-base font-semibold hover:bg-terracotta-600 hover:shadow-md transition-all duration-200 shrink-0"
+              onClick={createRipple}
+              className="ripple-container flex items-center justify-center gap-2 px-8 py-4 bg-sage-600 text-white rounded-2xl text-base font-semibold hover:bg-terracotta-600 hover:shadow-md transition-interactive shrink-0"
             >
               <Search className="h-4 w-4" aria-hidden="true" />
               Buscar
@@ -103,7 +106,7 @@ export default function SearchSection() {
             <button
               key={tag}
               onClick={() => router.push(`/mapa?q=${encodeURIComponent(tag.toLowerCase())}`)}
-              className="px-4 py-1.5 bg-white border border-cream-300/60 rounded-full text-[13px] font-medium text-bark-600 hover:bg-sage-50 hover:border-sage-300 hover:text-bark transition-all duration-300"
+              className="px-4 py-1.5 bg-white border border-cream-300/60 rounded-full text-[13px] font-medium text-bark-600 hover:bg-sage-50 hover:border-sage-300 hover:text-bark transition-interactive"
             >
               {tag}
             </button>

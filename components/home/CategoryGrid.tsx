@@ -5,6 +5,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
 import { useScrollReveal } from "@/lib/useScrollReveal";
 import { getMarkerColor } from "@/lib/categories";
+import CardWithGlow from "@/components/CardWithGlow";
 
 const DEFAULT_EMOJIS: Record<string, string> = {
   yoga: "🧘", reiki: "🖐️", meditacion: "🧠", chamanismo: "🪶",
@@ -52,9 +53,9 @@ export default function CategoryGrid() {
   }, []);
 
   return (
-    <section ref={ref} className="py-16 sm:py-20 relative overflow-hidden bg-sand-100">
+    <section ref={ref} className="py-16 sm:py-20 relative overflow-hidden bg-sand-100 section-gradient-warm">
       <div className="relative container-wide">
-        <div className={`text-center mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
+        <div className={`text-center mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
           <span className="section-label justify-center">Categorías</span>
           <h2 className="heading-lg text-bark mt-4">Explorá por categoría</h2>
         </div>
@@ -68,23 +69,24 @@ export default function CategoryGrid() {
                 />
               ))
             : categorias.map((cat, i) => (
-                <Link
-                  key={cat.slug}
-                  href={`/actividades/${cat.slug}`}
-                  className={`group flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white border border-cream-300/50 hover:border-sage-300 hover:bg-sage-50 hover:shadow-md transition-all duration-300 ${
-                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-                  }`}
-                  style={{
-                    borderLeftWidth: 3,
-                    borderLeftColor: getMarkerColor(cat.slug),
-                    transitionDelay: `${Math.min(i * 40, 400)}ms`,
-                  }}
-                >
-                  <span className="text-base leading-none" aria-hidden="true">{cat.emoji}</span>
-                  <span className="text-[13px] font-medium text-bark-600 group-hover:text-bark leading-tight transition-colors duration-300">
-                    {cat.nombre}
-                  </span>
-                </Link>
+                <CardWithGlow key={cat.slug} className="rounded-full">
+                  <Link
+                    href={`/actividades/${cat.slug}`}
+                    className={`group flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white border border-cream-300/50 hover:border-sage-300 hover:bg-sage-50 hover:shadow-lg hover:scale-[1.02] transition-interactive ${
+                      isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+                    }`}
+                    style={{
+                      borderLeftWidth: 3,
+                      borderLeftColor: getMarkerColor(cat.slug),
+                      transitionDelay: `${Math.min(i * 40, 400)}ms`,
+                    }}
+                  >
+                    <span className="text-base leading-none" aria-hidden="true">{cat.emoji}</span>
+                    <span className="text-[13px] font-medium text-bark-600 group-hover:text-bark leading-tight transition-colors duration-200">
+                      {cat.nombre}
+                    </span>
+                  </Link>
+                </CardWithGlow>
               ))}
         </div>
       </div>

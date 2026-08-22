@@ -7,6 +7,8 @@ import { Star, ArrowUpRight, MessageCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 import InstagramIcon from "@/components/ui/InstagramIcon";
+import CardWithGlow from "@/components/CardWithGlow";
+import { useRipple } from "@/lib/useRipple";
 
 interface Destacado {
   id: string;
@@ -25,6 +27,7 @@ interface Destacado {
 
 export default function DestacadosSection() {
   const [destacados, setDestacados] = useState<Destacado[]>([]);
+  const createRipple = useRipple("rgba(181, 101, 79, 0.3)");
 
   useEffect(() => {
     async function load() {
@@ -61,7 +64,7 @@ export default function DestacadosSection() {
   if (destacados.length === 0) return null;
 
   return (
-    <section className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950 relative overflow-hidden">
+    <section className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950 relative overflow-hidden section-gradient-warm">
       <div className="absolute top-1/2 -left-32 w-72 h-72 bg-amber-100/30 rounded-full blur-3xl pointer-events-none animate-blob" />
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-sage-100/30 rounded-full blur-3xl pointer-events-none animate-blob animation-delay-2000" />
       <div className="container-page relative z-10">
@@ -86,10 +89,10 @@ export default function DestacadosSection() {
               ? `https://instagram.com/${f.instagram.replace("@", "")}`
               : null;
             return (
-              <div
-                key={d.id}
-                className="group bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col"
-              >
+              <CardWithGlow key={d.id}>
+                <div
+                  className="group bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 overflow-hidden transition-interactive hover:shadow-lg hover:-translate-y-1 flex flex-col"
+                >
                 <div className="aspect-[4/3] overflow-hidden bg-cream-100 relative">
                   {f.foto_url ? (
                     <Image
@@ -137,7 +140,8 @@ export default function DestacadosSection() {
                     )}
                   </div>
                 </div>
-              </div>
+                </div>
+              </CardWithGlow>
             );
           })}
         </div>

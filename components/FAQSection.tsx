@@ -43,7 +43,7 @@ export default function FAQSection() {
       <div className="container-page relative z-10">
         <div
           className={`text-center mb-10 transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
           }`}
         >
           <span className="section-label justify-center">Preguntas</span>
@@ -57,13 +57,13 @@ export default function FAQSection() {
               className={`transition-all duration-500 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-6"
+                  : "opacity-0 translate-y-5"
               }`}
               style={{ transitionDelay: `${i * 80 + 200}ms` }}
             >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className={`w-full flex items-center justify-between text-left px-6 py-5 rounded-2xl border transition-all duration-300 group ${
+                className={`w-full flex items-center justify-between text-left px-6 py-5 rounded-2xl border transition-interactive group ${
                   openIndex === i
                     ? "bg-white/80 backdrop-blur-sm border-sage-300/50 shadow-medium"
                     : "bg-white/60 backdrop-blur-sm border-cream-300/50 hover:border-cream-400/60 hover:bg-white/80"

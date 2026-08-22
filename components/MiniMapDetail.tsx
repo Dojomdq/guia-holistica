@@ -3,20 +3,28 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 
-const markerIcon = new L.DivIcon({
-  html: `<div style="background:#5d8a6e;width:28px;height:28px;border-radius:50%;border:3px solid white;box-shadow:0 2px 10px rgba(0,0,0,0.15)"></div>`,
-  className: "",
-  iconSize: [28, 28],
-  iconAnchor: [14, 14],
-});
-
 interface Props {
   lat: number;
   lng: number;
   nombre: string;
+  logoUrl?: string | null;
 }
 
-export default function MiniMapDetail({ lat, lng, nombre }: Props) {
+export default function MiniMapDetail({ lat, lng, nombre, logoUrl }: Props) {
+  const markerIcon = logoUrl
+    ? new L.DivIcon({
+        html: `<img src="${logoUrl}" style="width:36px;height:36px;object-fit:contain;pointer-events:none;cursor:pointer;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));" />`,
+        className: "",
+        iconSize: [36, 36],
+        iconAnchor: [18, 18],
+      })
+    : new L.DivIcon({
+        html: `<div style="background:#5d8a6e;width:28px;height:28px;border-radius:50%;border:3px solid white;box-shadow:0 2px 10px rgba(0,0,0,0.15)"></div>`,
+        className: "",
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+      });
+
   return (
     <MapContainer
       center={[lat, lng]}

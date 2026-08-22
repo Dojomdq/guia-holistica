@@ -19,6 +19,7 @@ export default function MiniMap() {
       lng: number;
       actividad: string;
       slug: string;
+      logo_url: string | null;
     }[]
   >([]);
 
@@ -27,7 +28,7 @@ export default function MiniMap() {
       const { data } = await supabase
         .from("facilitadores")
         .select(
-          "id, nombre, latitud, longitud, facilitador_actividades(actividades(nombre, slug))"
+          "id, nombre, latitud, longitud, logo_url, facilitador_actividades(actividades(nombre, slug))"
         )
         .eq("activo", true)
         .limit(8);
@@ -42,6 +43,7 @@ export default function MiniMap() {
             actividad:
               f.facilitador_actividades?.[0]?.actividades?.nombre || "Profesional",
             slug: f.facilitador_actividades?.[0]?.actividades?.slug || "",
+            logo_url: f.logo_url || null,
           }))
         );
       }
@@ -70,10 +72,11 @@ export default function MiniMap() {
             emoji: getEmoji(f.slug),
             nombre: f.nombre,
             color: getMarkerColor(f.slug),
-            data: f,
+            data: { facilitador: { id: f.id, logo_url: f.logo_url } },
           }))}
           renderPopup={(item) => {
-            const f = item.data as (typeof facilitadores)[number];
+            const f = facilitadores.find((x) => x.id === item.id);
+            if (!f) return null;
             return (
               <div className="text-center p-1">
                 <p className="font-serif font-medium text-bark text-sm">

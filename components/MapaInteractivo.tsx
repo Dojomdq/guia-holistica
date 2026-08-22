@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -74,27 +74,44 @@ interface Props {
   onSeleccionar: (id: string | null) => void;
   ciudadSeleccionada?: string | null;
   onOpenBottomSheet?: (marker: MarkerItem) => void;
+  ubicacionSeleccionada?: string | null;
+  onUbicacionSeleccionada?: (id: string | null) => void;
 }
 
 const DEFAULT_CENTER: [number, number] = CITY_COORDS[CITY_NAME] ?? [-38, -57];
+const markerClickRef = { current: false };
 
 function MapEvents({
   onSeleccionar,
 }: {
   onSeleccionar: (id: string | null) => void;
 }) {
-  useMapEvents({ click: () => onSeleccionar(null) });
+  useMapEvents({
+    click: () => {
+      if (markerClickRef.current) {
+        markerClickRef.current = false;
+        return;
+      }
+      onSeleccionar(null);
+    },
+  });
   return null;
+}
+
+function fireMarkerClick() {
+  markerClickRef.current = true;
 }
 
 function FocusMarkers({
   markers,
   selectedId,
   ciudad,
+  ubicacionId,
 }: {
   markers: MarkerItem[];
   selectedId: string | null;
   ciudad?: string | null;
+  ubicacionId?: string | null;
 }) {
   const map = useMap();
   useEffect(() => {
@@ -116,7 +133,10 @@ function FocusMarkers({
 
   useEffect(() => {
     if (!selectedId) return;
-    const marker = markers.find((m) => m.facilitador.id === selectedId);
+    // Prefer the exact ubicacion clicked, otherwise fall back to first marker for this facilitador
+    const marker = ubicacionId
+      ? markers.find((m) => m.ubicacion.id === ubicacionId)
+      : markers.find((m) => m.facilitador.id === selectedId);
     if (marker) {
       map.flyTo(
         [marker.ubicacion.latitud, marker.ubicacion.longitud],
@@ -124,7 +144,7 @@ function FocusMarkers({
         { duration: 0.6 }
       );
     }
-  }, [selectedId, markers, map]);
+  }, [selectedId, ubicacionId, markers, map]);
 
   return null;
 }
@@ -324,6 +344,8 @@ export default function MapaInteractivo({
   onSeleccionar,
   ciudadSeleccionada,
   onOpenBottomSheet,
+  ubicacionSeleccionada,
+  onUbicacionSeleccionada,
 }: Props) {
   const track = useClickTracker();
 
@@ -340,8 +362,8 @@ export default function MapaInteractivo({
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      <MapEvents onSeleccionar={onSeleccionar} />
-      <FocusMarkers markers={markers} selectedId={seleccionado} ciudad={ciudadSeleccionada} />
+      <MapEvents onSeleccionar={(id) => { onSeleccionar(id); if (!id) onUbicacionSeleccionada?.(null); }} />
+      <FocusMarkers markers={markers} selectedId={seleccionado} ciudad={ciudadSeleccionada} ubicacionId={ubicacionSeleccionada} />
 
       <ClusteredMarkers
         items={markers.map((m) => {
@@ -350,7 +372,7 @@ export default function MapaInteractivo({
               ? m.facilitador.actividades[0].slug
               : "";
           return {
-            id: m.facilitador.id,
+            id: m.ubicacion.id,
             lat: m.ubicacion.latitud,
             lng: m.ubicacion.longitud,
             emoji: "",
@@ -360,9 +382,13 @@ export default function MapaInteractivo({
             data: m,
           };
         })}
-        selectedId={seleccionado}
+        selectedId={ubicacionSeleccionada}
+        selectedFacilitadorId={seleccionado}
         onSelect={(id) => {
-          onSeleccionar(id);
+          fireMarkerClick();
+          const marker = markers.find((m) => m.ubicacion.id === id);
+          onUbicacionSeleccionada?.(id);
+          onSeleccionar(marker?.facilitador.id || id);
         }}
         dimOthers
         renderPopup={(item) => {

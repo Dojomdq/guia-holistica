@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   title: "Guía de Bienestar en Mar del Plata | Facilitadores holísticos",
   description:
     "Encontrá terapeutas, facilitadores y guías holísticos en Mar del Plata. Mapa interactivo con yoga, reiki, meditación, chamanismo y más.",
+  robots: { index: true, follow: true },
   metadataBase: new URL(SITE_URL),
   openGraph: {
     title: "Guía de Bienestar en Mar del Plata | Facilitadores holísticos",
