@@ -42,6 +42,7 @@ interface FacilitadorData {
   instagram: string | null;
   sitio_web: string | null;
   foto_url: string | null;
+  logo_url: string | null;
   horarios: string | null;
   reel_url: string | null;
   actividades: { id: string; nombre: string; slug: string; categoria_id: string }[];
@@ -118,6 +119,7 @@ export default function FacilitadorContent({
           instagram: data.instagram,
           sitio_web: data.sitio_web,
           foto_url: data.foto_url,
+          logo_url: data.logo_url || null,
           horarios: data.horarios || null,
           reel_url: data.reel_url || null,
           actividades: (data.facilitador_actividades || []).map((fa: any) => ({
@@ -457,7 +459,7 @@ export default function FacilitadorContent({
 
                     {u.latitud && u.longitud && (
                       <div className="rounded-2xl overflow-hidden border border-cream-200 shadow-sm">
-                        <MiniMapDetail lat={u.latitud} lng={u.longitud} nombre={f.nombre} />
+                        <MiniMapDetail lat={u.latitud} lng={u.longitud} nombre={f.nombre} logoUrl={f.logo_url} />
                       </div>
                     )}
                   </div>
