@@ -21,23 +21,22 @@ export default function NewCTA() {
   };
 
   return (
-    <section ref={ref} className="py-20 sm:py-28" aria-labelledby="cta-titulo">
+    <section ref={ref} className="py-16 sm:py-20" aria-labelledby="cta-titulo">
       <div className="container-wide">
         <div
-          className={`relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-sage-700 via-sage-600 to-terracotta-500 px-6 py-20 sm:px-16 sm:py-24 shadow-2xl transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          className={`relative overflow-hidden rounded-3xl bg-gradient-to-br from-sage-700 via-sage-600 to-terracotta-500 px-6 py-16 sm:px-12 sm:py-20 shadow-xl transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
           {/* Background decorations */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border border-white/10 pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-white/10 pointer-events-none" />
-          <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-white/5 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-terracotta-400/30 blur-[100px] pointer-events-none animate-drift" />
-          <div className="absolute top-10 left-10 w-48 h-48 rounded-full bg-sage-400/20 blur-[80px] pointer-events-none animate-floaty" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-white/10 pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] rounded-full border border-white/10 pointer-events-none" />
+          <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-white/5 blur-2xl pointer-events-none" />
+          <div className="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-terracotta-400/20 blur-2xl pointer-events-none" />
 
           <div className="relative flex flex-col lg:flex-row items-center justify-between gap-8 max-w-5xl mx-auto">
             <div className="flex-1 text-center lg:text-left">
-              <h2 id="cta-titulo" className="font-serif text-3xl sm:text-5xl text-white max-w-2xl leading-tight mb-4 font-semibold">
+              <h2 id="cta-titulo" className="font-serif text-3xl sm:text-4xl text-white max-w-2xl leading-tight mb-4">
                 ¿Sos profesional? Sumá tu perfil y conectá con nuevos pacientes.
               </h2>
               <p className="text-white/80 text-lg max-w-xl mx-auto lg:mx-0">

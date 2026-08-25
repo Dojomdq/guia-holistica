@@ -34,11 +34,11 @@ export default function EventosSection() {
   if (eventos.length === 0) return null;
 
   return (
-    <section ref={ref} className="py-20 sm:py-28 bg-cream-100/50 dark:bg-bark-950 relative overflow-hidden">
+    <section ref={ref} className="py-16 sm:py-20 bg-cream-100/50 dark:bg-bark-950 relative overflow-hidden">
       <div className="absolute inset-0 grid-pattern opacity-40 pointer-events-none" />
       <div className="absolute inset-0 section-radial-warm pointer-events-none" />
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-terracotta-100/25 rounded-full blur-[150px] pointer-events-none animate-drift" />
-      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-sage-200/20 rounded-full blur-[130px] pointer-events-none animate-floaty" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-terracotta-100/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-sage-200/15 rounded-full blur-[100px] pointer-events-none" />
       <div className="container-page relative z-10">
         <div className={`text-center mb-10 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"}`}>
           <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-terracotta-100 dark:bg-terracotta-900/30 text-terracotta-700 dark:text-terracotta-300 text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-4">

@@ -64,10 +64,10 @@ export default function DestacadosSection() {
   if (destacados.length === 0) return null;
 
   return (
-    <section className="py-20 sm:py-28 bg-cream-50 dark:bg-bark-950 relative overflow-hidden">
+    <section className="py-16 sm:py-20 bg-cream-50 dark:bg-bark-950 relative overflow-hidden">
       <div className="absolute inset-0 section-radial-warm pointer-events-none" />
-      <div className="absolute top-1/2 -left-48 w-[500px] h-[500px] bg-amber-100/30 rounded-full blur-[150px] pointer-events-none animate-drift" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-sage-100/25 rounded-full blur-[150px] pointer-events-none animate-floaty" />
+      <div className="absolute top-1/2 -left-32 w-80 h-80 bg-amber-100/25 rounded-full blur-[120px] pointer-events-none animate-drift" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-sage-100/20 rounded-full blur-[120px] pointer-events-none animate-floaty" />
       <div className="container-page relative z-10">
         <div className="text-center mb-10">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-4">

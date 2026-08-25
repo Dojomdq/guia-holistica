@@ -38,15 +38,15 @@
   }
 
   .heading-xl {
-    @apply font-serif text-[clamp(3rem,8vw,7rem)] leading-[0.95] tracking-[-0.04em] font-semibold;
+    @apply font-serif text-[clamp(2.75rem,6.5vw,5.5rem)] leading-[1.02] tracking-[-0.03em] font-semibold;
   }
 
   .heading-lg {
-    @apply font-serif text-[clamp(2.25rem,5vw,4rem)] leading-[1.05] tracking-[-0.035em] font-semibold;
+    @apply font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.08] tracking-[-0.03em] font-semibold;
   }
 
   .heading-md {
-    @apply font-serif text-[clamp(1.75rem,3.5vw,3rem)] leading-[1.1] tracking-[-0.025em] font-semibold;
+    @apply font-serif text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.12] tracking-[-0.02em] font-semibold;
   }
 
   .heading-sm {

@@ -45,11 +45,11 @@ export default function SearchSection() {
   const modoActual = MODOS.find((m) => m.id === modo) ?? MODOS[0];
 
   return (
-    <section className="py-20 sm:py-28 bg-cream-50 dark:bg-bark-950 relative overflow-hidden">
+    <section className="py-16 sm:py-20 bg-cream-50 dark:bg-bark-950 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.03] noise-overlay pointer-events-none" />
       <div className="absolute inset-0 section-radial-sage pointer-events-none" />
-      <div className="absolute -top-48 -right-48 w-[500px] h-[500px] bg-sage-200/30 rounded-full blur-[150px] pointer-events-none animate-drift" />
-      <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] bg-terracotta-200/20 rounded-full blur-[130px] pointer-events-none animate-floaty" />
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-sage-200/25 rounded-full blur-[120px] pointer-events-none animate-drift" />
+      <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-terracotta-200/15 rounded-full blur-[100px] pointer-events-none animate-floaty" />
       <div className="container-wide relative z-10">
         <form
           onSubmit={handleSearch}

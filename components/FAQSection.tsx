@@ -37,10 +37,10 @@ export default function FAQSection() {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section ref={ref} className="py-20 sm:py-28 relative overflow-hidden">
+    <section ref={ref} className="section-padding relative overflow-hidden">
       <div className="absolute inset-0 section-radial-sage pointer-events-none" />
-      <div className="absolute top-0 -left-32 w-[400px] h-[400px] bg-sage-100/30 rounded-full blur-[150px] pointer-events-none animate-drift" />
-      <div className="absolute bottom-0 -right-32 w-[500px] h-[500px] bg-terracotta-100/20 rounded-full blur-[150px] pointer-events-none animate-floaty" />
+      <div className="absolute top-0 -left-20 w-80 h-80 bg-sage-100/25 rounded-full blur-[120px] pointer-events-none animate-drift" />
+      <div className="absolute bottom-0 -right-20 w-96 h-96 bg-terracotta-100/15 rounded-full blur-[120px] pointer-events-none animate-floaty" />
       <div className="container-page relative z-10">
         <div
           className={`text-center mb-10 transition-all duration-700 ${
