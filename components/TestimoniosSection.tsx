@@ -33,11 +33,11 @@ export default function TestimoniosSection() {
   const otrosTestimonios = testimonios.filter(t => !t.destacado);
 
   return (
-    <section ref={ref} className="py-16 sm:py-20 bg-sand-100 dark:bg-bark-900/60 relative overflow-hidden">
+    <section ref={ref} className="py-20 sm:py-28 bg-sand-100 dark:bg-bark-900/60 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.03] noise-overlay pointer-events-none" />
       <div className="absolute inset-0 section-radial-sage pointer-events-none" />
-      <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-96 h-96 bg-sage-100/25 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-0 right-1/4 w-72 h-72 bg-terracotta-100/15 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-sage-100/30 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-terracotta-100/20 rounded-full blur-[130px] pointer-events-none" />
       <div className="container-page relative z-10">
         <div
           className={`text-center mb-10 transition-all duration-700 ${

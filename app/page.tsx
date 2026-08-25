@@ -7,6 +7,7 @@ import DestacadosSection from "@/components/home/DestacadosSection";
 import TestimoniosSection from "@/components/TestimoniosSection";
 import NewCTA from "@/components/home/NewCTA";
 import FAQSection from "@/components/FAQSection";
+import Marquee from "@/components/Marquee";
 import PopupManager from "@/components/PopupManager";
 import { SITE_URL, INSTAGRAM_URL, WHATSAPP_LINK, CITY_NAME } from "@/lib/constants";
 
@@ -73,6 +74,12 @@ const webSiteJsonLd = {
   },
 };
 
+const marqueeItems = [
+  "Yoga", "Reiki", "Meditación", "Chamanismo", "Tarot", "Astrología",
+  "Aromaterapia", "Biodanza", "Pranoterapia", "Numerología",
+  "Sanación Energética", "Flores de Bach", "Masajes", "Círculos de Mujeres",
+];
+
 export default function Home() {
   return (
     <>
@@ -121,35 +128,14 @@ export default function Home() {
       />
       <NewHero />
       <SearchSection />
-      <div className="relative">
-        <div className="section-divider" />
-        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-sage-300" />
-      </div>
+      <Marquee items={marqueeItems} speed={35} className="opacity-60" />
       <MapSection />
-      <div className="relative">
-        <div className="section-divider" />
-        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-terracotta-300" />
-      </div>
+      <Marquee items={marqueeItems} speed={40} reverse className="opacity-40" />
       <EventosSection />
-      <div className="relative">
-        <div className="section-divider" />
-        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-sage-300" />
-      </div>
+      <Marquee items={["⭐ Destacados del mes", "🌟 Profesionales verificados", "📍 Cerca de vos", "🧘 Bienestar para todos"]} speed={25} className="opacity-50" />
       <DestacadosSection />
-      <div className="relative">
-        <div className="section-divider" />
-        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-terracotta-300" />
-      </div>
       <TestimoniosSection />
-      <div className="relative">
-        <div className="section-divider" />
-        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-sage-300" />
-      </div>
       <NewCTA />
-      <div className="relative">
-        <div className="section-divider" />
-        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-terracotta-300" />
-      </div>
       <FAQSection />
       <PopupManager />
     </>
