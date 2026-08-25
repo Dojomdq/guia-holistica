@@ -109,7 +109,7 @@ export default function TestimoniosSection() {
               <p className="text-sm text-bark-600 dark:text-cream-300 leading-relaxed mb-5 italic">
                 &ldquo;{t.texto}&rdquo;
               </p>
-              <div className="flex items-center gap-3 pt-4 border-t border-cream-200/40">
+              <div className="flex items-center gap-3 pt-4 border-t border-cream-200/40 dark:border-bark-700/40">
                 <div className="w-9 h-9 rounded-full bg-sage-100 dark:bg-sage-900/40 flex items-center justify-center">
                   <span className="font-serif text-xs font-semibold text-sage-700 dark:text-sage-300">{t.iniciales}</span>
                 </div>

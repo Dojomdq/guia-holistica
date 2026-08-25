@@ -499,6 +499,30 @@
 .dark .to-cream-50 { --tw-gradient-to: #0F1B2D var(--tw-gradient-to-position); }
 .dark .via-sage-50\/20 { --tw-gradient-via: rgba(30,50,50,0.2) var(--tw-gradient-via-position); --tw-gradient-to: rgb(30 50 50 / 0) var(--tw-gradient-to-position); }
 .dark .bg-cream-50\/95 { @apply bg-bark-950/95; }
+.dark .bg-cream-200\/60 { @apply bg-bark-700/60; }
+.dark .bg-cream-200\/40 { @apply bg-bark-700/40; }
+.dark .bg-cream-200\/80 { @apply bg-bark-700/80; }
+.dark .bg-cream-100\/80 { @apply bg-bark-800/80; }
+.dark .bg-white\/80 { @apply bg-bark-900/80; }
+.dark .bg-white\/70 { @apply bg-bark-900/70; }
+.dark .bg-white\/60 { @apply bg-bark-900/60; }
+.dark .bg-white\/90 { @apply bg-bark-900/90; }
+.dark .bg-white\/95 { @apply bg-bark-900/95; }
+.dark .bg-sage-50 { @apply bg-sage-900/30; }
+.dark .bg-sage-50\/80 { @apply bg-sage-900/20; }
+.dark .bg-sage-100\/30 { @apply bg-sage-800/30; }
+.dark .border-sage-300\/60 { @apply border-sage-700/60; }
+.dark .border-sage-300 { @apply border-sage-700; }
+.dark .hover\:bg-sage-50:hover { @apply hover:bg-sage-900/20; }
+.dark .hover\:bg-sage-50\/80:hover { @apply hover:bg-sage-900/20; }
+.dark .hover\:bg-sage-100:hover { @apply hover:bg-sage-800/40; }
+.dark .hover\:bg-cream-200:hover { @apply hover:bg-bark-700; }
+.dark .hover\:border-sage-300:hover { @apply hover:border-sage-700; }
+.dark .hover\:text-bark:hover { @apply hover:text-cream-100; }
+.dark .text-sage-600 { @apply text-sage-400; }
+.dark .text-sage-700 { @apply text-sage-400; }
+.dark .placeholder\:text-bark-500::placeholder { @apply placeholder:text-cream-500; }
+.dark .placeholder\:text-bark-400::placeholder { @apply placeholder:text-cream-500; }
 .dark .animate-pulse .bg-cream-200 { @apply bg-bark-700; }
 
 /* ── Premium Section Backgrounds ── */

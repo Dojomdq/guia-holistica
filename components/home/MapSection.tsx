@@ -74,6 +74,16 @@ export default function MapSection() {
                   backgroundSize: "36px 36px, 36px 36px, cover",
                 }}
               >
+                <div className="dark:hidden absolute inset-0" style={{
+                  background:
+                    "linear-gradient(rgba(184,166,139,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(184,166,139,0.18) 1px, transparent 1px), linear-gradient(135deg, #F3EDE1 0%, #E6D9C6 55%, #D8C7AE 100%)",
+                  backgroundSize: "36px 36px, 36px 36px, cover",
+                }} />
+                <div className="hidden dark:block absolute inset-0" style={{
+                  background:
+                    "linear-gradient(rgba(90,143,143,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(90,143,143,0.12) 1px, transparent 1px), linear-gradient(135deg, #0F1B2D 0%, #1a2d3d 55%, #243a4a 100%)",
+                  backgroundSize: "36px 36px, 36px 36px, cover",
+                }} />
                 <div className="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-sand-300/40 blur-2xl" aria-hidden="true" />
                 <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-sage-200/40 blur-2xl" aria-hidden="true" />
 

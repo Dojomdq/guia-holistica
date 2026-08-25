@@ -58,7 +58,7 @@ export default function EventosSection() {
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
               {e.imagen_url && (
-                <div className="w-full overflow-hidden bg-cream-100">
+                <div className="w-full overflow-hidden bg-cream-100 dark:bg-bark-800">
                   {/\.(mp4|webm|mov|ogg)(\?|$)/i.test(e.imagen_url) ? (
                     <video
                       src={e.imagen_url}

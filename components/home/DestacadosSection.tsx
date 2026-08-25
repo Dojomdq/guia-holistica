@@ -94,7 +94,7 @@ export default function DestacadosSection() {
                 <div
                   className="group bg-white/80 backdrop-blur-sm dark:bg-bark-900 rounded-2xl border border-cream-200/50 dark:border-bark-700/80 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-cream-300/60 flex flex-col"
                 >
-                <div className="aspect-[4/3] overflow-hidden bg-cream-100 relative">
+                <div className="aspect-[4/3] overflow-hidden bg-cream-100 dark:bg-bark-800 relative">
                   {f.foto_url ? (
                     <Image
                       src={f.foto_url}
@@ -130,12 +130,12 @@ export default function DestacadosSection() {
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </Link>
                     {waLink && (
-                      <a href={waLink} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="ml-auto p-2 rounded-full bg-sage-50 hover:bg-sage-100 text-sage-600 transition-colors">
+                      <a href={waLink} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="ml-auto p-2 rounded-full bg-sage-50 dark:bg-sage-900/30 hover:bg-sage-100 dark:hover:bg-sage-800/40 text-sage-600 dark:text-sage-400 transition-colors">
                         <MessageCircle className="h-4 w-4" />
                       </a>
                     )}
                     {igLink && (
-                      <a href={igLink} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 rounded-full bg-cream-100 hover:bg-cream-200 text-bark-600 transition-colors">
+                      <a href={igLink} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 rounded-full bg-cream-100 dark:bg-bark-800 hover:bg-cream-200 dark:hover:bg-bark-700 text-bark-600 dark:text-cream-300 transition-colors">
                         <InstagramIcon className="h-4 w-4" />
                       </a>
                     )}
