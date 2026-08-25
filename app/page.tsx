@@ -7,6 +7,7 @@ import DestacadosSection from "@/components/home/DestacadosSection";
 import TestimoniosSection from "@/components/TestimoniosSection";
 import NewCTA from "@/components/home/NewCTA";
 import FAQSection from "@/components/FAQSection";
+import StatsSection from "@/components/StatsSection";
 import PopupManager from "@/components/PopupManager";
 import { SITE_URL, INSTAGRAM_URL, WHATSAPP_LINK, CITY_NAME } from "@/lib/constants";
 
@@ -120,6 +121,7 @@ export default function Home() {
         }}
       />
       <NewHero />
+      <StatsSection />
       <SearchSection />
       <div className="relative">
         <div className="section-divider" />
