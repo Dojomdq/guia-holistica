@@ -12,7 +12,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-cream-50/95 dark:bg-bark-950/95 backdrop-blur-xl border-t border-cream-200/50 dark:border-bark-800/50">
-      <div className="container-wide py-12">
+      <div className="relative container-wide py-12">
         <div className="border-t border-cream-200/50 dark:border-bark-800 pt-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Column 1 */}
