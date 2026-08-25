@@ -18,11 +18,11 @@ export default function Footer() {
           <div>
             <Link href="/" className="group inline-block">
               <Image
-                src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785382470/1200x_fcfaao.png"
+                src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png"
                 alt="Guía de Bienestar"
-                width={320}
-                height={64}
-                className="w-64 sm:w-80 h-auto dark:brightness-0 dark:invert"
+                width={200}
+                height={48}
+                className="h-12 w-auto dark:brightness-0 dark:invert"
               />
             </Link>
             <p className="text-sm text-bark-600 dark:text-cream-300 mt-5 max-w-[300px] leading-relaxed">
