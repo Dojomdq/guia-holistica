@@ -13,13 +13,13 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden">
       {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-cream-50 via-cream-100 to-sand-100" />
+      <div className="absolute inset-0 bg-gradient-to-b from-cream-50 via-cream-100 to-sand-100 dark:from-bark-950 dark:via-bark-900 dark:to-bark-950" />
       <div className="absolute inset-0 opacity-[0.03] noise-overlay pointer-events-none" />
       <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-sage-200/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-terracotta-200/15 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="relative container-wide py-16">
-        <div className="border-t border-cream-300/50 pt-12">
+        <div className="border-t border-cream-300/50 dark:border-bark-700/50 pt-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {/* Column 1 — Brand */}
             <div>
@@ -120,7 +120,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-cream-300/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="mt-12 pt-8 border-t border-cream-300/50 dark:border-bark-700/50 flex flex-col sm:flex-row items-center justify-between gap-4">
             <span className="text-xs text-bark-500">
               &copy; {new Date().getFullYear()} Guía de Bienestar
             </span>
