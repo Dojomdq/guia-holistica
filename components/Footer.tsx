@@ -14,9 +14,9 @@ export default function Footer() {
     <footer className="bg-cream-50/95 dark:bg-bark-950/95 backdrop-blur-xl">
       <div className="relative container-wide py-12">
         <div className="border-t border-cream-200/50 dark:border-bark-800 pt-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:-ml-6">
           {/* Column 1 */}
-          <div>
+          <div className="-ml-2">
             <Link href="/" className="group inline-block">
               <Image
                 src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png"
