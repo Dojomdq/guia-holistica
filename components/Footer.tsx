@@ -12,8 +12,9 @@ export default function Footer() {
 
   return (
     <footer className="bg-cream-50/95 dark:bg-bark-950/95 backdrop-blur-xl border-t border-cream-200/50 dark:border-bark-800/50">
-      <div className="container-wide py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div className="container-wide py-12">
+        <div className="border-t border-cream-200/50 dark:border-bark-800 pt-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Column 1 */}
           <div>
             <Link href="/" className="group inline-block">
@@ -113,7 +114,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-cream-300/50 dark:border-bark-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-12 pt-6 border-t border-cream-300/50 dark:border-bark-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <span className="text-xs text-bark-500 dark:text-cream-400">
             &copy; {new Date().getFullYear()} Guía de Bienestar
           </span>
