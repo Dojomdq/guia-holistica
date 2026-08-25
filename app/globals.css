@@ -38,19 +38,19 @@
   }
 
   .heading-xl {
-    @apply font-serif text-[clamp(2.75rem,6.5vw,5.5rem)] leading-[1.02] tracking-[-0.02em] font-medium;
+    @apply font-serif text-[clamp(2.75rem,6.5vw,5.5rem)] leading-[1.02] tracking-[-0.03em] font-semibold;
   }
 
   .heading-lg {
-    @apply font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.08] tracking-[-0.02em] font-medium;
+    @apply font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.08] tracking-[-0.03em] font-semibold;
   }
 
   .heading-md {
-    @apply font-serif text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.12] tracking-[-0.02em] font-medium;
+    @apply font-serif text-[clamp(1.5rem,3vw,2.5rem)] leading-[1.12] tracking-[-0.02em] font-semibold;
   }
 
   .heading-sm {
-    @apply font-serif text-xl leading-snug tracking-[-0.01em] font-medium;
+    @apply font-serif text-xl leading-snug tracking-[-0.01em] font-semibold;
   }
 
   .label {
@@ -71,11 +71,19 @@
   }
 
   .btn-primary {
-    @apply btn bg-sage-600 text-white hover:bg-sage-700 hover:-translate-y-px hover:shadow-glow active:translate-y-0;
+    @apply btn bg-sage-600 text-white hover:bg-sage-700 hover:-translate-y-px active:translate-y-0;
+    box-shadow: 0 4px 14px rgba(90, 143, 143, 0.35);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 8px 25px rgba(90, 143, 143, 0.45);
   }
 
   .btn-secondary {
-    @apply btn bg-bark text-white hover:bg-bark/85 hover:-translate-y-px hover:shadow-warm active:translate-y-0;
+    @apply btn bg-bark text-white hover:bg-bark/85 hover:-translate-y-px active:translate-y-0;
+    box-shadow: 0 4px 14px rgba(15, 27, 45, 0.3);
+  }
+  .btn-secondary:hover {
+    box-shadow: 0 8px 25px rgba(15, 27, 45, 0.4);
   }
 
   .btn-dark {
@@ -103,7 +111,12 @@
   }
 
   .card {
-    @apply bg-white rounded-2xl border border-cream-200/80 p-6 transition-all duration-300 hover:shadow-medium hover:border-cream-300 dark:bg-bark-900 dark:border-bark-700 dark:hover:border-bark-600;
+    @apply bg-white/80 backdrop-blur-sm rounded-2xl border border-cream-200/60 p-6 transition-all duration-300;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+  .card:hover {
+    @apply border-sage-300/50 -translate-y-1;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 12px 40px rgba(0, 0, 0, 0.04);
   }
 
   .badge {
@@ -487,3 +500,62 @@
 .dark .via-sage-50\/20 { --tw-gradient-via: rgba(30,50,50,0.2) var(--tw-gradient-via-position); --tw-gradient-to: rgb(30 50 50 / 0) var(--tw-gradient-to-position); }
 .dark .bg-cream-50\/95 { @apply bg-bark-950/95; }
 .dark .animate-pulse .bg-cream-200 { @apply bg-bark-700; }
+
+/* ── Premium Section Backgrounds ── */
+.section-radial-sage {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(90, 143, 143, 0.08), transparent);
+}
+
+.section-radial-warm {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(181, 101, 79, 0.06), transparent);
+}
+
+.section-radial-cream {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(248, 250, 252, 0.8), transparent);
+}
+
+/* ── Decorative Section Divider ── */
+.section-divider-deco {
+  @apply relative;
+}
+.section-divider-deco::after {
+  content: "";
+  @apply block w-16 h-px mx-auto bg-gradient-to-r from-transparent via-sage-300 to-transparent;
+}
+
+/* ── Premium Card Hover Glow ── */
+.card-premium {
+  @apply bg-white/80 backdrop-blur-sm rounded-2xl border border-cream-200/60 p-6 transition-all duration-300;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+.card-premium:hover {
+  @apply border-sage-300/60 -translate-y-1;
+  box-shadow: 0 8px 30px rgba(90, 143, 143, 0.12), 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+/* ── Glass Card ── */
+.glass-card {
+  @apply bg-white/60 backdrop-blur-xl rounded-2xl border border-white/40;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* ── Floating Orb Decorations ── */
+.orb-sage {
+  @apply absolute rounded-full bg-sage-200/40 blur-[100px] pointer-events-none;
+}
+
+.orb-warm {
+  @apply absolute rounded-full bg-terracotta-200/30 blur-[100px] pointer-events-none;
+}
+
+/* ── Smooth fade-in for sections ── */
+@keyframes sectionFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

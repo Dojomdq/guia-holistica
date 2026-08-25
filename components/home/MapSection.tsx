@@ -36,7 +36,10 @@ export default function MapSection() {
   }, []);
 
   return (
-    <section id="mapa" ref={ref} className="py-16 sm:py-24 bg-cream-50 overflow-hidden section-gradient-sage">
+    <section id="mapa" ref={ref} className="py-16 sm:py-24 bg-cream-50 overflow-hidden relative">
+      <div className="absolute inset-0 section-radial-sage pointer-events-none" />
+      <div className="absolute top-0 left-1/3 w-80 h-80 bg-sage-200/20 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-terracotta-200/15 rounded-full blur-[100px] pointer-events-none" />
       <div className="relative container-wide">
         <div
           className={`text-center mb-10 transition-all duration-700 ${
@@ -56,7 +59,7 @@ export default function MapSection() {
           }`}
           style={{ transitionDelay: "150ms" }}
         >
-          <div className="relative bg-white rounded-2xl shadow-2xl border border-cream-200/60 overflow-hidden">
+          <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl border border-cream-200/50 overflow-hidden">
             {mapaCargado ? (
               <div className="h-[320px] sm:h-[400px]" ref={observerRef}>
                 <MiniMap />
@@ -103,8 +106,8 @@ export default function MapSection() {
               </div>
             )}
 
-            <div className="px-6 sm:px-8 py-5 border-t border-cream-200/60">
-              <h3 className="font-serif text-lg font-medium text-bark">
+            <div className="px-6 sm:px-8 py-5 border-t border-cream-200/40">
+              <h3 className="font-serif text-lg font-semibold text-bark">
                 Mapa de facilitadores
               </h3>
               <p className="text-sm text-bark-600 mt-0.5">

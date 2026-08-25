@@ -121,17 +121,35 @@ export default function Home() {
       />
       <NewHero />
       <SearchSection />
-      <div className="section-divider" />
+      <div className="relative">
+        <div className="section-divider" />
+        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-sage-300" />
+      </div>
       <MapSection />
-      <div className="section-divider" />
+      <div className="relative">
+        <div className="section-divider" />
+        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-terracotta-300" />
+      </div>
       <EventosSection />
-      <div className="section-divider" />
+      <div className="relative">
+        <div className="section-divider" />
+        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-sage-300" />
+      </div>
       <DestacadosSection />
-      <div className="section-divider" />
+      <div className="relative">
+        <div className="section-divider" />
+        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-terracotta-300" />
+      </div>
       <TestimoniosSection />
-      <div className="section-divider" />
+      <div className="relative">
+        <div className="section-divider" />
+        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-sage-300" />
+      </div>
       <NewCTA />
-      <div className="section-divider" />
+      <div className="relative">
+        <div className="section-divider" />
+        <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rounded-full bg-terracotta-300" />
+      </div>
       <FAQSection />
       <PopupManager />
     </>

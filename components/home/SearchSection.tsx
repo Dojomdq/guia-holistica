@@ -45,10 +45,11 @@ export default function SearchSection() {
   const modoActual = MODOS.find((m) => m.id === modo) ?? MODOS[0];
 
   return (
-    <section className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950 relative overflow-hidden">
+    <section className="py-16 sm:py-20 bg-cream-50 dark:bg-bark-950 relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.03] noise-overlay pointer-events-none" />
-      <div className="absolute -top-24 -right-24 w-80 h-80 bg-sage-200/30 rounded-full blur-3xl pointer-events-none animate-blob" />
-      <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-terracotta-200/20 rounded-full blur-3xl pointer-events-none animate-blob animation-delay-4000" />
+      <div className="absolute inset-0 section-radial-sage pointer-events-none" />
+      <div className="absolute -top-32 -right-32 w-96 h-96 bg-sage-200/25 rounded-full blur-[120px] pointer-events-none animate-drift" />
+      <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-terracotta-200/15 rounded-full blur-[100px] pointer-events-none animate-floaty" />
       <div className="container-wide relative z-10">
         <form
           onSubmit={handleSearch}
@@ -90,7 +91,8 @@ export default function SearchSection() {
             <button
               type="submit"
               onClick={createRipple}
-              className="ripple-container flex items-center justify-center gap-2 px-8 py-4 bg-sage-600 text-white rounded-2xl text-base font-semibold hover:bg-terracotta-600 hover:shadow-md transition-interactive shrink-0"
+              className="ripple-container flex items-center justify-center gap-2 px-8 py-4 bg-sage-600 text-white rounded-2xl text-base font-semibold hover:bg-sage-700 hover:-translate-y-0.5 transition-all duration-300 shrink-0"
+              style={{ boxShadow: "0 4px 14px rgba(90, 143, 143, 0.35)" }}
             >
               <Search className="h-4 w-4" aria-hidden="true" />
               Buscar
@@ -106,7 +108,7 @@ export default function SearchSection() {
             <button
               key={tag}
               onClick={() => router.push(`/mapa?q=${encodeURIComponent(tag.toLowerCase())}`)}
-              className="px-4 py-1.5 bg-white border border-cream-300/60 rounded-full text-[13px] font-medium text-bark-600 hover:bg-sage-50 hover:border-sage-300 hover:text-bark transition-interactive"
+              className="px-4 py-1.5 bg-white/80 backdrop-blur-sm border border-cream-300/50 rounded-full text-[13px] font-medium text-bark-600 hover:bg-sage-50 hover:border-sage-300 hover:text-bark hover:-translate-y-0.5 transition-all duration-300"
             >
               {tag}
             </button>

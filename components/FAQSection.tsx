@@ -38,8 +38,9 @@ export default function FAQSection() {
 
   return (
     <section ref={ref} className="section-padding relative overflow-hidden">
-      <div className="absolute top-0 -left-20 w-72 h-72 bg-sage-100/30 rounded-full blur-3xl pointer-events-none animate-blob" />
-      <div className="absolute bottom-0 -right-20 w-80 h-80 bg-terracotta-100/20 rounded-full blur-3xl pointer-events-none animate-blob animation-delay-4000" />
+      <div className="absolute inset-0 section-radial-sage pointer-events-none" />
+      <div className="absolute top-0 -left-20 w-80 h-80 bg-sage-100/25 rounded-full blur-[120px] pointer-events-none animate-drift" />
+      <div className="absolute bottom-0 -right-20 w-96 h-96 bg-terracotta-100/15 rounded-full blur-[120px] pointer-events-none animate-floaty" />
       <div className="container-page relative z-10">
         <div
           className={`text-center mb-10 transition-all duration-700 ${
@@ -63,14 +64,14 @@ export default function FAQSection() {
             >
               <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                className={`w-full flex items-center justify-between text-left px-6 py-5 rounded-2xl border transition-interactive group ${
+                className={`w-full flex items-center justify-between text-left px-6 py-5 rounded-2xl border transition-all duration-300 group ${
                   openIndex === i
-                    ? "bg-white/80 backdrop-blur-sm border-sage-300/50 shadow-medium"
-                    : "bg-white/60 backdrop-blur-sm border-cream-300/50 hover:border-cream-400/60 hover:bg-white/80"
+                    ? "bg-white/90 backdrop-blur-sm border-sage-300/60 shadow-lg"
+                    : "bg-white/60 backdrop-blur-sm border-cream-300/40 hover:border-sage-200 hover:bg-white/80 hover:shadow-md hover:-translate-y-0.5"
                 }`}
                 aria-expanded={openIndex === i}
               >
-                <span className="font-serif text-lg text-bark pr-4">
+                <span className="font-serif text-lg font-medium text-bark pr-4">
                   {faq.pregunta}
                 </span>
                 <ChevronDown

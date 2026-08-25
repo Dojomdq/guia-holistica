@@ -64,15 +64,16 @@ export default function DestacadosSection() {
   if (destacados.length === 0) return null;
 
   return (
-    <section className="py-12 sm:py-16 bg-cream-50 dark:bg-bark-950 relative overflow-hidden section-gradient-warm">
-      <div className="absolute top-1/2 -left-32 w-72 h-72 bg-amber-100/30 rounded-full blur-3xl pointer-events-none animate-blob" />
-      <div className="absolute bottom-0 right-0 w-80 h-80 bg-sage-100/30 rounded-full blur-3xl pointer-events-none animate-blob animation-delay-2000" />
+    <section className="py-16 sm:py-20 bg-cream-50 dark:bg-bark-950 relative overflow-hidden">
+      <div className="absolute inset-0 section-radial-warm pointer-events-none" />
+      <div className="absolute top-1/2 -left-32 w-80 h-80 bg-amber-100/25 rounded-full blur-[120px] pointer-events-none animate-drift" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-sage-100/20 rounded-full blur-[120px] pointer-events-none animate-floaty" />
       <div className="container-page relative z-10">
         <div className="text-center mb-10">
-          <span className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-4">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-[11px] font-mono font-semibold tracking-[0.14em] uppercase rounded-full mb-4">
             <Star className="h-3 w-3" /> Del mes
           </span>
-          <h2 className="font-serif text-2xl sm:text-3xl font-medium text-bark dark:text-cream-100">Destacados del mes</h2>
+          <h2 className="heading-lg text-bark dark:text-cream-100">Destacados del mes</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
@@ -91,7 +92,7 @@ export default function DestacadosSection() {
             return (
               <CardWithGlow key={d.id}>
                 <div
-                  className="group bg-white dark:bg-bark-900 rounded-2xl border border-cream-200/80 dark:border-bark-700/80 overflow-hidden transition-interactive hover:shadow-lg hover:-translate-y-1 flex flex-col"
+                  className="group bg-white/80 backdrop-blur-sm dark:bg-bark-900 rounded-2xl border border-cream-200/50 dark:border-bark-700/80 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-cream-300/60 flex flex-col"
                 >
                 <div className="aspect-[4/3] overflow-hidden bg-cream-100 relative">
                   {f.foto_url ? (
