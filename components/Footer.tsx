@@ -11,7 +11,7 @@ export default function Footer() {
   if (pathname === "/mapa") return null;
 
   return (
-    <footer className="bg-cream-50 dark:bg-bark-950 border-t border-cream-200/50 dark:border-bark-800">
+    <footer className="bg-cream-50/95 dark:bg-bark-950/95 backdrop-blur-xl border-t border-cream-200/50 dark:border-bark-800/50">
       <div className="container-wide py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* Column 1 */}
@@ -22,7 +22,7 @@ export default function Footer() {
                 alt="Guía de Bienestar"
                 width={320}
                 height={64}
-                className="w-64 sm:w-80 h-auto"
+                className="w-64 sm:w-80 h-auto dark:brightness-0 dark:invert"
               />
             </Link>
             <p className="text-sm text-bark-600 dark:text-cream-300 mt-5 max-w-[300px] leading-relaxed">
