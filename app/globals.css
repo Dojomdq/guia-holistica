@@ -216,6 +216,27 @@
   animation: heroGradient 15s ease-in-out infinite;
 }
 
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(30px, -20px); }
+  50% { transform: translate(-10px, 30px); }
+  75% { transform: translate(-30px, -10px); }
+}
+
+@keyframes floaty {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(-20px, 30px); }
+  66% { transform: translate(20px, -20px); }
+}
+
+.animate-drift {
+  animation: drift 20s ease-in-out infinite;
+}
+
+.animate-floaty {
+  animation: floaty 18s ease-in-out infinite;
+}
+
 @keyframes blob {
   0%, 100% {
     transform: translate(0px, 0px) scale(1);

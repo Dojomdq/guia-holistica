@@ -17,6 +17,7 @@ export default function NewHero() {
 
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+      {/* Background image */}
       <div className="absolute inset-0">
         <Image
           src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/AF49F0FF-4A15-4EA3-AE9F-AC8F83C11FC0_hkigqu.jpg"
@@ -28,6 +29,10 @@ export default function NewHero() {
         <div className="absolute inset-0 hero-animated-gradient opacity-40 mix-blend-overlay" />
         <div className="absolute inset-0 bg-bark/35" />
       </div>
+
+      {/* Floating orbs for depth */}
+      <div className="absolute top-20 left-[10%] w-64 h-64 rounded-full bg-sage-400/20 blur-[100px] animate-drift pointer-events-none" />
+      <div className="absolute bottom-20 right-[15%] w-72 h-72 rounded-full bg-terracotta-400/15 blur-[100px] animate-floaty pointer-events-none" />
 
       <div className="relative z-10 w-full px-6 py-20">
         <div className="max-w-4xl mx-auto text-center">

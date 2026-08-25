@@ -65,14 +65,14 @@ export default function CategoryGrid() {
             ? Array.from({ length: 12 }).map((_, i) => (
                 <div
                   key={i}
-                  className="h-12 rounded-full bg-white/70 border border-cream-300/40 animate-pulse"
+                  className="h-14 rounded-2xl bg-white/70 border border-cream-300/40 animate-pulse"
                 />
               ))
             : categorias.map((cat, i) => (
-                <CardWithGlow key={cat.slug} className="rounded-full">
+                <CardWithGlow key={cat.slug} className="rounded-2xl">
                   <Link
                     href={`/actividades/${cat.slug}`}
-                    className={`group flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-white border border-cream-300/50 hover:border-sage-300 hover:bg-sage-50 hover:shadow-lg hover:scale-[1.02] transition-interactive ${
+                    className={`group relative flex items-center gap-3 px-5 py-4 rounded-2xl bg-white/80 backdrop-blur-sm border border-cream-200/60 hover:border-sage-300 hover:bg-sage-50/80 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ${
                       isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
                     }`}
                     style={{
@@ -81,10 +81,11 @@ export default function CategoryGrid() {
                       transitionDelay: `${Math.min(i * 40, 400)}ms`,
                     }}
                   >
-                    <span className="text-base leading-none" aria-hidden="true">{cat.emoji}</span>
-                    <span className="text-[13px] font-medium text-bark-600 group-hover:text-bark leading-tight transition-colors duration-200">
+                    <span className="text-xl leading-none" aria-hidden="true">{cat.emoji}</span>
+                    <span className="text-sm font-medium text-bark-600 group-hover:text-bark leading-tight transition-colors duration-200">
                       {cat.nombre}
                     </span>
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-sage-100/0 via-sage-100/30 to-sage-100/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                   </Link>
                 </CardWithGlow>
               ))}
