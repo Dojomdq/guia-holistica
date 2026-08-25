@@ -17,7 +17,7 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Column 1 */}
           <div>
-              <Link href="/" className="group inline-block -ml-16">
+              <Link href="/" className="group inline-block -ml-10">
               <Image
                 src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png"
                 alt="Guía de Bienestar"
