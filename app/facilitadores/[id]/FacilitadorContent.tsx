@@ -67,6 +67,7 @@ export default function FacilitadorContent({
   const [categoriaMap, setCategoriaMap] = useState<Record<string, string>>({});
   const [cargando, setCargando] = useState(true);
   const [noExiste, setNoExiste] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const track = useClickTracker();
 
   async function compartirPerfil() {
@@ -85,6 +86,15 @@ export default function FacilitadorContent({
       prompt("Copiá este enlace:", url);
     }
   }
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const check = () => setIsDark(document.documentElement.classList.contains("dark") || mq.matches);
+    check();
+    const observer = new MutationObserver(check);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     async function load() {
@@ -152,9 +162,9 @@ export default function FacilitadorContent({
       <div className="section-pad">
         <div className="container-page max-w-3xl">
           <div className="animate-pulse space-y-6">
-            <div className="h-64 bg-white rounded-2xl border border-cream-200" />
-            <div className="h-40 bg-white rounded-2xl border border-cream-200" />
-            <div className="h-56 bg-white rounded-2xl border border-cream-200" />
+            <div className="h-64 bg-white dark:bg-bark-800 rounded-2xl border border-cream-200 dark:border-bark-700" />
+            <div className="h-40 bg-white dark:bg-bark-800 rounded-2xl border border-cream-200 dark:border-bark-700" />
+            <div className="h-56 bg-white dark:bg-bark-800 rounded-2xl border border-cream-200 dark:border-bark-700" />
           </div>
         </div>
       </div>
@@ -179,9 +189,12 @@ export default function FacilitadorContent({
   const ubiPrincipal = f.ubicaciones[0];
   const iniciales = getIniciales(f.nombre);
   const tieneRedes = f.whatsapp || f.telefono || f.instagram || f.email || f.sitio_web;
+  const pageBg = isDark ? "#0F1B2D" : "#FAF6EE";
+  const cardBg = isDark ? "bg-bark-800" : "bg-white";
+  const cardBorder = isDark ? "border-bark-700" : "border-cream-200/80";
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ background: `linear-gradient(180deg, ${color}06 0%, #FAF6EE 30%, #FAF6EE 70%, ${color}04 100%)` }}>
+    <div className="min-h-screen relative overflow-hidden" style={{ background: `linear-gradient(180deg, ${color}06 0%, ${pageBg} 30%, ${pageBg} 70%, ${color}04 100%)` }}>
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{
         backgroundImage: `radial-gradient(circle at 20% 50%, ${color} 1px, transparent 1px), radial-gradient(circle at 80% 20%, ${color} 1px, transparent 1px), radial-gradient(circle at 40% 80%, ${color} 1.5px, transparent 1.5px)`,
         backgroundSize: "80px 80px, 100px 100px, 120px 120px",
@@ -234,7 +247,7 @@ export default function FacilitadorContent({
       />
 
       {/* Header profile card */}
-      <div className="relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${color}08 0%, ${color}03 50%, #FAF6EE 100%)` }}>
+      <div className="relative overflow-hidden" style={{ background: `linear-gradient(135deg, ${color}08 0%, ${color}03 50%, ${pageBg} 100%)` }}>
         <div className="absolute top-0 right-0 w-72 h-72 rounded-full blur-2xl pointer-events-none opacity-30" style={{ backgroundColor: `${color}20` }} />
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-2 rounded-full pointer-events-none opacity-10" style={{ backgroundColor: color }} />
 
@@ -261,7 +274,7 @@ export default function FacilitadorContent({
 
           <div className="flex flex-col sm:flex-row items-start gap-5 sm:gap-6">
             {f.foto_url ? (
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden ring-4 ring-white shadow-lg shrink-0">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden ring-4 ring-white dark:ring-bark-700 shadow-lg shrink-0">
                 <Image
                   src={f.foto_url}
                   alt={f.nombre}
@@ -272,7 +285,7 @@ export default function FacilitadorContent({
               </div>
             ) : (
               <div
-                className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl flex items-center justify-center ring-4 ring-white shadow-lg shrink-0"
+                className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl flex items-center justify-center ring-4 ring-white dark:ring-bark-700 shadow-lg shrink-0"
                 style={{ backgroundColor: `${color}18` }}
               >
                 <User className="h-12 w-12 sm:h-14 sm:w-14" style={{ color }} strokeWidth={1.5} />
@@ -385,7 +398,7 @@ export default function FacilitadorContent({
       <div className="container-page max-w-3xl py-8 sm:py-12 space-y-6">
         {/* Bio */}
         {f.bio && (
-          <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm p-6 sm:p-8">
+          <div className="bg-white dark:bg-bark-800 rounded-2xl border border-cream-200/80 dark:border-bark-700 shadow-sm p-6 sm:p-8">
             <h2 className="font-serif text-lg font-medium text-bark mb-3">Sobre el profesional</h2>
             <p className="text-bark-700 leading-relaxed">{f.bio}</p>
           </div>
@@ -393,7 +406,7 @@ export default function FacilitadorContent({
 
         {/* Horarios */}
         {f.horarios && (
-          <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm p-6 sm:p-8">
+          <div className="bg-white dark:bg-bark-800 rounded-2xl border border-cream-200/80 dark:border-bark-700 shadow-sm p-6 sm:p-8">
             <h2 className="font-serif text-lg font-medium text-bark mb-3 flex items-center gap-2">
               <Clock className="h-5 w-5" style={{ color }} />
               Horarios
@@ -404,7 +417,7 @@ export default function FacilitadorContent({
 
         {/* Contenido destacado */}
         {f.reel_url && (
-          <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm overflow-hidden">
+          <div className="bg-white dark:bg-bark-800 rounded-2xl border border-cream-200/80 dark:border-bark-700 shadow-sm overflow-hidden">
             <div className="p-5 sm:p-6">
               <h2 className="font-serif text-lg font-medium text-bark mb-3 flex items-center gap-2">
                 📹 Contenido destacado
@@ -427,7 +440,7 @@ export default function FacilitadorContent({
 
         {/* Ubicaciones */}
         {f.ubicaciones.length > 0 && (
-          <div className="bg-white rounded-2xl border border-cream-200/80 shadow-sm overflow-hidden">
+          <div className="bg-white dark:bg-bark-800 rounded-2xl border border-cream-200/80 dark:border-bark-700 shadow-sm overflow-hidden">
             <div className="p-6 sm:p-8">
               <h2 className="font-serif text-lg font-medium text-bark mb-5 flex items-center gap-2">
                 <MapPin className="h-5 w-5" style={{ color }} />
@@ -458,7 +471,7 @@ export default function FacilitadorContent({
                     </div>
 
                     {u.latitud && u.longitud && (
-                      <div className="rounded-2xl overflow-hidden border border-cream-200 shadow-sm">
+                      <div className="rounded-2xl overflow-hidden border border-cream-200 dark:border-bark-700 shadow-sm">
                         <MiniMapDetail lat={u.latitud} lng={u.longitud} nombre={f.nombre} logoUrl={f.logo_url} />
                       </div>
                     )}
