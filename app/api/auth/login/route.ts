@@ -6,17 +6,22 @@ const ADMIN_USER = process.env.ADMIN_USER || "admin";
 const ADMIN_PASS = process.env.ADMIN_PASS || "guia2026";
 
 export async function POST(request: Request) {
+  let body: any;
   try {
-    const body = await request.json();
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "JSON inválido" }, { status: 400 });
+  }
 
-    if (!body.user || !body.pass) {
-      return NextResponse.json({ error: "Faltan usuario o contraseña" }, { status: 400 });
-    }
+  if (typeof body !== "object" || body === null || !body.user || !body.pass) {
+    return NextResponse.json({ error: "Faltan usuario o contraseña" }, { status: 400 });
+  }
 
-    if (body.user !== ADMIN_USER || body.pass !== ADMIN_PASS) {
-      return NextResponse.json({ error: "Credenciales inválidas" }, { status: 401 });
-    }
+  if (body.user !== ADMIN_USER || body.pass !== ADMIN_PASS) {
+    return NextResponse.json({ error: "Credenciales inválidas" }, { status: 401 });
+  }
 
+  try {
     const token = await signJWT({ sub: ADMIN_USER }, JWT_SECRET);
 
     const resp = NextResponse.json({ success: true, user: ADMIN_USER });
