@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Calendar } from "lucide-react";
-import { supabase } from "@/lib/supabase/client";
 import MapPicker from "@/components/MapPicker";
 
 interface Evento {
@@ -30,8 +29,11 @@ export default function AdminEventosPage() {
   const [guardando, setGuardando] = useState(false);
 
   async function load() {
-    const { data } = await supabase.from("eventos").select("*").order("created_at", { ascending: false });
-    if (data) setEventos(data);
+    try {
+      const res = await fetch("/api/eventos");
+      const data = await res.json();
+      if (Array.isArray(data)) setEventos(data);
+    } catch { /* noop */ }
   }
 
   useEffect(() => { load(); }, []);
@@ -42,11 +44,21 @@ export default function AdminEventosPage() {
     if (!form.titulo.trim()) { setError("El título es obligatorio"); setGuardando(false); return; }
 
     if (editando) {
-      const { error: e } = await supabase.from("eventos").update(form).eq("id", editando);
-      if (e) { setError(e.message); setGuardando(false); return; }
+      const res = await fetch(`/api/eventos/${editando}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const json = await res.json();
+      if (!res.ok || json.success === false) { setError(json.error || "Error al actualizar"); setGuardando(false); return; }
     } else {
-      const { error: e } = await supabase.from("eventos").insert(form);
-      if (e) { setError(e.message); setGuardando(false); return; }
+      const res = await fetch("/api/eventos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const json = await res.json();
+      if (!res.ok || json.success === false) { setError(json.error || "Error al crear"); setGuardando(false); return; }
     }
 
     setShowForm(false); setEditando(null); setForm(EMPTY);
@@ -55,7 +67,7 @@ export default function AdminEventosPage() {
 
   async function handleDelete(id: string) {
     if (!confirm("¿Eliminar este evento?")) return;
-    await supabase.from("eventos").delete().eq("id", id);
+    await fetch(`/api/eventos/${id}`, { method: "DELETE" });
     await load();
   }
 
