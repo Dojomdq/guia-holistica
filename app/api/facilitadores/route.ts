@@ -6,7 +6,7 @@ export async function GET() {
   const supabase = getAdminClient();
   const { data, error } = await supabase
     .from("facilitadores")
-    .select("*, facilitador_actividades(actividades(id, nombre))")
+    .select("*, facilitador_actividades(actividades(id, nombre)), ubicaciones(*)")
     .order("nombre");
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

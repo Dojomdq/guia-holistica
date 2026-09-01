@@ -13,6 +13,19 @@ function applyFilters(q: any, desde: string | null, hasta: string | null) {
   return q;
 }
 
+export async function GET(req: NextRequest) {
+  const supabase = getAdminClient();
+  const { searchParams } = new URL(req.url);
+  const desde = searchParams.get("desde");
+  const hasta = searchParams.get("hasta");
+
+  let q = supabase.from("clicks").select("tipo, referencia_id, created_at").order("created_at", { ascending: false });
+  q = applyFilters(q as any, desde, hasta);
+  const { data, error } = await q;
+  if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  return NextResponse.json(data);
+}
+
 export async function DELETE(req: NextRequest) {
   try {
     const supabase = getAdminClient();

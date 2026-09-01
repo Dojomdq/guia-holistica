@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, X } from "lucide-react";
-import { supabase } from "@/lib/supabase/client";
 
 interface CategoriaAdmin {
   id: string;
@@ -33,15 +32,13 @@ export default function CategoriasAdmin() {
 
   async function load() {
     setError(null);
-    const { data, error: err } = await supabase
-      .from("categorias")
-      .select("*")
-      .order("nombre");
+    const res = await fetch("/api/categorias");
+    const data = await res.json();
 
-    if (err) {
-      setError("Error cargando categorías: " + err.message);
+    if (!res.ok || !Array.isArray(data)) {
+      setError("Error cargando categorías: " + (data?.error || res.statusText));
     } else {
-      setCategorias(data || []);
+      setCategorias(data);
     }
     setCargando(false);
   }
@@ -71,23 +68,28 @@ export default function CategoriasAdmin() {
     };
 
     if (editando) {
-      const { error: updErr } = await supabase
-        .from("categorias")
-        .update(payload)
-        .eq("id", editando);
+      const res = await fetch(`/api/categorias/${editando}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
 
-      if (updErr) {
-        setError("Error al guardar: " + updErr.message);
+      if (!res.ok) {
+        setError("Error al guardar: " + (data?.error || res.statusText));
         setGuardando(false);
         return;
       }
     } else {
-      const { error: insErr } = await supabase
-        .from("categorias")
-        .insert(payload);
+      const res = await fetch("/api/categorias", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
 
-      if (insErr) {
-        setError("Error al crear: " + insErr.message);
+      if (!res.ok) {
+        setError("Error al crear: " + (data?.error || res.statusText));
         setGuardando(false);
         return;
       }
@@ -102,8 +104,8 @@ export default function CategoriasAdmin() {
 
   async function handleDelete(id: string, nombre: string) {
     if (!confirm(`¿Eliminar la categoría "${nombre}"? Se eliminarán también sus actividades asociadas.`)) return;
-    const { error } = await supabase.from("categorias").delete().eq("id", id);
-    if (!error) await load();
+    const res = await fetch(`/api/categorias/${id}`, { method: "DELETE" });
+    if (res.ok) await load();
   }
 
   return (

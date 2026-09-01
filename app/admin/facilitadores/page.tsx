@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Plus, Pencil, Trash2, Search, MapPin, X, Crosshair, AlertCircle } from "lucide-react";
-import { supabase } from "@/lib/supabase/client";
 import MapPicker from "@/components/MapPicker";
 
 interface FacilitadorAdmin {
@@ -108,21 +107,15 @@ export default function FacilitadoresAdmin() {
   async function load() {
     setError(null);
     const [fRes, aRes] = await Promise.all([
-      supabase
-        .from("facilitadores")
-        .select("*, facilitador_actividades(actividades(id)), ubicaciones(*)")
-        .order("nombre"),
-      supabase
-        .from("actividades")
-        .select("id, nombre")
-        .order("nombre"),
+      fetch("/api/facilitadores").then((r) => r.json()).catch(() => null),
+      fetch("/api/actividades").then((r) => r.json()).catch(() => null),
     ]);
 
-    if (fRes.error) {
-      setError("Error cargando facilitadores: " + fRes.error.message);
+    if (!fRes || !Array.isArray(fRes)) {
+      setError("Error cargando facilitadores: " + (fRes?.error || "desconocido"));
     } else {
       setFacilitadores(
-        (fRes.data || []).map((f: any) => ({
+        fRes.map((f: any) => ({
           id: f.id,
           nombre: f.nombre,
           email: f.email,
@@ -146,8 +139,8 @@ export default function FacilitadoresAdmin() {
       );
     }
 
-    if (aRes.data) {
-      setActividades((aRes.data || []).map((a: any) => ({ id: a.id, nombre: a.nombre })));
+    if (Array.isArray(aRes)) {
+      setActividades(aRes.map((a: any) => ({ id: a.id, nombre: a.nombre })));
     }
 
     try {

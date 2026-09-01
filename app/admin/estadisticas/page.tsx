@@ -25,7 +25,6 @@ function Instagram({ className }: { className?: string }) {
     </svg>
   );
 }
-import { supabase } from "@/lib/supabase/client";
 import { downloadCSV } from "@/lib/csv";
 
 interface ClickRaw {
@@ -68,22 +67,26 @@ export default function EstadisticasAdmin() {
 
   useEffect(() => {
     async function load() {
-      const [{ data: clicks }, { data: acts }, { data: fas }] = await Promise.all([
-        supabase.from("clicks").select("tipo, referencia_id, created_at").order("created_at", { ascending: false }),
-        supabase.from("actividades").select("slug, nombre"),
-        supabase.from("facilitadores").select("id, nombre"),
+      const [clickData, actData, faData] = await Promise.all([
+        fetch("/api/clicks-admin").then((r) => r.json()),
+        fetch("/api/actividades").then((r) => r.json()),
+        fetch("/api/facilitadores").then((r) => r.json()),
       ]);
 
-      if (clicks) setClicks(clicks as ClickRaw[]);
+      if (clickData && !Array.isArray(clickData)) {
+        setClicks([]);
+      } else {
+        setClicks((clickData || []) as ClickRaw[]);
+      }
 
-      if (acts) {
+      if (Array.isArray(actData)) {
         const map: Record<string, string> = {};
-        for (const a of acts) map[a.slug] = a.nombre;
+        for (const a of actData) map[a.slug] = a.nombre;
         setActividadNames(map);
       }
-      if (fas) {
+      if (Array.isArray(faData)) {
         const map: Record<string, string> = {};
-        for (const f of fas) map[f.id] = f.nombre;
+        for (const f of faData) map[f.id] = f.nombre;
         setFacilitadorNames(map);
       }
 

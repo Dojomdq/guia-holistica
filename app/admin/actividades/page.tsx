@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Search, X } from "lucide-react";
-import { supabase } from "@/lib/supabase/client";
 
 interface ActividadAdmin {
   id: string;
@@ -43,21 +42,18 @@ export default function ActividadesAdmin() {
   async function load() {
     setError(null);
     const [aRes, cRes] = await Promise.all([
-      supabase
-        .from("actividades")
-        .select("*, categorias(nombre)")
-        .order("nombre"),
-      supabase
-        .from("categorias")
-        .select("id, nombre")
-        .order("nombre"),
+      fetch("/api/actividades").then((r) => r.json()),
+      fetch("/api/categorias").then((r) => r.json()),
     ]);
 
-    if (aRes.error) {
-      setError("Error cargando actividades: " + aRes.error.message);
+    const okActs = Array.isArray(aRes);
+    const okCats = Array.isArray(cRes);
+
+    if (!okActs) {
+      setError("Error cargando actividades: " + (aRes?.error || "desconocido"));
     } else {
       setActividades(
-        (aRes.data || []).map((a: any) => ({
+        aRes.map((a: any) => ({
           id: a.id, nombre: a.nombre, slug: a.slug,
           descripcion: a.descripcion, categoria_id: a.categoria_id,
           categoria_nombre: a.categorias?.nombre || "Sin categoría",
@@ -65,8 +61,8 @@ export default function ActividadesAdmin() {
       );
     }
 
-    if (cRes.data) {
-      setCategorias((cRes.data || []).map((c: any) => ({ id: c.id, nombre: c.nombre })));
+    if (okCats) {
+      setCategorias(cRes.map((c: any) => ({ id: c.id, nombre: c.nombre })));
     }
 
     setCargando(false);
@@ -108,23 +104,28 @@ export default function ActividadesAdmin() {
     };
 
     if (editando) {
-      const { error: updErr } = await supabase
-        .from("actividades")
-        .update(payload)
-        .eq("id", editando);
+      const res = await fetch(`/api/actividades/${editando}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
 
-      if (updErr) {
-        setError("Error al guardar: " + updErr.message);
+      if (!res.ok) {
+        setError("Error al guardar: " + (data?.error || res.statusText));
         setGuardando(false);
         return;
       }
     } else {
-      const { error: insErr } = await supabase
-        .from("actividades")
-        .insert(payload);
+      const res = await fetch("/api/actividades", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
 
-      if (insErr) {
-        setError("Error al crear: " + insErr.message);
+      if (!res.ok) {
+        setError("Error al crear: " + (data?.error || res.statusText));
         setGuardando(false);
         return;
       }
@@ -139,9 +140,8 @@ export default function ActividadesAdmin() {
 
   async function handleDelete(id: string, nombre: string) {
     if (!confirm(`¿Eliminar la actividad "${nombre}"?`)) return;
-    await supabase.from("facilitador_actividades").delete().eq("actividad_id", id);
-    const { error } = await supabase.from("actividades").delete().eq("id", id);
-    if (!error) await load();
+    const res = await fetch(`/api/actividades/${id}`, { method: "DELETE" });
+    if (res.ok) await load();
   }
 
   return (

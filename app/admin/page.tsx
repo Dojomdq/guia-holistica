@@ -16,7 +16,6 @@ import {
   DollarSign,
 } from "lucide-react";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase/client";
 import { downloadCSV } from "@/lib/csv";
 
 interface ClickStat {
@@ -63,14 +62,15 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     async function load() {
-      const [f, a, c] = await Promise.all([
-        supabase.from("facilitadores").select("id", { count: "exact", head: true }),
-        supabase.from("actividades").select("id", { count: "exact", head: true }),
-        supabase.from("categorias").select("id", { count: "exact", head: true }),
+      const [f, a, c, cl] = await Promise.all([
+        fetch("/api/facilitadores").then((r) => r.json()),
+        fetch("/api/actividades").then((r) => r.json()),
+        fetch("/api/categorias").then((r) => r.json()),
+        fetch("/api/clicks-admin").then((r) => r.json()),
       ]);
-      setTotalFacilitadores(f.count || 0);
-      setTotalActividades(a.count || 0);
-      setTotalCategorias(c.count || 0);
+      setTotalFacilitadores(Array.isArray(f) ? f.length : 0);
+      setTotalActividades(Array.isArray(a) ? a.length : 0);
+      setTotalCategorias(Array.isArray(c) ? c.length : 0);
 
       try {
         const [planRes, fpRes] = await Promise.all([
@@ -114,29 +114,19 @@ export default function AdminDashboard() {
         }
       } catch {}
 
-      const { data: clicks } = await supabase
-        .from("clicks")
-        .select("tipo, referencia_id, created_at");
-
-      if (clicks) {
-        setClicksRaw(clicks as ClickRaw[]);
-
-        const [actsRes, fasRes] = await Promise.all([
-          supabase.from("actividades").select("slug, nombre"),
-          supabase.from("facilitadores").select("id, nombre"),
-        ]);
-
-        if (actsRes.data) {
-          const map: Record<string, string> = {};
-          for (const act of actsRes.data) map[act.slug] = act.nombre;
-          setActividadNames(map);
-        }
-        if (fasRes.data) {
-          const map: Record<string, string> = {};
-          for (const fa of fasRes.data) map[fa.id] = fa.nombre;
-          setFacilitadorNames(map);
-        }
+      if (f) {
+        const map: Record<string, string> = {};
+        for (const fa of f) map[fa.id] = fa.nombre;
+        setFacilitadorNames(map);
       }
+
+      if (a) {
+        const map: Record<string, string> = {};
+        for (const act of a) map[act.slug] = act.nombre;
+        setActividadNames(map);
+      }
+
+      if (Array.isArray(cl)) setClicksRaw(cl as ClickRaw[]);
     }
     load();
   }, []);
