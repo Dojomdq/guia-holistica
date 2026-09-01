@@ -32,6 +32,14 @@ export async function DELETE(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const desde = searchParams.get("desde");
     const hasta = searchParams.get("hasta");
+    const confirmar = searchParams.get("confirmar");
+
+    if (!desde && !hasta && confirmar !== "1") {
+      return NextResponse.json(
+        { success: false, error: "Se requiere un rango de fechas (desde/hasta) o confirmar=1 para borrar" },
+        { status: 400 }
+      );
+    }
 
     let countQ = applyFilters(supabase.from("clicks").select("id", { count: "exact", head: true }), desde, hasta);
     const { count, error: countErr } = await countQ;

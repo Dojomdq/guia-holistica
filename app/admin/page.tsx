@@ -182,6 +182,7 @@ export default function AdminDashboard() {
     const query = new URLSearchParams();
     if (desde) query.set("desde", desde);
     if (hasta) query.set("hasta", hasta);
+    if (!desde && !hasta) query.set("confirmar", "1");
     const res = await fetch(`/api/clicks-admin?${query.toString()}`, { method: "DELETE" });
     const data = await res.json();
     setReseteando(false);
