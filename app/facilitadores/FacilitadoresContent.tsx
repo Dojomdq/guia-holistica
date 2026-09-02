@@ -10,6 +10,7 @@ import { useClickTracker } from "@/lib/useClickTracker";
 import { useScrollReveal } from "@/lib/useScrollReveal";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { SITE_URL } from "@/lib/constants";
+import { safeJsonLd } from "@/lib/json-ld";
 
 interface FacilitadorItem {
   id: string;
@@ -163,7 +164,7 @@ export default function FacilitadoresContent() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
@@ -177,7 +178,7 @@ export default function FacilitadoresContent() {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
+            __html: safeJsonLd({
               "@context": "https://schema.org",
               "@type": "ItemList",
               name: "Facilitadores de bienestar",

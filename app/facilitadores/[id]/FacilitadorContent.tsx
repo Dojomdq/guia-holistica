@@ -22,6 +22,7 @@ import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { SITE_URL, CITY_NAME, WHATSAPP_LINK } from "@/lib/constants";
+import { safeJsonLd } from "@/lib/json-ld";
 import { useClickTracker } from "@/lib/useClickTracker";
 import type { Ubicacion } from "@/lib/types";
 
@@ -205,7 +206,7 @@ export default function FacilitadorContent({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
@@ -219,7 +220,7 @@ export default function FacilitadorContent({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "ProfessionalService",
             name: f.nombre,

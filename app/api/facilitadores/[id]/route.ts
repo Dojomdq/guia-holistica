@@ -61,18 +61,18 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       .select()
       .single();
 
-    if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ success: false, error: "Error al actualizar facilitador" }, { status: 500 });
 
     if (actividad_ids !== undefined) {
       const { error: delErr } = await supabase.from("facilitador_actividades").delete().eq("facilitador_id", params.id);
-      if (delErr) return NextResponse.json({ success: false, error: delErr.message }, { status: 500 });
+      if (delErr) return NextResponse.json({ success: false, error: "Error al actualizar actividades" }, { status: 500 });
       if (actividad_ids.length) {
         const rels = actividad_ids.map((aid: string) => ({
           facilitador_id: params.id,
           actividad_id: aid,
         }));
         const { error: insErr } = await supabase.from("facilitador_actividades").insert(rels);
-        if (insErr) return NextResponse.json({ success: false, error: insErr.message }, { status: 500 });
+        if (insErr) return NextResponse.json({ success: false, error: "Error al actualizar actividades" }, { status: 500 });
       }
     }
 
@@ -107,8 +107,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     return NextResponse.json({ success: true, data });
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message || "Error interno" }, { status: 500 });
+  } catch {
+    return NextResponse.json({ success: false, error: "Error interno" }, { status: 500 });
   }
 }
 
@@ -118,9 +118,9 @@ export async function DELETE(_req: NextRequest, { params }: { params: { id: stri
     await supabase.from("facilitador_actividades").delete().eq("facilitador_id", params.id);
     await supabase.from("ubicaciones").delete().eq("facilitador_id", params.id);
     const { error } = await supabase.from("facilitadores").delete().eq("id", params.id);
-    if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ success: false, error: "Error al eliminar facilitador" }, { status: 500 });
     return NextResponse.json({ success: true });
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message || "Error interno" }, { status: 500 });
+  } catch {
+    return NextResponse.json({ success: false, error: "Error interno" }, { status: 500 });
   }
 }

@@ -10,7 +10,7 @@ export async function GET() {
     .select("*, facilitador_actividades(actividades(id, nombre)), ubicaciones(*)")
     .order("nombre");
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error) return NextResponse.json({ error: "Error al consultar facilitadores" }, { status: 500 });
   return NextResponse.json(data);
 }
 
@@ -23,6 +23,11 @@ export async function POST(req: NextRequest) {
   const supabase = getAdminClient();
 
     const { actividad_ids, ubicaciones, ...facData } = body;
+
+    const nombre = typeof facData.nombre === "string" ? facData.nombre.trim() : "";
+    const email = typeof facData.email === "string" ? facData.email.trim() : "";
+    if (!nombre) return NextResponse.json({ success: false, error: "El nombre es requerido" }, { status: 400 });
+    if (!email) return NextResponse.json({ success: false, error: "El email es requerido" }, { status: 400 });
 
     let lat = parseFloat(body.latitud) || DEFAULT_LAT;
     let lng = parseFloat(body.longitud) || DEFAULT_LNG;
@@ -61,8 +66,8 @@ export async function POST(req: NextRequest) {
     const { data: fac, error: facErr } = await supabase
       .from("facilitadores")
       .insert({
-        nombre: facData.nombre,
-        email: facData.email,
+        nombre,
+        email,
         slug,
         telefono: facData.telefono || null,
         whatsapp: facData.whatsapp || null,
@@ -80,7 +85,7 @@ export async function POST(req: NextRequest) {
       .select()
       .single();
 
-    if (facErr) return NextResponse.json({ success: false, error: facErr.message }, { status: 500 });
+    if (facErr) return NextResponse.json({ success: false, error: "Error al guardar facilitador" }, { status: 500 });
 
     if (actividad_ids?.length) {
       const rels = actividad_ids.map((aid: string) => ({
@@ -88,7 +93,7 @@ export async function POST(req: NextRequest) {
         actividad_id: aid,
       }));
       const { error: relErr } = await supabase.from("facilitador_actividades").insert(rels);
-      if (relErr) return NextResponse.json({ success: false, error: relErr.message }, { status: 500 });
+      if (relErr) return NextResponse.json({ success: false, error: "Error al guardar actividades" }, { status: 500 });
     }
 
     if (ubicaciones?.length) {
