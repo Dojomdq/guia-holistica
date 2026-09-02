@@ -67,5 +67,6 @@ export const config = {
     "/api/representantes/:path*",
     "/api/clicks-admin",
     "/api/clicks-admin/:path*",
+    "/api/auth/cambiar-contrasena",
   ],
 };

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase/admin";
+import { readJsonBody } from "@/lib/body";
 
 export async function GET() {
   const supabase = getAdminClient();
@@ -12,8 +13,12 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const read = await readJsonBody(req);
+  if (!read.ok) {
+    return NextResponse.json({ error: read.error }, { status: read.status });
+  }
+  const body = read.body as any;
   const supabase = getAdminClient();
-  const body = await req.json();
 
   const { data: pago, error } = await supabase
     .from("pagos")

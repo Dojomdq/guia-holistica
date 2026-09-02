@@ -17,6 +17,7 @@ import {
   BarChart3,
   Star,
   DollarSign,
+  KeyRound,
 } from "lucide-react";
 
 const adminLinks = [
@@ -116,6 +117,14 @@ export default function AdminShell({
         </div>
 
         <div className="mt-auto p-5 border-t border-white/5">
+          <Link
+            href="/admin/cambiar-contrasena"
+            onClick={() => setMobileOpen(false)}
+            className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-cream-200 hover:text-cream-200 hover:bg-white/5 transition-all duration-300"
+          >
+            <KeyRound className="h-4 w-4" strokeWidth={1.5} />
+            Cambiar contraseña
+          </Link>
           <a
             href="/admin/logout"
             className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-cream-200 hover:text-cream-200 hover:bg-white/5 transition-all duration-300"

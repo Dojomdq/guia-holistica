@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase/admin";
 
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+function validDate(v: string | null): v is string {
+  if (!v) return true;
+  if (!DATE_RE.test(v)) return false;
+  const d = new Date(v);
+  return !isNaN(d.getTime());
+}
+
 function applyFilters(q: any, desde: string | null, hasta: string | null) {
   if (desde) {
     q = q.gte("created_at", desde);
@@ -19,38 +28,54 @@ export async function GET(req: NextRequest) {
   const desde = searchParams.get("desde");
   const hasta = searchParams.get("hasta");
 
+  if (!validDate(desde) || !validDate(hasta)) {
+    return NextResponse.json(
+      { error: "desde y hasta deben ser fechas válidas (YYYY-MM-DD)" },
+      { status: 400 }
+    );
+  }
+
   let q = supabase.from("clicks").select("tipo, referencia_id, created_at").order("created_at", { ascending: false });
   q = applyFilters(q as any, desde, hasta);
   const { data, error } = await q;
-  if (error) return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  if (error) {
+    return NextResponse.json({ success: false, error: "Error al consultar" }, { status: 500 });
+  }
   return NextResponse.json(data);
 }
 
 export async function DELETE(req: NextRequest) {
+  const supabase = getAdminClient();
+  const { searchParams } = new URL(req.url);
+  const desde = searchParams.get("desde");
+  const hasta = searchParams.get("hasta");
+  const confirmar = searchParams.get("confirmar");
+
+  if (!desde && !hasta && confirmar !== "1") {
+    return NextResponse.json(
+      { success: false, error: "Se requiere un rango de fechas (desde/hasta) o confirmar=1 para borrar" },
+      { status: 400 }
+    );
+  }
+
+  if (!validDate(desde) || !validDate(hasta)) {
+    return NextResponse.json(
+      { error: "desde y hasta deben ser fechas válidas (YYYY-MM-DD)" },
+      { status: 400 }
+    );
+  }
+
   try {
-    const supabase = getAdminClient();
-    const { searchParams } = new URL(req.url);
-    const desde = searchParams.get("desde");
-    const hasta = searchParams.get("hasta");
-    const confirmar = searchParams.get("confirmar");
-
-    if (!desde && !hasta && confirmar !== "1") {
-      return NextResponse.json(
-        { success: false, error: "Se requiere un rango de fechas (desde/hasta) o confirmar=1 para borrar" },
-        { status: 400 }
-      );
-    }
-
     let countQ = applyFilters(supabase.from("clicks").select("id", { count: "exact", head: true }), desde, hasta);
     const { count, error: countErr } = await countQ;
-    if (countErr) return NextResponse.json({ success: false, error: countErr.message }, { status: 500 });
+    if (countErr) return NextResponse.json({ success: false, error: "Error al contar" }, { status: 500 });
 
     let delQ = applyFilters(supabase.from("clicks").delete(), desde, hasta);
     const { error: delErr } = await delQ;
-    if (delErr) return NextResponse.json({ success: false, error: delErr.message }, { status: 500 });
+    if (delErr) return NextResponse.json({ success: false, error: "Error al borrar" }, { status: 500 });
 
     return NextResponse.json({ success: true, deleted: count ?? 0 });
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message || "Error interno" }, { status: 500 });
+    return NextResponse.json({ success: false, error: "Error interno" }, { status: 500 });
   }
 }

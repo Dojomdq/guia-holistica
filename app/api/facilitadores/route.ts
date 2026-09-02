@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminClient } from "@/lib/supabase/admin";
 import { geocodeAddress, isDefaultCoordinates, DEFAULT_LAT, DEFAULT_LNG } from "@/lib/geocode";
+import { readJsonBody } from "@/lib/body";
 
 export async function GET() {
   const supabase = getAdminClient();
@@ -14,9 +15,12 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-    const supabase = getAdminClient();
+  const read = await readJsonBody(req, 2 * 1024 * 1024);
+  if (!read.ok) {
+    return NextResponse.json({ success: false, error: read.error }, { status: read.status });
+  }
+  const body = read.body as any;
+  const supabase = getAdminClient();
 
     const { actividad_ids, ubicaciones, ...facData } = body;
 
@@ -115,7 +119,4 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true, data: fac }, { status: 201 });
-  } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message || "Error interno" }, { status: 500 });
-  }
 }
