@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import L from "leaflet";
 import {
   MapContainer,
   TileLayer,
@@ -32,7 +33,8 @@ function Instagram({ className }: { className?: string }) {
 import { getCategoryIconSVG, getMarkerColor } from "@/lib/categories";
 import ClusteredMarkers from "@/components/ClusteredMarkers";
 import { useClickTracker } from "@/lib/useClickTracker";
-import { CITY_COORDS, CITY_NAME } from "@/lib/constants";
+import { CITY_COORDS } from "@/lib/constants";
+import { ARGENTINA_CENTER, ARGENTINA_ZOOM } from "@/lib/constants";
 
 interface Actividad {
   id: string;
@@ -78,7 +80,8 @@ interface Props {
   onUbicacionSeleccionada?: (id: string | null) => void;
 }
 
-const DEFAULT_CENTER: [number, number] = CITY_COORDS[CITY_NAME] ?? [-38, -57];
+const DEFAULT_CENTER: [number, number] = ARGENTINA_CENTER;
+const DEFAULT_ZOOM = ARGENTINA_ZOOM;
 const markerClickRef = { current: false };
 
 function MapEvents({
@@ -107,29 +110,65 @@ function FocusMarkers({
   selectedId,
   ciudad,
   ubicacionId,
+  hasFitRef,
 }: {
   markers: MarkerItem[];
   selectedId: string | null;
   ciudad?: string | null;
   ubicacionId?: string | null;
+  hasFitRef?: React.MutableRefObject<boolean>;
 }) {
   const map = useMap();
   useEffect(() => {
-    if (!ciudad) return;
+    if (ciudad) {
+      const cityMarkers = markers.filter(
+        (m) => m.ubicacion.ciudad === ciudad && m.ubicacion.latitud && m.ubicacion.longitud
+      );
 
-    const cityMarkers = markers.filter(
-      (m) => m.ubicacion.ciudad === ciudad && m.ubicacion.latitud && m.ubicacion.longitud
-    );
-
-    if (cityMarkers.length > 0) {
-      const avgLat = cityMarkers.reduce((s, m) => s + m.ubicacion.latitud, 0) / cityMarkers.length;
-      const avgLng = cityMarkers.reduce((s, m) => s + m.ubicacion.longitud, 0) / cityMarkers.length;
-      const zoom = cityMarkers.length === 1 ? 15 : 13;
-      map.flyTo([avgLat, avgLng], zoom, { duration: 0.8 });
-    } else if (CITY_COORDS[ciudad]) {
-      map.flyTo(CITY_COORDS[ciudad], 14, { duration: 0.8 });
+      if (cityMarkers.length > 0) {
+        const avgLat = cityMarkers.reduce((s, m) => s + m.ubicacion.latitud, 0) / cityMarkers.length;
+        const avgLng = cityMarkers.reduce((s, m) => s + m.ubicacion.longitud, 0) / cityMarkers.length;
+        const zoom = cityMarkers.length === 1 ? 15 : 13;
+        map.flyTo([avgLat, avgLng], zoom, { duration: 0.8 });
+      } else if (CITY_COORDS[ciudad]) {
+        map.flyTo(CITY_COORDS[ciudad], 14, { duration: 0.8 });
+      }
+      return;
     }
-  }, [ciudad, markers, map]);
+
+    // Vista nacional: fit a todos los marcadores una sola vez al cargar
+    if (hasFitRef?.current) return;
+    if (markers.length === 0) return;
+
+    const withCoords = markers.filter(
+      (m) => m.ubicacion.latitud && m.ubicacion.longitud && m.ubicacion.ciudad
+    );
+    if (withCoords.length === 0) return;
+
+    if (hasFitRef) hasFitRef.current = true;
+
+    // Agrupar por ciudad para no darle peso excesivo a ciudades con muchos marcadores
+    const ciudades = new Map<string, { lat: number; lng: number }>();
+    withCoords.forEach((m) => {
+      const c = m.ubicacion.ciudad;
+      if (!ciudades.has(c)) {
+        ciudades.set(c, { lat: m.ubicacion.latitud, lng: m.ubicacion.longitud });
+      }
+    });
+
+    if (ciudades.size === 1) {
+      const first = [...ciudades.values()][0];
+      map.flyTo([first.lat, first.lng], 13, { duration: 0.8 });
+      return;
+    }
+
+    const points = [...ciudades.values()].map((c) => [c.lat, c.lng] as [number, number]);
+    const container = map.getContainer();
+    if (!container || container.clientWidth === 0) return;
+
+    const bounds = L.latLngBounds(points);
+    map.fitBounds(bounds, { padding: [40, 40], duration: 0.8 });
+  }, [ciudad, markers, map, hasFitRef]);
 
   useEffect(() => {
     if (!selectedId) return;
@@ -348,11 +387,12 @@ export default function MapaInteractivo({
   onUbicacionSeleccionada,
 }: Props) {
   const track = useClickTracker();
+  const hasFitRef = useRef(false);
 
   return (
     <MapContainer
       center={DEFAULT_CENTER}
-      zoom={14}
+      zoom={DEFAULT_ZOOM}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
       className="z-0"
@@ -363,7 +403,7 @@ export default function MapaInteractivo({
       />
 
       <MapEvents onSeleccionar={(id) => { onSeleccionar(id); if (!id) onUbicacionSeleccionada?.(null); }} />
-      <FocusMarkers markers={markers} selectedId={seleccionado} ciudad={ciudadSeleccionada} ubicacionId={ubicacionSeleccionada} />
+      <FocusMarkers markers={markers} selectedId={seleccionado} ciudad={ciudadSeleccionada} ubicacionId={ubicacionSeleccionada} hasFitRef={hasFitRef} />
 
       <ClusteredMarkers
         items={markers.map((m) => {

@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/constants";
+import { todosLasLandingCiudades } from "@/lib/cities-landing";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = SITE_URL;
@@ -10,6 +11,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/mapa`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${base}/actividades`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/facilitadores`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
+    { url: `${base}/ciudades`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/alquiler-espacios`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/eventos`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
   ];
@@ -22,9 +24,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (url && key) {
       const supabase = createClient(url, key);
 
-      const [{ data: facilitadores }, { data: categorias }] = await Promise.all([
+      const [{ data: facilitadores }, { data: categorias }, ciudades] = await Promise.all([
         supabase.from("facilitadores").select("id, slug, created_at").eq("activo", true),
         supabase.from("categorias").select("slug, created_at"),
+        todosLasLandingCiudades(),
       ]);
 
       dynamicPages = [
@@ -42,6 +45,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             changeFrequency: "weekly" as const,
             priority: 0.7,
           })),
+        ...(ciudades || []).map((c) => ({
+          url: `${base}/ciudades/${c.slug}`,
+          lastModified: new Date(),
+          changeFrequency: "weekly" as const,
+          priority: 0.7,
+        })),
       ];
     }
   } catch {
