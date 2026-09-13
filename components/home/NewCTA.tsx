@@ -37,10 +37,10 @@ export default function NewCTA() {
           <div className="relative flex flex-col lg:flex-row items-center justify-between gap-8 max-w-5xl mx-auto">
             <div className="flex-1 text-center lg:text-left">
               <h2 id="cta-titulo" className="font-serif text-3xl sm:text-4xl text-white max-w-2xl leading-tight mb-4">
-                ¿Sos profesional? Sumá tu perfil y conectá con nuevos pacientes.
+                ¿Sos profesional? Sumá tu perfil y conectá con personas interesadas en tu práctica.
               </h2>
               <p className="text-white/80 text-lg max-w-xl mx-auto lg:mx-0">
-                Unite a la comunidad de facilitadores más grande de Mar del Plata.
+                Unite a la comunidad de profesionales y facilitadores de bienestar más grande de Argentina.
               </p>
             </div>
 

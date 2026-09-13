@@ -27,7 +27,7 @@ export default function Footer() {
               />
             </Link>
             <p className="text-sm text-bark-600 dark:text-cream-300 mt-5 max-w-[300px] leading-relaxed">
-              Directorio de bienestar. Conectá con terapeutas, guías y facilitadores de tu zona.
+              Directorio de bienestar. Conectá con profesionales y facilitadores de bienestar de toda la Argentina.
             </p>
             <div className="flex items-center gap-3 mt-6">
               <a
@@ -64,6 +64,7 @@ export default function Footer() {
                 { href: "/actividades", label: "Actividades" },
                 { href: "/alquiler-espacios", label: "Alquiler de espacios" },
                 { href: "/eventos", label: "Próximos eventos" },
+                { href: "/ciudades", label: "Ciudades" },
                 { href: "/mapa", label: "Mapa" },
                 { href: "/acerca", label: "Sobre nosotros" },
                 { href: "/accesibilidad", label: "Accesibilidad" },
@@ -120,7 +121,7 @@ export default function Footer() {
           </span>
           <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-sage-400 dark:bg-sage-500 animate-pulse" />
-            <span className="text-xs text-bark-500 dark:text-cream-400">Hecho con amor en Mar del Plata</span>
+            <span className="text-xs text-bark-500 dark:text-cream-400">Hecho con amor en Argentina</span>
           </div>
           </div>
         </div>

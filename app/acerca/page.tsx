@@ -3,16 +3,16 @@ import Link from "next/link";
 import { ArrowLeft, MapPin, HeartHandshake, MessageCircle } from "lucide-react";
 import InstagramIcon from "@/components/ui/InstagramIcon";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { SITE_URL, CITY_NAME, WHATSAPP_LINK, INSTAGRAM_URL, INSTAGRAM_HANDLE } from "@/lib/constants";
+import { SITE_URL, WHATSAPP_LINK, INSTAGRAM_URL, INSTAGRAM_HANDLE } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Sobre Guía de Bienestar | Quiénes Somos",
   description:
-    "Guía de Bienestar es un directorio que conecta a personas con terapeutas, guías y facilitadores de bienestar. Conocé cómo funciona y cómo sumarte.",
+    "Guía de Bienestar es un directorio que conecta a personas con profesionales y facilitadores de bienestar en toda la Argentina. Conocé cómo funciona y cómo sumarte.",
   openGraph: {
     title: "Sobre Guía de Bienestar | Quiénes Somos",
     description:
-      "Guía de Bienestar es un directorio que conecta a personas con terapeutas, guías y facilitadores de bienestar.",
+      "Guía de Bienestar es un directorio que conecta a personas con profesionales y facilitadores de bienestar en toda la Argentina.",
   },
   alternates: {
     canonical: `${SITE_URL}/acerca`,
@@ -26,8 +26,8 @@ const jsonLd = {
   url: SITE_URL,
   logo: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png",
   description:
-    "Directorio de facilitadores, terapeutas y guías de bienestar.",
-  areaServed: { "@type": "City", name: CITY_NAME },
+    "Directorio de bienestar. Encontrá profesionales y facilitadores de bienestar en toda la Argentina.",
+  areaServed: { "@type": "Country", name: "Argentina" },
   knowsAbout: [
     "Terapias de bienestar",
     "Yoga",
@@ -37,7 +37,7 @@ const jsonLd = {
     "Tarot",
     "Biodanza",
     "Flores de Bach",
-    `Bienestar en ${CITY_NAME}`,
+    "Bienestar en Argentina",
   ],
   sameAs: [INSTAGRAM_URL, WHATSAPP_LINK],
 };
@@ -66,8 +66,8 @@ export default function AcercaPage() {
           </h1>
         </div>
         <p className="text-lg text-bark-700 max-w-xl leading-relaxed">
-          Somos una guía local que acerca a las personas con quienes pueden
-          acompañarlas en su bienestar, en {CITY_NAME} y alrededores.
+          Somos una guía que acerca a las personas con quienes pueden
+          acompañarlas en su bienestar, en toda la Argentina.
         </p>
 
         <div className="mt-14 space-y-10">
@@ -77,7 +77,7 @@ export default function AcercaPage() {
             </h2>
             <p className="text-bark-700 mt-2 leading-relaxed">
               Es un directorio de acceso abierto que reúne a
-              facilitadores, terapeutas y guías de prácticas de bienestar. Cada
+              profesionales y facilitadores de prácticas de bienestar. Cada
               perfil muestra sus actividades, su ubicación en el mapa y su
               contacto directo, para que quienes buscan puedan conectar sin
               intermediarios.
@@ -104,7 +104,7 @@ export default function AcercaPage() {
 
           <section aria-labelledby="sumarte">
             <h2 id="sumarte" className="heading-sm text-bark">
-              ¿Sos facilitador o terapeuta?
+              ¿Sos profesional o facilitador?
             </h2>
             <p className="text-bark-700 mt-2 leading-relaxed">
               Sumar tu perfil es simple. Escribinos por WhatsApp con tu

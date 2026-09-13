@@ -89,7 +89,7 @@ export default function ActividadPageInner({ slug }: { slug: string }) {
             {displayName}
           </h1>
           <p className="text-lg text-bark-600 mt-3 max-w-lg leading-relaxed">
-            {subActividades.length} {subActividades.length === 1 ? "especialidad" : "especialidades"} · {subActividades.reduce((sum, a) => sum + a.count, 0)} facilitadores
+            {subActividades.length} {subActividades.length === 1 ? "especialidad" : "especialidades"} · {subActividades.reduce((sum, a) => sum + a.count, 0)} profesionales
           </p>
         </div>
 
@@ -157,7 +157,7 @@ export default function ActividadPageInner({ slug }: { slug: string }) {
                   </p>
                 )}
                 <span className="inline-flex items-center gap-1 text-[13px] font-medium text-sage-600 mt-3">
-                  {a.count > 0 ? "Ver facilitadores" : "Sin facilitadores aún"}
+                  {a.count > 0 ? "Ver profesionales" : "Sin profesionales aún"}
                 </span>
               </Link>
             ))}

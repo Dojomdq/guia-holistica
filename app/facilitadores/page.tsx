@@ -4,13 +4,13 @@ import FacilitadoresContent from "./FacilitadoresContent";
 import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Facilitadores holísticos en Mar del Plata | Guía de Bienestar",
+  title: "Profesionales y facilitadores de bienestar en Argentina | Guía de Bienestar",
   description:
-    "Conocé a los facilitadores, terapeutas y guías de bienestar en Mar del Plata. Filtrá por actividad, buscá por nombre y descubrí sus servicios.",
+    "Conocé a los profesionales y facilitadores de bienestar en toda la Argentina. Filtrá por ciudad, actividad, buscá por nombre y descubrí sus servicios.",
   openGraph: {
-    title: "Facilitadores holísticos en Mar del Plata | Guía de Bienestar",
+    title: "Profesionales y facilitadores de bienestar en Argentina | Guía de Bienestar",
     description:
-      "Conocé a los facilitadores, terapeutas y guías de bienestar en Mar del Plata. Filtrá por actividad y descubrí sus servicios.",
+      "Conocé a los profesionales y facilitadores de bienestar en toda la Argentina. Filtrá por ciudad, actividad y descubrí sus servicios.",
   },
   alternates: {
     canonical: `${SITE_URL}/facilitadores`,

@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import FloatingCTA from "@/components/FloatingCTA";
 import ThemeProvider from "@/app/ThemeProvider";
-import { SITE_URL, CITY_NAME } from "@/lib/constants";
+import { SITE_URL } from "@/lib/constants";
 
 // Layout raíz: estructura compartida de todas las páginas
 
@@ -26,21 +26,27 @@ const dmMono = DM_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Guía de Bienestar | Encontrá Terapeutas, Yoga y Reiki",
+    default: "Guía de Bienestar | Encontrá Profesionales, Yoga y Reiki",
     template: "%s | Guía de Bienestar",
   },
   description:
-    "Encontrá facilitadores, terapeutas y guías cerca tuyo. Mapa interactivo con chamanismo, yoga, reiki, meditación, tarot y más.",
+    "Encontrá profesionales y facilitadores de bienestar de toda la Argentina. Mapa interactivo con chamanismo, yoga, reiki, meditación, tarot y más.",
   keywords: [
-    `bienestar ${CITY_NAME}`,
-    `chamanismo ${CITY_NAME}`,
-    `yoga ${CITY_NAME}`,
-    `reiki ${CITY_NAME}`,
-    `meditación ${CITY_NAME}`,
+    "bienestar argentina",
+    "bienestar buenos aires",
+    "bienestar caba",
+    "profesionales de bienestar en buenos aires",
+    "yoga buenos aires",
+    "reiki buenos aires",
+    "chamanismo",
+    "yoga",
+    "reiki",
+    "meditación",
     "terapias de bienestar",
     "sanación energética",
     "profesionales de bienestar",
-    `tarot ${CITY_NAME}`,
+    "facilitadores de bienestar",
+    "tarot",
     "aromaterapia",
     "masajes terapéuticos",
   ],
@@ -51,9 +57,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_AR",
     siteName: "Guía de Bienestar",
-    title: "Guía de Bienestar | Facilitadores, Yoga, Reiki y Más",
+    title: "Guía de Bienestar | Profesionales, Yoga, Reiki y Más",
     description:
-      "Encontrá facilitadores, terapeutas y guías cerca tuyo. Mapa interactivo con chamanismo, yoga, reiki, meditación y más.",
+      "Encontrá profesionales y facilitadores de bienestar de toda la Argentina. Mapa interactivo con chamanismo, yoga, reiki, meditación y más.",
     url: SITE_URL,
     images: [
       {
@@ -68,7 +74,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Guía de Bienestar",
     description:
-      "Encontrá facilitadores, terapeutas y guías cerca tuyo. Mapa interactivo con chamanismo, yoga, reiki y más.",
+      "Encontrá profesionales y facilitadores de bienestar de toda la Argentina. Mapa interactivo con chamanismo, yoga, reiki y más.",
   },
   robots: {
     index: !process.env.VERCEL_ENV || process.env.VERCEL_ENV === "production",

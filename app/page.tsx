@@ -9,18 +9,18 @@ import NewCTA from "@/components/home/NewCTA";
 import FAQSection from "@/components/FAQSection";
 import StatsSection from "@/components/StatsSection";
 import PopupManager from "@/components/PopupManager";
-import { SITE_URL, INSTAGRAM_URL, WHATSAPP_LINK, CITY_NAME } from "@/lib/constants";
+import { SITE_URL, INSTAGRAM_URL, WHATSAPP_LINK } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Guía de Bienestar en Mar del Plata | Facilitadores holísticos",
+  title: "Guía de Bienestar en Argentina | Profesionales y facilitadores holísticos",
   description:
-    "Encontrá terapeutas, facilitadores y guías holísticos en Mar del Plata. Mapa interactivo con yoga, reiki, meditación, chamanismo y más.",
+    "Encontrá profesionales, actividades y espacios de bienestar en Argentina. Buscá por ciudad, actividad o profesional: yoga, reiki, meditación, chamanismo y más.",
   robots: { index: true, follow: true },
   metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: "Guía de Bienestar en Mar del Plata | Facilitadores holísticos",
+    title: "Guía de Bienestar en Argentina | Profesionales y facilitadores holísticos",
     description:
-      "Encontrá terapeutas, facilitadores y guías holísticos en Mar del Plata. Mapa interactivo con yoga, reiki, meditación, chamanismo y más.",
+      "Encontrá profesionales, actividades y espacios de bienestar en toda la Argentina.",
   },
   alternates: {
     canonical: SITE_URL,
@@ -34,19 +34,13 @@ const jsonLd = {
   url: SITE_URL,
   logo: "https://res.cloudinary.com/kmxmqr0t/image/upload/v1785381413/logo_principa_web_250x100_pc91et.png",
   description:
-    "Directorio de bienestar. Encontrá terapeutas, facilitadores y guías.",
+    "Directorio de bienestar. Encontrá profesionales y facilitadores de bienestar en toda la Argentina.",
   areaServed: {
-    "@type": "City",
-    name: CITY_NAME,
-    containedInPlace: {
-      "@type": "Country",
-      name: "Argentina",
-    },
+    "@type": "Country",
+    name: "Argentina",
   },
   address: {
     "@type": "PostalAddress",
-    addressLocality: CITY_NAME,
-    addressRegion: "Buenos Aires",
     addressCountry: "AR",
   },
   knowsAbout: [
@@ -57,7 +51,7 @@ const jsonLd = {
     "Chamanismo",
     "Tarot",
     "Bienestar",
-    `Facilitadores en ${CITY_NAME}`,
+    "Profesionales y facilitadores de bienestar",
   ],
   sameAs: [INSTAGRAM_URL, WHATSAPP_LINK].filter(Boolean),
 };
@@ -97,15 +91,15 @@ export default function Home() {
                 name: "¿Qué es la Guía de Bienestar?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Es una plataforma interactiva que reúne facilitadores, terapeutas y guías. Podés buscar por actividad, ubicación y explorar el mapa interactivo.",
+                  text: "Es una plataforma interactiva que reúne profesionales y facilitadores de bienestar. Podés buscar por actividad, ciudad y explorar el mapa interactivo.",
                 },
               },
               {
                 "@type": "Question",
-                name: "¿Cómo encuentro un facilitador cerca mío?",
+                name: "¿Cómo encuentro un profesional cerca mío?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: `Usá el mapa interactivo para ver todos los facilitadores en ${CITY_NAME}. Podés filtrar por actividad y hacer clic en cada punto para ver el perfil completo.`,
+                  text: "Usá el mapa interactivo para ver todos los profesionales y facilitadores. Podés buscar por actividad, elegir tu ciudad y hacer clic en cada punto para ver el perfil completo.",
                 },
               },
               {

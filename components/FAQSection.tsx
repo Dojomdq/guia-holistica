@@ -8,17 +8,17 @@ const faqs = [
   {
     pregunta: "¿Qué es la Guía de Bienestar?",
     respuesta:
-      "Es una plataforma interactiva que reúne facilitadores, terapeutas y guías. Podés buscar por actividad, ubicación y explorar el mapa interactivo.",
+      "Es una plataforma interactiva que reúne profesionales y facilitadores de bienestar. Podés buscar por actividad, ciudad y explorar el mapa interactivo.",
   },
   {
-    pregunta: "¿Cómo encuentro un facilitador cerca mío?",
+    pregunta: "¿Cómo encuentro un profesional cerca mío?",
     respuesta:
-      "Usá el mapa interactivo para ver todos los facilitadores. Podés filtrar por actividad y hacer clic en cada punto para ver el perfil completo con dirección, contacto y biografía.",
+      "Usá el mapa interactivo para ver todos los profesionales y facilitadores de bienestar. Podés buscar por actividad, elegir tu ciudad y hacer clic en cada punto para ver el perfil completo con dirección, contacto y biografía.",
   },
   {
-    pregunta: "¿Los facilitadores están verificados?",
+    pregunta: "¿Los profesionales están verificados?",
     respuesta:
-      "Sí, cada facilitador pasa por un proceso de verificación antes de ser publicado en la guía. Trabajamos para mantener la calidad y confiabilidad de la información.",
+      "Sí, cada profesional pasa por un proceso de verificación antes de ser publicado en la guía. Trabajamos para mantener la calidad y confiabilidad de la información.",
   },
   {
     pregunta: "¿Puedo publicar mi práctica de bienestar?",

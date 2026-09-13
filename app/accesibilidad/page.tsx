@@ -32,7 +32,7 @@ const cumplimientos = [
 ];
 
 const limitaciones = [
-  "El mapa interactivo requiere el uso de un puntero para desplazarse. Para acceder sin el mapa, usá las secciones de Actividades y Facilitadores.",
+  "El mapa interactivo requiere el uso de un puntero para desplazarse. Para acceder sin el mapa, usá las secciones de Actividades y Profesionales.",
   "Algunos videos de eventos se reproducen automáticamente, pero siempre cuentan con controles para pausarlos.",
 ];
 

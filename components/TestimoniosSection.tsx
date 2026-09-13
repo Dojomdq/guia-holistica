@@ -22,7 +22,7 @@ const testimonios = [
     nombre: "Camila",
     actividad: "Meditación",
     iniciales: "C",
-    texto: "La mejor plataforma para conectar con facilitadores en la zona. Profesional, moderna y muy completa.",
+    texto: "La mejor plataforma para conectar con profesionales y facilitadores de bienestar. Profesional, moderna y muy completa.",
     destacado: false,
   },
 ];

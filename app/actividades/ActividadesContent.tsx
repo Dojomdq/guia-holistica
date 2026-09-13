@@ -91,7 +91,7 @@ export default function ActividadesContent() {
             Actividades
           </h1>
           <p className="text-lg text-bark-700 mt-5 max-w-lg">
-            Encontrá la que necesitás. Cada una tiene facilitadores verificados.
+            Encontrá la que necesitás. Cada una tiene profesionales verificados.
           </p>
         </div>
 

@@ -211,7 +211,7 @@ export default function FacilitadorContent({
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Inicio", item: SITE_URL },
-              { "@type": "ListItem", position: 2, name: "Facilitadores", item: `${SITE_URL}/facilitadores` },
+              { "@type": "ListItem", position: 2, name: "Profesionales", item: `${SITE_URL}/facilitadores` },
               { "@type": "ListItem", position: 3, name: f.nombre },
             ],
           }),
@@ -254,7 +254,7 @@ export default function FacilitadorContent({
 
         <div className="container-page max-w-3xl py-10 sm:py-14">
           <Breadcrumbs items={[
-            { label: "Facilitadores", href: "/facilitadores" },
+            { label: "Profesionales", href: "/facilitadores" },
             { label: f.nombre },
           ]} />
           <Link

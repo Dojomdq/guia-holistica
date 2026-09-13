@@ -18,7 +18,7 @@ export default async function StatsSection() {
       <div className="container-page relative z-10">
         <StatsBar
           stats={[
-            { label: "Facilitadores", value: facilitadores.count || 0, suffix: "+" },
+            { label: "Profesionales", value: facilitadores.count || 0, suffix: "+" },
             { label: "Actividades", value: actividades.count || 0 },
             { label: "Ciudades", value: ciudadesUnicas },
             { label: "Años", value: 3, suffix: "+" },

@@ -49,7 +49,7 @@ export default function MapSection() {
           <span className="section-label">Mapa</span>
           <h2 className="heading-lg text-bark mt-4">Encontrá profesionales cerca tuyo</h2>
           <p className="text-bark-600 mt-3 max-w-lg mx-auto">
-            Explorá el mapa interactivo y descubrí todos los facilitadores de la zona.
+            Explorá el mapa interactivo y descubrí todos los profesionales y facilitadores de bienestar de la zona.
           </p>
         </div>
 
@@ -118,7 +118,7 @@ export default function MapSection() {
 
             <div className="px-6 sm:px-8 py-5 border-t border-cream-200/40">
               <h3 className="font-serif text-lg font-semibold text-bark">
-                Mapa de facilitadores
+                Mapa de profesionales
               </h3>
               <p className="text-sm text-bark-600 mt-0.5">
                 Encontrá al profesional más cercano a vos

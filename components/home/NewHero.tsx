@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Sparkles, ArrowRight } from "lucide-react";
-import { CITY_NAME } from "@/lib/constants";
+import { Sparkles, ArrowRight } from "lucide-react";
 import { useRipple } from "@/lib/useRipple";
 
 export default function NewHero() {
@@ -21,7 +20,7 @@ export default function NewHero() {
       <div className="absolute inset-0">
         <Image
           src="https://res.cloudinary.com/kmxmqr0t/image/upload/v1785019465/AF49F0FF-4A15-4EA3-AE9F-AC8F83C11FC0_hkigqu.jpg"
-          alt="Guía de Bienestar - Terapeutas y facilitadores holísticos en Mar del Plata"
+          alt="Guía de Bienestar - Profesionales y facilitadores holísticos en Argentina"
           fill
           className="object-cover scale-105"
           priority
@@ -43,19 +42,18 @@ export default function NewHero() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sage-300 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-sage-400"></span>
               </span>
-              {CITY_NAME} · Argentina
+              {`Argentina`}
               <Sparkles className="h-3 w-3" />
             </span>
           </div>
 
           <h1 className={`heading-xl text-white mb-6 text-balance transition-all duration-1000 ease-out drop-shadow-[0_4px_12px_rgba(0,0,0,0.3)] ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-            Encontrá terapeutas y guías de{" "}
-            <span className="text-sage-200 drop-shadow-[0_2px_8px_rgba(90,143,143,0.4)]">bienestar</span>{" "}
-            en tu ciudad
+            Encontrá tu próxima{" "}
+            <span className="text-sage-200 drop-shadow-[0_2px_8px_rgba(90,143,143,0.4)]">experiencia de bienestar</span>
           </h1>
 
           <p className={`text-cream-100/90 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-12 transition-all duration-700 delay-300 drop-shadow-[0_1px_4px_rgba(0,0,0,0.2)] ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
-            Conectá con profesionales verificados de forma rápida, directa y confiable.
+            Profesionales, actividades, espacios y eventos de toda la Argentina.
           </p>
 
           <div className={`transition-all duration-700 delay-500 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>

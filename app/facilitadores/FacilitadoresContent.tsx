@@ -169,7 +169,7 @@ export default function FacilitadoresContent() {
             "@type": "BreadcrumbList",
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Inicio", item: SITE_URL },
-              { "@type": "ListItem", position: 2, name: "Facilitadores" },
+              { "@type": "ListItem", position: 2, name: "Profesionales" },
             ],
           }),
         }}
@@ -181,7 +181,7 @@ export default function FacilitadoresContent() {
             __html: safeJsonLd({
               "@context": "https://schema.org",
               "@type": "ItemList",
-              name: "Facilitadores de bienestar",
+              name: "Profesionales y facilitadores de bienestar",
               itemListElement: facilitadores.map((f, i) => ({
                 "@type": "ListItem",
                 position: i + 1,
@@ -193,7 +193,7 @@ export default function FacilitadoresContent() {
         />
       )}
       <div className="container-page py-16 sm:py-20 lg:py-24">
-        <Breadcrumbs items={[{ label: "Facilitadores" }]} />
+        <Breadcrumbs items={[{ label: "Profesionales" }]} />
         <div
           ref={ref}
           className={`max-w-2xl mb-10 transition-all duration-700 ${
@@ -202,7 +202,7 @@ export default function FacilitadoresContent() {
         >
           <span className="label mb-5 block">Comunidad</span>
           <h1 className="heading-lg text-bark">
-            Facilitadores
+            Profesionales y facilitadores
           </h1>
           <p className="text-lg text-bark-700 mt-5 max-w-lg">
             Conocé a los profesionales de nuestra comunidad
@@ -391,7 +391,7 @@ export default function FacilitadoresContent() {
             {filtered.length === 0 && (
               <div className="text-center py-20">
                 <p className="text-bark-500 text-lg">
-                  No se encontraron facilitadores
+                  No se encontraron profesionales
                   {filtroCategoria && ` para esta categoría`}
                   {busqueda && ` para "${busqueda}"`}
                 </p>

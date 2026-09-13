@@ -3,7 +3,7 @@
 import { useScrollReveal, useCountUp } from "@/lib/useScrollReveal";
 
 const STATS = [
-  { value: 22, suffix: "", label: "Facilitadores activos", sublabel: "perfiles verificados" },
+  { value: 22, suffix: "", label: "Profesionales activos", sublabel: "perfiles verificados" },
   { value: 19, suffix: "", label: "Categorías", sublabel: "de bienestar" },
   { value: 100, suffix: "%", label: "Gratuito", sublabel: "para la comunidad" },
 ];

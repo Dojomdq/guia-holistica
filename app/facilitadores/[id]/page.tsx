@@ -25,7 +25,7 @@ export async function generateMetadata({
     : await query.eq("slug", params.id).single();
 
   if (!data) {
-    return { title: "Facilitador no encontrado" };
+    return { title: "Profesional no encontrado" };
   }
 
   const desc = data.bio

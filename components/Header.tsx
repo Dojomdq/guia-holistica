@@ -11,7 +11,7 @@ const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/mapa", label: "Mapa" },
   { href: "/actividades", label: "Actividades" },
-  { href: "/facilitadores", label: "Facilitadores" },
+  { href: "/facilitadores", label: "Profesionales" },
   { href: "/alquiler-espacios", label: "Alquiler de espacios" },
   { href: "/eventos", label: "Próximos eventos" },
 ];

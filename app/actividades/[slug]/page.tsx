@@ -10,10 +10,10 @@ export async function generateMetadata({
   const name = params.slug.charAt(0).toUpperCase() + params.slug.slice(1).replace(/-/g, " ");
   return {
     title: `${name} | Guía de Bienestar`,
-    description: `Encontrá facilitadores de ${name.toLowerCase()} cerca tuyo. Buscá por ubicación y contactá directo.`,
+    description: `Encontrá profesionales y facilitadores de ${name.toLowerCase()} en toda la Argentina. Buscá por ciudad y contactá directo.`,
     openGraph: {
       title: `${name} | Guía de Bienestar`,
-      description: `Encontrá facilitadores de ${name.toLowerCase()} cerca tuyo.`,
+      description: `Encontrá profesionales y facilitadores de ${name.toLowerCase()} en toda la Argentina.`,
     },
     alternates: {
       canonical: `${SITE_URL}/actividades/${params.slug}`,

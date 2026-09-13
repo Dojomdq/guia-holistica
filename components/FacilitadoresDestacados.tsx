@@ -70,7 +70,7 @@ export default function FacilitadoresDestacados() {
           <div>
             <span className="label mb-4 block">Comunidad</span>
             <h2 className="heading-lg">
-              Facilitadores
+              Profesionales
             </h2>
           </div>
           <Link
@@ -186,7 +186,7 @@ export default function FacilitadoresDestacados() {
           href="/facilitadores"
           className="btn-ghost text-[13px] sm:hidden mt-6 group"
         >
-          Ver todos los facilitadores
+          Ver todos los profesionales
           <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
         </Link>
       </div>
