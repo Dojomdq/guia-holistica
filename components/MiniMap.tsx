@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import Link from "next/link";
+import { MapPin } from "lucide-react";
 import { supabase } from "@/lib/supabase/client";
 import { getEmoji, getMarkerColor } from "@/lib/categories";
 import { CITY_COORDS, CITY_NAME } from "@/lib/constants";
@@ -52,10 +53,10 @@ export default function MiniMap() {
   }, []);
 
   return (
-    <div className="rounded-3xl overflow-hidden shadow-medium border border-cream-300/40 h-full">
+    <div className="relative rounded-3xl overflow-hidden shadow-medium border border-cream-300/40 h-full group">
       <MapContainer
         center={defaultPosition}
-        zoom={13}
+        zoom={14}
         scrollWheelZoom={false}
         style={{ height: "100%", width: "100%" }}
         dragging={false}
@@ -87,6 +88,7 @@ export default function MiniMap() {
                 </p>
                 <Link
                   href={`/facilitadores/${f.id}`}
+                  onClick={(e) => e.stopPropagation()}
                   className="text-xs text-sage-600 hover:text-sage-700 mt-1.5 inline-block font-medium"
                 >
                   Ver perfil
@@ -96,6 +98,19 @@ export default function MiniMap() {
           }}
         />
       </MapContainer>
+
+      {/* Overlay clickeable: todo el mini mapa navega al mapa interactivo */}
+      <Link
+        href="/mapa"
+        onClick={(e) => e.stopPropagation()}
+        className="absolute inset-0 z-[1000] flex items-end justify-center pb-10 sm:pb-12 cursor-pointer"
+        aria-label="Abrir mapa interactivo de profesionales de bienestar"
+      >
+        <span className="pointer-events-none inline-flex items-center gap-2 px-5 py-2.5 bg-bark/85 dark:bg-bark-900/90 backdrop-blur-md text-cream-50 rounded-full text-[13px] font-semibold shadow-lg border border-white/10 transition-all duration-300 group-hover:bg-sage-600 group-hover:scale-105">
+          <MapPin className="h-4 w-4" aria-hidden="true" />
+          Abrir mapa interactivo
+        </span>
+      </Link>
     </div>
   );
 }
