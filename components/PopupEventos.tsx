@@ -29,6 +29,17 @@ export default function PopupEventos({ onClose }: Props) {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let activo = true;
+    fetch("/api/popup-config")
+      .then((r) => r.json())
+      .then((cfg) => {
+        if (cfg?.habilitado === true) return;
+        if (activo) setSlides([]);
+      })
+      .catch(() => {
+        if (activo) setSlides([]);
+      });
+
     supabase
       .from("eventos")
       .select("id, titulo, descripcion, fecha, imagen_url, link, ciudad")
@@ -36,8 +47,13 @@ export default function PopupEventos({ onClose }: Props) {
       .eq("solidario", true)
       .order("created_at", { ascending: false })
       .then(({ data }) => {
+        if (!activo) return;
         if (data && data.length > 0) setSlides(data as EventoSolidario[]);
       });
+
+    return () => {
+      activo = false;
+    };
   }, []);
 
   useEffect(() => {

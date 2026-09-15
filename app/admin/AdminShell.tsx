@@ -18,6 +18,7 @@ import {
   Star,
   DollarSign,
   KeyRound,
+  Megaphone,
 } from "lucide-react";
 
 const adminLinks = [
@@ -30,6 +31,7 @@ const adminLinks = [
   { href: "/admin/representantes", label: "Representantes", icon: UserPlus },
   { href: "/admin/pagos", label: "Pagos y Comisiones", icon: DollarSign },
   { href: "/admin/destacados", label: "Destacados", icon: Star },
+  { href: "/admin/popup-evento", label: "Popup de Eventos", icon: Megaphone },
   { href: "/admin/estadisticas", label: "Estadísticas", icon: BarChart3 },
 ];
 
