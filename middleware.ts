@@ -53,6 +53,8 @@ export const config = {
     "/api/categorias/:path*",
     "/api/destacados",
     "/api/destacados/:path*",
+    "/api/canje",
+    "/api/canje/:path*",
     "/api/eventos",
     "/api/eventos/:path*",
     "/api/pagos",

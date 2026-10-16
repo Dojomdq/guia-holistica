@@ -15,6 +15,7 @@ interface FacilitadorAdmin {
   sitio_web: string | null;
   logo_url: string | null;
   activo: boolean;
+  beneficio_canje: string | null;
   actividad_ids: string[];
   ubicaciones: { id: string; direccion: string | null; latitud: number; longitud: number; ciudad: string; descripcion: string | null }[];
 }
@@ -75,7 +76,7 @@ const EMPTY_PLAN: PlanAsignacion = {
 
 const EMPTY_FORM = {
   nombre: "", email: "", telefono: "", whatsapp: "", bio: "",
-  instagram: "", sitio_web: "", logo_url: "", activo: true, actividad_ids: [] as string[],
+  instagram: "", sitio_web: "", logo_url: "", activo: true, beneficio_canje: "", actividad_ids: [] as string[],
   ubicaciones: [] as UbicacionForm[],
 };
 
@@ -126,6 +127,7 @@ export default function FacilitadoresAdmin() {
           sitio_web: f.sitio_web,
           logo_url: f.logo_url || null,
           activo: f.activo,
+          beneficio_canje: f.beneficio_canje || "",
           actividad_ids: (f.facilitador_actividades || []).map((fa: any) => fa.actividades?.id).filter(Boolean),
           ubicaciones: (f.ubicaciones || []).map((u: any) => ({
             id: u.id,
@@ -205,7 +207,7 @@ export default function FacilitadoresAdmin() {
       whatsapp: f.whatsapp || "", bio: f.bio || "",
       instagram: f.instagram || "", sitio_web: f.sitio_web || "",
       logo_url: f.logo_url || "",
-      activo: f.activo, actividad_ids: f.actividad_ids,
+      activo: f.activo, beneficio_canje: f.beneficio_canje || "", actividad_ids: f.actividad_ids,
       ubicaciones: f.ubicaciones.length > 0
         ? f.ubicaciones.map((u) => ({
             direccion: u.direccion || "",
@@ -315,6 +317,7 @@ export default function FacilitadoresAdmin() {
       sitio_web: form.sitio_web || null,
       logo_url: form.logo_url || null,
       activo: form.activo,
+      beneficio_canje: form.beneficio_canje || null,
       latitud: parseFloat(form.ubicaciones[0]?.latitud || "-38.0055"),
       longitud: parseFloat(form.ubicaciones[0]?.longitud || "-57.5426"),
       direccion: form.ubicaciones[0]?.direccion || null,
@@ -506,6 +509,13 @@ async function handleDelete(id: string, nombre: string) {
               <label className="block text-sm font-medium text-bark-800 mb-1">Sitio Web</label>
               <input type="url" value={form.sitio_web} onChange={(e) => setForm({ ...form, sitio_web: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="https://..." />
             </div>
+            {editando && (
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-bark-800 mb-1">Beneficio de canje (código en su ficha)</label>
+                <input type="text" value={form.beneficio_canje || ""} onChange={(e) => setForm({ ...form, beneficio_canje: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="Ej: Primera clase gratis" />
+                <p className="text-xs text-bark-400 mt-1">Queda vacío → se usa "Primera clase gratis".</p>
+              </div>
+            )}
             <div>
               <label className="block text-sm font-medium text-bark-800 mb-1">Logo del marcador (mapa)</label>
               <input type="url" value={form.logo_url} onChange={(e) => setForm({ ...form, logo_url: e.target.value })} className="w-full px-4 py-2.5 rounded-xl border border-cream-300 text-sm text-bark placeholder:text-bark-400 focus:outline-none focus:ring-2 focus:ring-sage-400/40 focus:border-sage-400 transition-all" placeholder="https://res.cloudinary.com/..." />

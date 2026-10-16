@@ -34,6 +34,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     if (facData.sitio_web !== undefined) updates.sitio_web = facData.sitio_web;
     if (facData.logo_url !== undefined) updates.logo_url = facData.logo_url;
     if (facData.activo !== undefined) updates.activo = facData.activo;
+    if (facData.beneficio_canje !== undefined) updates.beneficio_canje = facData.beneficio_canje;
 
     if (facData.latitud !== undefined) updates.latitud = facData.latitud;
     if (facData.longitud !== undefined) updates.longitud = facData.longitud;

@@ -18,6 +18,7 @@ import {
   Phone,
 } from "lucide-react";
 import InstagramIcon from "@/components/ui/InstagramIcon";
+import CodigoCanje from "@/components/CodigoCanje";
 import { supabase } from "@/lib/supabase/client";
 import { getCategoryIcon, CATEGORY_MARKER_COLORS } from "@/lib/categories";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -482,6 +483,9 @@ export default function FacilitadorContent({
             </div>
           </div>
         )}
+
+        {/* Código de canje */}
+        <CodigoCanje facilitadorId={f.id} whatsapp={f.whatsapp} />
 
         {/* CTA */}
         <div className="text-center py-6">
